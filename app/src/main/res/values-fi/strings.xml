@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name"><font fgcolor="#802000">VPK APURI</font></string>
+    <!--Etusivu-->
+    <string name="action_halytys">HÄLYTYS</string>
+    <string name="action_arkisto">ARKISTO</string>
+    <string name="action_ohjeet">OHJEET</string>
+    <string name="action_asetukset">ASETUKSET</string>
+    <string name="action_halylista"><font fgcolor="#802000">ARKISTO</font></string>
+    <string name="action_ohjeita"><font fgcolor="#802000">OHJEET</font></string>
+    <string name="second">Näytä kartalla</string>
+    <string name="title_activity_settings"><font fgcolor="#802000">ASETUKSET</font></string>
+
+    <!--Ohjeet
+    Hälytys ohjeet-->
+
+    <string name="ohjetekstit"><u>HÄLYTYS</u>:</string>
+    <string name="halyOhjeet">Ensimmäistä kertaa hälytys sivulle mentäessä sovellus kysyy lupaa viestien lukemiseen ja lähettämiseen, sovellus ei lähetä viestejä vaan ainoastaan lukee (Android 6.0).
+         Aikaisemmat Android versiot kysyvät luvat jo asennusvaiheessa. Lupa soittamiseen kysytään ensimmäistä kertaa soita nappia painettaessa.
+        Ilman näitä lupia sovellus ei toimi toivotulla tavalla. Hälytys sivulla näet alareunassa kaksi nappia. Ylempi nappi soittaa heti puhelinnumeroon joka asetetaan asetuksissa soittotaulun numero kohtaan.
+    Tällä napilla soitat nopeasti oman asemasi hälytyslähtijöiden tauluun jos asemallanne on sellainen.</string>
+    <string name="halyOhjeet2"></string>
+    <string name="halyOhjeet3">Tekstikenttään jää aina viimeisin hälytysviesti ja poistuu siitä vasta seuraavan hälytyksen tullessa.</string>
+
+    <!--Asetusten ohjeet-->
+
+    <string name="asetuksetOhje"><u>ASETUKSET</u>:</string>
+    <string name="asetuksetOhje2">Numeroiden asetus sivulla soittotaulun numeron asetus on ensimmäinen ja tätä seuraavat ovat tarkoitettu numeroille joista hälytykset tulevat. Hälytysnumeroille on tilaa kymmenen (10) kpl.
+    Kaikki numerot tulee asettaa kansainvälisessä muodossa (+358401234567), tunnistus ei toimi ellei numerot ole oikein. Numerokentät voi myös jättää
+        asettamatta jos ei tarvitse kaikkia kohtia. Ääniasetuksissa voit valita soittoäänen joka soi hälytyksen tullessa. Kun hälytys tulee, on hälytyssivulla hiljennä kytkin.\n\n
+    Jos puhelimessa on käytössä virransäästöominaisuuksia niin ne pitää ottaa pois käytöstä tämän sovelluksen kohdalta. Jos näitä ei oteta pois niin android kytkee automaattisesti hälytysten vastaanoton pois päältä tietyn ajan kuluttua kun sovellusta ei ole avattu.\n\n
+    Huawei puhelimissa nämä asetukset löytyvät Asetukset -> sovellukset -> VPK Apuri -> ilmoitukset -> kaikki päälle.\nAsetukset -> sovellukset -> VPK Apuri -> Akku -> Pidä käynnissä näytönsäästötilassa päälle.\n\n
+    Samsung puhelimissa nämä asetukset löytyvät Asetukset -> Akku -> Lisätiedot -> VPK Apuri -> Ei käytössä</string>
+
+    <!--Sovelluksen käyttöönotto-->
+
+    <string name="kayttoonotto"><u><!--KÄYTTÖÖN OTTAMINEN--></u><!--:--></string>
+    <string name="kayttoonotto2"><!--Laita numerot joista saat tekstiviestillä hälytykset  Kohta kohdalta ohjeet. \n1. Aseta oma numerosi ensimmäiseksi hälytysnumeroksi. \n2. Lähetä
+        itsellesi viimeisin hälytysviesti jonka olet saanut. \n3. Viestin tullessa puhelin kysyy mille sovellukselle viesti jaetaan,
+        valitse VPK Apuri ja aina tälle sovellukselle. \n4. Viesti aukeaa hälytykset sivulle ja voit kokeilla heti osoitteen tunnistusta. \n5. Olet valmis asettamaan muut hälytysnumerot ja aseta oman
+        numerosi tilalle oikea hälytysnumero. \n6. Kun kaikki numerot on asetettu, poistu sovelluksesta ja sammuta se.\n7. Voit palata sovellukseen ja tarkistaa numerot. \n8. Nyt sovellus
+        on valmis ja ottaa kaikki viestit asetetuista numeroista.--></string>
+
+    <string name="arkisto"><u>ARKISTO</u>:</string>
+    <string name="arkisto2">Arkistosta voi hakea hälytystunnuksella, kiirellisyysluokan kirjaimella tai tekstin sisällöllä vanhoja hälytyksiä. Voit myös näyttää kaikki arkistoidut hälytykset.\n\nVanhoja hälytyksiä painamalla pääset uudelle sivulle jossa voit kirjoittaa oman muistiinpanon hälytyksen yhteyteen.</string>
+
+    <!--Yleisiä ohjeita-->
+
+    <string name="yleista"><u>YLEISTÄ</u>:</string>
+    <string name="yleista2">Tämä sovellus ja sen kehittäjä eivät kerää suoraan sovelluksesta mitään tietoa käyttäjistä eikä sovelluksen toiminnasta.
+        Tietosuojakäytäntö löytyy osoitteesta: http://www.elisanet.fi/kultalaaki/tietosuojakaytanto.
+     Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa ja helpottaa kohteen löytymistä, sekä auttaa olemaan nopeampi lähtemään liikkeelle.
+    Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.</string>
+    <!-- Strings related to Settings -->
+
+    <!--arkiston stringit-->
+
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Add_New">Add New</string>
+    <string name="edit">Edit Contact</string>
+    <string name="delete">Delete Contact</string>
+    <string name="title_activity_display_contact">DisplayContact</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="street">Street</string>
+    <string name="country">City/State/Zip</string>
+    <string name="save">Save Contact</string>
+    <string name="deleteContact">Are you sure, you want to delete it.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Numeroiden asetus</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    //Numeroiden asetusten Stringit
+    <string name="pref_default_display_number">Syötä numero</string>
+
+    <string name="pref_title_display_name">Soittotaulun numero</string>
+    <string name="pref_title_display_halyvastaanotto">Hälytys numero muodossa (+358401234567)</string>
+    <string name="Aseta_numerot">Aseta numerot</string>
+
+    <string name="sms">Incoming SMS</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Ääniasetukset</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Soittoääni</string>
+    <string name="pref_ringtone_silent">Äänetön</string>
+
+    <string name="pref_title_vibrate">Värinä</string>
+    <string name="First_text">915C,Tämä on demonstraatio viesti. Käy lukemassa ohjeet sivulla mainittavat asetukset sovelluksen käyttöönottamiseksi.</string>
+</resources>

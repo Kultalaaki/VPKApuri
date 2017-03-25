@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <View android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:paddingTop="0dp"
+        android:background="#802000"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/ylaviiva"
+        android:paddingBottom="0dp" />
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:id="@+id/sija"
+        android:textSize="13sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="4dp"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="10dp"
+        android:paddingBottom="0dp"
+        android:layout_marginTop="2dp"
+        android:alpha="0.5"/>
+    <View android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:paddingTop="0dp"
+        android:background="#802000"
+        android:layout_below="@+id/viesti"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/view"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tunnus"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/sija"
+        android:layout_toEndOf="@+id/sija"
+        android:textColor="#FFFFFF"
+        android:paddingBottom="0dp"
+        android:layout_marginTop="2dp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/luokka"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tunnus"
+        android:layout_toEndOf="@+id/tunnus"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viesti"
+        android:textSize="15sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/luokka"
+        android:layout_toEndOf="@+id/luokka"
+        android:textColor="#FFFFFF"
+        android:paddingTop="15dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+</RelativeLayout>

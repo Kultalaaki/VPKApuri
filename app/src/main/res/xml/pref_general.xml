@@ -1,0 +1,125 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="example_text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_name" />
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto1"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto2"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto3"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto4"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto5"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto6"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto7"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto8"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto9"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_number"
+        android:inputType="phone"
+        android:key="halyvastaanotto10"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_halyvastaanotto"/>
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <!--<Preference android:title="TALLENNA NUMEROT"
+        android:key="@string/Aseta_numerot"
+        android:summary=""/>-->
+
+    <ListPreference
+        android:defaultValue="-1"
+        android:entries="@array/pref_example_list_titles"
+        android:entryValues="@array/pref_example_list_values"
+        android:key="example_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="" />
+
+</PreferenceScreen>
+
