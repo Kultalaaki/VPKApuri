@@ -343,7 +343,7 @@ public class aktiivinenHaly extends AppCompatActivity {
             luokka = haeOsoite.charAt(32);
 
         } /*else if(haeOsoite.substring(0,3).equals("Pri")) {
-            //TODO tähän tulee ensivastekeikkojen osoitteenhaku 10 11 12 tunnus 13 luokka 14 alkaa osoite
+            //TODO tähän tulee ensivastekeikkojen osoitteenhaku 10 11 12 tunnus 13 luokka 14 alkaa osoite!!
             for (int maara = 14; sanoja < 4; maara++) {
                 if (haeOsoite.charAt(maara) == '/') {
                     sanoja++;
