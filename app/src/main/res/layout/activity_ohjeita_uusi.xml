@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 11.5.2018 13:48
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 11.5.2018 13:48
+  -->
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/buttonAlkusanat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/buttonohjeet"
+            android:drawableEnd="@drawable/ic_format_line_spacing_white_24dp"
+            android:drawableRight="@drawable/ic_format_line_spacing_white_24dp"
+            android:text="@string/alkusanat" />
+        <TextView
+            android:id="@+id/textAlkusanat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/ohjeetAlkusanat"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonHalytys"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/buttonohjeet"
+            android:drawableEnd="@drawable/ic_format_line_spacing_white_24dp"
+            android:drawableRight="@drawable/ic_format_line_spacing_white_24dp"
+            android:text="@string/h_lytys" />
+        <TextView
+            android:id="@+id/thalytys"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/ohjeetHalytys"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonAsetukset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/buttonohjeet"
+            android:drawableEnd="@drawable/ic_format_line_spacing_white_24dp"
+            android:drawableRight="@drawable/ic_format_line_spacing_white_24dp"
+            android:text="@string/asetukset" />
+        <TextView
+            android:id="@+id/tasetukset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/ohjeetAsetukset"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonarkisto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/buttonohjeet"
+            android:drawableEnd="@drawable/ic_format_line_spacing_white_24dp"
+            android:drawableRight="@drawable/ic_format_line_spacing_white_24dp"
+            android:text="@string/arkisto" />
+        <TextView
+            android:id="@+id/tarkisto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/ohjeetArkisto"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonWhatsapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/buttonohjeet"
+            android:drawableEnd="@drawable/ic_format_line_spacing_white_24dp"
+            android:drawableRight="@drawable/ic_format_line_spacing_white_24dp"
+            android:text="@string/whatsapp" />
+        <TextView
+            android:id="@+id/twhatsapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/ohjeetWhatsapp"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/buttonYleista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/buttonohjeet"
+            android:drawableEnd="@drawable/ic_format_line_spacing_white_24dp"
+            android:drawableRight="@drawable/ic_format_line_spacing_white_24dp"
+            android:text="@string/yleist" />
+        <TextView
+            android:id="@+id/tyleista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/ohjeetYleista"
+            android:textColor="#FFFFFF" />
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ohjeetKoottu"
+                    android:textColor="#FFFFFF"
+                    android:paddingBottom="32dp"
+                    android:paddingTop="32dp"/>
+            </LinearLayout>-->
+    </LinearLayout>
+</ScrollView>

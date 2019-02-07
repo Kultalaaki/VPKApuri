@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 10.5.2018 16:56
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 10.5.2018 16:56
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1a1a1a">
+
+    <Button
+        android:id="@+id/second"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/nappaimet"
+        android:drawableLeft="@drawable/ic_location_city_white_36dp"
+        android:drawableStart="@drawable/ic_location_city_white_36dp"
+        android:padding="8dip"
+        android:text="@string/second"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/avaakarttaBlanc"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/avaakarttaBlanc"
+        android:layout_width="88dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/nappaimet"
+        android:text="@string/avaa_kartta"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/second"
+        app:layout_constraintEnd_toStartOf="@+id/buttonplus"
+        app:layout_constraintTop_toTopOf="@+id/second" />
+
+    <Button
+        android:id="@+id/angry_btn"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/nappaimet"
+        android:drawableLeft="@drawable/ic_phone_white_36dp"
+        android:drawableStart="@drawable/ic_phone_white_36dp"
+        android:maxLines="2"
+        android:padding="8dip"
+        android:text="@string/soita_lahto"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/second"
+        app:layout_constraintEnd_toStartOf="@+id/buttonf5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonplus"
+        android:layout_width="88dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/nappaintenplus"
+        android:text="@string/plusten"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/avaakarttaBlanc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/second" />
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/hiljenna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView4">
+            <!-- Tähän sisältö -->
+
+
+            <EditText
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:hint="@string/h_lytysviestin_kentt"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"
+                android:textColorHighlight="#0b0bed"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHalytunnus" />
+
+            <EditText
+                android:id="@+id/textViewHalytunnus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:hint="@string/t_h_n_tulee_tunnus"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"
+                android:textColorHighlight="#0b0bed"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonf10"
+        android:layout_width="88dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/nappainten"
+        android:text="@string/alleten"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/second"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/angry_btn" />
+
+    <Button
+        android:id="@+id/buttonf5"
+        android:layout_width="88dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/nappain5"
+        android:text="@string/allefive"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/second"
+        app:layout_constraintEnd_toStartOf="@+id/buttonf10"
+        app:layout_constraintTop_toTopOf="@+id/angry_btn"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/hiljenna"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/nappaimet"
+        android:text="@string/hiljenna_h_lytys"
+        app:layout_constraintBottom_toTopOf="@+id/buttonf5"
+        app:layout_constraintEnd_toEndOf="@+id/angry_btn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -419,4 +419,10 @@
     - Mediatiedostojen käyttämistä tarvitaan hälytysäänen asettamista varten.\n
     - Tekstiviestien lähettäminen ja vastaanottaminen tarvitaan sms viesteillä tuleviin hälytyksiin ja sms pikaviestien lähettämiseen.</string>
     <string name="testihalytysErica">TESTIHÄLYTYS; 411; C; 11:57:59_05.01.2019; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
+    <string name="alkusanat">Alkusanat</string>
+    <string name="h_lytys">Hälytys</string>
+    <string name="asetukset">Asetukset</string>
+    <string name="arkisto">Arkisto</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="yleist">Yleistä</string>
 </resources>

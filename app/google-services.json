@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1067891030849",
+    "firebase_url": "https://vpkapuri-versioncode1121-keske.firebaseio.com",
+    "project_id": "vpkapuri-versioncode1121-keske",
+    "storage_bucket": "vpkapuri-versioncode1121-keske.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067891030849:android:32516395b9553804",
+        "android_client_info": {
+          "package_name": "kultalaaki.vpkapuri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067891030849-n19jnuks9tb3e60g8td0697erajhspud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kultalaaki.vpkapuri",
+            "certificate_hash": "bfedfa4e5e0aad28a17ad0ffe93ecba77f1ccc91"
+          }
+        },
+        {
+          "client_id": "1067891030849-9k4t06e7775spjd3tho68uv9o6o4h2bg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfsU-zNwpYtBCiDSHrMIHVhtWkVB9yTVQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067891030849-9k4t06e7775spjd3tho68uv9o6o4h2bg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

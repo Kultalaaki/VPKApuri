@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 2.5.2018 17:56
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 2.5.2018 17:56
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/menuTop"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/testaa_haly"
+            android:icon="@drawable/ic_whatshot_white_36dp"
+            android:title="@string/testi" />
+        <item
+            android:id="@+id/hiljenna_halyt"
+            android:icon="@drawable/ic_volume_off_white_36dp"
+            android:title="@string/hiljenna" />
+    </group>
+    <group
+        android:id="@+id/menuMiddle"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/changelog"
+            android:icon="@drawable/ic_error_outline_white_36dp"
+            android:title="@string/title_activity_changelog" />
+        <item
+            android:id="@+id/palautetta"
+            android:icon="@drawable/ic_contact_mail_white_36dp"
+            android:title="@string/palaute" />
+    </group>
+    <group
+        android:id="@+id/menuBottom"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/tallenna_arkistoon_haly"
+            android:icon="@drawable/ic_add_box_white_36dp"
+            android:title="@string/tallenna_arkistoon" />
+        <item
+            android:id="@+id/tallennatietokanta"
+            android:icon="@drawable/ic_save_white_36dp"
+            android:title="@string/tallenna_tietokanta" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/tyhjennatietokanta"
+            android:icon="@drawable/ic_error_outline_white_36dp"
+            android:title="@string/tyhjenna_tietokanta" />
+    </group>
+</menu>

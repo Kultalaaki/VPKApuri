@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 9.9.2017 9:32
+  ~ Copyright (c) 2017. All rights reserved.
+  ~
+  ~ Last modified 19.8.2017 20:52
+  -->
+
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minHeight="40dp"
+    android:minWidth="40dp"
+    android:numColumns="2"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/nappain"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_rowSpan="2"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:drawableStart="@mipmap/ic_launcher"/>
+    <TextView
+        android:id="@+id/teksti"
+        android:textSize="12sp"
+        android:textColor="#ffffff"
+        android:layout_column="1"
+        android:layout_row="2"
+        android:layout_gravity="center_horizontal"/>
+
+</GridLayout>
+
+<!--<FrameLayout android:layout_width="match_parent"
+    android:id="@+id/nappain"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="2dp"
+    android:background="@mipmap/ic_launcher">
+
+    <TextView
+        android:id="@+id/teksti"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+</FrameLayout>-->
