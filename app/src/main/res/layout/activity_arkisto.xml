@@ -1,152 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
+<!--
+  ~ Created by Kultala Aki on 9.9.2017 9:30
+  ~ Copyright (c) 2017. All rights reserved.
+  ~
+  ~ Last modified 24.1.2017 10:31
+  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#1a1a1a"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <GridLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:paddingBottom="20dp"
-        android:layout_gravity="center">
+        android:layout_height="match_parent"
+        android:background="#1a1a1a"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <!--<EditText
             android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/etsiarkistosta"
+            android:inputType="text"
             android:textColor="#802000"
-            android:hint="Etsi arkistosta"
             android:textColorHint="#802000"
-            android:backgroundTint="#802000"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_columnWeight="0.7" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:id="@+id/RGroup"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/radioGroup"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:checkedButton="1"
-            android:layout_rowSpan="2"
-            android:layout_columnWeight="0.3"
-            android:layout_marginRight="10dp">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Etsi tunnuksella"
-            android:background="#FFFFFF"
-            android:id="@+id/tunnus"
-            android:layout_gravity="left|center_horizontal" />
+            <RadioButton
+                android:id="@+id/tunnus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/etsitunnuksella" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Etsi luokalla"
-            android:background="#FFFFFF"
-            android:id="@+id/luokka"
-            android:layout_gravity="left" />
+            <RadioButton
+                android:id="@+id/luokka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/etsiosoitteella" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Etsi tekstistä"
-            android:background="#FFFFFF"
-            android:id="@+id/teksti"
-            android:paddingRight="10dp"
-            android:layout_gravity="left|center_horizontal" />
+            <RadioButton
+                android:id="@+id/teksti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/etsitekstista" />
 
         </RadioGroup>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/buttonshape"
-            android:text="Etsi"
             android:id="@+id/button2"
-            android:alpha="0.9"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/nappaimet"
+            android:text="@string/etsi"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textColor="#802000"
-            android:backgroundTint="#000000"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_gravity="fill_horizontal" />
+            app:layout_constraintBottom_toBottomOf="@+id/RGroup"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Näytä kaikki"
-            android:textSize="20sp"
-            android:background="@drawable/buttonshape"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:id="@+id/button"
-            android:textColor="#802000"
-            android:backgroundTint="#000000"
-            android:alpha="0.9"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_columnSpan="2" />
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/nappaimet"
+            android:text="@string/naytakaikki"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />-->
 
-    </GridLayout>
+        <ListView
+            android:id="@+id/listViewHalyt"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:stackFromBottom="false"
+            android:transcriptMode="normal"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<View android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:paddingTop="0dp"
-        android:background="#802000"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/view6" />
+        <!--<android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
-    <View android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:paddingTop="0dp"
-        android:background="#802000"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/view8" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/jakaja"
+            app:layout_constraintBottom_toTopOf="@+id/listViewHalyt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button"
+            app:srcCompat="?android:attr/colorFocusedHighlight" />-->
 
-    <View android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:paddingTop="0dp"
-        android:background="#802000"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/view2" />
-
-    <View android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:paddingTop="0dp"
-        android:background="#802000"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/view4" />-->
-
-    <ListView
-        android:id="@+id/listViewHalyt"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:stackFromBottom="false"
-        android:transcriptMode="normal">
-    </ListView>
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
 

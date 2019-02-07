@@ -3,19 +3,37 @@
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <ListPreference
+    <!--<ListPreference
         android:defaultValue="180"
         android:entries="@array/pref_sync_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
         android:key="sync_frequency"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        android:title="@string/pref_title_sync_frequency" />
+        android:title="@string/pref_title_sync_frequency" />-->
 
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->
-    <Preference android:title="@string/pref_title_system_sync_settings">
+    <!--<Preference android:title="@string/pref_title_system_sync_settings">
         <intent android:action="android.settings.SYNC_SETTINGS" />
-    </Preference>
-
+    </Preference>-->
+    <PreferenceCategory
+        android:title="Luvat &amp; käyttöönotto"
+        android:key="pref_key_premissions">
+        <Preference
+            android:summary="Tästä asetusvalikosta löytyy oikotiet lupiin ja asetuksiin jotka löytyvät puhelimen asetusvalikosta."
+            android:selectable="false"/>
+        <Preference
+            android:key="batteryOptimization"
+            android:title="Akun optimointi"
+            android:summary="Tarkista että akkua ei optimoida tämän sovelluksen osalta. Huom. puhelinvalmistajalla voi olla vielä omat virransäästöasetukset jossain toisessa valikossa." />
+        <Preference
+            android:key="luvatApuri"
+            android:title="Sovelluksen tiedot"
+            android:summary="Tästä pääset sovelluksen tiedot sivulle. Tarkista sovelluksen käyttämät luvat ja ilmoitusasetukset." />
+        <Preference
+            android:key="luvatSMS"
+            android:title="Sovelluksen tarvitsemat luvat"
+            android:summary="@string/luvat" />
+    </PreferenceCategory>
 </PreferenceScreen>

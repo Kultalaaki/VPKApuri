@@ -1,9 +1,16 @@
 package kultalaaki.vpkapuri;
 
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,9 +23,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -121,9 +133,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //setupActionBar();
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
     /*
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -171,10 +180,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
+
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
+
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
@@ -182,6 +194,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("example_text"));
+            bindPreferenceSummaryToValue(findPreference("sms_numero"));
+            bindPreferenceSummaryToValue(findPreference("sms_numero10"));
+            bindPreferenceSummaryToValue(findPreference("sms_numero11"));
+            bindPreferenceSummaryToValue(findPreference("fivemintextotsikko"));
+            bindPreferenceSummaryToValue(findPreference("fivemintxt"));
+            bindPreferenceSummaryToValue(findPreference("tenmintextotsikko"));
+            bindPreferenceSummaryToValue(findPreference("tenmintxt"));
+            bindPreferenceSummaryToValue(findPreference("tenplusmintextotsikko"));
+            bindPreferenceSummaryToValue(findPreference("tenplusmintxt"));
             //bindPreferenceSummaryToValue(findPreference("example_list"));
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto1"));
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto2"));
@@ -193,6 +214,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto8"));
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto9"));
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto10"));
+            bindPreferenceSummaryToValue(findPreference("avainsana1"));
+            bindPreferenceSummaryToValue(findPreference("avainsana2"));
+            bindPreferenceSummaryToValue(findPreference("avainsana3"));
+            bindPreferenceSummaryToValue(findPreference("avainsana4"));
+            bindPreferenceSummaryToValue(findPreference("avainsana5"));
 
             /*
             Preference button = findPreference(getString(R.string.Aseta_numerot));
@@ -218,6 +244,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             });*/
         }
 
+
+
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
@@ -234,18 +262,68 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
+    public static class NotificationPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+        private SeekBarPreference _seekBarPref;
+
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
+            //addPreferencesFromResource(R.xml.pref_notification);
+            addPreferencesFromResource(R.xml.preferences);
+
+            //Do Not Disturb
+            Preference pref = getPreferenceManager().findPreference("DoNotDisturb");
+            if(pref != null) {
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        NotificationManager notificationManager =
+                                (NotificationManager) getActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        if(notificationManager != null) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                                    && !notificationManager.isNotificationPolicyAccessGranted()) {
+                                Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                                startActivity(intent);
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+            }
+
+            _seekBarPref = (SeekBarPreference) this.findPreference("SEEKBAR_VALUE");
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+            int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt("SEEKBAR_VALUE", 50);
+            _seekBarPref.setSummary(this.getString(R.string.settings_summary).replace("$1", "" + radius));
+
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+            //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+            bindPreferenceSummaryToValue(findPreference("ringtone"));
+            bindPreferenceSummaryToValue(findPreference("stopTime"));
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+            // Set seekbar summary :
+            //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+            //int rad = sharedPreferences.getInt("SEEKBAR_VALUE", 50);
+            Activity activity = getActivity();
+            if(activity != null) {
+                int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt("SEEKBAR_VALUE", 50);
+                _seekBarPref.setSummary(this.getString(R.string.settings_summary).replace("$1", "" + radius));
+            }
+
         }
 
         @Override
@@ -265,17 +343,133 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
+
+        private String[] permissionsSms = {Manifest.permission.READ_CALL_LOG, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS, Manifest.permission.CALL_PHONE};
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_data_sync);
+
+            //Battery optimization
+            Preference prefi = getPreferenceManager().findPreference("batteryOptimization");
+            if(prefi != null) {
+                prefi.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                            startActivity(intent);
+                            return true;
+                        }
+
+                        return false;
+                    }
+                });
+            }
+
+            //Sovelluksen luvat
+            Preference prefa = getPreferenceManager().findPreference("luvatApuri");
+            if(prefa != null) {
+                prefa.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                                return true;
+                            }
+
+                        return false;
+                    }
+                });
+            }
+
+            //Sovelluksen luvat SMS hälytyksiä varten
+            Preference prefsms = getPreferenceManager().findPreference("luvatSMS");
+            if(prefsms != null) {
+                prefsms.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if(!arePermissionsEnabled()){
+                                // permissions granted, continue flow normally
+                                requestMultiplePermissions();
+                            }//else{
+                              //  requestMultiplePermissions();
+                            //}
+                        }
+                        return true;
+                    }
+                });
+            }
+
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+            //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        private boolean arePermissionsEnabled(){
+            for(String permission : permissionsSms){
+                if(ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED)
+                    return false;
+            }
+            return true;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        private void requestMultiplePermissions(){
+            List<String> remainingPermissions = new ArrayList<>();
+            for (String permission : permissionsSms) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+                    remainingPermissions.add(permission);
+                }
+            }
+            requestPermissions(remainingPermissions.toArray(new String[0]), 101);
+            // testataan ylempää
+            //requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), 101);
+        }
+
+        @TargetApi(Build.VERSION_CODES.M)
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                               @NonNull int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if(requestCode == 101){
+                for(int i=0;i<grantResults.length;i++){
+                    if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                        if(shouldShowRequestPermissionRationale(permissions[i])){
+                            new AlertDialog.Builder(getActivity())
+                                    .setMessage("Annoitko tarvittavat luvat?")
+                                    .setPositiveButton("Näytä uudestaan", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            requestMultiplePermissions();
+                                        }
+                                    })
+                                    .setNegativeButton("Valmis", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
+                        return;
+                    }
+                }
+                //all is good, continue flow
+            }
         }
 
         @Override

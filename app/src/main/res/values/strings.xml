@@ -1,103 +1,331 @@
-<resources>
-    <string name="app_name"><font fgcolor="#802000">VFD HELPER</font></string>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--Etusivu-->
-    <string name="action_halytys">ALARM</string>
-    <string name="action_arkisto">ARCHIVE</string>
-    <string name="action_ohjeet">INSTRUCTIONS</string>
-    <string name="action_asetukset">SETTINGS</string>
-    <string name="action_halylista"><font fgcolor="#802000">ARCHIVE</font></string>
-    <string name="action_ohjeita"><font fgcolor="#802000">INSTRUCTIONS</font></string>
-    <string name="second">Show on map</string>
-    <string name="title_activity_settings"><font fgcolor="#802000">SETTINGS</font></string>
-
-    <!--Ohjeet
-    Hälytys ohjeet-->
-
-    <string name="ohjetekstit"><u>ALARM</u>:</string>
-    <string name="halyOhjeet">Ensimmäistä kertaa hälytys sivulle mentäessä sovellus kysyy lupaa viestien lukemiseen ja lähettämiseen, sovellus ei lähetä viestejä vaan ainoastaan lukee (Android 6.0).
-         Aikaisemmat Android versiot kysyvät luvat jo asennusvaiheessa. Lupa soittamiseen kysytään ensimmäistä kertaa soita nappia painettaessa.
-        Ilman näitä lupia sovellus ei toimi toivotulla tavalla. Hälytys sivulla näet alareunassa kaksi nappia. Ylempi nappi soittaa heti puhelinnumeroon joka asetetaan asetuksissa soittotaulun numero kohtaan.
-    Tällä napilla soitat nopeasti oman asemasi hälytyslähtijöiden tauluun jos asemallanne on sellainen.</string>
-    <string name="halyOhjeet2"> </string>
-    <string name="halyOhjeet3">Tekstikenttään jää aina viimeisin hälytysviesti ja poistuu siitä vasta seuraavan hälytyksen tullessa.</string>
-
-    <!--Asetusten ohjeet-->
-
-    <string name="asetuksetOhje"><u>NUMEROT</u>:</string>
-    <string name="asetuksetOhje2">Asetukset sivulla soittotaulun numeron asetus on ensimmäinen ja tätä seuraavat ovat tarkoitettu numeroille joista hälytykset tulevat. Hälytysnumeroille on tilaa kymmenen (10) kpl.
-    Kaikki numerot tulee asettaa kansainvälisessä muodossa (+358401234567) koska tekstiviestien numerot tulevat tässä muodossa ja niitä ei tunnisteta ellei numerot ole oikein. Numerokentät voi myös jättää
-        asettamatta jos ei tarvitse kaikkia kohtia.</string>
-
-    <!--Sovelluksen käyttöönotto-->
-
-    <string name="kayttoonotto"><u><!--KÄYTTÖÖN OTTAMINEN--></u><!--:--></string>
-    <string name="kayttoonotto2"><!--Kohta kohdalta ohjeet. \n1. Aseta oma numerosi ensimmäiseksi hälytysnumeroksi. \n2. Lähetä
-        itsellesi viimeisin hälytysviesti jonka olet saanut. \n3. Viestin tullessa puhelin kysyy mille sovellukselle viesti jaetaan,
-        valitse VPK Apuri ja aina tälle sovellukselle. \n4. Viesti aukeaa hälytykset sivulle ja voit kokeilla heti osoitteen tunnistusta. \n5. Olet valmis asettamaan muut hälytysnumerot ja aseta oman
-        numerosi tilalle oikea hälytysnumero. \n6. Kun kaikki numerot on asetettu, poistu sovelluksesta ja sammuta se.\n7. Voit palata sovellukseen ja tarkistaa numerot. \n8. Nyt sovellus
-        on valmis ja ottaa kaikki viestit asetetuista numeroista.--></string>
-
-    <!--Arkiston ohjeet-->
-
-    <string name="arkisto"><u>ARKISTO</u>:</string>
-    <string name="arkisto2">Arkistosta voi hakea hälytystunnuksella tai kiirellisyysluokan kirjaimella vanhoja hälytyksiä. Voit myös näyttää kaikki arkistoidut hälytykset.\n\nArkistoon on tulossa mahdollisuus myös kirjoittaa muistio hälytyksestä.</string>
-
-    <!--Yleisiä ohjeita-->
-
-    <string name="yleista"><u>YLEISTÄ</u>:</string>
-    <string name="yleista2">Tämä sovellus ja sen kehittäjä eivät kerää suoraan sovelluksesta mitään tietoa käyttäjästä eikä sovelluksen toiminnasta, johtuen salassapitovelvollisuudesta.
-     Tämä sovellus on jatkuvan kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa ja helpottaa kohteen löytymistä.</string>
-    <!-- Strings related to Settings -->
-
-    <!--arkiston stringit-->
-
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="Add_New">Add New</string>
-    <string name="edit">Edit Contact</string>
-    <string name="delete">Delete Contact</string>
-    <string name="title_activity_display_contact">DisplayContact</string>
-    <string name="name">Name</string>
-    <string name="phone">Phone</string>
-    <string name="email">Email</string>
-    <string name="street">Street</string>
-    <string name="country">City/State/Zip</string>
-    <string name="save">Save Contact</string>
-    <string name="deleteContact">Are you sure, you want to delete it.</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">Numeroiden asetus</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
+    <string name="action_halytys">HÄLYTYS</string>
+    <string name="action_arkisto">ARKISTO</string>
+    <string name="action_ohjeet">OHJEET</string>
+    <string name="action_asetukset">ASETUKSET</string>
+    <string name="second">Osoitehaku</string>
+    <string name="soita_lahto">Lähtöilmoitus</string>
+    <string name="allefive">Alle 5</string>
+    <string name="alleten">Alle 10</string>
+    <string name="plusten">Yli 10</string>
+    <string name="etsiarkistosta">Etsi arkistosta</string>
+    <string name="etsitunnuksella">Etsi tunnuksella</string>
+    <string name="etsiosoitteella">Etsi osoitteella</string>
+    <string name="etsitekstista">Etsi tekstista</string>
+    <string name="etsi">Etsi</string>
+    <string name="naytakaikki">Näytä kaikki</string>
+    <string name="tarkista_asetukset">Tarkista asetukset</string>
+    <string name="tarkistaAsetukset">Tarkista asetukset!\n\n
+        Täältä näet onko sovelluksella kaikki tarvittavat luvat.\n
+        Täältä näet myös onko kaikki asetukset oikein laitettu.\n
     </string>
 
-    //Numeroiden asetusten Stringit
+    <!--Mitä uutta-->
+    <string name="whatsnew">
+        UUSIN VERSIO!\n\n
+        <u><b>TÄRKEÄÄ!</b></u>\n
+        Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
+
+        <u><b>Versio 3.0</b></u>\n\n
+        Erica osoitehakua parannettu.\n
+        Erican testihälytys nyt myös oikeassa muodossa.\n
+        Nyt mahdollista tyhjentää koko arkisto kerralla "sivuvalikosta", myös numerointi alkaa alusta.\n
+        Mahdollista käyttää myös muuta kuin Google Maps sovellusta osoitteen näyttämiseen. Katso sovelluksen ohjeista lisätietoa kohdasta: HÄLYTYS -> KARTTAPALVELUN VAIHTAMINEN.\n\n
+
+        <u><b>Versio 2.99.99</b></u>\n
+        Erica järjestelmän lähettämistä viesteistä ensimmäinen versio osoitteen tunnistamiseen. Kytketään sovelluksen Numerot/sms viestien asetuksista kohdasta Osoitteentunnistus ERICA.\n
+        Plus muita pikku korjauksia koodiin.\n\n
+
+        <u><b>Versio 2.99.8</b></u>\n
+        Widgetin jumittaminen korjattu.\n\n
+
+        <u><b>Versio 2.99.6</b></u>\n
+        Median äänenvoimakkuus palautetaan samalle tasolle kuin oli säädetty kun poistutaan hälytys sivulta jos teksti puheeksi käytössä.\n
+        Viestiäänen hiljennys ennen kuin aletaan toistaa sovelluksesta asetettua hälytysääntä.\n
+        Virheenkorjauksia\n\n
+
+        <u><b>Versio 2.99.5</b></u>\n
+        Lisätty kokeellinen ominaisuus:\n
+        Mahdollisuus määrittää avainsanat joiden mukaan hälytetään.\n
+        Hälyttävä numero pitää asettaa ja tämän jälkeen avainsana/sanat jolloin hälyttävän
+        numeron tunnistuksen jälkeen katsotaan viestistä sanat ja verrataan niitä tallennettuihin avainsanoihin.\n
+        Avainsanat tulee kirjoittaa täsmälleen kuten ne viestissä tulevat.\n\n
+
+        <u><b>Versio 2.99.4</b></u>\n
+        Teksti puheeksi asetukset siirretty ääniasetusten puolelle.\n
+        Teksti puheeksi äänenvoimakkuus asetus lisätty.\n
+        Virheenkorjauksia.\n\n
+
+        <u><b>Versio 2.99.3</b></u>\n
+        Pieniä ulkoasu muutoksia.\n
+        Ohjeita päivitetty.\n
+        Hälytysäänen kesto asetuksen numeroiden määrä on rajoitettu 5.\n
+        Peräkkäin tulevilla hälytyksillä edellisen hälytyksen ääni jäi soimaan, korjattu.\n
+        Koneluku ei toimi jos puhelin lukittu ja aukaisee ilmoituksesta sovelluksen. Tämä on selvityksen alla
+        koska mitään järkevää syytä tähän ei tahdo löytyä.\n\n
+
+        <u><b>Versio 2.99.2</b></u>\n
+        Lisätty hälytysäänen kesto asetuksiin, oletusarvo 60sek.\n\n
+
+        <u><b>Versio 2.99 &amp; Versio 2.99.1</b></u>\n
+        Lisätty asetusvalikko josta löytyy oikotiet akun optimointi asetuksiin ja sovelluksen tieto sivulle.\n
+        Teksti puheeksi toimintaa parannettu ja hiljennys näppäin lisätty.\n
+        Virheenkorjauksia.\n\n
+
+        <u><b>Versio 2.97</b></u>\n
+        Puheluilla tuleville hälytyksille muutoksia.\n
+        Nyt voi sovelluksen asetuksissa ottaa käyttöön ääniasetukset myös puheluilla tuleville hälytyksille.\n
+        Puheluiden äänen valinnan takia joutuu kysymään pari uutta lupaa käyttäjältä.\n
+        Värinä poistettu käytöstä jos puhelin äänettömällä ja sovelluksella ei ole lupaa hälyttää äänettömän läpi.\n
+        Joissain viestimuodoissa osoitehaku ottanut vuosiluvusta hälytystunnuksen, tämä on nyt korjattu.\n
+        Nämä on testattu toimivan Android 8.0 versiolla.\n
+        Muita pieniä muutoksia "pellin alla" tapahtuviin asioihin.\n\n
+
+        <u><b>Versio 2.95</b></u>\n
+        Korjaus äänikanaville.\n
+        Lisätty yksi hälytysluokka.\n\n
+
+        <u><b>Versio 2.94</b></u>\n
+        Lisätty puuttuvia hälytysluokkien tekstejä.\n
+        Ohjeisiin päivitetty tietoa pelastustoimen salassapidosta.\n
+        Hälytysviestien voimakkuuden säätö muutettu slideriksi, mahdollisuus valita 10%-100% väliltä. Oletusarvo 50%.\n
+        Mahdollisuus valita tuleeko hälytysviestit äänettömän läpi.\n
+        Uudistettu widget, pienempi koko. Valittavissa normaali, äänetön ja yötila. Yötilassa hälytykset tulevat hiljaisimmalla mahdollisella äänenvoimakkuudella.
+        Äänetöntä tilaa kytkettäessä kysytään varmistus, ei kysytä enään kun laittaa äänet takaisin päälle.\n\n
+
+        <u><b>Versio 2.9</b></u>\n
+        Korjauspäivitys\n
+        - Korjattu sovelluksen kaatuminen hälytyksen tullessa jos ei ollut asettanut äänenvoimakkuutta asetuksissa. Nyt oletusarvona 80%.\n\n
+        <u><b>Versio 2.85 ja 2.86</b></u>\n
+        Uudet ominaisuudet.\n
+        - SMS näppäimillä nyt jokaisella omat asetukset. Jokaiselle näppäimelle mitä haluaa käyttää pitää tehdä omat asetukset.\n
+        - Teksti puheeksi valinta asetuksissa\n
+        - Automaattinen aukaisu hälytyksen tullessa asetus. Sovellus aukeaa automaattisesti ja hälytys hiljennetään hälytys sivulla.\n
+        - Hälytysäänen voimakkuus valittavissa ääniasetuksissa.\n
+        - Värinä lisätty valinnaiseksi.\n
+        - Ulkoasua muutettu asetuksissa selkeämmäksi. Hieman muuallakin värimuutoksia.\n\n
+
+        Virheenkorjaukset\n
+        - Asetuksissa muutama kohta aiheutti kaatumista\n
+        - Osoitteentunnistus pieni korjaus kuntien tunnistamiseen.\n
+        - Hälytysäänen toiminnan parannuksia.\n\n
+
+        <u><b>Versio 2.83 ja 2.84</b></u>\n
+        Virheenkorjauksia\n
+        - Tyhjän arkiston aiheuttama kaatuminen korjattu.\n
+        - Taustalla osoitteen haun ja hälytysäänen soittamisen aiheuttama kaatuminen korjattu.\n
+        Pahoittelut tästä jatkuvasta päivittelystä. Versiossa 2.81 oli todella paljon muutoksia ja muutama hölmö virhe pääsi vahingossa läpi.\n\n
+
+        <u><b>Versio 2.81</b></u>\n
+        - Hälytys ei enää aukaise automaattisesti hälytys sivua. Hälytyksen tullessa tulee ilmoitus josta myöskin hiljennetään hälytysääni.\n
+        - Ilmoituksen voi pyyhkäistä pois jolloin ääni lopettaa tai voi painaa hiljennä näppäintä tai avata suoraan hälytys sivun painamalla ilmoitusta.\n
+        - Hälytys voidaan hiljentää jo lukitusnäytöltä.\n
+        - Hälytykset tallennetaan arkistoon taustalla.\n
+        - Lisätty etusivulle uusi valikko joka aukeaa yläreunan vasemmasta sivusta löytyvällä näppäimellä tai pyyhkäisemällä vasemmasta reunasta.\n
+        - Valikosta löytyy uusia ominaisuuksia ja pari muualta siirrettyä juttua.\n
+        - Tallenna hälytys arkistoon: voit lisätä itse arkistoon hälytyksiä\n
+        - Testaa hälytys: lähettää 5 sekunnin viiveen jälkeen sovellukseen hälytyksen jolla voi testata viestiääntä, hiljaista tilaa ja lukitusnäytöltä hälytyksen hiljentämistä ja ilmoituksen toimintaa.
+        Tämä sen takia koska sovellus ei enää aukea automaattisesti hälytyksen tullessa joten tällä voi harjoitella miten oma puhelin käyttäytyy hälytyksen tullessa.\n
+        - Hiljennä hälytykset: hiljentää hälytykset ja asettaa ilmoituksen joka ilmoittaa että hälytykset on hiljennetty.\n
+        - Muutosloki: täältä näkee uusimpien päivityksien tuomat muutokset.\n
+        - Lähetä palautetta: siirretty etusivulta parempaan paikkaan.\n
+        - Ulkoasua muutettu paremmin toimivaksi varsinkin pienemmillä näytöillä.\n
+        - Tietokannan varmuuskopiointi .db tiedostoon puhelimen sisäiseen muistiin.\n
+        - Arkistosta voi nyt myös poistaa hälytyksiä.\n
+        - Sovelluksen käyttämät luvat kysytään nyt paremmin niille kuuluvilla paikoilla Android 6.0 ja ylemmät.\n
+        - Ohjeet päivitetty. Alimpana tunnetut ongelmat kohta jossa myös ratkaisu.\n
+        Näillä muutoksilla saadaan hälytysten vastaanotto luotettavammaksi ja nopeammaksi. Paljon myös optimointia tehty sovelluksen vakauden parantamiseksi ja asennustiedoston pienentämiseksi.\n\n
+
+        <u><b>Version 2.7 päivitykset</b></u>\n
+        - Osoitteen tunnistaminen toimii kaikille hälytysviesti muodoille. Joitain virheitä voi ilmetä.\n
+        - Arkistossa hälytys luokka kenttä on korvattu Osoite kentällä ja luokka on yhdistettynä Tunnus kenttään\n
+        - Lisätty Hälytys sivulle tekstikenttä jossa näkyy tehtäväluokka ja tekstiselvennys tehtäväluokalle. Mukana myös ensivasteen tehtäväluokat.\n
+    </string>
+
+    <!--Ohjeet sivun tekstit-->
+    <string name="ohjeetAlkusanat" tools:ignore="Typos">
+        \n\n
+        Tervetuloa käyttämään palokuntalaisille suunniteltua sovellusta. Sovelluksen tavoitteena on edistää ja helpottaa palokuntalaisten toimintaa.
+        Sovelluksen avulla palokuntalainen pystyy pitämään omaa arkistoa mistä näkee keikat millä on ollut. Arkistoa voi käyttää tehokkaana työkaluna,
+        hälytyksien yhteyteen voi kirjoittaa muistiinpanoja siitä mitä on tehty ja mitä voisi tehdä toisin. Myöhemmin näitä tietoja voi käyttää oman
+        toiminnan kehittämiseen ja harjoituksien suunnitteluun. Erittäin tärkeää on kumminkin huomioida pelastustoimen salassapito. Löytyy googlesta hakusanalla
+        pelastustoimen salassapito. Tässä alla kumminkin kaksi tärkeää kohtaa poimittu kyseisestä.\n\n
+
+        <b>5.3. Hälytysviestit\n\n
+
+        Pelastustoimen hälytysjärjestelmässä perustiedot tehtävästä välitetään VIRVE päätelaitteeseen tai matkapuhelimeen
+        tekstiviestinä. Viestit ovat viranomaisen sisäiseen käyttöön tarkoitettuja eivätkä siten ole julkisuuslain
+        piiriin kuuluvia viestejä. Näin ollen ne eivät ole julkisia ja ulkopuolisten pääsy tällaisiin viesteihin tulisi
+        estää. Viesteissä yleensä on onnettomuuskohteen osoite tai jonkinlainen muu tunniste, jonka voi mahdollisesti
+        yhdistää tiettyyn henkilöön tai talouteen. Etenkin ensivastetoiminnassa viestissä saattaa olla henkilöön
+        yhdistettävissä olevia, henkilön terveydentilaa kuvaavia tietoja, jotka ovat salassa pidettäviä. Salassapidon
+        säätää mm. laki potilaan asemasta ja oikeuksista (30.6.2000/653) 13 § (katso kappale 3.5).\n\n
+
+        Tekstiviestit, joissa on henkilöön yhdistettävissä olevaa terveydentilaa kuvaavaa tietoa, tulee välittömästi
+        käyttötarkoituksen päätyttyä poistaa päätelaitteesta, jotta laitteen joutuminen ulkopuolisen haltuun ei vaaranna
+        yksityisyyden suojaa.\n\n</b>
+
+        <b>5.5. Muut muistiinpanot\n\n
+
+        Kuvamateriaalin lisäksi pelastustoiminnassa tehdään muita muistiinpanoja, kuten tilannepäiväkirja ja toiminnanjaotus
+        suuremmissa tehtävissä. Pienemmissäkin tehtävissä syntyy yleensä vähintään muistilehtiömerkintöjä.
+        Nämäkin ovat samalla tavoin viranomaisen asiakirjatietoa ja niitä tulee arvioida sen mukaisesti myös
+        salassapidon osalta. Sellaisia muistiinpanoja, jotka tilanteen jälkeen tallennetaan esimerkiksi toimenpiderekisteriin,
+        voidaan pitää viranomaisen sisäiseen käyttöön tarkoitettuina, ja niiden osalta toimenpiderekisteriin
+        kirjattu tieto on julkisuuslain alaista. Luonnollisesti tällaisten väliaikaisten muistiinpanojen asianmukaisesta
+        hävittämisestä on huolehdittava. Vastaavasti muistiinpanot, joita on käytetty pelastustoiminnassa päätöksenteon
+        perustana, ovat julkisen vallan käyttöön liittyvinä selkeästi viranomaisen asiakirjoja ja siten kuuluvat
+        julkisuuslain piiriin.</b>\n\n
+    </string>
+    <string name="ohjeetHalytys" tools:ignore="Typos">
+        \n\n
+        Ensimmäistä kertaa hälytys sivulle mentäessä sovellus kysyy lupaa viestien lukemiseen ja lähettämiseen (Android 6.0).
+        Aikaisemmat Android versiot kysyvät luvat jo asennusvaiheessa.\n\n
+
+        Lupa soittamiseen kysytään ensimmäistä kertaa hälytys sivulle mentäessä.
+        Ilman näitä lupia sovelluksen soita lähtöilmoitus ja värikkäät sms napit eivät toimi. Soita lähtöilmoitus painike soittaa heti puhelinnumeroon joka asetetaan
+        asetuksissa soittotaulun numero kohtaan.
+        Tällä painikkeella soitat nopeasti oman asemasi hälytyslähtijöiden tauluun jos asemallanne on sellainen. Painikkeet <font color="#00FF00">VIHREÄ</font>, <font color="#FFFF00">KELTAINEN</font>
+        ja <font color="#FF0000">PUNAINEN</font> lähettävät viestin samantien.
+        Viestien vastaanottajan numero tai teksti: whatsapp asetetaan sms ilmoitusnumero kohtaan. whatsapp kirjoitettuna viestit jaetaan whatsapp sovelluksen kautta.
+        Tämän asetuksen alapuolella voi muokata viestien tekstit haluamakseen tai jos on sms viestejä vastaanottava
+        järjestelmä niin asettakaa tekstit sen mukaan.\n\n
+
+        Sivulla on kaksi eri tekstikenttää. Ylempi on hälytyksen tunnusta ja tekstiselvennystä varten. Alemmassa on saapunut hälytysviesti kokonaisuudessaan.
+        Nämä kentät täyttyvät aina arkistossa uusimpana olevalla hälytyksellä.\n\n
+
+        <u>KARTTAPALVELUN VAIHTAMINEN</u>:\n\n
+
+        Karttasovelluksen vaihto onnistuu puhelimen asetuksista: Asetukset -> Sovellukset -> Maps -> Aseta oletukseksi -> POISTA OLETUKSET.\n
+        Tämän jälkeen VPK Apurista kun avaat osoitetta, kysyy puhelin mitä sovellusta haluat käyttää jos on muita karttasovelluksia asennettuna.\n
+        Tämä valinta jää silloin oletukseksi eikä muilla kerroilla enää kysytä mitä karttasovellusta käytetään.\n\n
+
+        <u>PUHELUT</u>:\n\n
+
+        Kun puhelu tunnistetaan tulevan asetetusta hälytysnumerosta, tulee ilmoitus puhelimeen, tai jos automaattinen aukaisu käytössä niin aukeaa
+        sovelluksen hälytys sivu josta voi ilmoittaa itsensä lähtevän keikalle joko soittamalla tai lähettämällä viestin.
+        Asetuksissa voit myös ottaa käyttöön sovelluksen ääniasetukset puheluille.
+        Kartta on myöskin käytettävissä mutta osoitteen joutuu kirjoittamaan itse.\n\n
+    </string>
+    <string name="ohjeetAsetukset" tools:ignore="Typos">
+        \n\n
+        <b>Numerot/sms viestien asetus</b> sivulla on soittopainikkeen numero, sms painikkeiden asetukset, <font color="#00FF00">SMS VIHREÄ</font>,
+        <font color="#FFFF00">SMS KELTAINEN</font> ja <font color="#FF0000">SMS PUNAINEN</font>. Sms ilmoitusnumero kohtaan voi myös
+        kirjoittaa whatsapp jos haluaa lähettää sms ilmoituksen whatsapp:n kautta ryhmälle tai
+        kontaktille.\n\n
+
+        Hälytysnumeroille on tilaa kymmenen (10) kpl joista kaikki toimivat
+        myöskin puheluilla tulevien hälytysten vastaanottamiseen.
+        Kaikki numerot tulee asettaa maatunnuksen kanssa (+358401234567), tunnistus ei toimi ellei
+        numerot ole oikein. Numerokentät voi myös jättää
+        asettamatta jos ei tarvitse kaikkia kohtia.\n\n
+
+        <b>Ääniasetukset</b> sivulla voit valita hälytysäänen joka soi
+        hälytyksen tullessa, kesto, äänenvoimakkuus, värinä ja puheluilla tuleville hälytyksille ääniasetukset.\n\n
+
+        <b>Luvat &amp; käyttöönotto</b> sivulla on oikotiet akun optimointiasetuksiin ja sovelluksen tiedot sivulle.\n
+        Sovelluksen tiedot sivulla pääset muuttamaan ilmoitusasetuksia ja sovelluksen käyttämiä lupia.\n\n
+
+        <font color="#0000FF">HUOMIO!</font> Jos puhelimessa on käytössä virransäästöominaisuuksia niin ne pitää ottaa pois käytöstä tämän
+        sovelluksen kohdalta. Jos näitä ei oteta pois niin android kytkee automaattisesti hälytysten
+        vastaanoton pois päältä tietyn ajan kuluttua (n. 3 päivää) kun sovellusta ei ole avattu.\n\n
+
+        Huawei puhelimissa nämä asetukset löytyvät Asetukset -> sovellukset -> VPK Apuri ->
+        ilmoitukset ->kaikki päälle.\nAsetukset -> sovellukset -> VPK Apuri -> Akku -> Pidä
+        käynnissä näytönsäästötilassa päälle.\n\n
+
+        Samsung puhelimissa nämä asetukset löytyvät Asetukset -> Akku -> Lisätiedot -> VPK Apuri ->
+        Ei käytössä\n\n
+
+        <u>WIDGET</u>:\n\n
+
+        Puhelimen kotinäytölle voi nyt lisätä sovelluksen mukana tulevan widgetin eli "pienoisohjelman" jolla voi kytkeä hälytykset äänettömälle, yötilalle (vain widget) tai normaalille.
+        Yötilan ollessa käytössä äänenvoimakkuus rajoitetaan pienimmälle mahdolliselle tasolle.\n\n
+    </string>
+    <string name="ohjeetWhatsapp" tools:ignore="Typos">
+        \n\n
+        Sms ilmoitusnumero kohtaan asetuksissa voi kirjoittaa "whatsapp" jolloin pikaviesti painikkeista hälytyssivulla voit lähettää ilmoittautumisesi whatsapp:n kautta.
+        Painikkeiden tekstit asetetaan myöskin asetuksissa niille varattuihin kohtiin. Nämä tekstit tulevat automaattisesti whatsapp:n puolelle.
+        Kun olet painanut <font color="#00FF00">SMS VIHREÄ</font>, <font color="#FFFF00">SMS KELTAINEN</font> tai <font color="#FF0000">SMS PUNAINEN</font>
+        painiketta, aukeaa whatsapp josta pitää vielä valita yhteystieto/ryhmä jolle jaetaan.\n\n
+
+        Tällä hetkellä whatsapp ei mahdollista tämän nopeampaa ryhmään jakamista.\n\n
+    </string>
+    <string name="ohjeetArkisto" tools:ignore="Typos">
+        \n\n
+        Kaikki arkistossa olevat hälytykset näkyvät listalla.\n\n
+
+        Vanhoja hälytyksiä painamalla pääset uudelle sivulle jossa voit kirjoittaa oman muistiinpanon hälytyksen yhteyteen. Voit myöskin muuttaa muitakin kohtia tarpeen mukaan.\n\n
+
+        Arkistoon tallennettuja hälytysten tekstejä voi muokata haluamakseen ja tallentaa ne painamalla tallenna painiketta. Voit myös poistaa hälytyksiä arkistosta.\n\n
+
+        Arkisto on myös mahdollista varmuuskopioida .db tiedostoon joka tallentuu puhelimen muistiin. Tämän tiedoston voi siirtää tietokoneelle jossa sen saa auki
+        MS Excel ohjelmalla tai mahdollisesti muulla ohjelmalla joka tukee .db tiedostoja.\n\n
+
+        <font color="#FF0000">TÄRKEÄÄ!</font> Palokuntalaisen tulisi ottaa huomioon GDPR asetus ja poistaa arkistoon tallennetuista viesteistä tiedot jotka voidaan kohdentaa tiettyihin henkilöihin.
+        Puhelimen hukkuessa tai jos puhelin varastetaan niin ei ainakaan pääse tapahtumaan tietovuotoja.\n\n
+    </string>
+    <string name="ohjeetYleista" tools:ignore="Typos">
+        \n\n
+        Osoitteen tunnistamisen "koodia" parannettu. Osoitteen hakeminen viestin tekstistä on epävarmaa.
+        Uskoisin kumminkin tämän osuvan 95% kerroista oikein.\n\n
+
+        Tämä sovellus ja sen kehittäjä eivät kerää suoraan sovelluksesta mitään tietoa käyttäjistä.
+        Tietosuojakäytäntö löytyy osoitteesta: http://www.elisanet.fi/kultalaaki/tietosuojakaytanto.
+        Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa hälytykseen lähtemistä ja lisätä tilannetietoisuutta
+        näyttämällä tekstiselvennys hälytysluokalle.
+        Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
+
+        Sovellus käyttää firebasea joka lähettää vakavissa virhetilanteissa tiedot kaatumisesta minulle. Tämän takia sovellus tarvitsee käyttöönsä internet luvan.
+        Tämä ei lähetä mitään arkaluontoista kuten viestien sisältöä,
+        ainoastaan rivitiedon mikä aiheutti kaatumisen ja syyn. Kaikkia tapauksia ei tälläkään saa ratkaistua joten pyydänkin käyttäjiä lähettämään palautetta virhetilanteissa.\n\n
+
+        <u>TUNNETUT ONGELMAT</u>:\n\n
+
+        Monet Huawei puhelimet eivät rekisteröi viestien vastaanotinta jolloin hälytykset jäävät tulematta sovellukseen. Huawei käyttää virransäästössä agressiivista mallia.\n
+        Ratkaisu: aseta toisen henkilön numero hälytys numeroksi, mene sovelluksessa hälytys sivulle ja lähetä siitä numerosta minkä laitoit hälytysnumeroksi hälytysmuotoinen viesti.\n
+        Tämän jälkeen pitäisi vastaanottimen rekisteröityä ja voit laittaa nyt normaalit hälytysnumerot niille varattuihin kohtiin asetuksissa.\n\n
+
+        Osalla käyttäjistä osoitteentunnistus on aiheuttanut sovelluksen kaatumisen.\n
+        Ratkaisu: ongelma on korjattu puoliksi. Sovelluksen ei pitäisi kaatua tähän virheeseen vaan arkistoon tulee hälytyksen kommenttikenttään osittaista
+        tietoa tapahtumasta ja jatko-ohjeita.\n\n
+    </string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Numerot/sms viestien asetukset</string>
+    <string name="settings_summary">Valitse hälytyksen äänenvoimakkuus</string>
+
+    <!--Numeroiden asetusten Stringit-->
     <string name="pref_default_display_number">Syötä numero</string>
+    <string name="pref_default_display_txt5">Alle 5min</string>
+    <string name="pref_default_display_txt10">Alle 10min</string>
+    <string name="pref_default_display_txt10plus">Yli 10min</string>
 
     <string name="pref_title_display_name">Soittotaulun numero</string>
+    <string name="pref_title_display_name2">Sms ilmoitusnumero</string>
+    <string name="pref_title_display_fivemintxt">Sms vihreä ilmoitusteksti</string>
+    <string name="pref_title_display_tenmintxt">Sms keltainen ilmoitusteksti</string>
+    <string name="pref_title_display_tenplusmintxt">Sms punainen ilmoitusteksti</string>
+    <string name="pref_title_display_halyvastaanottopuh">Hälytys numero puhelu/sms muodossa (+358401234567)</string>
     <string name="pref_title_display_halyvastaanotto">Hälytys numero muodossa (+358401234567)</string>
-    <string name="Aseta_numerot">Aseta numerot</string>
 
-    <string name="sms">Incoming SMS</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
+        <item>100%</item>
+        <item>80%</item>
+        <item>70%</item>
+        <item>60%</item>
+        <item>50%</item>
     </string-array>
     <string-array name="pref_example_list_values">
         <item>1</item>
-        <item>0</item>
-        <item>-1</item>
+        <item>5</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
@@ -120,13 +348,75 @@
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_header_notifications">Ääniasetukset</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_ringtone">Hälytysääni</string>
+    <string name="pref_ringtone_silent">Äänetön</string>
 
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
+    <string name="palaute">Lähetä palautetta</string>
+    <string name="avaa_kartta">Avaa kartta</string>
+    <string name="net_n_tila">Äänetön tila</string>
+    <string name="kytke">Kytke</string>
+    <string name="tunnus">Tunnus</string>
+    <string name="luokka">Osoite</string>
+    <string name="kommentoi">Kommentoi</string>
+    <string name="tallenna">Tallenna</string>
+    <string name="ha">Lisää oma kommentti.</string>
 
-    <string name="pref_title_vibrate">Vibrate</string>
-    <string name="First_text">915C,Tämä on demonstraatio viesti. Älä paina näytä kartalla nappia ennen kuin olet tehnyt ohjeet sivulla mainittavat toimenpiteet sovelluksen käyttöönottamiseksi.</string>
+    <!--Soittoääni tekstit-->
+    <string name="silent">ÄÄnetön</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Peruuta</string>
+    <string name="ringtoneSummary">Ringtone: %s</string>
+    <string name="SMS_VIHREA">SMS VIHREÄ</string>
+    <string name="SMS_KELTAINEN">SMS KELTAINEN</string>
+    <string name="SMS_PUNAINEN">SMS PUNAINEN</string>
+    <string name="tallenna_arkistoon">Tallenna hälytys arkistoon</string>
+    <string name="tyhjenna_tietokanta">Tyhjennä arkisto</string>
+    <string name="testi">Testaa hälytys</string>
+    <string name="hiljenna">Hiljennä hälytykset</string>
+    <string name="vpk_apuri">VPK APURI</string>
+    <string name="kultala_aki">Kultala Aki</string>
+    <string name="postiosoite">kultalaaki@gmail.com</string>
+    <string name="kirjoita_h_lytys_viesti">Kirjoita hälytys viesti</string>
+    <string name="syota_osoite">Syötä osoite</string>
+    <string name="syotahaltunnus">Syötä hälytys tunnus</string>
+    <string name="poista">Poista</string>
+    <string name="testihalytys">TESTIHÄLYTYS: 402A,PORI Satakunnankatu 3–5, Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
+
+    <string-array name="extraRingtones">
+        <item>virve</item>
+    </string-array>
+
+    <string-array name="extraRingtoneTitles">
+        <item>VIRVE</item>
+    </string-array>
+    <string name="title_activity_changelog">Muutosloki</string>
+
+    <string name="launcher_kuva">Launcher kuva</string>
+    <string name="n_yt_kartalla">Näytä kartalla</string>
+    <string name="app_name"><font color="#802000">VPK Apuri</font></string>
+    <string name="action_halylista">Hälytyslista</string>
+    <string name="title_activity_settings">Asetukset</string>
+    <string name="action_ohjeita">Ohjeet</string>
+    <string name="t_h_n_tulee_tunnus">Tähän tulee tunnus</string>
+    <string name="h_lytysviestin_kentt">Hälytysviestin kenttä.</string>
+    <string name="tekij">Tekijä:</string>
+    <string name="tallenna_tietokanta">Tallenna tietokanta</string>
+    <string name="logo">Logo</string>
+    <string name="aseta">Aseta</string>
+    <string name="hiljenna_h_lytys">Hiljenna hälytys</string>
+    <string name="jakaja">jakaja</string>
+    <string name="settings_dialog_message">Valitse hälytyksen äänenvoimakkuus</string>
+    <string name="settings_unit">%</string>
+    <string name="settings_title">Äänenvoimakkuus</string>
+    <string name="hiljenna_puhe">HILJENNÄ PUHE</string>
+    <string name="kommentti">Kommentti</string>
+    <string name="osoite">Osoite</string>
+    <string name="viesti">Viesti</string>
+    <string name="luvat">Avaa dialogin  jossa voit antaa luvat joita tarvitaan sovelluksen toimintaan.\n
+    - Soita ja hallinnoi puheluita lupaa tarvitaan hälytys sivun soita painikkeen toimintaan ja jos hälytykset tulevat puheluilla.\n
+    - Mediatiedostojen käyttämistä tarvitaan hälytysäänen asettamista varten.\n
+    - Tekstiviestien lähettäminen ja vastaanottaminen tarvitaan sms viesteillä tuleviin hälytyksiin ja sms pikaviestien lähettämiseen.</string>
+    <string name="testihalytysErica">TESTIHÄLYTYS; 411; C; 11:57:59_05.01.2019; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
 </resources>

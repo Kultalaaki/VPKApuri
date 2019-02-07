@@ -4,122 +4,322 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <PreferenceCategory
+        android:title="Soittonäppäin"
+        android:key="pref_key_soitto">
     <EditTextPreference
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_number"
         android:inputType="phone"
         android:key="example_text"
         android:maxLines="1"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="@string/pref_title_display_name" />
+        android:title="Soittopainikkeen numero" />
+    </PreferenceCategory>
 
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto1"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto2"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto3"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto4"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto5"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto6"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto7"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto8"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto9"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="halyvastaanotto10"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_halyvastaanotto"/>
+    <PreferenceCategory
+        android:title="Hälytysnumerot"
+        android:key="pref_key_numerot">
+        <PreferenceScreen
+            android:title="Hälyttävät numerot"
+            android:persistent="false"
+            android:summary="Aseta hälyttävät numerot."
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            <PreferenceCategory
+                android:title="Hälytysnumerot"
+                android:key="pref_key_halnu" />
+            <Preference
+                android:summary="Numerot tulee kirjoittaa ilman välejä. Numero kirjoitetaan maatunnuksen kanssa: +358401234567. Kaikki kohdat käyvät puheluilla tuleville hälytyksille."
+                android:selectable="false"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto1"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="1: Hälytysnumero" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto2"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="2: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto3"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="3: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto4"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="4: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto5"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="5: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto6"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="6: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto7"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="7: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto8"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="8: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto9"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="9: Hälytysnumero"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="phone"
+                android:key="halyvastaanotto10"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="10: Hälytysnumero"/>
+        </PreferenceScreen>
+    </PreferenceCategory>
 
-    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
-         dismiss it. -->
-    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <!--<Preference android:title="TALLENNA NUMEROT"
-        android:key="@string/Aseta_numerot"
-        android:summary=""/>-->
+    <PreferenceCategory
+        android:title="Avainsanat"
+        android:key="pref_key_avainsanat" >
+        <PreferenceScreen
+            android:title="Hälyttävät sanat"
+            android:persistent="false"
+            android:summary="Tämä on vain erikoistapauksia varten. Älä käytä jos ei ole pakollista tarvetta. Voit asettaa sanat joiden mukaan hälytetään."
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            <PreferenceCategory
+                android:title="Avainsanat"
+                android:key="pref_key_halsan" />
+            <Preference
+                android:summary="Voit määrittää avainsanat joiden mukaan hälytetään jos viesti tulee oikeasta numerosta ja sisältää jonkun määritetyistä sanoista. Sanat tulee kirjoittaa täsmälleen
+                                samalla tavalla kuin ne viestissä tulevat, esim RPI101 on eri kuin rpi101"
+                android:selectable="false"/>
+            <SwitchPreference
+                android:key="avainsana"
+                android:title="Avainsanat"
+                android:summary="Laita päälle jos haluat hälytykset vain viesteistä jotka sisältävät jonkun avainsanoista."
+                android:defaultValue="false"/>
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="avainsana1"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="1: Avainsana"/>
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="avainsana2"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="2: Avainsana"/>
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="avainsana3"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="3: Avainsana"/>
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="avainsana4"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="4: Avainsana"/>
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="avainsana5"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="5: Avainsana"/>
+        </PreferenceScreen>
+    </PreferenceCategory>
 
-    <ListPreference
-        android:defaultValue="-1"
-        android:entries="@array/pref_example_list_titles"
-        android:entryValues="@array/pref_example_list_values"
-        android:key="example_list"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="" />
+    <PreferenceCategory
+        android:title="Vastausviestien asetukset"
+        android:key="pref_key_vastausviesti">
+        <PreferenceScreen
+            android:title="SMS VIHREÄ"
+            android:persistent="false"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            <PreferenceCategory
+                android:title="SMS Vihreä asetukset" />
+            <Preference
+                android:summary="Sms ilmoitusnumero voi olla puhelinnumero tai pienellä kirjoitettuna whatsapp"
+                android:selectable="false"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="sms_numero"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/pref_title_display_name2" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="ALLE 5"
+                android:inputType="text"
+                android:key="fivemintextotsikko"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Näppäimessä näkyvä teksti" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_txt5"
+                android:inputType="text"
+                android:key="fivemintxt"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/pref_title_display_fivemintxt" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="SMS KELTAINEN"
+            android:persistent="false"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            <PreferenceCategory
+                android:title="SMS Keltainen asetukset" />
+            <Preference
+                android:summary="Sms ilmoitusnumero voi olla puhelinnumero tai pienellä kirjoitettuna whatsapp"
+                android:selectable="false"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="sms_numero10"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/pref_title_display_name2" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="ALLE 10"
+                android:inputType="text"
+                android:key="tenmintextotsikko"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Näppäimessä näkyvä teksti" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_txt10"
+                android:inputType="text"
+                android:key="tenmintxt"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/pref_title_display_tenmintxt" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="SMS PUNAINEN"
+            android:persistent="false"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            <PreferenceCategory
+                android:title="SMS Punainen asetukset" />
+            <Preference
+                android:summary="Sms ilmoitusnumero voi olla puhelinnumero tai pienellä kirjoitettuna whatsapp"
+                android:selectable="false"/>
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="sms_numero11"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/pref_title_display_name2" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="YLI 10"
+                android:inputType="text"
+                android:key="tenplusmintextotsikko"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Näppäimessä näkyvä teksti" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="@string/pref_default_display_txt10plus"
+                android:inputType="text"
+                android:key="tenplusmintxt"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/pref_title_display_tenplusmintxt" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Muut asetukset"
+        android:key="pref_key_numerot">
+        <SwitchPreference
+            android:key="Erica"
+            android:title="Osoitteentunnistus ERICA"
+            android:defaultValue="false"
+            android:summary="ERICA järjestelmän lähettämistä viesteistä osoitteen tunnistaminen. Käynnistä sovellus uudestaan jotta muutos tulee voimaan." />
+        <SwitchPreference
+            android:key="autoAukaisu"
+            android:title="Automaattinen aukaisu"
+            android:defaultValue="false"
+            android:summary="Hälytys sivu aukeaa 3 sekunnin viiveellä jotta hälytys keretään tallentamaan ja osoite hakemaan valmiiksi. Hälytys hiljennetään hiljennä hälytys näppäimestä. Ei mahdollisuutta hiljentää lukitusnäytöltä."/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
 
