@@ -19,10 +19,10 @@ public class HalytysFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
 
-    public static HalytysFragment newInstance(String halytysNro) {
+    public static HalytysFragment newInstance(String newAlarmComing) {
         HalytysFragment halytys = new HalytysFragment();
         Bundle args = new Bundle();
-        args.putString("primaryKey", halytysNro);
+        args.putString("newAlarm", newAlarmComing);
         halytys.setArguments(args);
         return halytys;
     }
