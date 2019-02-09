@@ -220,10 +220,10 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     public void avaaHaly () {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
-            Intent intent = new Intent(Etusivu.this, aktiivinenHaly.class);
+            Intent intent = new Intent(Etusivu.this, HalytysActivity.class);
             startActivity(intent, options.toBundle());
         } else {
-            Intent intent = new Intent(Etusivu.this, aktiivinenHaly.class);
+            Intent intent = new Intent(Etusivu.this, HalytysActivity.class);
             startActivity(intent);
         }
     }
