@@ -1,8 +1,24 @@
 package kultalaaki.vpkapuri;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +27,24 @@ import android.widget.Toast;
 
 public class HalytysButtonsFragment extends Fragment {
 
-    Button call, fiveMin, tenMin, tenMinplus, openMap;
-    boolean five, ten, tenPlus;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 3;
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 4;
+    Button call, fiveMin, tenMin, tenMinplus, hiljenna, openMap;
+    boolean five, ten, tenPlus, autoAukaisu, koneluku, five2 = false, ten2 = false, tenplus = false, palautaMediaVolBoolean = false;
     String fiveminText, tenMinText, tenPlusMin;
+    static DBHelper db;
+    String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt, action, type;
+    TextToSpeech t1;
+    int tekstiPuheeksiVol, palautaMediaVol;
+    Intent intent;
+    SharedPreferences aaneton = null;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setResources();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -26,6 +54,8 @@ public class HalytysButtonsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        setOnClickListeners();
+
     }
 
     @Override
@@ -33,4 +63,218 @@ public class HalytysButtonsFragment extends Fragment {
         // Setup any handles to view objects here
     }
 
+    void setResources() {
+        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        soittonumero = pref_general.getString("example_text", null);
+        smsnumero = pref_general.getString("sms_numero", null);
+        smsnumero10 = pref_general.getString("sms_numero10", null);
+        smsnumero11 = pref_general.getString("sms_numero11", null);
+        fivemintxtotsikko = pref_general.getString("fivemintextotsikko", null);
+        fivemintxt = pref_general.getString("fivemintxt", null);
+        tenmintxtotsikko = pref_general.getString("tenmintextotsikko", null);
+        tenmintxt = pref_general.getString("tenmintxt", null);
+        tenplusmintxtotsikko = pref_general.getString("tenplusmintextotsikko", null);
+        tenplusmintxt = pref_general.getString("tenplusmintxt", null);
+        koneluku = pref_general.getBoolean("koneluku", false);
+        autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
+        db = new DBHelper(getActivity());
+    }
+
+    void setOnClickListeners() {
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    pyydaLuvatCallPhone();
+                } else {
+                    Context context = getActivity();
+                    if(context != null) {
+                        try {
+                            ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE);
+                            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + soittonumero));
+                            startActivity(callIntent);
+                        }catch(Exception e) {
+                            Toast.makeText(context,"Puhelu ei onnistunut. Tarkista sovelluksen lupa soittaa ja asetettu numero.",
+                                    Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        fiveMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (smsnumero != null && smsnumero.equals("whatsapp")) {
+                    Intent whatsapptxt = new Intent();
+                    whatsapptxt.setAction(Intent.ACTION_SEND);
+                    whatsapptxt.putExtra(Intent.EXTRA_TEXT, fivemintxt);
+                    whatsapptxt.setType("text/plain");
+                    whatsapptxt.setPackage("com.whatsapp");
+                    startActivity(whatsapptxt);
+                } else {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        five = true;
+                        pyydaLuvatSms();
+                    } else {
+                        Context context = getActivity();
+                        if(context != null) {
+                            try {
+                                //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
+                                SmsManager sms = SmsManager.getDefault();
+                                sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
+                                Toast.makeText(context,"Alle 5min ilmoitus lähetetty. (" + fivemintxt + ")", Toast.LENGTH_LONG).show();
+                            } catch(Exception e) {
+                                Toast.makeText(context,"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
+                                        Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+
+        tenMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (smsnumero10 != null && smsnumero10.equals("whatsapp")) {
+                    Intent whatsapptxt = new Intent();
+                    whatsapptxt.setAction(Intent.ACTION_SEND);
+                    whatsapptxt.putExtra(Intent.EXTRA_TEXT, tenmintxt);
+                    whatsapptxt.setType("text/plain");
+                    whatsapptxt.setPackage("com.whatsapp");
+                    startActivity(whatsapptxt);
+                } else {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        ten = true;
+                        pyydaLuvatSms();
+                    } else {
+                        Context context = getActivity();
+                        if(context != null) {
+                            try {
+                                //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
+                                SmsManager sms = SmsManager.getDefault();
+                                sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
+                                Toast.makeText(context,"Alle 10min ilmoitus lähetetty. (" + tenmintxt + ")", Toast.LENGTH_LONG).show();
+                            } catch(Exception e) {
+                                Toast.makeText(context,"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
+                                        Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        tenMinplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (smsnumero11 != null && smsnumero11.equals("whatsapp")) {
+                    Intent whatsapptxt = new Intent();
+                    whatsapptxt.setAction(Intent.ACTION_SEND);
+                    whatsapptxt.putExtra(Intent.EXTRA_TEXT, tenplusmintxt);
+                    whatsapptxt.setType("text/plain");
+                    whatsapptxt.setPackage("com.whatsapp");
+                    startActivity(whatsapptxt);
+                } else {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        tenplus = true;
+                        pyydaLuvatSms();
+                    } else {
+                        Context context = getActivity();
+                        if(context != null) {
+                            try {
+                                //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
+                                SmsManager sms = SmsManager.getDefault();
+                                sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
+                                Toast.makeText(context,"Yli 10min ilmoitus lähetetty. (" + tenplusmintxt + ")", Toast.LENGTH_LONG).show();
+                            } catch(Exception e) {
+                                Toast.makeText(context,"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
+                                        Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+
+        Cursor c = db.haeViimeisinLisays();
+        openMap.setText(c.getString(c.getColumnIndex(DBHelper.LUOKKA)));
+        final String osoite = c.getString(c.getColumnIndex(DBHelper.LUOKKA));
+        openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoite);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                //mapIntent.setPackage("com.google.android.apps.maps");
+                Context context = getActivity();
+                if(context != null) {
+                    if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    }
+                }
+
+            }
+        });
+    }
+
+    public void pyydaLuvatCallPhone() {
+        Context context = getActivity();
+        if(context != null) {
+            if (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Pitäisikö näyttää selite?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        Manifest.permission.CALL_PHONE)) {
+
+                    // Näytä selite, älä blokkaa threadia.
+                    showMessageOKCancel(
+                            new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.M)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    requestPermissions(new String[] {Manifest.permission.CALL_PHONE},
+                                            MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                                }
+                            });
+                } else {
+
+                    // Selitettä ei tarvita.
+
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                }
+            } else {
+                // soita
+                try {
+                    ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
+                    Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + soittonumero));
+                    startActivity(callIntent);
+                }catch(Exception e) {
+                    Toast.makeText(getActivity(),"Puhelu ei onnistunut. Tarkista sovelluksen lupa soittaa ja asetettu numero.",
+                            Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("Et voi käyttää soita nappia jos et anna lupaa.")
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Peruuta", null)
+                .create()
+                .show();
+    }
 }
