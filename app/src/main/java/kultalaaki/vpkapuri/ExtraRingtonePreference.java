@@ -37,7 +37,7 @@ public class ExtraRingtonePreference extends DialogPreference {
     private CharSequence[] mExtraRingtones;
     private CharSequence[] mExtraRingtoneTitles;
 
-    ExtraRingtonePreference(Context context, AttributeSet attrs) {
+    public ExtraRingtonePreference(Context context, AttributeSet attrs) {
 
         super(context, attrs);
 
