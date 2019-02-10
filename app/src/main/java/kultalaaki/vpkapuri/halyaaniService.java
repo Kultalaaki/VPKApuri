@@ -1378,7 +1378,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             for (int i = 0; i <= pituus -1; i++) {
                 merkki = strings[0].charAt(i);
                 // Katko sanat regex:in mukaan
-                if(Character.toString(merkki).matches("[.,/:; ]")) {
+                if(Character.toString(merkki).matches("[.,/:; \\r\\n]")) {
                     sana = halyOsoite.toString();
                     if(sana.length() > 1 || sana.matches("[0-9]")) {
                         String sanaLower = sana.toLowerCase();
