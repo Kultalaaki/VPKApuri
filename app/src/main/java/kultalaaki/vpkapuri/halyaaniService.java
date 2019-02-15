@@ -1417,6 +1417,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                 for (String valmisSana : viestinSanat) {
                     if(valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
                         //String osaSana = valmisSana.substring(0,3);
+                        //Log.i("sanat", valmisSana);
                         if(halytunnukset.contains(valmisSana.substring(0,3)) || valmisSana.substring(0,3).equals("H35")) {
                             if(valmisSana.substring(0,3).equals("H35")) {
                                 valmisSana = "H351";
@@ -1544,7 +1545,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             for (int i = 0; i <= pituus -1; i++) {
                 merkki = strings[0].charAt(i);
                 // Katko sanat regex:in mukaan
-                if(Character.toString(merkki).matches("[.,/:; ]")) {
+                if(Character.toString(merkki).matches("[.,/:; \\r\\n]")) {
                     sanaYksin = sanatYksitellen.toString();
                     if(sanaYksin.length() > 1 || sanaYksin.matches("[0-9]")) {
                         sanatYksinaan.add(sanaYksin);
@@ -1587,6 +1588,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                 for (String valmisSana : sanatYksinaan) {
                     if(valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
                         //String osaSana = valmisSana.substring(0,3);
+                        //Log.i("sanat", valmisSana);
                         if(halytunnukset.contains(valmisSana.substring(0,3)) || valmisSana.substring(0,3).equals("H35")) {
 
                             if(valmisSana.substring(0,3).equals("H35")) {
@@ -1599,6 +1601,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                             halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
                             listaPaikka = halytunnukset.indexOf(valmisSana.substring(0,3));
                             loytyi = true;
+                            //Log.i("testi", listaPaikka + " " + halytunnusSijainti);
                             break;
                         }
                     }
@@ -1611,7 +1614,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                 }
 
                 palautus[0] = osoite;
-                palautus[1] = viestinSanat.get(halytunnusSijainti);
+                palautus[1] = sanatYksinaan.get(halytunnusSijainti); //viestinSanat.get(halytunnusSijainti);
                 palautus[3] = halytysLuokka;
 
             }catch (ArrayIndexOutOfBoundsException e){
