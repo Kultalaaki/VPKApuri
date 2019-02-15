@@ -8,8 +8,8 @@
     <color name="colorBackground_1">#1a1a1a</color>
     <color name="custom_own_color">#1a1a1a</color>
     <color name="accent_material_ligh">#0704d3</color>
-    <color name="text_color_primary">#ddffffff</color>
-    <color name="text_color_prima">#ddffffff</color>
+    <color name="text_color_primary">#ffffff</color>
+    <color name="white">#ffffff</color>
     <color name="grey">#DD555555</color>
     <color name="primary_material_dark_1">#212121</color>
     <color name="orange">#BF3600</color>

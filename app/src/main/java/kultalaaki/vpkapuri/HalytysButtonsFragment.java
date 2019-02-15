@@ -25,6 +25,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -37,6 +39,7 @@ public class HalytysButtonsFragment extends Fragment {
     boolean five, ten, tenPlus, autoAukaisu, koneluku, five2 = false, ten2 = false, tenplus = false, palautaMediaVolBoolean = false;
     String fiveminText, tenMinText, tenPlusMin;
     static DBHelper db;
+    TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite;
     String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt, action, type;
     TextToSpeech t1;
     int tekstiPuheeksiVol, palautaMediaVol;
@@ -59,16 +62,63 @@ public class HalytysButtonsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         setOnClickListeners();
+        setTexts();
+    }
 
+    public void setTexts() {
+        callNumber.setText(soittonumero);
+
+        osoite.setText(osoite());
+
+        sms5Otsikko.setText(fivemintxtotsikko);
+        sms5Sisalto.setText(fivemintxt);
+        sms5Recipient.setText(smsnumero);
+
+        sms10Otsikko.setText(tenmintxtotsikko);
+        sms10Sisalto.setText(tenmintxt);
+        sms10Recipient.setText(smsnumero10);
+
+        sms11Otsikko.setText(tenplusmintxtotsikko);
+        sms11Sisalto.setText(tenplusmintxt);
+        sms11Recipient.setText(smsnumero11);
+    }
+
+    public String osoite(){
+        try {
+            db = new DBHelper(getActivity());
+            Cursor c = db.haeViimeisinLisays();
+            if(c != null) {
+                return c.getString(c.getColumnIndex(DBHelper.LUOKKA));
+            }
+            return "";
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         call = view.findViewById(R.id.callCard);
+        callNumber = view.findViewById(R.id.number);
+
         fiveMin = view.findViewById(R.id.greenCard);
+        sms5Otsikko = view.findViewById(R.id.sms5Otsikko);
+        sms5Sisalto = view.findViewById(R.id.sms5sisalto);
+        sms5Recipient = view.findViewById(R.id.sms5Recipient);
+
         tenMin = view.findViewById(R.id.orangeCard);
+        sms10Otsikko = view.findViewById(R.id.sms10Otsikko);
+        sms10Sisalto = view.findViewById(R.id.sms10sisalto);
+        sms10Recipient = view.findViewById(R.id.sms10Recipient);
+
         tenMinplus = view.findViewById(R.id.redCard);
+        sms11Otsikko = view.findViewById(R.id.sms11Otsikko);
+        sms11Sisalto = view.findViewById(R.id.sms11sisalto);
+        sms11Recipient = view.findViewById(R.id.sms11Recipient);
+
+        osoite = view.findViewById(R.id.osoiteteksti);
+
         openMap = view.findViewById(R.id.addressCard);
         hiljenna = view.findViewById(R.id.somethingCard);
     }

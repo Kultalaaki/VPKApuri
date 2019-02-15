@@ -51,7 +51,7 @@ public class HalytysFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         halytyksentunnus = view.findViewById(R.id.halytyksenTunnus);
-        halytyksenviesti= view.findViewById(R.id.halytyksenViesti);
+        halytyksenviesti = view.findViewById(R.id.halytyksenViesti);
     }
 
     public void getNewestDatabaseEntry(){
