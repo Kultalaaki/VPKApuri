@@ -16,6 +16,7 @@ public class HalytysActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         loadhalytysFragment();
+        loadhalytysButtonsFragment();
     }
 
     public void loadhalytysFragment() {
@@ -23,5 +24,12 @@ public class HalytysActivity extends AppCompatActivity {
         HalytysFragment halytysFragment = new HalytysFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.HalytysYlaosa, halytysFragment).commit();
+    }
+
+    public void loadhalytysButtonsFragment() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        HalytysButtonsFragment halytysButtonsFragment = new HalytysButtonsFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.HalytysAlaosa, halytysButtonsFragment).commit();
     }
 }

@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70000" />
+        app:layout_constraintGuide_percent="0.75000" />
 
     <FrameLayout
         android:id="@+id/HalytysAlaosa"

@@ -1611,7 +1611,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                 }
 
                 palautus[0] = osoite;
-                palautus[1] = viestinSanat.get(halytunnusSijainti);
+                palautus[1] = sanatYksinaan.get(halytunnusSijainti);
                 palautus[3] = halytysLuokka;
 
             }catch (ArrayIndexOutOfBoundsException e){

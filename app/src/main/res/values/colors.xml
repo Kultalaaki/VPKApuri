@@ -10,5 +10,10 @@
     <color name="accent_material_ligh">#0704d3</color>
     <color name="text_color_primary">#ddffffff</color>
     <color name="text_color_prima">#ddffffff</color>
+    <color name="grey">#DD555555</color>
     <color name="primary_material_dark_1">#212121</color>
+    <color name="orange">#BF3600</color>
+    <color name="green">#1DBF00</color>
+    <color name="yellow">#BFB500</color>
+    <color name="red">#802000</color>
 </resources>
