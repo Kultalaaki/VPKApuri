@@ -58,7 +58,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
     boolean autoAukaisu;
     boolean aanetVaiEi;
     String puheluHaly = "false";
-    int palautaAani;
+    int palautaAani, palautaStreamAlarm;
     boolean pitaaPalauttaa = false;
     boolean puhelu;
     static boolean erica;
@@ -81,7 +81,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
     }
 
     public void createNotification(String viesti){
-        Intent intentsms = new Intent(halyaaniService.this, aktiivinenHaly.class);
+        Intent intentsms = new Intent(halyaaniService.this, HalytysActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -108,7 +108,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
     }
 
     public void createNotificationPuhelu(String viesti){
-        Intent intentsms = new Intent(halyaaniService.this, aktiivinenHaly.class);
+        Intent intentsms = new Intent(halyaaniService.this, HalytysActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -160,11 +160,14 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             aanetVaiEi = pref_general.getBoolean("aanetVaiEi", false);
             aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
             int checkVolume = -1;
+            //int streamAlarm;
 
             //if(puheluHaly.equals("true")) {
                 if(audioManager != null) {
                     checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+                    palautaStreamAlarm = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
                     palautaAani = checkVolume;
+                    //palautaStreamAlarm = streamAlarm;
 
                     audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
                     pitaaPalauttaa = true;
@@ -451,7 +454,9 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            Intent halyAuki = new Intent(halyaaniService.this, aktiivinenHaly.class);
+                            Intent halyAuki = new Intent(halyaaniService.this, HalytysActivity.class);
+                            halyAuki.setAction(Intent.ACTION_SEND);
+                            halyAuki.setType("automaattinen");
                             halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(halyAuki);
                         }
@@ -470,7 +475,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            Intent halyAuki = new Intent(halyaaniService.this, aktiivinenHaly.class);
+                            Intent halyAuki = new Intent(halyaaniService.this, HalytysActivity.class);
                             halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(halyAuki);
                         }
@@ -1677,6 +1682,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if(audioManager != null && pitaaPalauttaa) {
             audioManager.setStreamVolume(AudioManager.STREAM_RING, palautaAani, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, palautaStreamAlarm, 0);
         }
         super.onDestroy();
     }

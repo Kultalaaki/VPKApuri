@@ -16,4 +16,7 @@
     <color name="green">#1DBF00</color>
     <color name="yellow">#BFB500</color>
     <color name="red">#802000</color>
+    <color name="redCard">#66210C</color>
+    <color name="yellowCard">#6D5900</color>
+    <color name="greenCard">#306D00</color>
 </resources>
