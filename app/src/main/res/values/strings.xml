@@ -426,4 +426,8 @@
     <string name="yleist">Yleistä</string>
     <string name="hiljenna_halytys">HILJENNÄ HÄLYTYS</string>
     <string name="hiljenna_puhe">HILJENNÄ PUHE</string>
+    <string name="osoiten">OSOITE:</string>
+    <string name="iconAddress">iconAddress</string>
+    <string name="soita">SOITA:</string>
+    <string name="iconcall">iconCall</string>
 </resources>
