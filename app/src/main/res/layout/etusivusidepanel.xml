@@ -42,7 +42,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            card_view:cardCornerRadius="8dp">
+            card_view:cardCornerRadius="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -95,7 +98,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_viewHaly"
-            card_view:cardCornerRadius="8dp">
+            card_view:cardCornerRadius="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -147,7 +153,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_viewArkisto"
-            card_view:cardCornerRadius="8dp">
+            card_view:cardCornerRadius="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -201,7 +210,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_viewOhjeet"
             app:layout_constraintBottom_toBottomOf="parent"
-            card_view:cardCornerRadius="8dp">
+            card_view:cardCornerRadius="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

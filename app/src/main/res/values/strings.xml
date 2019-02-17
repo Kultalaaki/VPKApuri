@@ -410,7 +410,6 @@
     <string name="settings_dialog_message">Valitse hälytyksen äänenvoimakkuus</string>
     <string name="settings_unit">%</string>
     <string name="settings_title">Äänenvoimakkuus</string>
-    <string name="hiljenna_puhe">HILJENNÄ PUHE</string>
     <string name="kommentti">Kommentti</string>
     <string name="osoite">Osoite</string>
     <string name="viesti">Viesti</string>
@@ -425,4 +424,10 @@
     <string name="arkisto">Arkisto</string>
     <string name="whatsapp">Whatsapp</string>
     <string name="yleist">Yleistä</string>
+    <string name="hiljenna_halytys">HILJENNÄ HÄLYTYS</string>
+    <string name="hiljenna_puhe">HILJENNÄ PUHE</string>
+    <string name="osoiten">OSOITE:</string>
+    <string name="iconAddress">iconAddress</string>
+    <string name="soita">SOITA:</string>
+    <string name="iconcall">iconCall</string>
 </resources>

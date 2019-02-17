@@ -748,8 +748,5 @@ public class aktiivinenHaly extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
+    protected void onResume() { super.onResume(); }
 }
