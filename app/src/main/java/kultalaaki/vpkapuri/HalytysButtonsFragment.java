@@ -343,7 +343,14 @@ public class HalytysButtonsFragment extends Fragment {
 
         Cursor c = db.haeViimeisinLisays();
         //openMap.setText(c.getString(c.getColumnIndex(DBHelper.LUOKKA)));
-        final String osoite = c.getString(c.getColumnIndex(DBHelper.LUOKKA));
+        String osoitee = "";
+        try {
+            osoitee = c.getString(c.getColumnIndex(DBHelper.LUOKKA));
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Arkisto on tyhjä.", Toast.LENGTH_LONG).show();
+        }
+        final String osoite = osoitee;
+
         openMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
