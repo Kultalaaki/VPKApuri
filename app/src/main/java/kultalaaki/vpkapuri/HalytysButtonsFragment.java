@@ -32,7 +32,7 @@ public class HalytysButtonsFragment extends Fragment {
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 3;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 4;
     CardView call, fiveMin, tenMin, tenMinplus, hiljenna, openMap;
-    boolean five, ten, autoAukaisu, koneluku, tenplus = false, stopAlarm = false;
+    boolean five, ten, autoAukaisu, koneluku, tenplus = false, stopAlarm = false, SmsGreenVisible, SmsYellowVisible, SmsRedVisible, CallButtonVisible;
     static DBHelper db;
     TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
     String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
@@ -80,21 +80,37 @@ public class HalytysButtonsFragment extends Fragment {
     }
 
     public void setTexts() {
-        callNumber.setText(soittonumero);
+        if(CallButtonVisible) {
+            callNumber.setText(soittonumero);
+        } else {
+            call.setVisibility(View.GONE);
+        }
 
         osoite.setText(osoite());
 
-        sms5Otsikko.setText(fivemintxtotsikko);
-        sms5Sisalto.setText(fivemintxt);
-        sms5Recipient.setText(smsnumero);
+        if(SmsGreenVisible) {
+            sms5Otsikko.setText(fivemintxtotsikko);
+            sms5Sisalto.setText(fivemintxt);
+            sms5Recipient.setText(smsnumero);
+        } else {
+            fiveMin.setVisibility(View.GONE);
+        }
 
-        sms10Otsikko.setText(tenmintxtotsikko);
-        sms10Sisalto.setText(tenmintxt);
-        sms10Recipient.setText(smsnumero10);
+        if(SmsYellowVisible) {
+            sms10Otsikko.setText(tenmintxtotsikko);
+            sms10Sisalto.setText(tenmintxt);
+            sms10Recipient.setText(smsnumero10);
+        } else {
+            tenMin.setVisibility(View.GONE);
+        }
 
-        sms11Otsikko.setText(tenplusmintxtotsikko);
-        sms11Sisalto.setText(tenplusmintxt);
-        sms11Recipient.setText(smsnumero11);
+        if(SmsRedVisible) {
+            sms11Otsikko.setText(tenplusmintxtotsikko);
+            sms11Sisalto.setText(tenplusmintxt);
+            sms11Recipient.setText(smsnumero11);
+        } else {
+            tenMinplus.setVisibility(View.GONE);
+        }
     }
 
     public void setTextHiljennaPuhe() {
@@ -192,6 +208,10 @@ public class HalytysButtonsFragment extends Fragment {
         tenplusmintxt = pref_general.getString("tenplusmintxt", null);
         koneluku = pref_general.getBoolean("koneluku", false);
         autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
+        SmsGreenVisible = pref_general.getBoolean("SmsGreenVisible", true);
+        SmsYellowVisible = pref_general.getBoolean("SmsYellowVisible", true);
+        SmsRedVisible = pref_general.getBoolean("SmsRedVisible", true);
+        CallButtonVisible = pref_general.getBoolean("CallButtonVisible", true);
         db = new DBHelper(getActivity());
     }
 

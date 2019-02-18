@@ -1247,6 +1247,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         halytunnukset.add("414"); halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: PIENI");
         halytunnukset.add("415"); halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: KESKISUURI");
         halytunnukset.add("416"); halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: SUURI");
+        halytunnukset.add("420"); halytekstit.add("SAVUHAVAINTO");
         halytunnukset.add("421"); halytekstit.add("MAASTOPALO: PIENI");
         halytunnukset.add("422"); halytekstit.add("MAASTOPALO: KESKISUURI");
         halytunnukset.add("423"); halytekstit.add("MAASTOPALO: SUURI");

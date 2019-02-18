@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="@color/colorBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.Guideline
@@ -38,7 +38,7 @@
         android:layout_marginBottom="1dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/colorBackground"
+        app:cardBackgroundColor="@color/orange"
         app:layout_constraintBottom_toTopOf="@+id/buttonDividerHorizontal"
         app:layout_constraintEnd_toStartOf="@+id/buttonDividerVertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,9 @@
         <android.support.constraint.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@color/colorBackground">
 
             <ImageView
                 android:id="@+id/iconCall"
@@ -141,7 +143,7 @@
 
             <TextView
                 android:id="@+id/sms5Recipient"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
@@ -214,7 +216,7 @@
 
             <TextView
                 android:id="@+id/sms10Recipient"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
@@ -242,7 +244,7 @@
         android:layout_marginBottom="1dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/colorBackground"
+        app:cardBackgroundColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonDividerVertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -254,7 +256,9 @@
         <android.support.constraint.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:layout_margin="1dp">
             <ImageView
                 android:id="@+id/iconAddress"
                 android:layout_width="wrap_content"
@@ -303,7 +307,7 @@
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
-        app:cardBackgroundColor="@color/colorBackground"
+        app:cardBackgroundColor="@color/orange"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -317,11 +321,13 @@
         <android.support.constraint.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:layout_margin="1dp">
 
             <TextView
                 android:id="@+id/hiljennys"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
@@ -391,7 +397,7 @@
 
             <TextView
                 android:id="@+id/sms11Recipient"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"

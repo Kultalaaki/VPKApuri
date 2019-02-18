@@ -7,16 +7,22 @@
     <PreferenceCategory
         android:title="Soittonäppäin"
         android:key="pref_key_soitto">
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_number"
-        android:inputType="phone"
-        android:key="example_text"
-        android:maxLines="1"
-        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Soittopainikkeen numero" />
+        <SwitchPreference
+            android:key="CallButtonVisible"
+            android:title="Soittonäppäin"
+            android:defaultValue="true"
+            android:summary="Voit ottaa soittonäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
+        <EditTextPreference
+            android:capitalize="words"
+            android:defaultValue="@string/pref_default_display_number"
+            android:inputType="phone"
+            android:key="example_text"
+            android:maxLines="1"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Soittopainikkeen numero"
+            android:dependency="CallButtonVisible" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -198,9 +204,15 @@
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
             <PreferenceCategory
                 android:title="SMS Vihreä asetukset" />
+            <SwitchPreference
+                android:key="SmsGreenVisible"
+                android:title="SMS Vihreä"
+                android:defaultValue="true"
+                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
             <Preference
                 android:summary="Sms ilmoitusnumero voi olla puhelinnumero tai pienellä kirjoitettuna whatsapp"
-                android:selectable="false"/>
+                android:selectable="false"
+                android:dependency="SmsGreenVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
@@ -209,7 +221,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_name2" />
+                android:title="@string/pref_title_display_name2"
+                android:dependency="SmsGreenVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="ALLE 5"
@@ -218,7 +231,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Näppäimessä näkyvä teksti" />
+                android:title="Näppäimessä näkyvä teksti"
+                android:dependency="SmsGreenVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_txt5"
@@ -227,7 +241,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_fivemintxt" />
+                android:title="@string/pref_title_display_fivemintxt"
+                android:dependency="SmsGreenVisible"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:title="SMS KELTAINEN"
@@ -235,9 +250,15 @@
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
             <PreferenceCategory
                 android:title="SMS Keltainen asetukset" />
+            <SwitchPreference
+                android:key="SmsYellowVisible"
+                android:title="SMS Keltainen"
+                android:defaultValue="true"
+                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
             <Preference
                 android:summary="Sms ilmoitusnumero voi olla puhelinnumero tai pienellä kirjoitettuna whatsapp"
-                android:selectable="false"/>
+                android:selectable="false"
+                android:dependency="SmsYellowVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
@@ -246,7 +267,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_name2" />
+                android:title="@string/pref_title_display_name2"
+                android:dependency="SmsYellowVisible" />
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="ALLE 10"
@@ -255,7 +277,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Näppäimessä näkyvä teksti" />
+                android:title="Näppäimessä näkyvä teksti"
+                android:dependency="SmsYellowVisible" />
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_txt10"
@@ -264,7 +287,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_tenmintxt" />
+                android:title="@string/pref_title_display_tenmintxt"
+                android:dependency="SmsYellowVisible"/>
         </PreferenceScreen>
         <PreferenceScreen
             android:title="SMS PUNAINEN"
@@ -272,9 +296,15 @@
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
             <PreferenceCategory
                 android:title="SMS Punainen asetukset" />
+            <SwitchPreference
+                android:key="SmsRedVisible"
+                android:title="SMS Punainen"
+                android:defaultValue="true"
+                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
             <Preference
                 android:summary="Sms ilmoitusnumero voi olla puhelinnumero tai pienellä kirjoitettuna whatsapp"
-                android:selectable="false"/>
+                android:selectable="false"
+                android:dependency="SmsRedVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
@@ -283,7 +313,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_name2" />
+                android:title="@string/pref_title_display_name2"
+                android:dependency="SmsRedVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="YLI 10"
@@ -292,7 +323,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Näppäimessä näkyvä teksti" />
+                android:title="Näppäimessä näkyvä teksti"
+                android:dependency="SmsRedVisible"/>
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_txt10plus"
@@ -301,7 +333,8 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_tenplusmintxt" />
+                android:title="@string/pref_title_display_tenplusmintxt"
+                android:dependency="SmsRedVisible"/>
         </PreferenceScreen>
     </PreferenceCategory>
 
