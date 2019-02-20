@@ -8,6 +8,8 @@
 package kultalaaki.vpkapuri;
 
 import android.Manifest;
+import android.animation.AnimatorInflater;
+import android.animation.StateListAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -62,24 +64,15 @@ import java.nio.channels.FileChannel;
 public class Etusivu extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     FirebaseAnalytics mFirebaseAnalytics;
-
     private DrawerLayout mDrawerLayout;
-
-    CardView halytys;
-    CardView carkisto;
-    CardView ohjeet;
-    CardView csettings;
+    CardView halytys, carkisto, ohjeet, csettings;
     String[] osoite;
     String aihe;
     DBHelper db;
     SharedPreferences aaneton;
     boolean ericaEtusivu;
-    //private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
-    //private static final int MY_PERMISSIONS_REQUEST_CALL_LOG = 3;
     private static final int MY_NOTIFICATION_ID = 15245;
-    //Boolean asetuksiin = false;
-    //Boolean tietokantatxt = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +86,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_36dp);
         }
-
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -146,24 +136,10 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                     }
         });
 
-
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         carkisto = findViewById(R.id.card_viewArkisto);
         ohjeet = findViewById(R.id.card_viewOhjeet);
         csettings = findViewById(R.id.card_viewAsetukset);
         halytys = findViewById(R.id.card_viewHaly);
-
-        //halytysSivu = findViewById(R.id.halytysSivu);
-        //arkisto = findViewById(R.id.arkisto);
-        //ohjeita = findViewById(R.id.ohjeita);
-        //asetukset = findViewById(R.id.asetukset);
-
-        new WhatsNewScreen(this).show();
-
-
-
         osoite = new String [1];
         osoite[0] = "kultalaaki@gmail.com";
         aihe = "VPK Apuri palaute";
@@ -171,25 +147,14 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         halytys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent2 = new Intent(Etusivu.this, aktiivinenHaly.class);
-                //startActivity(intent2);
-                //if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                //  pyydaLuvatCallLogs();
-                //} else {
-                    avaaHaly();
-                //}
-
+                avaaHaly();
             }
         });
 
         carkisto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                //    pyydaLuvatTiedostot();
-                //} else {
-                    avaaArkisto();
-                //}
+                avaaArkisto();
             }
         });
 
@@ -203,18 +168,19 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         csettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                //    asetuksiin = true;
-                //    pyydaLuvatTiedostotKirjoita();
-                //} else {
-                    // SettingsActivity.class vaihdettu asetuksetRefined.class
-                    avaaAsetukset();
-                //}
+                avaaAsetukset();
             }
         });
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         createChannels();
-
+        new WhatsNewScreen(this).show();
+        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
+        ericaEtusivu = pref_general.getBoolean("Erica", false);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     public void avaaHaly () {
@@ -270,24 +236,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             halyChannel.setDescription("Tämän kanavan ilmoitukset ovat hälytyksiä varten.");
             halyChannel.enableVibration(false);
             halyChannel.setSound(null, null);
-            //PreferenceManager.getDefaultSharedPreferences(context);
-            /*SharedPreferences settings = getApplicationContext().getSharedPreferences(getApplicationContext().getPackageName() + "_preferences", Context.MODE_PRIVATE);
-            Uri uri;
-
-            String alarms = settings.getString("ringtone", null);
-            if(alarms != null) {
-                uri = Uri.parse(alarms);
-            } else {
-                uri = Uri.parse("android.resource://kultalaaki.vpkapuri/" + R.raw.virve);
-            }
-            AudioAttributes myTrack = new AudioAttributes.Builder()
-                            .setUsage(AudioAttributes.USAGE_ALARM)
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .build();
-
-            mChannel.setSound(uri, myTrack);*/
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = (NotificationManager) getSystemService(
                     NOTIFICATION_SERVICE);
             if (notificationManager != null) {
@@ -330,10 +278,9 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -443,45 +390,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         }
     }
 
-    /*public void pyydaLuvatTiedostot() {
-        if (ContextCompat.checkSelfPermission(Etusivu.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(Etusivu.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                showMessageOKCancel(new DialogInterface.OnClickListener() {
-                            @TargetApi(Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                            }
-                        });
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(Etusivu.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            //luvat myönnetty
-            avaaArkisto();
-        }
-    }*/
-
     public void pyydaLuvatTiedostotKirjoita() {
         if (ContextCompat.checkSelfPermission(Etusivu.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -516,126 +424,25 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                 // result of the request.
             }
         } else {
-            // Luvat myönnetty
-            //if(tietokantatxt) {
-                //tietokantatxt = false;
-                showMessageOKCanceltietokanta();
-            //} else if(asetuksiin) {
-            //    asetuksiin = false;
-            //    avaaAsetukset();
-            //}
-
+            showMessageOKCanceltietokanta();
         }
     }
 
-    /*public void pyydaLuvatCallLogs(){
-        // SMS Luvat
-        if (ContextCompat.checkSelfPermission(Etusivu.this,
-                Manifest.permission.READ_CALL_LOG)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(Etusivu.this,
-                    Manifest.permission.READ_CALL_LOG)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                showMessageOKCancel(new DialogInterface.OnClickListener() {
-                    @TargetApi(Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        requestPermissions(new String[] {Manifest.permission.READ_CALL_LOG},
-                                MY_PERMISSIONS_REQUEST_CALL_LOG);
-                    }
-                });
-
-
-                /*showMessageOKCancel("Sovelluksella ei ole lupaa lukea soittajan numeroa. Ilman tätä lupaa puheluilla tulevia hälytyksiä ei saada kirjattua ylös.",
-                        new DialogInterface.OnClickListener() {
-                            @TargetApi(Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                requestPermissions(new String[] {Manifest.permission.READ_CALL_LOG},
-                                        MY_PERMISSIONS_REQUEST_CALL_LOG);
-                            }
-                        });*/
-            /*} else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(Etusivu.this,
-                        new String[]{Manifest.permission.READ_CALL_LOG},
-                        MY_PERMISSIONS_REQUEST_CALL_LOG);
-            }
-        } else {
-            //luvat on
-            avaaHaly();
-        }
-    }*/
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            /*case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // lupa annettu
-                    avaaArkisto();
-                } else {
-                    // lupaa ei ole. pysäytä toiminto
-                    new AlertDialog.Builder(Etusivu.this)
-                            .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et pääse arkistoon ennen kuin lupa on myönnetty.")
-                            .setNegativeButton("Peruuta", null)
-                            .create()
-                            .show();
-                }
-                return;
-            }*/
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // lupa on
-                    //if(tietokantatxt) {
-                        // tietokannan txt varmuuskopiointi
-                    //    tietokantatxt = false;
-                        showMessageOKCanceltietokanta();
-                    //} else if(asetuksiin) {
-                    //    asetuksiin = false;
-                    //    avaaAsetukset();
-                    //}
-
-                } else {
-                    // ei lupaa
-                    new AlertDialog.Builder(Etusivu.this)
-                            .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tallentaa tietokantaa ilman lupaa.")
-                            .setNegativeButton("Peruuta", null)
-                            .create()
-                            .show();
-                }
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showMessageOKCanceltietokanta();
+            } else {
+                // ei lupaa
+                new AlertDialog.Builder(Etusivu.this)
+                        .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tallentaa tietokantaa ilman lupaa.")
+                        .setNegativeButton("Peruuta", null)
+                        .create()
+                        .show();
             }
-            /*case MY_PERMISSIONS_REQUEST_CALL_LOG: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // lupa on
-                    avaaHaly();
-                } else {
-                    // ei lupaa
-                    /*new AlertDialog.Builder(Etusivu.this)
-                            .setMessage("Puheluilla tulevia hälytyksiä ei saada ilman tätä lupaa")
-                            .setNegativeButton("Peruuta", null)
-                            .create()
-                            .show();*/
-            //        avaaHaly();
-            //    }
-            //}*/
-            // other 'case' lines to check for other
-            // permissions this app might request.
-            // remember return if isn't last switch
         }
     }
 
@@ -698,15 +505,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         builder.create().show();
     }
 
-    /*private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(Etusivu.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Peruuta", null)
-                .create()
-                .show();
-    }*/
-
     public void tietokantaVarmuuskopio() {
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
@@ -743,10 +541,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                 .create()
                 .show();
     }
-
-    // Lupien kysyminen testi
-
-    // lupien kysyminen loppuu
 
     private class WhatsNewScreen {
         private static final String LOG_TAG                 = "WhatsNewScreen";

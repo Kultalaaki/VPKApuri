@@ -44,6 +44,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             card_view:cardCornerRadius="8dp"
             android:foreground="?android:attr/selectableItemBackground"
+            android:stateListAnimator="@animator/lift_on_touch"
             android:clickable="true"
             android:focusable="true">
 
@@ -100,6 +101,7 @@
             app:layout_constraintTop_toBottomOf="@id/card_viewHaly"
             card_view:cardCornerRadius="8dp"
             android:foreground="?android:attr/selectableItemBackground"
+            android:stateListAnimator="@animator/lift_on_touch"
             android:clickable="true"
             android:focusable="true">
 
@@ -155,6 +157,7 @@
             app:layout_constraintTop_toBottomOf="@id/card_viewArkisto"
             card_view:cardCornerRadius="8dp"
             android:foreground="?android:attr/selectableItemBackground"
+            android:stateListAnimator="@animator/lift_on_touch"
             android:clickable="true"
             android:focusable="true">
 
@@ -212,6 +215,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             card_view:cardCornerRadius="8dp"
             android:foreground="?android:attr/selectableItemBackground"
+            android:stateListAnimator="@animator/lift_on_touch"
             android:clickable="true"
             android:focusable="true">
 

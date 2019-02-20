@@ -2,7 +2,6 @@ package kultalaaki.vpkapuri;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,7 +53,7 @@ public class HalytysButtonsFragment extends Fragment {
         setResources();
     }
 
-    @Override
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         // This makes sure that the container activity has implemented
@@ -63,6 +62,17 @@ public class HalytysButtonsFragment extends Fragment {
             mCallback = (Listener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
+                    + " must implement Listener");
+        }
+    }*/
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (Listener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
                     + " must implement Listener");
         }
     }
