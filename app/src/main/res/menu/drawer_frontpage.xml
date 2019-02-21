@@ -18,6 +18,10 @@
             android:id="@+id/hiljenna_halyt"
             android:icon="@drawable/ic_volume_off_white_36dp"
             android:title="@string/hiljenna" />
+        <item
+            android:id="@+id/timer"
+            android:icon="@drawable/ic_access_alarms_white_36dp"
+            android:title="@string/ajastin"/>
     </group>
     <group
         android:id="@+id/menuMiddle"

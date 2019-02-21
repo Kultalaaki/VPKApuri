@@ -111,6 +111,9 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                                     hiljennaHalytykset();
                                 }
                                 return true;
+                            case R.id.timer:
+                                startTimerActivity();
+                                return true;
                             case R.id.changelog:
                                 startChangelog();
                                 return true;
@@ -213,6 +216,17 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             startActivity(intent, options.toBundle());
         } else {
             Intent intent = new Intent(Etusivu.this, HalytysActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void startTimerActivity() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
+            Intent intent = new Intent(Etusivu.this, TimerActivity.class);
+            startActivity(intent, options.toBundle());
+        } else {
+            Intent intent = new Intent(Etusivu.this, TimerActivity.class);
             startActivity(intent);
         }
     }
