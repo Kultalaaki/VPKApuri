@@ -8,8 +8,6 @@
 package kultalaaki.vpkapuri;
 
 import android.Manifest;
-import android.animation.AnimatorInflater;
-import android.animation.StateListAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -89,7 +87,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -182,6 +180,31 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         ericaEtusivu = pref_general.getBoolean("Erica", false);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
+
+    /*void setMenuTexts() {
+        mDrawerLayout.addDrawerListener(
+                new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(@NonNull View view, float v) {
+
+                    }
+
+                    @Override
+                    public void onDrawerOpened(@NonNull View view) {
+
+                    }
+
+                    @Override
+                    public void onDrawerClosed(@NonNull View view) {
+
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int i) {
+
+                    }
+                });
+    }*/
 
     public void avaaHaly () {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

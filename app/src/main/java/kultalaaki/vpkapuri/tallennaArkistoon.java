@@ -10,6 +10,7 @@ package kultalaaki.vpkapuri;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ public class tallennaArkistoon extends AppCompatActivity {
     EditText tunnusteksti;
     EditText luokkateksti;
     EditText viestiteksti;
-    Button tallenna;
+    CardView tallenna;
     static DBHelper db;
 
 
@@ -38,7 +39,7 @@ public class tallennaArkistoon extends AppCompatActivity {
         tunnusteksti = findViewById(R.id.tunnusteksti);
         luokkateksti = findViewById(R.id.luokkateksti);
         viestiteksti = findViewById(R.id.viestiteksti);
-        tallenna = findViewById(R.id.tallenna);
+        tallenna = findViewById(R.id.cardTallenna);
         tallennaHalytys();
     }
 

@@ -381,7 +381,7 @@
     <string name="tallenna_arkistoon">Tallenna hälytys arkistoon</string>
     <string name="tyhjenna_tietokanta">Tyhjennä arkisto</string>
     <string name="testi">Testaa hälytys</string>
-    <string name="hiljenna">Hiljennä hälytykset</string>
+    <string name="hiljenna">Hälytykset äänetön/äänet</string>
     <string name="vpk_apuri">VPK APURI</string>
     <string name="kultala_aki">Kultala Aki</string>
     <string name="postiosoite">kultalaaki@gmail.com</string>

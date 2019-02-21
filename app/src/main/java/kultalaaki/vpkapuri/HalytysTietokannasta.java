@@ -15,9 +15,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +25,10 @@ import android.widget.Toast;
 public class HalytysTietokannasta extends AppCompatActivity {
 
     DBHelper db;
+    CardView save, delete, showOnMap;
     TextView tunnus, luokka, viesti, kommentti;
     EditText tunnusteksti, luokkateksti, viestiteksti, kommenttiteksti;
-    Button tallenna, avaaKartta, poista;
+    //Button tallenna, avaaKartta, poista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,12 @@ public class HalytysTietokannasta extends AppCompatActivity {
         kommentti = findViewById(R.id.kommentti);
         kommenttiteksti = findViewById(R.id.kommenttiteksti);
         kommenttiteksti.setCursorVisible(false);
-        tallenna = findViewById(R.id.tallenna);
-        avaaKartta = findViewById(R.id.naytaKartalla);
-        poista = findViewById(R.id.poista);
+        //tallenna = findViewById(R.id.tallenna);
+        //avaaKartta = findViewById(R.id.naytaKartalla);
+        //poista = findViewById(R.id.poista);
+        save = findViewById(R.id.cardTallenna);
+        delete = findViewById(R.id.cardPoista);
+        showOnMap = findViewById(R.id.cardNaytaKartta);
 
         Intent intent = getIntent();
         String primaryKey = intent.getStringExtra("primaryKey");
@@ -67,7 +71,7 @@ public class HalytysTietokannasta extends AppCompatActivity {
 
         lisaaKommentti();
 
-        avaaKartta.setOnClickListener(new View.OnClickListener() {
+        showOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String osoite = luokkateksti.getText().toString();
@@ -80,7 +84,7 @@ public class HalytysTietokannasta extends AppCompatActivity {
             }
         });
 
-        poista.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showMessageOKCancelPoistaHaly();
@@ -114,7 +118,7 @@ public class HalytysTietokannasta extends AppCompatActivity {
     }
 
     public void lisaaKommentti() {
-        tallenna.setOnClickListener(
+        save.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
