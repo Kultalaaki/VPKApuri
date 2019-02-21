@@ -40,7 +40,7 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity
+        <!--<activity
             android:name=".aktiivinenHaly"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
@@ -49,7 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <service
             android:name=".halyaaniService"
@@ -141,16 +141,16 @@
             android:name=".HalytysTietokannasta"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity
+        <!--<activity
             android:name=".splashScreen"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            </intent-filter>
-        </activity>
+                <!- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!--</intent-filter>
+        </activity>-->
         <activity
             android:name=".changelog"
             android:label="@string/title_activity_changelog"
