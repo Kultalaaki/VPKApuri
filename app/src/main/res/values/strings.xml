@@ -371,7 +371,7 @@
     <string name="ha">Lisää oma kommentti.</string>
 
     <!--Soittoääni tekstit-->
-    <string name="silent">ÄÄnetön</string>
+    <string name="silent">Äänetön</string>
     <string name="ok">OK</string>
     <string name="cancel">Peruuta</string>
     <string name="ringtoneSummary">Ringtone: %s</string>
@@ -438,4 +438,8 @@
     <string name="soita">SOITA:</string>
     <string name="iconcall">iconCall</string>
     <string name="ajastin">Ajastin</string>
+    <string name="nightMode">Yötila</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
