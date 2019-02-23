@@ -1,16 +1,19 @@
 package kultalaaki.vpkapuri;
 
+import android.app.TimePickerDialog;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TimePicker;
 
 public class TimerActivity extends AppCompatActivity
-        implements SetTimerFragment.OnFragmentInteractionListener {
+        implements SetTimerFragment.OnFragmentInteractionListener, TimePickerDialog.OnTimeSetListener {
 
     FloatingActionButton fab;
 
@@ -23,7 +26,7 @@ public class TimerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction() {
 
     }
 
@@ -46,5 +49,15 @@ public class TimerActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.showSetTimer, setTimerFragment, "setTimerFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Log.i("TAG", "OnTimeSet reached");
+        SetTimerFragment setTimerFragment = (SetTimerFragment)
+                getSupportFragmentManager().findFragmentByTag("setTimerFragment");
+        if(setTimerFragment != null) {
+            setTimerFragment.setTimerTimes(hourOfDay, minute);
+        }
     }
 }

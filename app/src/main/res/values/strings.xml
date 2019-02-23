@@ -440,6 +440,18 @@
     <string name="ajastin">Ajastin</string>
     <string name="nightMode">Yötila</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tallennaIso">TALLENNA</string>
+    <string name="peruuta">PERUUTA</string>
+    <string name="doubleDot">:</string>
+    <string name="alkaa">Alkaa</string>
+    <string name="p_ttyy">Päättyy</string>
+    <string name="toista">Toista</string>
+    <string name="m">M</string>
+    <string name="k">K</string>
+    <string name="t">T</string>
+    <string name="p">P</string>
+    <string name="l">L</string>
+    <string name="s">S</string>
+    <string name="ajastimen_nimi">Ajastimen nimi</string>
+    <string name="_00">00</string>
 </resources>
