@@ -41,6 +41,7 @@
                 android:layout_marginTop="4dp"
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/orange"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,6 +53,7 @@
                 android:layout_marginLeft="4dp"
                 android:text="-"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/orange"
                 app:layout_constraintBottom_toBottomOf="@+id/startTime"
                 app:layout_constraintStart_toEndOf="@+id/startTime"
                 app:layout_constraintTop_toTopOf="@+id/startTime" />
@@ -64,19 +66,10 @@
                 android:layout_marginLeft="4dp"
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/orange"
                 app:layout_constraintBottom_toBottomOf="@+id/startTime"
                 app:layout_constraintStart_toEndOf="@+id/hyphen"
                 app:layout_constraintTop_toTopOf="@+id/startTime" />
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/monday"
@@ -85,7 +78,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="8dp"
                 android:text="Ma"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -183,6 +176,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/stopTime"
                 app:layout_constraintStart_toEndOf="@+id/stopTime"
                 app:layout_constraintTop_toTopOf="@+id/stopTime" />
+
+            <TextView
+                android:id="@+id/sijaID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/stopTime"
+                app:layout_constraintTop_toTopOf="@+id/stopTime"
+                tools:layout_editor_absoluteX="349dp" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

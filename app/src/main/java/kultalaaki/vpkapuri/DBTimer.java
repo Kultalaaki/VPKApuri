@@ -25,7 +25,7 @@ class DBTimer extends SQLiteOpenHelper {
     static final String SU = "su";
     static final String SELECTOR = "selectState";
     static final String ISITON = "isiton";
-    private static final String[] ALL_KEYS = new String[] {COL_1, NAME, STARTTIME, STOPTIME, MA, TI, KE, TO, PE, LA, SU, SELECTOR};
+    private static final String[] ALL_KEYS = new String[] {COL_1, NAME, STARTTIME, STOPTIME, MA, TI, KE, TO, PE, LA, SU, SELECTOR, ISITON};
 
     DBTimer(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -99,7 +99,7 @@ class DBTimer extends SQLiteOpenHelper {
         //db.execSQL("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Halytykset_table'");
     }
 
-    /*boolean tyhjennaTietokanta () {
+    boolean tyhjennaTietokanta () {
         SQLiteDatabase db = this.getWritableDatabase();
         //db.delete(TABLE_NAME, "Halytykset_table", null);
         db.delete(TABLE_NAME, null, null);
@@ -107,7 +107,7 @@ class DBTimer extends SQLiteOpenHelper {
         return true;
     }
 
-    boolean lisaaKommentti(String id, String tunnus, String luokka, String viesti, String kommentti) {
+    /*boolean lisaaKommentti(String id, String tunnus, String luokka, String viesti, String kommentti) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KOMMENTTI, kommentti);
