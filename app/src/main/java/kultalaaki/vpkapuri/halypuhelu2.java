@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
+
+import java.util.Locale;
 //import android.util.Log;
 
 public class halypuhelu2 extends BroadcastReceiver {
@@ -33,16 +35,21 @@ public class halypuhelu2 extends BroadcastReceiver {
         if (action != null) {
             if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
                 savedNumber = intent.getStringExtra("android.intent.extra.PHONE_NUMBER");
-            }
-            else{
+            } else{
                 String stateStr = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                 String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 if(number != null) {
-                    number = PhoneNumberUtils.formatNumber(number);
-                    if (number.charAt(0) == '0') {
-                        number = "+358" + number.substring(1);
-                        //Toast.makeText(context, "Aseta numero näin: " + number, Toast.LENGTH_LONG).show();
+                    // Todo marker to change back if number formatting goes wrong
+                    //number = PhoneNumberUtils.formatNumber(number);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+                    } else {
+                        number = PhoneNumberUtils.formatNumber(number); //Deprecated method
                     }
+                    //if (number.charAt(0) == '0') {
+                    //    number = "+358" + number.substring(1);
+                        //Toast.makeText(context, "Aseta numero näin: " + number, Toast.LENGTH_LONG).show();
+                    //}
                 }
 
 
