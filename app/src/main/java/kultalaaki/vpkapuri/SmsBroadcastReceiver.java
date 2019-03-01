@@ -18,6 +18,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
@@ -57,12 +58,20 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
                 aika = System.currentTimeMillis();
                 Aika = (String) DateFormat.format("EEEE, dd MMMM, yyyy H:mm:ss", new Date(aika));
-                senderNum = PhoneNumberUtils.formatNumber(senderNum);
+                // Todo poistettu numeroiden formatointi vanha käytöstä tästä alta ja testataan ongelmatapausten kanssa
+                //senderNum = PhoneNumberUtils.formatNumber(senderNum);
+                /*if (senderNum.charAt(0) == '0') {
+                    senderNum = "+358" + senderNum.substring(1);
+                }*/
                 message += "\n" + Aika;
 
-                if (senderNum.charAt(0) == '0') {
-                    senderNum = "+358" + senderNum.substring(1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    senderNum = PhoneNumberUtils.formatNumber(senderNum, Locale.getDefault().getCountry());
+                } else {
+                    senderNum = PhoneNumberUtils.formatNumber(senderNum); //Deprecated method
                 }
+
+
 
                 //Toast.makeText(context, "Aseta numero näin: " + senderNum, Toast.LENGTH_LONG).show();
 

@@ -31,6 +31,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
 import java.io.IOException;
@@ -340,6 +341,31 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         String halynumero8 = pref.getString("halyvastaanotto8", null);
         String halynumero9 = pref.getString("halyvastaanotto9", null);
         String halynumero10 = pref.getString("halyvastaanotto10", null);
+        // Todo numberformatting to ensure same format for numbers
+        boolean numberChecksOut = false;
+        String[] numberArray = new String[11];
+        numberArray[1] = halynumero1; numberArray[2] = halynumero2; numberArray[3] = halynumero3; numberArray[4] = halynumero4; numberArray[5] = halynumero5;
+        numberArray[6] = halynumero6; numberArray[7] = halynumero7; numberArray[8] = halynumero8; numberArray[9] = halynumero9; numberArray[10] = halynumero10;
+        for (String number:numberArray) {
+            if(PhoneNumberUtils.compare(getApplicationContext(), number, numero)) {
+                numberChecksOut = PhoneNumberUtils.compare(getApplicationContext(), number, numero);
+                break;
+            }
+        }
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            halynumero1 = PhoneNumberUtils.formatNumber(halynumero1, Locale.getDefault().getCountry()); halynumero2 = PhoneNumberUtils.formatNumber(halynumero2, Locale.getDefault().getCountry());
+            halynumero3 = PhoneNumberUtils.formatNumber(halynumero3, Locale.getDefault().getCountry()); halynumero4 = PhoneNumberUtils.formatNumber(halynumero4, Locale.getDefault().getCountry());
+            halynumero5 = PhoneNumberUtils.formatNumber(halynumero5, Locale.getDefault().getCountry()); halynumero6 = PhoneNumberUtils.formatNumber(halynumero6, Locale.getDefault().getCountry());
+            halynumero7 = PhoneNumberUtils.formatNumber(halynumero7, Locale.getDefault().getCountry()); halynumero8 = PhoneNumberUtils.formatNumber(halynumero8, Locale.getDefault().getCountry());
+            halynumero9 = PhoneNumberUtils.formatNumber(halynumero9, Locale.getDefault().getCountry());
+            halynumero10 = PhoneNumberUtils.formatNumber(halynumero10);
+        } else {
+            halynumero1 = PhoneNumberUtils.formatNumber(halynumero1); halynumero2 = PhoneNumberUtils.formatNumber(halynumero2); halynumero3 = PhoneNumberUtils.formatNumber(halynumero3);
+            halynumero4 = PhoneNumberUtils.formatNumber(halynumero4); halynumero5 = PhoneNumberUtils.formatNumber(halynumero5); halynumero6 = PhoneNumberUtils.formatNumber(halynumero6);
+            halynumero7 = PhoneNumberUtils.formatNumber(halynumero7); halynumero8 = PhoneNumberUtils.formatNumber(halynumero8); halynumero9 = PhoneNumberUtils.formatNumber(halynumero9);
+            halynumero10 = PhoneNumberUtils.formatNumber(halynumero10); //Deprecated method
+        }*/
 
         boolean kaytaAvainsanaa = pref.getBoolean("avainsana", false);
         boolean numeroTasmaa = false;
@@ -357,8 +383,8 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         /*return numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) || numero.equals(halynumero5) || numero.equals(halynumero6)
                 || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) || salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:");*/
 
-        if (numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) || numero.equals(halynumero5) || numero.equals(halynumero6)
-                || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) || salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
+        if (numberChecksOut || /*numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) || numero.equals(halynumero5) || numero.equals(halynumero6)
+                || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) || */salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
             if(kaytaAvainsanaa) {
                 if(testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
                     return true;
@@ -428,6 +454,8 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
+            // Todo poista ennen julkaisua
+            //message += " S" + numero + "S ";
             //voisi ottaa tässä jo puheluhäly ja hylätä String halytysaani
             //String halytysaani = intent.getStringExtra("halytysaani");
             puheluHaly = intent.getStringExtra("halytysaani");
