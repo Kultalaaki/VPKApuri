@@ -68,7 +68,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     String aihe;
     DBHelper db;
     SharedPreferences aaneton;
-    boolean ericaEtusivu;
+    boolean ericaEtusivu, tietojenKalastelu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final int MY_NOTIFICATION_ID = 15245;
 
@@ -182,6 +182,8 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
         ericaEtusivu = pref_general.getBoolean("Erica", false);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        tietojenKalastelu = pref_general.getBoolean("tietojenseuranta", true);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(tietojenKalastelu);
     }
 
     /*void setMenuTexts() {
