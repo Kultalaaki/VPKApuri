@@ -85,6 +85,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             actionbar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_36dp);
         }
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -112,7 +113,8 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                                 }
                                 return true;
                             case R.id.timer:
-                                startTimerActivity();
+                                //startTimerActivity();
+                                showMessageOKCancelAjastin();
                                 return true;
                             case R.id.changelog:
                                 startChangelog();
@@ -181,7 +183,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         new WhatsNewScreen(this).show();
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
         ericaEtusivu = pref_general.getBoolean("Erica", false);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         tietojenKalastelu = pref_general.getBoolean("tietojenseuranta", true);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(tietojenKalastelu);
     }
@@ -498,6 +499,15 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                         tietokantaVarmuuskopio();
                     }
                 });
+        builder.create().show();
+    }
+
+    private void showMessageOKCancelAjastin() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Etusivu.this)
+                .setTitle("Ajastin")
+                .setMessage("Tämä ominaisuus on vielä työn alla.")
+                .setNegativeButton("OK", null);
         builder.create().show();
     }
 

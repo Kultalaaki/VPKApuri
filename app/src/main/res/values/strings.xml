@@ -281,25 +281,15 @@
         Osoitteen tunnistamisen "koodia" parannettu. Osoitteen hakeminen viestin tekstistä on epävarmaa.
         Uskoisin kumminkin tämän osuvan 95% kerroista oikein.\n\n
 
-        Tämä sovellus ja sen kehittäjä eivät kerää suoraan sovelluksesta mitään tietoa käyttäjistä.
-        Tietosuojakäytäntö löytyy osoitteesta: http://www.elisanet.fi/kultalaaki/tietosuojakaytanto.
+        <b>Päivitetty tietosuojakäytäntö löytyy osoitteesta: www.vpkapuri.fi/tietosuoja</b>\n\n
+
         Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa hälytykseen lähtemistä ja lisätä tilannetietoisuutta
         näyttämällä tekstiselvennys hälytysluokalle.
         Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
 
-        Sovellus käyttää firebasea joka lähettää vakavissa virhetilanteissa tiedot kaatumisesta minulle. Tämän takia sovellus tarvitsee käyttöönsä internet luvan.
+        Sovellus käyttää firebase analytiikka työkalua joka lähettää virhetilanteissa tiedot kaatumisesta minulle. Tämän takia sovellus tarvitsee käyttöönsä internet luvan.
         Tämä ei lähetä mitään arkaluontoista kuten viestien sisältöä,
         ainoastaan rivitiedon mikä aiheutti kaatumisen ja syyn. Kaikkia tapauksia ei tälläkään saa ratkaistua joten pyydänkin käyttäjiä lähettämään palautetta virhetilanteissa.\n\n
-
-        <u>TUNNETUT ONGELMAT</u>:\n\n
-
-        Monet Huawei puhelimet eivät rekisteröi viestien vastaanotinta jolloin hälytykset jäävät tulematta sovellukseen. Huawei käyttää virransäästössä agressiivista mallia.\n
-        Ratkaisu: aseta toisen henkilön numero hälytys numeroksi, mene sovelluksessa hälytys sivulle ja lähetä siitä numerosta minkä laitoit hälytysnumeroksi hälytysmuotoinen viesti.\n
-        Tämän jälkeen pitäisi vastaanottimen rekisteröityä ja voit laittaa nyt normaalit hälytysnumerot niille varattuihin kohtiin asetuksissa.\n\n
-
-        Osalla käyttäjistä osoitteentunnistus on aiheuttanut sovelluksen kaatumisen.\n
-        Ratkaisu: ongelma on korjattu puoliksi. Sovelluksen ei pitäisi kaatua tähän virheeseen vaan arkistoon tulee hälytyksen kommenttikenttään osittaista
-        tietoa tapahtumasta ja jatko-ohjeita.\n\n
     </string>
 
     <!-- Example General settings -->
