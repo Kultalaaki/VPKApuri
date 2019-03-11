@@ -27,6 +27,11 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
+        <u><b>Versio 3.2</b></u>\n\n
+        Hälyttävien numeroiden tunnistukseen korjaus.\n
+        Tietosuojakäytäntöjen ajantasaistamista. Löytyy osoitteesta www.vpkapuri.fi/tietosuoja\n
+        Mahdollisuus kytkeä tietojenkeräys pois päältä.\n\n
+
         <u><b>Versio 3.11</b></u>\n\n
         Hälyttävien numeroiden tunnistukseen korjaus.\n\n
 
@@ -287,7 +292,8 @@
         näyttämällä tekstiselvennys hälytysluokalle.
         Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
 
-        Sovellus käyttää firebase analytiikka työkalua joka lähettää virhetilanteissa tiedot kaatumisesta minulle. Tämän takia sovellus tarvitsee käyttöönsä internet luvan.
+        Sovellus käyttää firebase analytiikka työkalua joka lähettää virhetilanteissa tiedot kaatumisesta minulle, tämän voi myös ottaa pois päältä asetuksissa.
+        Tämän takia sovellus tarvitsee käyttöönsä internet luvan.
         Tämä ei lähetä mitään arkaluontoista kuten viestien sisältöä,
         ainoastaan rivitiedon mikä aiheutti kaatumisen ja syyn. Kaikkia tapauksia ei tälläkään saa ratkaistua joten pyydänkin käyttäjiä lähettämään palautetta virhetilanteissa.\n\n
     </string>
