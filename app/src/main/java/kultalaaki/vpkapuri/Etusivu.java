@@ -45,11 +45,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
-//import com.crashlytics.android.Crashlytics;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,18 +55,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-//import io.fabric.sdk.android.Fabric;
 
 public class Etusivu extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
     CardView halytys, carkisto, ohjeet, csettings;
     String[] osoite;
     String aihe;
     DBHelper db;
+    Button tietosuoja;
     SharedPreferences aaneton;
-    boolean ericaEtusivu, tietojenKalastelu;
+    boolean ericaEtusivu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final int MY_NOTIFICATION_ID = 15245;
 
@@ -85,7 +82,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             actionbar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_36dp);
         }
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -146,6 +142,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         osoite = new String [1];
         osoite[0] = "kultalaaki@gmail.com";
         aihe = "VPK Apuri palaute";
+        tietosuoja = findViewById(R.id.tietosuoja);
 
         halytys.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +171,13 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                 avaaAsetukset();
             }
         });
+
+        tietosuoja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTietosuoja();
+            }
+        });
     }
 
     @Override
@@ -183,8 +187,6 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         new WhatsNewScreen(this).show();
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
         ericaEtusivu = pref_general.getBoolean("Erica", false);
-        tietojenKalastelu = pref_general.getBoolean("tietojenseuranta", true);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(tietojenKalastelu);
     }
 
     /*void setMenuTexts() {
@@ -582,6 +584,24 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         }
     }
 
+    public void showTietosuoja () {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("VPK Apuri")
+                .setMessage(R.string.tietosuoja)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.create().show();
+    }
+
+    public void showTiewtosuojaAfterWhatsnew() {
+        new tietosuoja(this).show();
+    }
+
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(Etusivu.this)
                 .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
@@ -634,6 +654,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                     AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
                             .setTitle(title)
                             .setMessage(message)
+                            .setCancelable(false)
                             .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -641,6 +662,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putLong(LAST_VERSION_CODE_KEY, versionCode);
                                     editor.apply();
+                                    showTiewtosuojaAfterWhatsnew();
                                     dialogInterface.dismiss();
                                 }
                             });
@@ -648,6 +670,50 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                 } else {
                     Log.i(LOG_TAG, "versionCode " + versionCode + "is already known");
                 }
+
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class tietosuoja {
+        private static final String LOG_TAG                 = "Tietosuoja";
+
+        private static final String LAST_VERSION_CODE_KEY   = "last_version_code";
+
+        private Activity            mActivity;
+
+        // Constructor memorize the calling Activity ("context")
+        private tietosuoja (Activity context) {
+            mActivity = context;
+        }
+
+        // Show the dialog only if not already shown for this version of the application
+        @SuppressLint("ApplySharedPref")
+        private void show() {
+            try {
+                // Get the versionCode of the Package, which must be different (incremented) in each release on the market in the AndroidManifest.xml
+                final PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), PackageManager.GET_ACTIVITIES);
+
+                // Kokeillaan versionCode == getLongVersionCode()
+
+                    final String title = mActivity.getString(R.string.app_name) + " v" + packageInfo.versionName;
+
+                    final String message = mActivity.getString(R.string.tietosuoja);
+
+                    // Show the News since last version
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
+                            .setTitle(title)
+                            .setMessage(message)
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    builder.create().show();
 
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();

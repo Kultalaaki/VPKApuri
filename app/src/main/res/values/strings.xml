@@ -21,6 +21,26 @@
         Täältä näet myös onko kaikki asetukset oikein laitettu.\n
     </string>
 
+    <string name="tietosuoja">Käyttöehdot\n\n
+
+        Sovellus käyttää vaaralliseksi luokiteltuja lupia.\n
+        Näihin lupiin kuuluu:\n
+        Tekstiviestien vastaanottaminen\n
+        Tekstiviestien lukeminen\n
+        Tekstiviestien kirjoittaminen\n
+        Tekstiviestien lähettäminen\n
+        Puhelulokien lukeminen\n
+        Puheluiden soittaminen\n\n
+
+        Tämä sovellus lukee kaikki tekstiviestit, ja päättää käyttäjän asettaman numeron perusteella tarvitaanko lisätoimenpiteitä.\n
+        Kaikista puheluista siirtyy numero sovelluksen sisäiseen tarkistukseen ja siellä tehdään sama tarkistus kuin tekstiviesteille.\n\n
+
+        Sovellus kysyy/tarkistaa luvan/luvat aina ennen toiminnon suorittamista.\n
+        Sovellus käsittelee näitä tietoja ainoastaan sovelluksen toiminnallisiin tarkoituksiin.\n
+        Missään vaiheessa sovellus ei lähetä arkaluontoisia tietoja mihinkään.\n\n
+
+        Jos et hyväksy näitä ehtoja, ole hyvä ja poista sovellus.</string>
+
     <!--Mitä uutta-->
     <string name="whatsnew">
         UUSIN VERSIO!\n\n
@@ -28,9 +48,7 @@
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
         <u><b>Versio 3.2</b></u>\n\n
-        Hälyttävien numeroiden tunnistukseen korjaus.\n
-        Tietosuojakäytäntöjen ajantasaistamista. Löytyy osoitteesta www.vpkapuri.fi/tietosuoja\n
-        Mahdollisuus kytkeä tietojenkeräys pois päältä.\n\n
+        Hälyttävien numeroiden tunnistukseen korjaus.\n\n
 
         <u><b>Versio 3.11</b></u>\n\n
         Hälyttävien numeroiden tunnistukseen korjaus.\n\n
@@ -286,16 +304,9 @@
         Osoitteen tunnistamisen "koodia" parannettu. Osoitteen hakeminen viestin tekstistä on epävarmaa.
         Uskoisin kumminkin tämän osuvan 95% kerroista oikein.\n\n
 
-        <b>Päivitetty tietosuojakäytäntö löytyy osoitteesta: www.vpkapuri.fi/tietosuoja</b>\n\n
-
         Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa hälytykseen lähtemistä ja lisätä tilannetietoisuutta
         näyttämällä tekstiselvennys hälytysluokalle.
         Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
-
-        Sovellus käyttää firebase analytiikka työkalua joka lähettää virhetilanteissa tiedot kaatumisesta minulle, tämän voi myös ottaa pois päältä asetuksissa.
-        Tämän takia sovellus tarvitsee käyttöönsä internet luvan.
-        Tämä ei lähetä mitään arkaluontoista kuten viestien sisältöä,
-        ainoastaan rivitiedon mikä aiheutti kaatumisen ja syyn. Kaikkia tapauksia ei tälläkään saa ratkaistua joten pyydänkin käyttäjiä lähettämään palautetta virhetilanteissa.\n\n
     </string>
 
     <!-- Example General settings -->

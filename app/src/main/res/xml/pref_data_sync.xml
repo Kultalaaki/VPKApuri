@@ -35,10 +35,5 @@
             android:key="luvatSMS"
             android:title="Sovelluksen tarvitsemat luvat"
             android:summary="@string/luvat" />
-        <SwitchPreference
-            android:key="tietojenseuranta"
-            android:title="Käyttäjätiedot"
-            android:summary="Ota pois päältä jos et halua sovelluksen keräävän käyttäjätietoja jotka on mainittu vpkapuri.fi sivustolla."
-            android:defaultValue="true"/>
     </PreferenceCategory>
 </PreferenceScreen>
