@@ -271,7 +271,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <!--<Button
                 style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/tietosuoja"
                 android:layout_width="wrap_content"
@@ -281,7 +281,7 @@
                 android:text="Tietosuoja"
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar"
                 app:layout_constraintEnd_toEndOf="@+id/toolbar"
-                app:layout_constraintTop_toTopOf="@+id/toolbar" />
+                app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
 
 
             <!--<Button

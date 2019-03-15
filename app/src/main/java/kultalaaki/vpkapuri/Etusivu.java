@@ -45,7 +45,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -63,7 +62,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     String[] osoite;
     String aihe;
     DBHelper db;
-    Button tietosuoja;
+    //Button tietosuoja;
     SharedPreferences aaneton;
     boolean ericaEtusivu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
@@ -142,7 +141,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         osoite = new String [1];
         osoite[0] = "kultalaaki@gmail.com";
         aihe = "VPK Apuri palaute";
-        tietosuoja = findViewById(R.id.tietosuoja);
+        //tietosuoja = findViewById(R.id.tietosuoja);
 
         halytys.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,12 +171,12 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             }
         });
 
-        tietosuoja.setOnClickListener(new View.OnClickListener() {
+        /*tietosuoja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showTietosuoja();
             }
-        });
+        });*/
     }
 
     @Override
@@ -662,7 +661,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putLong(LAST_VERSION_CODE_KEY, versionCode);
                                     editor.apply();
-                                    showTiewtosuojaAfterWhatsnew();
+                                    //showTiewtosuojaAfterWhatsnew();
                                     dialogInterface.dismiss();
                                 }
                             });
@@ -678,9 +677,9 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     }
 
     private class tietosuoja {
-        private static final String LOG_TAG                 = "Tietosuoja";
+        //private static final String LOG_TAG                 = "Tietosuoja";
 
-        private static final String LAST_VERSION_CODE_KEY   = "last_version_code";
+        //private static final String LAST_VERSION_CODE_KEY   = "last_version_code";
 
         private Activity            mActivity;
 

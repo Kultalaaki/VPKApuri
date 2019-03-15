@@ -367,6 +367,18 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             halynumero10 = PhoneNumberUtils.formatNumber(halynumero10); //Deprecated method
         }
 
+        numero = numero.replaceAll("[()\\s-+]+", "");
+        if(halynumero1 != null) { halynumero1 = halynumero1.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero2 != null) { halynumero2 = halynumero2.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero3 != null) { halynumero3 = halynumero3.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero4 != null) { halynumero4 = halynumero4.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero5 != null) { halynumero5 = halynumero5.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero6 != null) { halynumero6 = halynumero6.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero7 != null) { halynumero7 = halynumero7.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero8 != null) { halynumero8 = halynumero8.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero9 != null) { halynumero9 = halynumero9.replaceAll("[()\\s-+]+", ""); }
+        if(halynumero10 != null) { halynumero10 = halynumero10.replaceAll("[()\\s-+]+", ""); }
+
         boolean kaytaAvainsanaa = pref.getBoolean("avainsana", false);
         boolean numeroTasmaa = false;
         boolean avainsanaTasmaa = false;
