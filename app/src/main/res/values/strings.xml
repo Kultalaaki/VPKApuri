@@ -47,6 +47,12 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
+        <u><b>Versio 3.21</b></u>\n\n
+        Hälyttävien numeroiden tunnistukseen parannuksia:\n
+        - Enään ei ole väliä onko numero maatunnuksen kanssa\n
+        - Välit numeroiden seassa eivät haittaa\n
+        - Puheluhälytykset eivät toimineet Android Pie(9) käyttöjärjestelmässä, korjattu.\n\n
+
         <u><b>Versio 3.2</b></u>\n\n
         Hälyttävien numeroiden tunnistukseen korjaus.\n\n
 

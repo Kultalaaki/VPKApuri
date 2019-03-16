@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.Locale;
 //import android.util.Log;
@@ -31,43 +33,44 @@ public class halypuhelu2 extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //Toast.makeText(context, "check receive", Toast.LENGTH_LONG).show();
         //We listen to two intents.  The new outgoing call only tells us of an outgoing call.  We use it to get the number.
-        String action = intent.getAction();
-        if (action != null) {
-            if (action.equals("android.intent.action.NEW_OUTGOING_CALL")) {
-                savedNumber = intent.getStringExtra("android.intent.extra.PHONE_NUMBER");
-            } else{
+        //String action = intent.getAction();
+
+        if (intent.hasExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)) {
+            String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+
+            if(number.contains("0") || number.contains("1") || number.contains("2") || number.contains("3") || number.contains("4") || number.contains("5") || number.contains("6") || number.contains("7")
+            || number.contains("8") || number.contains("9")) {
                 String stateStr = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-                String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                if(number != null) {
+                number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                //Log.e("tagiei", "s"+ number);
+                //if(number != null) {
                     // Todo marker to change back if number formatting goes wrong
                     //number = PhoneNumberUtils.formatNumber(number);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+                        //Log.e("tager", "s"+ number);
                     } else {
                         number = PhoneNumberUtils.formatNumber(number); //Deprecated method
                     }
                     //if (number.charAt(0) == '0') {
                     //    number = "+358" + number.substring(1);
-                        //Toast.makeText(context, "Aseta numero näin: " + number, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Aseta numero näin: " + number, Toast.LENGTH_LONG).show();
                     //}
-                }
+                    //}
 
+                    int state = 0;
+                    if(stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+                        state = TelephonyManager.CALL_STATE_IDLE;
+                    } else if(stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+                        state = TelephonyManager.CALL_STATE_OFFHOOK;
+                    }
+                    else if(stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)){
+                        state = TelephonyManager.CALL_STATE_RINGING;
+                    }
 
-                int state = 0;
-                if(stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)){
-                    state = TelephonyManager.CALL_STATE_IDLE;
-                } else if(stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)){
-                    state = TelephonyManager.CALL_STATE_OFFHOOK;
+                    onCallStateChanged(context, state, number);
                 }
-                else if(stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)){
-                    state = TelephonyManager.CALL_STATE_RINGING;
-                }
-
-                onCallStateChanged(context, state, number);
-            }
         }
-
-
     }
 
     //Derived classes should override these to respond to specific events of interest
@@ -77,10 +80,11 @@ public class halypuhelu2 extends BroadcastReceiver {
             Intent startService = new Intent(ctx.getApplicationContext(), halyaaniService.class);
             startService.putExtra("message", "Hälytys tulossa.");
             startService.putExtra("halytysaani", "true");
-            number = PhoneNumberUtils.formatNumber(number);
+            //number = PhoneNumberUtils.formatNumber(number);
             //Log.i("onIncomingCallStarted", "startService");
             //Toast.makeText(ctx, "service starttaa: " + number, Toast.LENGTH_LONG).show();
             startService.putExtra("number", number);
+
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 //Log.e("onIncomingCallStarted", "startService");
                 ctx.getApplicationContext().startForegroundService(startService);

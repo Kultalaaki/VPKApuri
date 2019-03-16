@@ -37,7 +37,7 @@
                 android:title="Hälytysnumerot"
                 android:key="pref_key_halnu" />
             <Preference
-                android:summary="Numerot tulee kirjoittaa ilman välejä. Numero kirjoitetaan maatunnuksen kanssa: +358401234567. Kaikki kohdat käyvät puheluilla tuleville hälytyksille."
+                android:summary="Kaikki kohdat käyvät sms tai puheluilla tuleville hälytyksille."
                 android:selectable="false"/>
             <EditTextPreference
                 android:capitalize="words"

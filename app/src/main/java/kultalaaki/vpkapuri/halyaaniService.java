@@ -332,6 +332,9 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
 
     private boolean isItAlarmSMS(String numero, String message) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (numero.charAt(0) == '0') {
+            numero = "+358" + numero.substring(1);
+        }
         String halynumero1 = pref.getString("halyvastaanotto1", null);
         String halynumero2 = pref.getString("halyvastaanotto2", null);
         String halynumero3 = pref.getString("halyvastaanotto3", null);
@@ -342,17 +345,6 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         String halynumero8 = pref.getString("halyvastaanotto8", null);
         String halynumero9 = pref.getString("halyvastaanotto9", null);
         String halynumero10 = pref.getString("halyvastaanotto10", null);
-        // Todo numberformatting to ensure same format for numbers
-        //boolean numberChecksOut = false;
-        /*String[] numberArray = new String[11];
-        numberArray[1] = halynumero1; numberArray[2] = halynumero2; numberArray[3] = halynumero3; numberArray[4] = halynumero4; numberArray[5] = halynumero5;
-        numberArray[6] = halynumero6; numberArray[7] = halynumero7; numberArray[8] = halynumero8; numberArray[9] = halynumero9; numberArray[10] = halynumero10;
-        for (String number:numberArray) {
-            if(PhoneNumberUtils.compare(getApplicationContext(), number, numero)) {
-                numberChecksOut = PhoneNumberUtils.compare(getApplicationContext(), number, numero);
-                break;
-            }
-        }*/
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             halynumero1 = PhoneNumberUtils.formatNumber(halynumero1, Locale.getDefault().getCountry()); halynumero2 = PhoneNumberUtils.formatNumber(halynumero2, Locale.getDefault().getCountry());
@@ -368,17 +360,67 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         }
 
         numero = numero.replaceAll("[()\\s-+]+", "");
-        if(halynumero1 != null) { halynumero1 = halynumero1.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero2 != null) { halynumero2 = halynumero2.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero3 != null) { halynumero3 = halynumero3.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero4 != null) { halynumero4 = halynumero4.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero5 != null) { halynumero5 = halynumero5.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero6 != null) { halynumero6 = halynumero6.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero7 != null) { halynumero7 = halynumero7.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero8 != null) { halynumero8 = halynumero8.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero9 != null) { halynumero9 = halynumero9.replaceAll("[()\\s-+]+", ""); }
-        if(halynumero10 != null) { halynumero10 = halynumero10.replaceAll("[()\\s-+]+", ""); }
-
+        if(halynumero1 != null) {
+            if (halynumero1.charAt(0) == '0') {
+                halynumero1 = "+358" + halynumero1.substring(1);
+            }
+            halynumero1 = halynumero1.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero2 != null) {
+            if (halynumero2.charAt(0) == '0') {
+                halynumero2 = "+358" + halynumero2.substring(1);
+            }
+            halynumero2 = halynumero2.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero3 != null) {
+            if (halynumero3.charAt(0) == '0') {
+                halynumero3 = "+358" + halynumero3.substring(1);
+            }
+            halynumero3 = halynumero3.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero4 != null) {
+            if (halynumero4.charAt(0) == '0') {
+                halynumero4 = "+358" + halynumero4.substring(1);
+            }
+            halynumero4 = halynumero4.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero5 != null) {
+            if (halynumero5.charAt(0) == '0') {
+                halynumero5 = "+358" + halynumero5.substring(1);
+            }
+            halynumero5 = halynumero5.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero6 != null) {
+            if (halynumero6.charAt(0) == '0') {
+                halynumero6 = "+358" + halynumero6.substring(1);
+            }
+            halynumero6 = halynumero6.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero7 != null) {
+            if (halynumero7.charAt(0) == '0') {
+                halynumero7 = "+358" + halynumero7.substring(1);
+            }
+            halynumero7 = halynumero7.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero8 != null) {
+            if (halynumero8.charAt(0) == '0') {
+                halynumero8 = "+358" + halynumero8.substring(1);
+            }
+            halynumero8 = halynumero8.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero9 != null) {
+            if (halynumero9.charAt(0) == '0') {
+                halynumero9 = "+358" + halynumero9.substring(1);
+            }
+            halynumero9 = halynumero9.replaceAll("[()\\s-+]+", "");
+        }
+        if(halynumero10 != null) {
+            if (halynumero10.charAt(0) == '0') {
+                halynumero10 = "+358" + halynumero10.substring(1);
+            }
+            halynumero10 = halynumero10.replaceAll("[()\\s-+]+", "");
+        }
+        Log.e("tager", "s"+ numero);
         boolean kaytaAvainsanaa = pref.getBoolean("avainsana", false);
         boolean numeroTasmaa = false;
         boolean avainsanaTasmaa = false;
@@ -392,10 +434,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             testaahaly = message.substring(0,13);
         }
 
-        /*return numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) || numero.equals(halynumero5) || numero.equals(halynumero6)
-                || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) || salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:");*/
-
-        if (/*numberChecksOut ||*/ numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) ||
+        if (numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) ||
                 numero.equals(halynumero5) || numero.equals(halynumero6)
                 || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) ||
                 salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
@@ -428,8 +467,6 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
                         sana.delete(0, sana.length());
                     } else {
                         sana.append(merkki);
-                        //sana += merkki;
-                        //halyOsoite.append(strings[0].charAt(i));
                     }
                 }
                 for(String avainsana : sanat) {
@@ -468,6 +505,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
+            Log.e("tager", "s"+ numero);
             // Todo poista ennen julkaisua
             //message += " S" + numero + "S ";
             //voisi ottaa tässä jo puheluhäly ja hylätä String halytysaani
@@ -509,6 +547,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")){
                 puhelu = pref_general.getBoolean("puhelu", false);
                 if(puhelu) {
+
                     alarmSound(startId);
                 }
                 db = new DBHelper(getApplicationContext());
