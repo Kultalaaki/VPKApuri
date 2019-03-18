@@ -420,7 +420,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             }
             halynumero10 = halynumero10.replaceAll("[()\\s-+]+", "");
         }
-        Log.e("tager", "s"+ numero);
+        //Log.e("tager", "s"+ numero);
         boolean kaytaAvainsanaa = pref.getBoolean("avainsana", false);
         boolean numeroTasmaa = false;
         boolean avainsanaTasmaa = false;
@@ -505,7 +505,7 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
             autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
-            Log.e("tager", "s"+ numero);
+            //Log.e("tager", "s"+ numero);
             // Todo poista ennen julkaisua
             //message += " S" + numero + "S ";
             //voisi ottaa tässä jo puheluhäly ja hylätä String halytysaani

@@ -33,7 +33,7 @@ public class halypuhelu2 extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //Toast.makeText(context, "check receive", Toast.LENGTH_LONG).show();
         //We listen to two intents.  The new outgoing call only tells us of an outgoing call.  We use it to get the number.
-        //String action = intent.getAction();
+        String action = intent.getAction();
 
         if (intent.hasExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)) {
             String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);

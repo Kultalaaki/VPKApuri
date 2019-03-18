@@ -229,7 +229,10 @@ public class HalytysButtonsFragment extends Fragment {
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + soittonumero));
+                startActivity(callIntent);
+                // todo testataan ilman lupia soittaa intentin avulla
+                /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     pyydaLuvatCallPhone();
                 } else {
                     Context context = getActivity();
@@ -244,7 +247,7 @@ public class HalytysButtonsFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                }
+                }*/
             }
         });
 
@@ -386,7 +389,7 @@ public class HalytysButtonsFragment extends Fragment {
         });
     }
 
-    public void pyydaLuvatCallPhone() {
+    /*public void pyydaLuvatCallPhone() {
         Context context = getActivity();
         if(context != null) {
             if (ContextCompat.checkSelfPermission(getActivity(),
@@ -429,7 +432,7 @@ public class HalytysButtonsFragment extends Fragment {
                 }
             }
         }
-    }
+    }*/
 
     public void pyydaLuvatSms() {
         Context ctx = getActivity();
@@ -587,14 +590,14 @@ public class HalytysButtonsFragment extends Fragment {
         tenplus = false;
     }
 
-    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
+    /*private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(getActivity())
                 .setMessage("Et voi käyttää soita nappia jos et anna lupaa.")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Peruuta", null)
                 .create()
                 .show();
-    }
+    }*/
 
     private void showMessageOKCancelSms(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(getActivity())
