@@ -146,7 +146,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         csettings = findViewById(R.id.card_viewAsetukset);
         halytys = findViewById(R.id.card_viewHaly);
         osoite = new String [1];
-        osoite[0] = "kultalaaki@gmail.com";
+        osoite[0] = "info@vpkapuri.fi";
         aihe = "VPK Apuri palaute";
         //tietosuoja = findViewById(R.id.tietosuoja);
 
