@@ -48,6 +48,8 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -57,6 +59,7 @@ import java.nio.channels.FileChannel;
 
 public class Etusivu extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
     CardView halytys, carkisto, ohjeet, csettings;
     String[] osoite;
@@ -82,6 +85,10 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         }
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
