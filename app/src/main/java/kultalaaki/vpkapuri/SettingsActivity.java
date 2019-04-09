@@ -273,7 +273,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             //addPreferencesFromResource(R.xml.pref_notification);
             addPreferencesFromResource(R.xml.preferences);
 
-            //Do Not Disturb
+            //Do Not Disturb allowed if menu doesn't open
             Preference pref = getPreferenceManager().findPreference("DoNotDisturb");
             if(pref != null) {
                 pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

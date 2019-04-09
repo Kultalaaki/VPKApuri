@@ -483,7 +483,6 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
     @SuppressLint("ApplySharedPref")
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
-            //Log.e(TAG,"startId: " + startId + " edellinen: " + previousStartId);
             if(previousStartId != startId) {
                 stopSelf(previousStartId);
                 if(mediaplayerRunning && mMediaPlayer != null) {

@@ -145,7 +145,6 @@ public class HalytysButtonsFragment extends Fragment {
                 } else {
                     hiljenna.setVisibility(View.GONE);
                 }
-
             }
         });
     }
@@ -261,7 +260,7 @@ public class HalytysButtonsFragment extends Fragment {
                     whatsapptxt.setType("text/plain");
                     whatsapptxt.setPackage("com.whatsapp");
                     startActivity(whatsapptxt);
-                } else if(smsnumero != null && smsnumero.contains("www")) {
+                } else if(smsnumero != null && smsnumero.contains("www") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     mCallback.avaaWebSivu(smsnumero);
                 } else {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
