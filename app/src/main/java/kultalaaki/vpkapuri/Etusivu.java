@@ -19,6 +19,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,7 +68,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     DBHelper db;
     //Button tietosuoja;
     SharedPreferences aaneton;
-    boolean ericaEtusivu;
+    boolean ericaEtusivu, analytics;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final int MY_NOTIFICATION_ID = 15245;
 
@@ -193,6 +194,8 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
         new WhatsNewScreen(this).show();
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
         ericaEtusivu = pref_general.getBoolean("Erica", false);
+        analytics = pref_general.getBoolean("analyticsEnabled", false);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
     }
 
     /*void setMenuTexts() {
@@ -650,6 +653,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                     db = new DBHelper(getApplicationContext());
                     db.insertData("915C", "Ei osoitetta", "Uusi asennus tai sovellus on päivitetty. Tervetuloa käyttämään palokuntalaisille suunniteltua hälytys sovellusta. " +
                             "Ohjeet sivulta saat tietoa asetuksista.", "");
+                    deleteCache(getApplicationContext());
                     Log.i(LOG_TAG, "versionCode " + versionCode + "is different from the last known version " + lastVersionCode);
 
                     final String title = mActivity.getString(R.string.app_name) + " v" + packageInfo.versionName;
@@ -679,6 +683,31 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+            }
+        }
+
+        void deleteCache(Context context) {
+            try {
+                File dir = context.getCacheDir();
+                deleteDir(dir);
+            } catch (Exception e) {
+                Log.i("VPK Apuri","Välimuistin tyhjennys epäonnistui.");
+            }
+        }
+        boolean deleteDir(File dir) {
+            if (dir != null && dir.isDirectory()) {
+                String[] children = dir.list();
+                for (String aChildren : children) {
+                    boolean success = deleteDir(new File(dir, aChildren));
+                    if (!success) {
+                        return false;
+                    }
+                }
+                return dir.delete();
+            } else if(dir!= null && dir.isFile()) {
+                return dir.delete();
+            } else {
+                return false;
             }
         }
     }

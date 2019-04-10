@@ -35,5 +35,10 @@
             android:key="luvatSMS"
             android:title="Sovelluksen tarvitsemat luvat"
             android:summary="@string/luvat" />
+        <SwitchPreference
+            android:key="analyticsEnabled"
+            android:title="Analytiikkatietojen kerääminen"
+            android:defaultValue="false"
+            android:summary="Ota pois päältä jos et halua osallistua tietojen keräämiseen sovelluksen parantamiseksi. Muutos tulee voimaan kun sovellus käynnistetään uudelleen."/>
     </PreferenceCategory>
 </PreferenceScreen>

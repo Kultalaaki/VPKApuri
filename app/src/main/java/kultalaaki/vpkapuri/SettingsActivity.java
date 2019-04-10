@@ -30,6 +30,8 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -370,6 +372,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     }
                 });
             }
+
+            /*final Preference analytics = getPreferenceManager().findPreference("analyticsEnabled");
+            if(analytics != null) {
+                analytics.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        if(analytics.toString().equals("true")) {
+                            FirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+                        }
+
+                        return false;
+                    }
+                });
+            }*/
 
             //Sovelluksen luvat
             Preference prefa = getPreferenceManager().findPreference("luvatApuri");

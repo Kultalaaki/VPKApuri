@@ -29,8 +29,7 @@
         Tekstiviestien lukeminen\n
         Tekstiviestien kirjoittaminen\n
         Tekstiviestien lähettäminen\n
-        Puhelulokien lukeminen\n
-        Puheluiden soittaminen\n\n
+        Puhelulokien lukeminen\n\n
 
         Tämä sovellus lukee kaikki tekstiviestit, ja päättää käyttäjän asettaman numeron perusteella tarvitaanko lisätoimenpiteitä.\n
         Kaikista puheluista siirtyy numero sovelluksen sisäiseen tarkistukseen ja siellä tehdään sama tarkistus kuin tekstiviesteille.\n\n
@@ -468,4 +467,9 @@
     <string name="s">S</string>
     <string name="ajastimen_nimi">Ajastimen nimi</string>
     <string name="_00">00</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tietosuojaLink"><a href="http://www.vpkapuri.fi/tietosuoja.html">Tietosuoja</a></string>
+    <string name="k_ytt_ehdotLink"><a href="http://www.vpkapuri.fi/kayttoehdot.html">Käyttöehdot</a></string>
 </resources>
