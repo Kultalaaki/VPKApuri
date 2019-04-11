@@ -347,74 +347,125 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         String halynumero10 = pref.getString("halyvastaanotto10", null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            halynumero1 = PhoneNumberUtils.formatNumber(halynumero1, Locale.getDefault().getCountry()); halynumero2 = PhoneNumberUtils.formatNumber(halynumero2, Locale.getDefault().getCountry());
-            halynumero3 = PhoneNumberUtils.formatNumber(halynumero3, Locale.getDefault().getCountry()); halynumero4 = PhoneNumberUtils.formatNumber(halynumero4, Locale.getDefault().getCountry());
-            halynumero5 = PhoneNumberUtils.formatNumber(halynumero5, Locale.getDefault().getCountry()); halynumero6 = PhoneNumberUtils.formatNumber(halynumero6, Locale.getDefault().getCountry());
-            halynumero7 = PhoneNumberUtils.formatNumber(halynumero7, Locale.getDefault().getCountry()); halynumero8 = PhoneNumberUtils.formatNumber(halynumero8, Locale.getDefault().getCountry());
-            halynumero9 = PhoneNumberUtils.formatNumber(halynumero9, Locale.getDefault().getCountry()); halynumero10 = PhoneNumberUtils.formatNumber(halynumero10, Locale.getDefault().getCountry());
+            if(halynumero1 != null && !halynumero1.isEmpty()) {
+                halynumero1 = PhoneNumberUtils.formatNumber(halynumero1, Locale.getDefault().getCountry());
+            }
+            if(halynumero2 != null && !halynumero2.isEmpty()) {
+                halynumero2 = PhoneNumberUtils.formatNumber(halynumero2, Locale.getDefault().getCountry());
+            }
+            if(halynumero3 != null && !halynumero3.isEmpty()) {
+                halynumero3 = PhoneNumberUtils.formatNumber(halynumero3, Locale.getDefault().getCountry());
+            }
+            if(halynumero4 != null && !halynumero4.isEmpty()) {
+                halynumero4 = PhoneNumberUtils.formatNumber(halynumero4, Locale.getDefault().getCountry());
+            }
+            if(halynumero5 != null && !halynumero5.isEmpty()) {
+                halynumero5 = PhoneNumberUtils.formatNumber(halynumero5, Locale.getDefault().getCountry());
+            }
+            if(halynumero6 != null && !halynumero6.isEmpty()) {
+                halynumero6 = PhoneNumberUtils.formatNumber(halynumero6, Locale.getDefault().getCountry());
+            }
+            if(halynumero7 != null && !halynumero7.isEmpty()) {
+                halynumero7 = PhoneNumberUtils.formatNumber(halynumero7, Locale.getDefault().getCountry());
+            }
+            if(halynumero8 != null && !halynumero8.isEmpty()) {
+                halynumero8 = PhoneNumberUtils.formatNumber(halynumero8, Locale.getDefault().getCountry());
+            }
+            if(halynumero9 != null && !halynumero9.isEmpty()) {
+                halynumero9 = PhoneNumberUtils.formatNumber(halynumero9, Locale.getDefault().getCountry());
+            }
+            if(halynumero10 != null && !halynumero10.isEmpty()) {
+                halynumero10 = PhoneNumberUtils.formatNumber(halynumero10, Locale.getDefault().getCountry());
+            }
         } else {
-            halynumero1 = PhoneNumberUtils.formatNumber(halynumero1); halynumero2 = PhoneNumberUtils.formatNumber(halynumero2); halynumero3 = PhoneNumberUtils.formatNumber(halynumero3);
-            halynumero4 = PhoneNumberUtils.formatNumber(halynumero4); halynumero5 = PhoneNumberUtils.formatNumber(halynumero5); halynumero6 = PhoneNumberUtils.formatNumber(halynumero6);
-            halynumero7 = PhoneNumberUtils.formatNumber(halynumero7); halynumero8 = PhoneNumberUtils.formatNumber(halynumero8); halynumero9 = PhoneNumberUtils.formatNumber(halynumero9);
-            halynumero10 = PhoneNumberUtils.formatNumber(halynumero10); //Deprecated method
+            if(halynumero1 != null && !halynumero1.isEmpty()) {
+                halynumero1 = PhoneNumberUtils.formatNumber(halynumero1);
+            }
+            if(halynumero2 != null && !halynumero2.isEmpty()) {
+                halynumero2 = PhoneNumberUtils.formatNumber(halynumero2);
+            }
+            if(halynumero3 != null && !halynumero3.isEmpty()) {
+                halynumero3 = PhoneNumberUtils.formatNumber(halynumero3);
+            }
+            if(halynumero4 != null && !halynumero4.isEmpty()) {
+                halynumero4 = PhoneNumberUtils.formatNumber(halynumero4);
+            }
+            if(halynumero5 != null && !halynumero5.isEmpty()) {
+                halynumero5 = PhoneNumberUtils.formatNumber(halynumero5);
+            }
+            if(halynumero6 != null && !halynumero6.isEmpty()) {
+                halynumero6 = PhoneNumberUtils.formatNumber(halynumero6);
+            }
+            if(halynumero7 != null && !halynumero7.isEmpty()) {
+                halynumero7 = PhoneNumberUtils.formatNumber(halynumero7);
+            }
+            if(halynumero8 != null && !halynumero8.isEmpty()) {
+                halynumero8 = PhoneNumberUtils.formatNumber(halynumero8);
+            }
+            if(halynumero9 != null && !halynumero9.isEmpty()) {
+                halynumero9 = PhoneNumberUtils.formatNumber(halynumero9);
+            }
+            if(halynumero10 != null && !halynumero10.isEmpty()) {
+                halynumero10 = PhoneNumberUtils.formatNumber(halynumero10);
+            }//Deprecated method
         }
 
         numero = numero.replaceAll("[()\\s-+]+", "");
-        if(halynumero1 != null) {
+        if(halynumero1 != null && !halynumero1.isEmpty()) {
             if (halynumero1.charAt(0) == '0') {
                 halynumero1 = "+358" + halynumero1.substring(1);
             }
             halynumero1 = halynumero1.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero2 != null) {
+        if(halynumero2 != null && !halynumero2.isEmpty()) {
             if (halynumero2.charAt(0) == '0') {
                 halynumero2 = "+358" + halynumero2.substring(1);
             }
             halynumero2 = halynumero2.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero3 != null) {
+        if(halynumero3 != null && !halynumero3.isEmpty()) {
             if (halynumero3.charAt(0) == '0') {
                 halynumero3 = "+358" + halynumero3.substring(1);
             }
             halynumero3 = halynumero3.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero4 != null) {
+        if(halynumero4 != null && !halynumero4.isEmpty()) {
             if (halynumero4.charAt(0) == '0') {
                 halynumero4 = "+358" + halynumero4.substring(1);
             }
             halynumero4 = halynumero4.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero5 != null) {
+        if(halynumero5 != null && !halynumero5.isEmpty()) {
             if (halynumero5.charAt(0) == '0') {
                 halynumero5 = "+358" + halynumero5.substring(1);
             }
             halynumero5 = halynumero5.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero6 != null) {
+        if(halynumero6 != null && !halynumero6.isEmpty()) {
             if (halynumero6.charAt(0) == '0') {
                 halynumero6 = "+358" + halynumero6.substring(1);
             }
             halynumero6 = halynumero6.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero7 != null) {
+        if(halynumero7 != null && !halynumero7.isEmpty()) {
             if (halynumero7.charAt(0) == '0') {
                 halynumero7 = "+358" + halynumero7.substring(1);
             }
             halynumero7 = halynumero7.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero8 != null) {
+        if(halynumero8 != null && !halynumero8.isEmpty()) {
             if (halynumero8.charAt(0) == '0') {
                 halynumero8 = "+358" + halynumero8.substring(1);
             }
             halynumero8 = halynumero8.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero9 != null) {
+        if(halynumero9 != null && !halynumero9.isEmpty()) {
             if (halynumero9.charAt(0) == '0') {
                 halynumero9 = "+358" + halynumero9.substring(1);
             }
             halynumero9 = halynumero9.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero10 != null) {
+        if(halynumero10 != null && !halynumero10.isEmpty()) {
             if (halynumero10.charAt(0) == '0') {
                 halynumero10 = "+358" + halynumero10.substring(1);
             }
