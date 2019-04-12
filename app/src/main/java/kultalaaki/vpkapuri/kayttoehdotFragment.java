@@ -1,10 +1,13 @@
 package kultalaaki.vpkapuri;
 
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
@@ -13,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -29,6 +34,7 @@ public class kayttoehdotFragment extends Fragment {
     CheckBox approveAnalytics, tietosuoja, kayttoehdot;
     TextView tietosuojaLink, kayttoehdotLink;
     Button Ok;
+    SharedPreferences sharedPreferences;
 
 
     public kayttoehdotFragment() {
@@ -53,9 +59,18 @@ public class kayttoehdotFragment extends Fragment {
         return fragment;
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //sharedPreferences.edit().putBoolean("termsShown", true).commit();
+        if(sharedPreferences.getBoolean("termsShown", true)) {
+            sharedPreferences.edit().putBoolean("tietosuoja", false).commit();
+            sharedPreferences.edit().putBoolean("kayttoehdot", false).commit();
+            sharedPreferences.edit().putBoolean("analyticsEnabled", false).commit();
+            sharedPreferences.edit().putBoolean("termsShown", false).commit();
+        }
     }
 
     @Override
@@ -78,6 +93,7 @@ public class kayttoehdotFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        setCheckedStates();
         setLinks();
         checkUserConsentsAndApprovalOfThings();
     }
@@ -87,10 +103,30 @@ public class kayttoehdotFragment extends Fragment {
         kayttoehdotLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    void setCheckedStates() {
+        if(sharedPreferences.getBoolean("analyticsEnabled", false)) {
+            approveAnalytics.setChecked(true);
+        } else {
+            approveAnalytics.setChecked(false);
+        }
+        if(sharedPreferences.getBoolean("tietosuoja", false)) {
+            tietosuoja.setChecked(true);
+        } else {
+            tietosuoja.setChecked(false);
+        }
+        if(sharedPreferences.getBoolean("kayttoehdot", false)) {
+            kayttoehdot.setChecked(true);
+        } else {
+            kayttoehdot.setChecked(false);
+        }
+    }
+
     void checkUserConsentsAndApprovalOfThings() {
         Ok.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ApplySharedPref")
             @Override
             public void onClick(View v) {
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
                     Intent intent = new Intent(getActivity(), Etusivu.class);
@@ -101,6 +137,58 @@ public class kayttoehdotFragment extends Fragment {
                 }
             }
         });
+
+        approveAnalytics.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ApplySharedPref")
+            @Override
+            public void onClick(View v) {
+                if(sharedPreferences.getBoolean("analyticsEnabled", false)) {
+                    sharedPreferences.edit().putBoolean("analyticsEnabled", false).commit();
+                    setCheckedStates();
+                } else {
+                    sharedPreferences.edit().putBoolean("analyticsEnabled", true).commit();
+                    setCheckedStates();
+                }
+            }
+        });
+
+        tietosuoja.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ApplySharedPref")
+            @Override
+            public void onClick(View v) {
+                if(sharedPreferences.getBoolean("tietosuoja", false)) {
+                    sharedPreferences.edit().putBoolean("tietosuoja", false).commit();
+                    setCheckedStates();
+                } else {
+                    sharedPreferences.edit().putBoolean("tietosuoja", true).commit();
+                    setCheckedStates();
+                }
+            }
+        });
+
+        kayttoehdot.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ApplySharedPref")
+            @Override
+            public void onClick(View v) {
+                if(sharedPreferences.getBoolean("kayttoehdot", false)) {
+                    sharedPreferences.edit().putBoolean("kayttoehdot", false).commit();
+                    setCheckedStates();
+                } else {
+                    sharedPreferences.edit().putBoolean("kayttoehdot", true).commit();
+                    setCheckedStates();
+                }
+            }
+        });
     }
 
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    public void onResume() {
+        super.onResume();
+        //setCheckedStates();
+        //checkUserConsentsAndApprovalOfThings();
+    }
 }
