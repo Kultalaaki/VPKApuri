@@ -13,7 +13,44 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ScrollView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:alpha="0.9"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#1a1a1a"
+            style="?android:attr/buttonBarStyle"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/etusivuContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@color/colorBackground"
+        app:menu="@menu/drawer_frontpage"
+        app:headerLayout="@layout/drawer_header"/>
+
+    <!--<ScrollView
         android:id="@+id/scrollViewKortit"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -271,7 +308,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-            <!--<Button
+            <!-<Button
                 style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/tietosuoja"
                 android:layout_width="wrap_content"
@@ -364,18 +401,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ohjeita" />-->
 
-    </android.support.constraint.ConstraintLayout>
+    <!--</android.support.constraint.ConstraintLayout>
 
-    </ScrollView>
+    </ScrollView>-->
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        android:background="@color/colorBackground"
-        app:menu="@menu/drawer_frontpage"
-        app:headerLayout="@layout/drawer_header"/>
+
+
+
 
 </android.support.v4.widget.DrawerLayout>

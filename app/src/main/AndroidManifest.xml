@@ -33,12 +33,13 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".LauncherActivity">
-            <intent-filter>
+        <activity android:name=".LauncherActivity"
+            android:noHistory="true">
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <meta-data
@@ -123,11 +124,11 @@
             android:name=".Etusivu"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO" />
 

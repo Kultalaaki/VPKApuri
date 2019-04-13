@@ -3,6 +3,10 @@ package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -10,6 +14,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +42,13 @@ public class kayttoehdotFragment extends Fragment {
     Button Ok;
     SharedPreferences sharedPreferences;
 
+    kayttoehdotFragment.Listener mCallback;
 
+    // The container Activity must implement this interface so the frag can deliver messages
+    public interface Listener {
+        /** Called when a button is clicked in kayttoehdotFragment */
+        void loadEtusivuFromFragment();
+    }
     public kayttoehdotFragment() {
         // Required empty public constructor
     }
@@ -64,13 +76,9 @@ public class kayttoehdotFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        //sharedPreferences.edit().putBoolean("termsShown", true).commit();
-        if(sharedPreferences.getBoolean("termsShown", true)) {
-            sharedPreferences.edit().putBoolean("tietosuoja", false).commit();
-            sharedPreferences.edit().putBoolean("kayttoehdot", false).commit();
-            sharedPreferences.edit().putBoolean("analyticsEnabled", false).commit();
-            sharedPreferences.edit().putBoolean("termsShown", false).commit();
-        }
+        sharedPreferences.edit().putBoolean("tietosuoja", false).commit();
+        sharedPreferences.edit().putBoolean("kayttoehdot", false).commit();
+        sharedPreferences.edit().putBoolean("analyticsEnabled", false).commit();
     }
 
     @Override
@@ -127,14 +135,19 @@ public class kayttoehdotFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                    Intent intent = new Intent(getActivity(), Etusivu.class);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    Intent intent = new Intent(getActivity(), Etusivu.class);
-                    startActivity(intent);
+                if(sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) &&
+                        sharedPreferences.getBoolean("analyticsEnabled", false)) {
+                    letIn();
+                } else if (sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) &&
+                        !sharedPreferences.getBoolean("analyticsEnabled", false)) {
+                    // show dialog and ask analytics again, if denied let user in anyway
+                    showMessage("Huomautus!","Et  antanut lupaa analytiikka tietojen keräämiseen. Tämä auttaa sovelluksen kehittämisessä. Paina Ok jos haluat jatkaa ilman tietojen keräämistä.");
+                } else if(!sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) ||
+                        sharedPreferences.getBoolean("kayttoehdot", false) && !sharedPreferences.getBoolean("tietosuoja", false)) {
+                    // inform user that terms&conditions and privacy policy must be accepted to use this app
+                    showMessage2("Huomautus", "Tietosuoja ja käyttöehdot täytyy hyväksyä että voit jatkaa sovelluksen käyttöä.");
                 }
+
             }
         });
 
@@ -179,6 +192,53 @@ public class kayttoehdotFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @SuppressLint("ApplySharedPref")
+    void letIn() {
+        sharedPreferences.edit().putBoolean("termsShown", true).commit();
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+            Intent intent = new Intent(getActivity(), Etusivu.class);
+            startActivity(intent, options.toBundle());
+        } else {
+            Intent intent = new Intent(getActivity(), Etusivu.class);
+            startActivity(intent);
+        }*/
+        mCallback.loadEtusivuFromFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (kayttoehdotFragment.Listener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement Listener");
+        }
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setNegativeButton("Peruuta", null)
+                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        letIn();
+                    }
+                });
+        builder.create().show();
+    }
+
+    public void showMessage2(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Ok", null);
+        builder.create().show();
     }
 
     public void onPause() {
