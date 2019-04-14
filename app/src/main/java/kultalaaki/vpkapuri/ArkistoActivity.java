@@ -94,7 +94,7 @@ public class ArkistoActivity extends AppCompatActivity {
                 //TODO
                 TextView textView = view.findViewById(R.id.sija);
                 String primaryKey = textView.getText().toString();
-                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannasta.class);
+                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannastaActivity.class);
                 myIntent.putExtra("paikkanumero", position);
                 myIntent.putExtra("primaryKey", primaryKey);
                 ArkistoActivity.this.startActivity(myIntent);
@@ -116,7 +116,7 @@ public class ArkistoActivity extends AppCompatActivity {
                 // When clicked perform some action...
                 TextView textView = view.findViewById(R.id.sija);
                 String primaryKey = textView.getText().toString();
-                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannasta.class);
+                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannastaActivity.class);
                 myIntent.putExtra("paikkanumero", position);
                 myIntent.putExtra("primaryKey", primaryKey);
                 ArkistoActivity.this.startActivity(myIntent);
@@ -138,7 +138,7 @@ public class ArkistoActivity extends AppCompatActivity {
                 // When clicked perform some action...
                 TextView textView = view.findViewById(R.id.sija);
                 String primaryKey = textView.getText().toString();
-                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannasta.class);
+                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannastaActivity.class);
                 myIntent.putExtra("paikkanumero", position);
                 myIntent.putExtra("primaryKey", primaryKey);
                 ArkistoActivity.this.startActivity(myIntent);
@@ -160,7 +160,7 @@ public class ArkistoActivity extends AppCompatActivity {
                 // When clicked perform some action...
                 TextView textView = view.findViewById(R.id.sija);
                 String primaryKey = textView.getText().toString();
-                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannasta.class);
+                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannastaActivity.class);
                 myIntent.putExtra("paikkanumero", position);
                 myIntent.putExtra("primaryKey", primaryKey);
                 ArkistoActivity.this.startActivity(myIntent);

@@ -67,7 +67,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                     RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
                     text.setTextViewText(R.id.teksti, "Äänetön");
 
-                    Intent hiljennys = new Intent(context, Etusivu.class);
+                    Intent hiljennys = new Intent(context, EtusivuActivity.class);
                     PendingIntent hiljennetty = PendingIntent.getActivity(context, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "HILJENNYS")
                             .setSmallIcon(R.mipmap.ic_launcher)
@@ -91,7 +91,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                     RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
                     text.setTextViewText(R.id.teksti, "Yötila");
 
-                    Intent hiljennys = new Intent(context, Etusivu.class);
+                    Intent hiljennys = new Intent(context, EtusivuActivity.class);
                     PendingIntent hiljennetty = PendingIntent.getActivity(context, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "HILJENNYS")
                             .setSmallIcon(R.mipmap.ic_launcher)

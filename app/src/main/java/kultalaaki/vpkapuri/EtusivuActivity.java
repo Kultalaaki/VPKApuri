@@ -43,11 +43,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -60,7 +58,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 
-public class Etusivu extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, kayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener {
+public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
@@ -197,7 +195,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
     public void loadLegalFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        kayttoehdotFragment kayttoehdotFragment = new kayttoehdotFragment();
+        KayttoehdotFragment kayttoehdotFragment = new KayttoehdotFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.etusivuContainer, kayttoehdotFragment, "etusivuLegal").commit();
@@ -212,6 +210,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     }
 
     public void loadEtusivuFromFragment() {
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         EtusivuFragment etusivuFragment = new EtusivuFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -257,57 +256,13 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                 });
     }*/
 
-    public void avaaHaly () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
-            Intent intent = new Intent(Etusivu.this, HalytysActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(Etusivu.this, HalytysActivity.class);
-            startActivity(intent);
-        }
-    }
-
     public void startTimerActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
-            Intent intent = new Intent(Etusivu.this, TimerActivity.class);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(EtusivuActivity.this);
+            Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
             startActivity(intent, options.toBundle());
         } else {
-            Intent intent = new Intent(Etusivu.this, TimerActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    public void avaaArkisto () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
-            Intent intent = new Intent(Etusivu.this, ArkistoActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(Etusivu.this, ArkistoActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    public void avaaOhjeet () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
-            Intent intent = new Intent(Etusivu.this, OhjeitaActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(Etusivu.this, OhjeitaActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    public void avaaAsetukset () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Etusivu.this);
-            Intent intent = new Intent(Etusivu.this, SettingsActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(Etusivu.this, SettingsActivity.class);
+            Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
             startActivity(intent);
         }
     }
@@ -411,12 +366,12 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     }
 
     public void startTallennaArkistoon() {
-        Intent tallennaArkistoon = new Intent(Etusivu.this, tallennaArkistoon.class);
+        Intent tallennaArkistoon = new Intent(EtusivuActivity.this, tallennaArkistoon.class);
         startActivity(tallennaArkistoon);
     }
 
     public void startChangelog() {
-        Intent intentChangelog = new Intent(Etusivu.this, changelog.class);
+        Intent intentChangelog = new Intent(EtusivuActivity.this, ChangelogActivity.class);
         startActivity(intentChangelog);
     }
 
@@ -441,13 +396,13 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
             text.setTextViewText(R.id.teksti, "Äänetön");
             Toast.makeText(getApplicationContext(),"Äänetön tila käytössä.", Toast.LENGTH_SHORT).show();
 
-            ComponentName thisWidget = new ComponentName(Etusivu.this,MyWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(Etusivu.this);
+            ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
+            AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
 
-            Intent hiljennys = new Intent(Etusivu.this, Etusivu.class);
-            PendingIntent hiljennetty = PendingIntent.getActivity(Etusivu.this, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
+            Intent hiljennys = new Intent(EtusivuActivity.this, EtusivuActivity.class);
+            PendingIntent hiljennetty = PendingIntent.getActivity(EtusivuActivity.this, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
             manager.updateAppWidget(thisWidget, text);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Etusivu.this, "HILJENNYS")
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(EtusivuActivity.this, "HILJENNYS")
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("VPK Apuri")
                     .setContentText("Hälytykset on hiljennetty.")
@@ -457,31 +412,31 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                     .setVisibility(1)
                     .setOngoing(true)
                     .setAutoCancel(false);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(Etusivu.this);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
             notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
         } else {
             //äänet päälle
             //HILJENNA_HALY = 1;
             aaneton.edit().putInt("aaneton_profiili", 1).commit();
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(Etusivu.this);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
             notificationManager.cancel(MY_NOTIFICATION_ID);
             RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
             text.setTextViewText(R.id.teksti, "Normaali");
             Toast.makeText(getApplicationContext(),"Äänet kytketty.", Toast.LENGTH_SHORT).show();
 
-            ComponentName thisWidget = new ComponentName(Etusivu.this,MyWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(Etusivu.this);
+            ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
+            AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
             manager.updateAppWidget(thisWidget, text);
         }
     }
 
     public void pyydaLuvatTiedostotKirjoita() {
-        if (ContextCompat.checkSelfPermission(Etusivu.this,
+        if (ContextCompat.checkSelfPermission(EtusivuActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(Etusivu.this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(EtusivuActivity.this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
@@ -500,7 +455,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
                 // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions(Etusivu.this,
+                ActivityCompat.requestPermissions(EtusivuActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
@@ -522,7 +477,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
                 showMessageOKCanceltietokanta();
             } else {
                 // ei lupaa
-                new AlertDialog.Builder(Etusivu.this)
+                new AlertDialog.Builder(EtusivuActivity.this)
                         .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tallentaa tietokantaa ilman lupaa.")
                         .setNegativeButton("Peruuta", null)
                         .create()
@@ -533,7 +488,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
     private void showMessageOKCanceltietokanta() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Etusivu.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
                 .setTitle("Varmuuskopiointi!")
                 .setMessage("Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri. " +
                         "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.")
@@ -549,7 +504,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
     private void showMessageOKCancelAjastin() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Etusivu.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
                 .setTitle("Ajastin")
                 .setMessage("Tämä ominaisuus on vielä työn alla.")
                 .setNegativeButton("OK", null);
@@ -558,7 +513,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
 
     private void showMessageOKCanceltietokantaTyhjennys() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Etusivu.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
                 .setTitle("Tyhjennä arkisto!")
                 .setMessage("Arkistossa olevat hälytykset poistetaan. Oletko varma että haluat poistaa hälytykset?")
                 .setNegativeButton("Peruuta", null)
@@ -572,7 +527,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     }
 
     public void showMessageOKCancelTestaaHaly(String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(Etusivu.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
                 .setTitle("Testaa hälytys")
                 .setMessage(message)
                 .setNegativeButton("Peruuta", null)
@@ -586,7 +541,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     }
 
     public void showMessage(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(Etusivu.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
                 .setTitle(title)
                 .setMessage(message)
                 .setNegativeButton("Peruuta", null)
@@ -646,7 +601,7 @@ public class Etusivu extends AppCompatActivity implements ActivityCompat.OnReque
     }
 
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(Etusivu.this)
+        new AlertDialog.Builder(EtusivuActivity.this)
                 .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Peruuta", null)

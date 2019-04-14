@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HalytysTietokannasta extends AppCompatActivity {
+public class HalytysTietokannastaActivity extends AppCompatActivity {
 
     DBHelper db;
     CardView save, delete, showOnMap;
@@ -95,7 +95,7 @@ public class HalytysTietokannasta extends AppCompatActivity {
 
     private void showMessageOKCancelPoistaHaly() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(HalytysTietokannasta.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(HalytysTietokannastaActivity.this)
                 .setTitle("Poista hälytys.")
                 .setMessage("Haluatko varmasti poistaa tämän hälytyksen tietokannasta?")
                 .setNegativeButton("Peruuta", null)
@@ -109,7 +109,7 @@ public class HalytysTietokannasta extends AppCompatActivity {
 
                         dialogInterface.dismiss();
 
-                        Intent intentark = new Intent(HalytysTietokannasta.this, ArkistoActivity.class);
+                        Intent intentark = new Intent(HalytysTietokannastaActivity.this, ArkistoActivity.class);
                         intentark.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intentark);
                     }
@@ -130,10 +130,10 @@ public class HalytysTietokannasta extends AppCompatActivity {
                         String viesti = viestiteksti.getText().toString();
                         boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);
                         if(lisattyKommentti){
-                            Toast.makeText(HalytysTietokannasta.this, "Tallennettu", Toast.LENGTH_LONG).show();
+                            Toast.makeText(HalytysTietokannastaActivity.this, "Tallennettu", Toast.LENGTH_LONG).show();
                             kommenttiteksti.setCursorVisible(false);
                         } else {
-                            Toast.makeText(HalytysTietokannasta.this, "Tallennus epäonnistui", Toast.LENGTH_LONG).show();
+                            Toast.makeText(HalytysTietokannastaActivity.this, "Tallennus epäonnistui", Toast.LENGTH_LONG).show();
                         }
                     }
                 }

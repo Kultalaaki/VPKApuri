@@ -2,37 +2,30 @@ package kultalaaki.vpkapuri;
 
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link kayttoehdotFragment#newInstance} factory method to
+ * Use the {@link KayttoehdotFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class kayttoehdotFragment extends Fragment {
+public class KayttoehdotFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,14 +35,14 @@ public class kayttoehdotFragment extends Fragment {
     Button Ok;
     SharedPreferences sharedPreferences;
 
-    kayttoehdotFragment.Listener mCallback;
+    KayttoehdotFragment.Listener mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
-        /** Called when a button is clicked in kayttoehdotFragment */
+        /** Called when a button is clicked in KayttoehdotFragment */
         void loadEtusivuFromFragment();
     }
-    public kayttoehdotFragment() {
+    public KayttoehdotFragment() {
         // Required empty public constructor
     }
 
@@ -59,11 +52,11 @@ public class kayttoehdotFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment kayttoehdotFragment.
+     * @return A new instance of fragment KayttoehdotFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static kayttoehdotFragment newInstance(String param1, String param2) {
-        kayttoehdotFragment fragment = new kayttoehdotFragment();
+    public static KayttoehdotFragment newInstance(String param1, String param2) {
+        KayttoehdotFragment fragment = new KayttoehdotFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -199,10 +192,10 @@ public class kayttoehdotFragment extends Fragment {
         sharedPreferences.edit().putBoolean("termsShown", true).commit();
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), Etusivu.class);
+            Intent intent = new Intent(getActivity(), EtusivuActivity.class);
             startActivity(intent, options.toBundle());
         } else {
-            Intent intent = new Intent(getActivity(), Etusivu.class);
+            Intent intent = new Intent(getActivity(), EtusivuActivity.class);
             startActivity(intent);
         }*/
         mCallback.loadEtusivuFromFragment();
@@ -212,7 +205,7 @@ public class kayttoehdotFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (kayttoehdotFragment.Listener) context;
+            mCallback = (KayttoehdotFragment.Listener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement Listener");

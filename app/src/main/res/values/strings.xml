@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!--Etusivu-->
+    <!--EtusivuActivity-->
     <string name="action_halytys">HÄLYTYS</string>
     <string name="action_arkisto">ARKISTO</string>
     <string name="action_ohjeet">OHJEET</string>
@@ -472,4 +472,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tietosuojaLink"><a href="http://www.vpkapuri.fi/tietosuoja.html">Tietosuoja</a></string>
     <string name="k_ytt_ehdotLink"><a href="http://www.vpkapuri.fi/kayttoehdot.html">Käyttöehdot</a></string>
+    <string name="sovelluksen_logo">Sovelluksen logo.</string>
+    <string name="welcomeText">Tervetuloa käyttämään VPK Apuri sovellusta. Käyttäjämäärien seuraamiseksi ja palvelun parantamiseksi käytän kolmansien osapuolien tarjoamia palveluita analytiikka tietojen keräämiseen. Lisää tietoa saat alla olevien linkkien kautta.</string>
+    <string name="tietoSuoja">Tietosuoja</string>
+    <string name="k_ytt_ehdot">Käyttöehdot</string>
+    <string name="haveRead">Olen lukenut yllä olevat käyttöehdot ja tietosuojalausekkeen.</string>
+    <string name="approveAnalytics">Hyväksyn tietojen keräämisen.</string>
 </resources>

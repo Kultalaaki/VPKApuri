@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -55,7 +54,7 @@ public class tallennaArkistoon extends AppCompatActivity {
 
                         boolean tallennettu = db.insertData( tunnus, luokka, viesti,"");
                         if(tallennettu) {
-                            Intent etusivulle = new Intent(tallennaArkistoon.this, Etusivu.class);
+                            Intent etusivulle = new Intent(tallennaArkistoon.this, EtusivuActivity.class);
                             etusivulle.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(etusivulle);
                         }

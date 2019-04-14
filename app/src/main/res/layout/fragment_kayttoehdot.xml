@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kayttoehdotFragment">
+    tools:context=".KayttoehdotFragment">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -14,7 +14,8 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/sovelluksen_logo" />
 
     <TextView
         android:id="@+id/welcometextView"
@@ -25,7 +26,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Tervetuloa käyttämään VPK Apuri sovellusta. Käyttäjämäärien seuraamiseksi ja palvelun parantamiseksi käytän kolmansien osapuolien tarjoamia palveluita analytiikka tietojen keräämiseen. Lisää tietoa  saat alla olevien linkkien kautta."
+        android:text="@string/welcomeText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -36,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="#BF3600"
-        android:text="OK"
+        android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -47,8 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Tietosuoja"
+        android:layout_marginBottom="16dp"
+        android:text="@string/tietoSuoja"
         app:layout_constraintBottom_toTopOf="@+id/haveReadtextView"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -58,8 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Käyttöehdot"
+        android:layout_marginBottom="16dp"
+        android:text="@string/k_ytt_ehdot"
         app:layout_constraintBottom_toTopOf="@+id/haveReadtextView"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -71,8 +72,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Olen lukenut yllä olevat käyttöehdot ja tietosuojalausekkeen."
+        android:layout_marginBottom="16dp"
+        android:text="@string/haveRead"
         app:layout_constraintBottom_toTopOf="@+id/okButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -86,7 +87,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Hyväksyn tietojen keräämisen."
+        android:text="@string/approveAnalytics"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcometextView" />

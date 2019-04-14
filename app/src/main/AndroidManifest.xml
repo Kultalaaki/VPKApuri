@@ -33,14 +33,6 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".LauncherActivity"
-            android:noHistory="true">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
 
         <meta-data
             android:name="firebase_analytics_collection_enabled"
@@ -121,7 +113,7 @@
         </receiver>
 
         <activity
-            android:name=".Etusivu"
+            android:name=".EtusivuActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -146,11 +138,11 @@
             android:label="@string/action_ohjeita"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".HalytysTietokannasta"
+            android:name=".HalytysTietokannastaActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".changelog"
+            android:name=".ChangelogActivity"
             android:label="@string/title_activity_changelog"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>

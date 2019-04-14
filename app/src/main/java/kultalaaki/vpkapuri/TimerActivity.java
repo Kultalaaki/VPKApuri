@@ -66,7 +66,7 @@ public class TimerActivity extends AppCompatActivity
 
                 /*TextView textView = view.findViewById(R.id.sija);
                 String primaryKey = textView.getText().toString();
-                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannasta.class);
+                Intent myIntent = new Intent(ArkistoActivity.this, HalytysTietokannastaActivity.class);
                 myIntent.putExtra("paikkanumero", position);
                 myIntent.putExtra("primaryKey", primaryKey);
                 ArkistoActivity.this.startActivity(myIntent);*/
