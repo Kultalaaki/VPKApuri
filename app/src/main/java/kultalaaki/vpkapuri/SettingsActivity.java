@@ -30,8 +30,6 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -369,6 +367,51 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         }
 
                         return false;
+                    }
+                });
+            }
+
+            Preference prefTietosuoja = getPreferenceManager().findPreference("tietosuoja");
+            if(prefTietosuoja != null) {
+                prefTietosuoja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        // Avaa nettisivu tietosuoja
+                        String url = "http://www.vpkapuri.fi/tietosuoja.html";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        return true;
+                    }
+                });
+            }
+
+            Preference prefKayttoehdot= getPreferenceManager().findPreference("kayttoehdot");
+            if(prefKayttoehdot != null) {
+                prefKayttoehdot.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        // Avaa nettisivu käyttöehdot
+                        String url = "http://www.vpkapuri.fi/kayttoehdot.html";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        return true;
+                    }
+                });
+            }
+
+            Preference prefFacebook= getPreferenceManager().findPreference("facebook");
+            if(prefFacebook != null) {
+                prefFacebook.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        // Avaa nettisivu käyttöehdot
+                        String url = "http://www.facebook.com/VPKApuri";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                        return true;
                     }
                 });
             }

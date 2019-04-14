@@ -1,12 +1,18 @@
 package kultalaaki.vpkapuri;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
@@ -59,7 +65,40 @@ public class HalytysFragment extends Fragment {
             Toast.makeText(getActivity(), "Load basic.", Toast.LENGTH_LONG).show();
         } else {
             getNewestDatabaseEntry();
+            checkDoNotDisturb();
         }
+    }
+
+    void checkDoNotDisturb() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean disturb = pref.getBoolean("DoNotDisturb", false);
+        if(!disturb && getActivity() != null) {
+            NotificationManager notificationManager =
+                    (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            if(notificationManager != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+                    showMessage("Huomautus!", "Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa. Tätä lupaa käytetään äänikanavien muuttamiseen kun hälytys tulee." +
+                            " Painamalla Ok, pääset suoraan asetukseen missä voit sallia Älä häiritse tilan muuttamisen VPK Apuri sovellukselle");
+                }
+            }
+        }
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setNegativeButton("Peruuta", null)
+                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+
+                    @TargetApi(Build.VERSION_CODES.M)
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+        builder.create().show();
     }
 
     @Override

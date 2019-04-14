@@ -11,7 +11,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -50,6 +49,8 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,11 +63,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
-    //CardView halytys, carkisto, ohjeet, csettings;
     String[] osoite;
     String aihe;
     DBHelper db;
-    //Button tietosuoja;
     SharedPreferences aaneton, sharedPreferences;
     boolean ericaEtusivu, analytics;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
@@ -89,6 +88,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        if(analytics) {
+            Fabric.with(this, new Crashlytics());
+        }
 
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -256,7 +258,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 });
     }*/
 
-    public void startTimerActivity() {
+    /*public void startTimerActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(EtusivuActivity.this);
             Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
@@ -265,7 +267,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
             startActivity(intent);
         }
-    }
+    }*/
 
     public void createChannels() {
         //Ilmoituskanava hälytyksille
@@ -582,24 +584,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         }
     }
 
-    public void showTietosuoja () {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("VPK Apuri")
-                .setMessage(R.string.tietosuoja)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        builder.create().show();
-    }
-
-    public void showTiewtosuojaAfterWhatsnew() {
-        new tietosuoja(this).show();
-    }
-
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(EtusivuActivity.this)
                 .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
@@ -697,50 +681,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 return dir.delete();
             } else {
                 return false;
-            }
-        }
-    }
-
-    private class tietosuoja {
-        //private static final String LOG_TAG                 = "Tietosuoja";
-
-        //private static final String LAST_VERSION_CODE_KEY   = "last_version_code";
-
-        private Activity            mActivity;
-
-        // Constructor memorize the calling Activity ("context")
-        private tietosuoja (Activity context) {
-            mActivity = context;
-        }
-
-        // Show the dialog only if not already shown for this version of the application
-        @SuppressLint("ApplySharedPref")
-        private void show() {
-            try {
-                // Get the versionCode of the Package, which must be different (incremented) in each release on the market in the AndroidManifest.xml
-                final PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), PackageManager.GET_ACTIVITIES);
-
-                // Kokeillaan versionCode == getLongVersionCode()
-
-                    final String title = mActivity.getString(R.string.app_name) + " v" + packageInfo.versionName;
-
-                    final String message = mActivity.getString(R.string.tietosuoja);
-
-                    // Show the News since last version
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)
-                            .setTitle(title)
-                            .setMessage(message)
-                            .setCancelable(false)
-                            .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                    builder.create().show();
-
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
             }
         }
     }

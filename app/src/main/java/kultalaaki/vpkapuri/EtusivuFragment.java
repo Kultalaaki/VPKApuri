@@ -143,6 +143,7 @@ public class EtusivuFragment extends Fragment {
     }
 
     public void avaaHaly () {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
             Intent intent = new Intent(getActivity(), HalytysActivity.class);

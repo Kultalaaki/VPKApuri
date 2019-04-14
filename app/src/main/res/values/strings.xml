@@ -21,30 +21,21 @@
         Täältä näet myös onko kaikki asetukset oikein laitettu.\n
     </string>
 
-    <string name="tietosuoja">Käyttöehdot\n\n
-
-        Sovellus käyttää vaaralliseksi luokiteltuja lupia.\n
-        Näihin lupiin kuuluu:\n
-        Tekstiviestien vastaanottaminen\n
-        Tekstiviestien lukeminen\n
-        Tekstiviestien kirjoittaminen\n
-        Tekstiviestien lähettäminen\n
-        Puhelulokien lukeminen\n\n
-
-        Tämä sovellus lukee kaikki tekstiviestit, ja päättää käyttäjän asettaman numeron perusteella tarvitaanko lisätoimenpiteitä.\n
-        Kaikista puheluista siirtyy numero sovelluksen sisäiseen tarkistukseen ja siellä tehdään sama tarkistus kuin tekstiviesteille.\n\n
-
-        Sovellus kysyy/tarkistaa luvan/luvat aina ennen toiminnon suorittamista.\n
-        Sovellus käsittelee näitä tietoja ainoastaan sovelluksen toiminnallisiin tarkoituksiin.\n
-        Missään vaiheessa sovellus ei lähetä arkaluontoisia tietoja mihinkään.\n\n
-
-        Jos et hyväksy näitä ehtoja, ole hyvä ja poista sovellus.</string>
-
     <!--Mitä uutta-->
     <string name="whatsnew">
         UUSIN VERSIO!\n\n
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
+
+        <u><b>Versio 3.23</b></u>\n\n
+        Sovelluksella uudet käyttöehdot ja tietosuojalauseke, nämä on hyväksyttävä jotta sovellusta voi käyttää.\n
+        Sovelluksen käynnistyessä kysytään lupaa analytiikkatietojen keräämiseen, tämä on mahdollista peruuttaa tai ottaa käyttöön myöhemmin asetuksissa.\n
+        Analytiikka tietojen keräämiseen käytän Firebase nimistä palvelua ja siihen liitettynä Crashlytics. Nämä auttavat parantamaan palvelua ja korjaamaan virheitä.\n
+        Sovellus tyhjentää välimuistinsa aina päivityksen yhteydessä, tällä vältetään päivityksen muutoksista johtuvia virheitä.\n
+        Älä häiritse asetuksen tarkistus hälytys sivulle siirtyessä.\n
+        Tietosuojan ja käyttöehdot pääsee lukemaan sovelluksen asetusvalikko Luvat &amp; käyttöönotto kautta.\n
+        Asetuksiin myös lisätty linkki sovelluksen facebook sivulle.\n
+        Numeroiden tunnistukseen korjauksia.\n\n
 
         <u><b>Versio 3.211</b></u>\n\n
         Hälytys sivun soita painikkeen toiminta muuttunut, ei soita heti vaan aukaisee puhelin sovelluksen ja asettaa numeron valmiiksi.\n

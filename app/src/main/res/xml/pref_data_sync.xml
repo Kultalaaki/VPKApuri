@@ -40,5 +40,17 @@
             android:title="Analytiikkatietojen kerääminen"
             android:defaultValue="false"
             android:summary="Ota pois päältä jos et halua osallistua tietojen keräämiseen sovelluksen parantamiseksi. Muutos tulee voimaan kun sovellus käynnistetään uudelleen."/>
+        <Preference
+            android:key="facebook"
+            android:title="VPK Apuri facebook sivu"
+            android:summary="Käy tykkäämässä VPK Apurin facebook sivuista ja saa uusimmat uutiset sovelluksen kuulumisista."/>
+        <Preference
+            android:key="tietosuoja"
+            android:title="Tietosuoja"
+            android:summary="Avautuu selaimeen jossa näytetään sovelluksen tietosuojalauseke."/>
+        <Preference
+            android:key="kayttoehdot"
+            android:title="Käyttöehdot"
+            android:summary="Avautuu selaimeen jossa näytetään sovelluksen käyttöehdot."/>
     </PreferenceCategory>
 </PreferenceScreen>
