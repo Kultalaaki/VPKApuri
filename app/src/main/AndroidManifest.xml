@@ -42,9 +42,6 @@
             android:value="007dd4b848f896a9127bfeb574670d75461a0ed2" />
 
         <activity
-            android:name=".TimerActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".HalytysActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">

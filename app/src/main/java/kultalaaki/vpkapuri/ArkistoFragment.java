@@ -133,7 +133,7 @@ public class ArkistoFragment extends Fragment {
             String[] fromFieldNames = new String[] {DBHelper.COL_1, DBHelper.VIESTI, DBHelper.TUNNUS};
             final int[] toViewIDs = new int[] {R.id.sija, R.id.viesti, R.id.tunnus};
             SimpleCursorAdapter myCursorAdapter;
-            myCursorAdapter = new SimpleCursorAdapter(ctx,R.layout.item_layout, cursor, fromFieldNames, toViewIDs, 0);
+            myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_layout, cursor, fromFieldNames, toViewIDs, 0);
             //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
             showAlarms.setAdapter(myCursorAdapter);
             showAlarms.setOnItemClickListener(new AdapterView.OnItemClickListener() {

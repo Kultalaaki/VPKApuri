@@ -77,7 +77,7 @@ public class SetTimerFragment extends Fragment {
         super.onStart();
         stateSelectorState();
         setOnClickListeners();
-        mListener.hideAddTimer();
+        //mListener.hideAddTimer();
         dbTimer = new DBTimer(getActivity());
         if(getArguments()!=null) {
             populateTimer(mParam1);
@@ -292,13 +292,6 @@ public class SetTimerFragment extends Fragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onSave() {
-        if (mListener != null) {
-            mListener.onFragmentInteraction();
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -313,7 +306,7 @@ public class SetTimerFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener.showAddTimer();
+        //mListener.showAddTimer();
         mListener = null;
         dbTimer.close();
     }
@@ -336,12 +329,11 @@ public class SetTimerFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction();
-        void showAddTimer();
-        void hideAddTimer();
+        //void showAddTimer();
+        //void hideAddTimer();
         void saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
                            String pe, String la, String su, String selector, String isiton);
-        void updateListview();
+        //void updateListview();
     }
 
     void saveTimerToDBs() {
@@ -352,7 +344,7 @@ public class SetTimerFragment extends Fragment {
         startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
         stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
         mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
-        mListener.updateListview();
+        //mListener.updateListview();
         getActivity().onBackPressed();
     }
 }

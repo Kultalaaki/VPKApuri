@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -47,6 +48,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.RemoteViews;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -62,13 +64,15 @@ import java.nio.channels.FileChannel;
 
 public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener,
                                 ArkistoFragment.OnFragmentInteractionListener, OhjeetFragment.OnFragmentInteractionListener, TallennaArkistoonFragment.OnFragmentInteractionListener,
-                                HalytysTietokannastaFragment.OnFragmentInteractionListener {
+                                HalytysTietokannastaFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener,
+                                TimePickerDialog.OnTimeSetListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
     String[] osoite;
     String aihe;
     DBHelper db;
+    DBTimer dbTimer;
     SharedPreferences aaneton, sharedPreferences;
     boolean ericaEtusivu, analytics;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
@@ -233,6 +237,26 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
     }
 
+    public void openSetTimerNewInstance(String primaryKey) {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        SetTimerFragment setTimerFragment = SetTimerFragment.newInstance(primaryKey);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    public void openSetTimer() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        SetTimerFragment setTimerFragment = new SetTimerFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -279,13 +303,31 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }*/
 
     public void startTimerActivity() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(EtusivuActivity.this);
-            Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
-            startActivity(intent);
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        TimerFragment timerFragment = new TimerFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.etusivuContainer, timerFragment, "timerFragment").commit();
+    }
+
+    public void saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
+                              String pe, String la, String su, String selector, String isiton) {
+        dbTimer = new DBTimer(this);
+        Toast.makeText(getApplicationContext(), "melkein " + name + startTime + stopTime + ma + ti+ke+to+pe+la+su+selector, Toast.LENGTH_LONG).show();
+        boolean tallennettu = dbTimer.insertData(name, startTime, stopTime,
+                ma, ti, ke, to, pe, la, su, selector, isiton);
+        if(tallennettu) {
+            Toast.makeText(getApplicationContext(), "Tallennettu", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Log.i("TAG", "OnTimeSet reached");
+        SetTimerFragment setTimerFragment = (SetTimerFragment)
+                getSupportFragmentManager().findFragmentByTag("setTimerFragment");
+        if(setTimerFragment != null) {
+            setTimerFragment.setTimerTimes(hourOfDay, minute);
         }
     }
 

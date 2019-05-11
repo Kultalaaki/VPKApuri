@@ -44,25 +44,27 @@ public class TimerActivity extends AppCompatActivity
     }
 
     private void populateListView() {
-        Cursor cursor = dbTimer.getAllRows();
-        String[] fromFieldNames = new String[] {DBTimer.COL_1, DBTimer.NAME, DBTimer.STARTTIME, DBTimer.STOPTIME, DBTimer.MA, DBTimer.TI, DBTimer.KE, DBTimer.TO, DBTimer.PE, DBTimer.LA, DBTimer.SU,
-                DBTimer.SELECTOR};
-        final int[] toViewIDs = new int[] {R.id.sijaID, R.id.timerName, R.id.startTime, R.id.stopTime, R.id.monday, R.id.tuesday, R.id.wednesday, R.id.thursday, R.id.friday, R.id.saturday, R.id.sunday,
-                R.id.selectedState};
-        SimpleCursorAdapter myCursorAdapter;
-        myCursorAdapter = new SimpleCursorAdapter(getBaseContext(),R.layout.item_timer_layout, cursor, fromFieldNames, toViewIDs, 0);
-        //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
-        listViewTimers.setAdapter(myCursorAdapter);
-        listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if(getBaseContext() != null) {
+            Cursor cursor = dbTimer.getAllRows();
+            String[] fromFieldNames = new String[] {DBTimer.COL_1, DBTimer.NAME, DBTimer.STARTTIME, DBTimer.STOPTIME, DBTimer.MA, DBTimer.TI, DBTimer.KE, DBTimer.TO, DBTimer.PE, DBTimer.LA, DBTimer.SU,
+                    DBTimer.SELECTOR};
+            final int[] toViewIDs = new int[] {R.id.sijaID, R.id.timerName, R.id.startTime, R.id.stopTime, R.id.monday, R.id.tuesday, R.id.wednesday, R.id.thursday, R.id.friday, R.id.saturday, R.id.sunday,
+                    R.id.selectedState};
+            SimpleCursorAdapter myCursorAdapter;
+            myCursorAdapter = new SimpleCursorAdapter(getBaseContext(),R.layout.item_timer_layout, cursor, fromFieldNames, toViewIDs, 0);
+            //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
+            listViewTimers.setAdapter(myCursorAdapter);
+            listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // When clicked perform some action...
-                //TODO
-                frame.setVisibility(View.VISIBLE);
-                TextView textView = view.findViewById(R.id.sijaID);
-                String primaryKey = textView.getText().toString();
-                openSetTimerNewInstance(primaryKey);
-                Log.i("TAG", primaryKey);
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // When clicked perform some action...
+                    //TODO
+                    frame.setVisibility(View.VISIBLE);
+                    Log.i("TAG", "Klik");
+                    TextView textView = view.findViewById(R.id.sijaID);
+                    String primaryKey = textView.getText().toString();
+                    openSetTimerNewInstance(primaryKey);
+
 
                 /*TextView textView = view.findViewById(R.id.sija);
                 String primaryKey = textView.getText().toString();
@@ -70,12 +72,9 @@ public class TimerActivity extends AppCompatActivity
                 myIntent.putExtra("paikkanumero", position);
                 myIntent.putExtra("primaryKey", primaryKey);
                 ArkistoActivity.this.startActivity(myIntent);*/
-            }
-        });
-    }
-
-    @Override
-    public void onFragmentInteraction() {
+                }
+            });
+        }
 
     }
 
@@ -105,11 +104,11 @@ public class TimerActivity extends AppCompatActivity
 
     void openSetTimerNewInstance(String primaryKey) {
         frame.setVisibility(View.VISIBLE);
-        FragmentManager fragmentManager = TimerActivity.this.getSupportFragmentManager();
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = SetTimerFragment.newInstance(primaryKey);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.add(R.id.showSetTimer, setTimerFragment, "setTimerFragment");
+        fragmentTransaction.replace(R.id.showSetTimer, setTimerFragment, "setTimerFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -120,7 +119,7 @@ public class TimerActivity extends AppCompatActivity
         SetTimerFragment setTimerFragment = new SetTimerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.add(R.id.showSetTimer, setTimerFragment, "setTimerFragment");
+        fragmentTransaction.replace(R.id.showSetTimer, setTimerFragment, "setTimerFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
