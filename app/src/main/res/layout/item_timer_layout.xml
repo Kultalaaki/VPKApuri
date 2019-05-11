@@ -183,8 +183,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/stopTime"
-                app:layout_constraintTop_toTopOf="@+id/stopTime"
-                tools:layout_editor_absoluteX="349dp" />
+                app:layout_constraintStart_toStartOf="@+id/selectedState"
+                app:layout_constraintTop_toTopOf="@+id/stopTime" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

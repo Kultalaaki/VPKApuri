@@ -1,12 +1,12 @@
 package kultalaaki.vpkapuri;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,6 +141,7 @@ public class ArkistoFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // When clicked perform some action...
                     //TODO
+                    Log.e("TAG", "tulee " + DBHelper.COL_1);
                     TextView textView = view.findViewById(R.id.sija);
                     String primaryKey = textView.getText().toString();
                     mListener.loadHalytysTietokannastaFragment(primaryKey);

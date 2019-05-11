@@ -242,19 +242,17 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         SetTimerFragment setTimerFragment = SetTimerFragment.newInstance(primaryKey);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment");
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragmentNewInstance").commit();
     }
 
     public void openSetTimer() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = new SetTimerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment");
+        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
     }
 
     @Override

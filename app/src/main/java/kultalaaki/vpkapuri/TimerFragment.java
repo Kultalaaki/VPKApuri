@@ -2,12 +2,9 @@ package kultalaaki.vpkapuri;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,7 +64,17 @@ public class TimerFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         populateListView();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public void clickListeners() {
         addTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,12 +89,6 @@ public class TimerFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     private void populateListView() {
         if(ctx != null) {
             Cursor cursor = dbTimer.getAllRows();
@@ -99,15 +99,25 @@ public class TimerFragment extends Fragment {
             SimpleCursorAdapter myCursorAdapter;
             myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_timer_layout, cursor, fromFieldNames, toViewIDs, 0);
             listViewTimers.setAdapter(myCursorAdapter);
+            Log.e("TAG", "tulee " + DBTimer.COL_1);
             listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.e("TAG", "eikö tule");
+                    TextView text = view.findViewById(R.id.sijaID);
+                    String primary = text.getText().toString();
+                    mListener.openSetTimerNewInstance(primary);
+                }
+            });
+            /*listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.e("TAG", "tulee");
+                    Log.e("TAG", "ei tule");
                     TextView textView = view.findViewById(R.id.sijaID);
                     String primaryKey = textView.getText().toString();
                     mListener.openSetTimerNewInstance(primaryKey);
                 }
-            });
+            });*/
         }
     }
 
