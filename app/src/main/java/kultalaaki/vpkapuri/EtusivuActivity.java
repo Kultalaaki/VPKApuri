@@ -11,6 +11,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -59,7 +60,9 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 
-public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener {
+public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener,
+                                ArkistoFragment.OnFragmentInteractionListener, OhjeetFragment.OnFragmentInteractionListener, TallennaArkistoonFragment.OnFragmentInteractionListener,
+                                HalytysTietokannastaFragment.OnFragmentInteractionListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
@@ -102,7 +105,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                         mDrawerLayout.closeDrawers();
                         switch(menuItem.getItemId()) {
                             case R.id.tallenna_arkistoon_haly:
-                                startTallennaArkistoon();
+                                loadTallennaArkistoonFragment();
+                                //startTallennaArkistoon();
                                 return true;
                             case R.id.testaa_haly:
                                 showMessageOKCancelTestaaHaly("Paina OK jos haluat testata hälytystä (5sek viive ennen kuin hälytys tulee). " +
@@ -118,8 +122,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                                 }
                                 return true;
                             case R.id.timer:
-                                //startTimerActivity();
-                                showMessageOKCancelAjastin();
+                                startTimerActivity();
+                                //showMessageOKCancelAjastin();
                                 return true;
                             case R.id.changelog:
                                 startChangelog();
@@ -144,49 +148,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                     }
         });
 
-        //carkisto = findViewById(R.id.card_viewArkisto);
-        //ohjeet = findViewById(R.id.card_viewOhjeet);
-        //csettings = findViewById(R.id.card_viewAsetukset);
-        //halytys = findViewById(R.id.card_viewHaly);
         osoite = new String [1];
         osoite[0] = "info@vpkapuri.fi";
         aihe = "VPK Apuri palaute";
-        //tietosuoja = findViewById(R.id.tietosuoja);
-
-        /*halytys.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                avaaHaly();
-            }
-        });
-
-        carkisto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                avaaArkisto();
-            }
-        });
-
-        ohjeet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                avaaOhjeet();
-            }
-        });
-
-        csettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                avaaAsetukset();
-            }
-        });*/
-
-        /*tietosuoja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTietosuoja();
-            }
-        });*/
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.contains("termsShown")) {
             loadEtusivuFragment();
@@ -203,12 +167,44 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.add(R.id.etusivuContainer, kayttoehdotFragment, "etusivuLegal").commit();
     }
 
+    public void loadArkistoFragment() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        ArkistoFragment arkistoFragment = new ArkistoFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.etusivuContainer, arkistoFragment, "arkistoFragment").commit();
+    }
+
+    public void loadArkistoFragmentNoBackstack() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        ArkistoFragment arkistoFragment = new ArkistoFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.etusivuContainer, arkistoFragment, "arkistoFragment").commit();
+    }
+
+    public void loadOhjeetFragment() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        OhjeetFragment ohjeetFragment = new OhjeetFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.etusivuContainer, ohjeetFragment, "ohjeetFragment").commit();
+    }
+
     public void loadEtusivuFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         EtusivuFragment etusivuFragment = new EtusivuFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.etusivuContainer, etusivuFragment, "etusivuNavigation").commit();
+    }
+
+    public void loadEtusivuClearingBackstack() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        EtusivuFragment etusivuFragment = new EtusivuFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        fragmentTransaction.replace(R.id.etusivuContainer, etusivuFragment, "etusivuNavigation").commit();
     }
 
     public void loadEtusivuFromFragment() {
@@ -222,6 +218,21 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.commit();
     }
 
+    public void loadTallennaArkistoonFragment() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        TallennaArkistoonFragment tallennaArkistoonFragment = new TallennaArkistoonFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.etusivuContainer, tallennaArkistoonFragment, "tallennaArkistoonFragment").commit();
+    }
+
+    public void loadHalytysTietokannastaFragment(String primaryKey) {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        HalytysTietokannastaFragment halytysTietokannastaFragment = HalytysTietokannastaFragment.newInstance(primaryKey);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -231,6 +242,15 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         ericaEtusivu = pref_general.getBoolean("Erica", false);
         analytics = pref_general.getBoolean("analyticsEnabled", false);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     /*void setMenuTexts() {
@@ -258,7 +278,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 });
     }*/
 
-    /*public void startTimerActivity() {
+    public void startTimerActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(EtusivuActivity.this);
             Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
@@ -267,7 +287,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Intent intent = new Intent(EtusivuActivity.this, TimerActivity.class);
             startActivity(intent);
         }
-    }*/
+    }
 
     public void createChannels() {
         //Ilmoituskanava hälytyksille
@@ -329,16 +349,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     public void startTestaaHalytys() {
 
-        /*NotificationManager notify = (NotificationManager) getBaseContext().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        //Toast.makeText(getApplicationContext(), "Do Not Disturb " + notify, Toast.LENGTH_SHORT).show();
-        if (notify != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && notify.isNotificationPolicyAccessGranted()) {
-                Toast.makeText(getApplicationContext(), "Do Not Disturb lupa on myönnetty", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Do Not Disturb lupaa ei ole myönnetty", Toast.LENGTH_SHORT).show();
-            }
-        }*/
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
         ericaEtusivu = pref_general.getBoolean("Erica", false);
 
@@ -367,14 +377,14 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         }
     }
 
-    public void startTallennaArkistoon() {
-        Intent tallennaArkistoon = new Intent(EtusivuActivity.this, tallennaArkistoon.class);
-        startActivity(tallennaArkistoon);
-    }
-
     public void startChangelog() {
-        Intent intentChangelog = new Intent(EtusivuActivity.this, ChangelogActivity.class);
-        startActivity(intentChangelog);
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        ChangelogFragment changelogFragment = new ChangelogFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
+        /*Intent intentChangelog = new Intent(EtusivuActivity.this, ChangelogActivity.class);
+        startActivity(intentChangelog);*/
     }
 
     public void startLahetaPalaute (){

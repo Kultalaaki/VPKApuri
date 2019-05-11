@@ -66,19 +66,9 @@
             android:exported="false" />
 
         <activity
-            android:name=".ArkistoActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/action_halylista"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SettingsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".tallennaArkistoon"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Uusi hälytys"
             android:screenOrientation="portrait" />
 
         <receiver
@@ -135,19 +125,6 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".OhjeitaActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/action_ohjeita"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".HalytysTietokannastaActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ChangelogActivity"
-            android:label="@string/title_activity_changelog"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

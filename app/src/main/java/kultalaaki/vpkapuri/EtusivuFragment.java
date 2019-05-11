@@ -140,6 +140,8 @@ public class EtusivuFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void loadArkistoFragment();
+        void loadOhjeetFragment();
     }
 
     public void avaaHaly () {
@@ -155,25 +157,27 @@ public class EtusivuFragment extends Fragment {
     }
 
     public void avaaArkisto () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        mListener.loadArkistoFragment();
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
             Intent intent = new Intent(getActivity(), ArkistoActivity.class);
             startActivity(intent, options.toBundle());
         } else {
             Intent intent = new Intent(getActivity(), ArkistoActivity.class);
             startActivity(intent);
-        }
+        }*/
     }
 
     public void avaaOhjeet () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        mListener.loadOhjeetFragment();
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
             Intent intent = new Intent(getActivity(), OhjeitaActivity.class);
             startActivity(intent, options.toBundle());
         } else {
             Intent intent = new Intent(getActivity(), OhjeitaActivity.class);
             startActivity(intent);
-        }
+        }*/
     }
 
     public void avaaAsetukset () {
