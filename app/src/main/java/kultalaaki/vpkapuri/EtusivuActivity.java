@@ -11,7 +11,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -243,7 +242,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragmentNewInstance").commit();
+        fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
     }
 
     public void openSetTimer() {

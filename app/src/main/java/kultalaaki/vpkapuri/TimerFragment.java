@@ -1,6 +1,9 @@
 package kultalaaki.vpkapuri;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,9 +48,9 @@ public class TimerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         ctx = getActivity();
         dbTimer = new DBTimer(ctx);
+        listViewTimers = view.findViewById(R.id.listViewTimers);
         addTimer = view.findViewById(R.id.addTimer);
         deleteTimers = view.findViewById(R.id.deleteTimers);
-        listViewTimers = view.findViewById(R.id.listViewTimers);
     }
 
     @Override
@@ -65,7 +68,8 @@ public class TimerFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        populateListView();
+        getTimers();
+        clickListeners();
     }
 
     @Override
@@ -84,12 +88,12 @@ public class TimerFragment extends Fragment {
         deleteTimers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteTimersFromDatabase();
+                showMessageClearTimers();
             }
         });
     }
 
-    private void populateListView() {
+    private void getTimers() {
         if(ctx != null) {
             Cursor cursor = dbTimer.getAllRows();
             String[] fromFieldNames = new String[] {DBTimer.COL_1, DBTimer.NAME, DBTimer.STARTTIME, DBTimer.STOPTIME, DBTimer.MA, DBTimer.TI, DBTimer.KE, DBTimer.TO, DBTimer.PE, DBTimer.LA, DBTimer.SU,
@@ -98,8 +102,31 @@ public class TimerFragment extends Fragment {
                     R.id.selectedState};
             SimpleCursorAdapter myCursorAdapter;
             myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_timer_layout, cursor, fromFieldNames, toViewIDs, 0);
+            //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
             listViewTimers.setAdapter(myCursorAdapter);
-            Log.e("TAG", "tulee " + DBTimer.COL_1);
+            listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // When clicked perform some action...
+                    //TODO
+                    Log.e("TAG", "tulee " + DBTimer.COL_1);
+                    TextView textView = view.findViewById(R.id.sijaID);
+                    String primaryKey = textView.getText().toString();
+                    mListener.openSetTimerNewInstance(primaryKey);
+                }
+            });
+        }
+    }
+
+    /*private void populateListView() {
+            Cursor cursor = dbTimer.getAllRows();
+            String[] fromFieldNames = new String[] {DBTimer.COL_1, DBTimer.NAME, DBTimer.STARTTIME, DBTimer.STOPTIME, DBTimer.MA, DBTimer.TI, DBTimer.KE, DBTimer.TO, DBTimer.PE, DBTimer.LA, DBTimer.SU,
+                    DBTimer.SELECTOR};
+            final int[] toViewIDs = new int[] {R.id.sijaID, R.id.timerName, R.id.startTime, R.id.stopTime, R.id.monday, R.id.tuesday, R.id.wednesday, R.id.thursday, R.id.friday, R.id.saturday, R.id.sunday,
+                    R.id.selectedState};
+            SimpleCursorAdapter myCursorAdapter;
+            myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_timer_layout, cursor, fromFieldNames, toViewIDs, 0);
+            listViewTimers.setAdapter(myCursorAdapter);
             listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,21 +136,22 @@ public class TimerFragment extends Fragment {
                     mListener.openSetTimerNewInstance(primary);
                 }
             });
-            /*listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    }*/
 
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.e("TAG", "ei tule");
-                    TextView textView = view.findViewById(R.id.sijaID);
-                    String primaryKey = textView.getText().toString();
-                    mListener.openSetTimerNewInstance(primaryKey);
-                }
-            });*/
-        }
-    }
+    private void showMessageClearTimers() {
 
-    void deleteTimersFromDatabase() {
-        dbTimer.tyhjennaTietokanta();
-        populateListView();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle("Huomio!")
+                .setMessage("Haluatko poistaa kaikki ajastimet käytöstä?")
+                .setNegativeButton("Peruuta", null)
+                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dbTimer.tyhjennaTietokanta();
+                        getTimers();
+                    }
+                });
+        builder.create().show();
     }
 
     /**

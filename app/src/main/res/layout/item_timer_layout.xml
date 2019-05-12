@@ -1,36 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="2dp">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="395dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="#141414"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:stateListAnimator="@animator/lift_on_touch"
-        android:clickable="true"
-        android:focusable="true">
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_viewHaly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:divider="@null"
+        card_view:cardCornerRadius="8dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/startTime"
@@ -42,8 +33,8 @@
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/orange"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/hyphen"
@@ -54,9 +45,9 @@
                 android:text="-"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/orange"
-                app:layout_constraintBottom_toBottomOf="@+id/startTime"
-                app:layout_constraintStart_toEndOf="@+id/startTime"
-                app:layout_constraintTop_toTopOf="@+id/startTime" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/startTime"
+                card_view:layout_constraintStart_toEndOf="@+id/startTime"
+                card_view:layout_constraintTop_toTopOf="@+id/startTime" />
 
             <TextView
                 android:id="@+id/stopTime"
@@ -67,9 +58,9 @@
                 android:text="00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/orange"
-                app:layout_constraintBottom_toBottomOf="@+id/startTime"
-                app:layout_constraintStart_toEndOf="@+id/hyphen"
-                app:layout_constraintTop_toTopOf="@+id/startTime" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/startTime"
+                card_view:layout_constraintStart_toEndOf="@+id/hyphen"
+                card_view:layout_constraintTop_toTopOf="@+id/startTime" />
 
             <TextView
                 android:id="@+id/monday"
@@ -81,9 +72,9 @@
                 android:layout_marginBottom="8dp"
                 android:text="Ma"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timerName" />
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/timerName" />
 
             <TextView
                 android:id="@+id/tuesday"
@@ -93,9 +84,9 @@
                 android:layout_marginLeft="8dp"
                 android:text="Ti"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="@+id/monday"
-                app:layout_constraintStart_toEndOf="@+id/monday"
-                app:layout_constraintTop_toTopOf="@+id/monday" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/monday"
+                card_view:layout_constraintStart_toEndOf="@+id/monday"
+                card_view:layout_constraintTop_toTopOf="@+id/monday" />
 
             <TextView
                 android:id="@+id/wednesday"
@@ -105,9 +96,9 @@
                 android:layout_marginLeft="8dp"
                 android:text="Ke"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="@+id/monday"
-                app:layout_constraintStart_toEndOf="@+id/tuesday"
-                app:layout_constraintTop_toTopOf="@+id/monday" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/monday"
+                card_view:layout_constraintStart_toEndOf="@+id/tuesday"
+                card_view:layout_constraintTop_toTopOf="@+id/monday" />
 
             <TextView
                 android:id="@+id/thursday"
@@ -117,9 +108,9 @@
                 android:layout_marginLeft="8dp"
                 android:text="To"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="@+id/monday"
-                app:layout_constraintStart_toEndOf="@+id/wednesday"
-                app:layout_constraintTop_toTopOf="@+id/monday" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/monday"
+                card_view:layout_constraintStart_toEndOf="@+id/wednesday"
+                card_view:layout_constraintTop_toTopOf="@+id/monday" />
 
             <TextView
                 android:id="@+id/friday"
@@ -129,9 +120,9 @@
                 android:layout_marginLeft="8dp"
                 android:text="Pe"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="@+id/monday"
-                app:layout_constraintStart_toEndOf="@+id/thursday"
-                app:layout_constraintTop_toTopOf="@+id/monday" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/monday"
+                card_view:layout_constraintStart_toEndOf="@+id/thursday"
+                card_view:layout_constraintTop_toTopOf="@+id/monday" />
 
             <TextView
                 android:id="@+id/saturday"
@@ -141,9 +132,9 @@
                 android:layout_marginLeft="8dp"
                 android:text="La"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="@+id/monday"
-                app:layout_constraintStart_toEndOf="@+id/friday"
-                app:layout_constraintTop_toTopOf="@+id/monday" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/monday"
+                card_view:layout_constraintStart_toEndOf="@+id/friday"
+                card_view:layout_constraintTop_toTopOf="@+id/monday" />
 
             <TextView
                 android:id="@+id/sunday"
@@ -153,9 +144,9 @@
                 android:layout_marginLeft="8dp"
                 android:text="Su"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintBottom_toBottomOf="@+id/monday"
-                app:layout_constraintStart_toEndOf="@+id/saturday"
-                app:layout_constraintTop_toTopOf="@+id/monday" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/monday"
+                card_view:layout_constraintStart_toEndOf="@+id/saturday"
+                card_view:layout_constraintTop_toTopOf="@+id/monday" />
 
             <TextView
                 android:id="@+id/timerName"
@@ -164,8 +155,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/startTime" />
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/startTime" />
 
             <TextView
                 android:id="@+id/selectedState"
@@ -173,18 +164,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/stopTime"
-                app:layout_constraintStart_toEndOf="@+id/stopTime"
-                app:layout_constraintTop_toTopOf="@+id/stopTime" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/stopTime"
+                card_view:layout_constraintStart_toEndOf="@+id/stopTime"
+                card_view:layout_constraintTop_toTopOf="@+id/stopTime" />
 
             <TextView
                 android:id="@+id/sijaID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/stopTime"
-                app:layout_constraintStart_toStartOf="@+id/selectedState"
-                app:layout_constraintTop_toTopOf="@+id/stopTime" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/stopTime"
+                card_view:layout_constraintStart_toStartOf="@+id/selectedState"
+                card_view:layout_constraintTop_toTopOf="@+id/stopTime" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -1,6 +1,7 @@
 package kultalaaki.vpkapuri;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -41,6 +42,7 @@ public class SetTimerFragment extends Fragment {
     Switch stateSelector;
     Button monday, tuesday, wednesday, thursday, friday, saturday, sunday, cancel, save;
     boolean bMonday = false, bTuesday = false, bWednesday = false, bThursday = false, bFriday = false, bSaturday = false, bSunday = false, startOrStopSelector, selectoryo = false;
+    String ma, ti, ke, to, pe, la, su, startTime, stopTime, state, timerName;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,18 +77,53 @@ public class SetTimerFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        stateSelectorState();
-        setOnClickListeners();
-        //mListener.hideAddTimer();
         dbTimer = new DBTimer(getActivity());
-        if(getArguments()!=null) {
+        if(getArguments()!= null) {
             populateTimer(mParam1);
+            cancel.setText("Poista ajastin");
+        } else {
+            stateSelectorState();
+            setOnClickListeners();
         }
     }
 
     void populateTimer(String primaryKey) {
-        if(getArguments() != null) {
-            name.setText(mParam1);
+        Cursor cursor = dbTimer.timerID(primaryKey);
+        if(cursor != null) {
+            timerName = cursor.getString(cursor.getColumnIndex(DBTimer.NAME));
+            name.setText(timerName);
+            ma = cursor.getString(cursor.getColumnIndex(DBTimer.MA));
+            ti = cursor.getString(cursor.getColumnIndex(DBTimer.TI));
+            ke = cursor.getString(cursor.getColumnIndex(DBTimer.KE));
+            to = cursor.getString(cursor.getColumnIndex(DBTimer.TO));
+            pe = cursor.getString(cursor.getColumnIndex(DBTimer.PE));
+            la = cursor.getString(cursor.getColumnIndex(DBTimer.LA));
+            su = cursor.getString(cursor.getColumnIndex(DBTimer.SU));
+            startTime = cursor.getString(cursor.getColumnIndex(DBTimer.STARTTIME));
+            stopTime = cursor.getString(cursor.getColumnIndex(DBTimer.STOPTIME));
+            state = cursor.getString(cursor.getColumnIndex(DBTimer.SELECTOR));
+            if(ma.equals("ma")) { bMonday = true; monday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(ti.equals("ti")) { bTuesday = true; tuesday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(ke.equals("ke")) { bWednesday = true; wednesday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(to.equals("to")) { bThursday = true; thursday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(pe.equals("pe")) { bFriday = true; friday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(la.equals("la")) { bSaturday = true; saturday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(su.equals("su")) { bSunday = true; sunday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(state.equals("yotila")) {
+                selectoryo = true;
+                stateSelector.setText(R.string.nightMode);
+                stateSelector.setChecked(true);
+            } else {
+                selectoryo = false;
+                stateSelector.setText(R.string.pref_ringtone_silent);
+                stateSelector.setChecked(false);
+            }
+            hourSelector.setText(startTime.substring(0,2));
+            minuteSelector.setText(startTime.substring(3,5));
+            hourSelector2.setText(stopTime.substring(0,2));
+            minuteSelector2.setText(stopTime.substring(3,5));
+            setOnClickListeners();
+            stateSelectorState();
         }
     }
 
@@ -96,9 +133,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bMonday) {
                     bMonday = true;
+                    ma = "ma";
                     monday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bMonday = false;
+                    ma = "";
                     monday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -108,9 +147,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bTuesday) {
                     bTuesday = true;
+                    ti = "ti";
                     tuesday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bTuesday = false;
+                    ti = "";
                     tuesday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -120,9 +161,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bWednesday) {
                     bWednesday = true;
+                    ke = "ke";
                     wednesday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bWednesday = false;
+                    ke = "";
                     wednesday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -132,9 +175,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bThursday) {
                     bThursday = true;
+                    to = "to";
                     thursday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bThursday = false;
+                    to = "";
                     thursday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -144,9 +189,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bFriday) {
                     bFriday = true;
+                    pe = "pe";
                     friday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bFriday = false;
+                    pe = "";
                     friday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -156,9 +203,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bSaturday) {
                     bSaturday = true;
+                    la = "la";
                     saturday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bSaturday = false;
+                    la = "";
                     saturday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -168,9 +217,11 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bSunday) {
                     bSunday = true;
+                    su = "su";
                     sunday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bSunday = false;
+                    su = "";
                     sunday.setTextColor(getResources().getColor(R.color.text_color_primary));
                 }
             }
@@ -211,13 +262,27 @@ public class SetTimerFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                if(getArguments() != null) {
+                    int sija = Integer.parseInt(mParam1);
+                    dbTimer.deleteRow(sija);
+                    getActivity().onBackPressed();
+                } else {
+                    getActivity().onBackPressed();
+                }
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTimerToDBs();
+                if(getArguments() != null) {
+                    timerName = name.getText().toString();
+                    startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
+                    stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
+                    dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
+                    getActivity().onBackPressed();
+                } else {
+                    saveTimerToDBs();
+                }
             }
         });
     }
@@ -228,9 +293,11 @@ public class SetTimerFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     selectoryo = true;
+                    state = "yotila";
                     stateSelector.setText(R.string.nightMode);
                 } else {
                     selectoryo = false;
+                    state = "aaneton";
                     stateSelector.setText(R.string.pref_ringtone_silent);
                 }
             }

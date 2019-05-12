@@ -23,19 +23,19 @@ import android.widget.TextView;
  * Use the {@link ArkistoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArkistoFragment extends Fragment {
+public class TimerFragment2 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    DBHelper db;
-    ListView showAlarms;
+    DBTimer db;
+    ListView listViewTimers;
     Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
-    public ArkistoFragment() {
+    public TimerFragment2() {
         // Required empty public constructor
     }
 
@@ -73,8 +73,8 @@ public class ArkistoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         ctx = getActivity();
-        db = new DBHelper(ctx);
-        showAlarms = view.findViewById(R.id.listViewHalyt);
+        db = new DBTimer(ctx);
+        listViewTimers = view.findViewById(R.id.listViewHalyt);
     }
 
     public void onStart() {
@@ -118,27 +118,29 @@ public class ArkistoFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void loadHalytysTietokannastaFragment(String primarykey);
+        void openSetTimerNewInstance(String primarykey);
     }
 
     private void populateListView() {
         if(ctx != null) {
             Cursor cursor = db.getAllRows();
-            String[] fromFieldNames = new String[] {DBHelper.COL_1, DBHelper.VIESTI, DBHelper.TUNNUS};
-            final int[] toViewIDs = new int[] {R.id.sija, R.id.viesti, R.id.tunnus};
+            String[] fromFieldNames = new String[] {DBTimer.COL_1, DBTimer.NAME, DBTimer.STARTTIME, DBTimer.STOPTIME, DBTimer.MA, DBTimer.TI, DBTimer.KE, DBTimer.TO, DBTimer.PE, DBTimer.LA, DBTimer.SU,
+                    DBTimer.SELECTOR};
+            final int[] toViewIDs = new int[] {R.id.sijaID, R.id.timerName, R.id.startTime, R.id.stopTime, R.id.monday, R.id.tuesday, R.id.wednesday, R.id.thursday, R.id.friday, R.id.saturday, R.id.sunday,
+                    R.id.selectedState};
             SimpleCursorAdapter myCursorAdapter;
-            myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_layout, cursor, fromFieldNames, toViewIDs, 0);
+            myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_timer_layout, cursor, fromFieldNames, toViewIDs, 0);
             //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
-            showAlarms.setAdapter(myCursorAdapter);
-            showAlarms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listViewTimers.setAdapter(myCursorAdapter);
+            listViewTimers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // When clicked perform some action...
                     //TODO
-                    Log.e("TAG", "tulee " + DBHelper.COL_1);
-                    TextView textView = view.findViewById(R.id.sija);
+                    Log.e("TAG", "tulee " + DBTimer.COL_1);
+                    TextView textView = view.findViewById(R.id.sijaID);
                     String primaryKey = textView.getText().toString();
-                    mListener.loadHalytysTietokannastaFragment(primaryKey);
+                    mListener.openSetTimerNewInstance(primaryKey);
                 }
             });
         }

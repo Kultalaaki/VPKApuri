@@ -107,16 +107,24 @@ class DBTimer extends SQLiteOpenHelper {
         return true;
     }
 
-    /*boolean lisaaKommentti(String id, String tunnus, String luokka, String viesti, String kommentti) {
+    boolean tallennaMuutokset(String id, String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(KOMMENTTI, kommentti);
-        contentValues.put(TUNNUS, tunnus);
-        contentValues.put(LUOKKA, luokka);
-        contentValues.put(VIESTI, viesti);
+        contentValues.put(NAME, name);
+        contentValues.put(STARTTIME, startTime);
+        contentValues.put(STOPTIME, stopTime);
+        contentValues.put(MA, ma);
+        contentValues.put(TI, ti);
+        contentValues.put(KE, ke);
+        contentValues.put(TO, to);
+        contentValues.put(PE, pe);
+        contentValues.put(LA, la);
+        contentValues.put(SU, su);
+        contentValues.put(SELECTOR, selector);
+        contentValues.put(ISITON, isiton);
         db.update(TABLE_NAME, contentValues, "_id = ?", new String[] { id });
         return true;
-    }*/
+    }
 
     Cursor getAllRows() {
         SQLiteDatabase db = this.getReadableDatabase();
