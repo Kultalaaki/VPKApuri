@@ -469,4 +469,6 @@
     <string name="k_ytt_ehdot">Käyttöehdot</string>
     <string name="haveRead">Olen lukenut yllä olevat käyttöehdot ja tietosuojalausekkeen.</string>
     <string name="approveAnalytics">Hyväksyn tietojen keräämisen.</string>
+    <string name="poistaAjastin">Poista ajastin</string>
+    <string name="nime_ajastin">Nimeä ajastin</string>
 </resources>

@@ -233,6 +233,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         HalytysTietokannastaFragment halytysTietokannastaFragment = HalytysTietokannastaFragment.newInstance(primaryKey);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
     }
 

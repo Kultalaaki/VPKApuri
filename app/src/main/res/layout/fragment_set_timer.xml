@@ -206,11 +206,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:hint="@string/nime_ajastin"
                 android:autofillHints="Nimeä ajastin"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences"
                 app:layout_constraintBottom_toTopOf="@+id/switchAaneton"
-                app:layout_constraintStart_toStartOf="@+id/ajastinNimi" />
+                app:layout_constraintStart_toStartOf="@+id/ajastinNimi"
+                tools:targetApi="o" />
 
             <Switch
                 android:id="@+id/switchAaneton"

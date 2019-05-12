@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import java.util.Calendar;
-import java.util.Locale;
 
 
 /**
@@ -80,7 +76,7 @@ public class SetTimerFragment extends Fragment {
         dbTimer = new DBTimer(getActivity());
         if(getArguments()!= null) {
             populateTimer(mParam1);
-            cancel.setText("Poista ajastin");
+            cancel.setText(R.string.poistaAjastin);
         } else {
             stateSelectorState();
             setOnClickListeners();
@@ -231,7 +227,9 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 startOrStopSelector = true;
                 DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getFragmentManager(), "time picker");
+                if(getFragmentManager() != null) {
+                    timePicker.show(getFragmentManager(), "time picker");
+                }
             }
         });
         minuteSelector.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +237,9 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 startOrStopSelector = true;
                 DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getFragmentManager(), "time picker");
+                if(getFragmentManager() != null) {
+                    timePicker.show(getFragmentManager(), "time picker");
+                }
             }
         });
         hourSelector2.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +247,9 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 startOrStopSelector = false;
                 DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getFragmentManager(), "time picker");
+                if(getFragmentManager() != null) {
+                    timePicker.show(getFragmentManager(), "time picker");
+                }
             }
         });
         minuteSelector2.setOnClickListener(new View.OnClickListener() {
@@ -255,8 +257,9 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 startOrStopSelector = false;
                 DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getFragmentManager(), "time picker");
-                Log.i("TAG", "timepicker opened");
+                if(getFragmentManager() != null) {
+                    timePicker.show(getFragmentManager(), "time picker");
+                }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -265,9 +268,13 @@ public class SetTimerFragment extends Fragment {
                 if(getArguments() != null) {
                     int sija = Integer.parseInt(mParam1);
                     dbTimer.deleteRow(sija);
-                    getActivity().onBackPressed();
+                    if(getActivity() != null) {
+                        getActivity().onBackPressed();
+                    }
                 } else {
-                    getActivity().onBackPressed();
+                    if(getActivity() != null) {
+                        getActivity().onBackPressed();
+                    }
                 }
             }
         });
@@ -279,7 +286,9 @@ public class SetTimerFragment extends Fragment {
                     startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
                     stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
                     dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
-                    getActivity().onBackPressed();
+                    if(getActivity() != null) {
+                        getActivity().onBackPressed();
+                    }
                 } else {
                     saveTimerToDBs();
                 }
@@ -378,11 +387,11 @@ public class SetTimerFragment extends Fragment {
         dbTimer.close();
     }
 
-    public void calendarTesting() {
+    /*public void calendarTesting() {
         Calendar calendar = Calendar.getInstance();
         String date = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
         stateSelector.setText(date);
-    }
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this
@@ -412,6 +421,8 @@ public class SetTimerFragment extends Fragment {
         stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
         mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
         //mListener.updateListview();
-        getActivity().onBackPressed();
+        if(getActivity() != null) {
+            getActivity().onBackPressed();
+        }
     }
 }

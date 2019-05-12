@@ -155,7 +155,10 @@ public class HalytysTietokannastaFragment extends Fragment {
 
                         dialogInterface.dismiss();
 
-                        mListener.loadArkistoFragmentNoBackstack();
+                        //mListener.loadArkistoFragmentNoBackstack();
+                        if(getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
                         /*Intent intentark = new Intent(HalytysTietokannastaActivity.this, ArkistoActivity.class);
                         intentark.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intentark);*/
@@ -179,6 +182,9 @@ public class HalytysTietokannastaFragment extends Fragment {
                         if(lisattyKommentti){
                             Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
                             kommenttiteksti.setCursorVisible(false);
+                            if(getActivity() != null) {
+                                getActivity().onBackPressed();
+                            }
                         } else {
                             Toast.makeText(getActivity(), "Tallennus epäonnistui", Toast.LENGTH_LONG).show();
                         }
