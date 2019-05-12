@@ -178,13 +178,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.replace(R.id.etusivuContainer, arkistoFragment, "arkistoFragment").commit();
     }
 
-    public void loadArkistoFragmentNoBackstack() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ArkistoFragment arkistoFragment = new ArkistoFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.etusivuContainer, arkistoFragment, "arkistoFragment").commit();
-    }
-
     public void loadOhjeetFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         OhjeetFragment ohjeetFragment = new OhjeetFragment();

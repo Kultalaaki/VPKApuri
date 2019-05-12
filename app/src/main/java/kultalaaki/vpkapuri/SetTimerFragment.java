@@ -1,6 +1,9 @@
 package kultalaaki.vpkapuri;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 
 /**
@@ -39,6 +44,10 @@ public class SetTimerFragment extends Fragment {
     Button monday, tuesday, wednesday, thursday, friday, saturday, sunday, cancel, save;
     boolean bMonday = false, bTuesday = false, bWednesday = false, bThursday = false, bFriday = false, bSaturday = false, bSunday = false, startOrStopSelector, selectoryo = false;
     String ma, ti, ke, to, pe, la, su, startTime, stopTime, state, timerName;
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+    Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,6 +75,7 @@ public class SetTimerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx = getActivity();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
@@ -423,6 +433,50 @@ public class SetTimerFragment extends Fragment {
         //mListener.updateListview();
         if(getActivity() != null) {
             getActivity().onBackPressed();
+        }
+    }
+
+    // Using key (requestCode) to differentiate intents
+    void setAlarms(String key, String ma, String ti, String ke, String to, String pe, String la, String su, String tila) {
+        // TODO: Logic for user defined schedule
+        if(ctx != null) {
+            int requestCode = Integer.parseInt(key);
+            alarmMgr = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+            intent.putExtra("Ma", ma);
+            intent.putExtra("Ti", ti);
+            intent.putExtra("Ke", ke);
+            intent.putExtra("To", to);
+            intent.putExtra("Pe", pe);
+            intent.putExtra("La", la);
+            intent.putExtra("Su", su);
+            intent.putExtra("Tila", tila);
+            alarmIntent = PendingIntent.getBroadcast(getActivity(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 30);
+
+            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        }
+    }
+
+    void deleteAlarms(String key, String ma, String ti, String ke, String to, String pe, String la, String su, String tila) {
+        int requestCode = Integer.parseInt(key);
+        alarmMgr = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+        intent.putExtra("Ma", ma);
+        intent.putExtra("Ti", ti);
+        intent.putExtra("Ke", ke);
+        intent.putExtra("To", to);
+        intent.putExtra("Pe", pe);
+        intent.putExtra("La", la);
+        intent.putExtra("Su", su);
+        intent.putExtra("Tila", tila);
+        alarmIntent = PendingIntent.getBroadcast(getActivity(), requestCode, intent, PendingIntent.FLAG_NO_CREATE);
+        if(alarmMgr != null) {
+            alarmMgr.cancel(alarmIntent);
         }
     }
 }
