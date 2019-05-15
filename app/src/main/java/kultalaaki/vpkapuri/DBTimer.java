@@ -51,7 +51,7 @@ class DBTimer extends SQLiteOpenHelper {
         //onCreate(db);
     }
 
-    boolean insertData(String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
+    long insertData(String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
@@ -68,7 +68,7 @@ class DBTimer extends SQLiteOpenHelper {
         contentValues.put(ISITON, isiton);
         long result = db.insert(TABLE_NAME, null, contentValues);
         db.close();
-        return result != -1;
+        return result;
 
     }
 

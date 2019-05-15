@@ -5,10 +5,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -45,8 +48,10 @@ public class SetTimerFragment extends Fragment {
     boolean bMonday = false, bTuesday = false, bWednesday = false, bThursday = false, bFriday = false, bSaturday = false, bSunday = false, startOrStopSelector, selectoryo = false;
     String ma, ti, ke, to, pe, la, su, startTime, stopTime, state, timerName;
 
-    private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
+    private AlarmManager alarmMgrStart;
+    private PendingIntent alarmIntentStart;
+    private AlarmManager alarmMgrStop;
+    private PendingIntent alarmIntentStop;
     Context ctx;
 
     private OnFragmentInteractionListener mListener;
@@ -278,6 +283,7 @@ public class SetTimerFragment extends Fragment {
                 if(getArguments() != null) {
                     int sija = Integer.parseInt(mParam1);
                     dbTimer.deleteRow(sija);
+                    deleteAlarms(mParam1);
                     if(getActivity() != null) {
                         getActivity().onBackPressed();
                     }
@@ -295,8 +301,10 @@ public class SetTimerFragment extends Fragment {
                     timerName = name.getText().toString();
                     startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
                     stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
+                    deleteAlarms(mParam1);
                     dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
                     if(getActivity() != null) {
+                        setAlarms(mParam1, startTime, stopTime);
                         getActivity().onBackPressed();
                     }
                 } else {
@@ -397,12 +405,6 @@ public class SetTimerFragment extends Fragment {
         dbTimer.close();
     }
 
-    /*public void calendarTesting() {
-        Calendar calendar = Calendar.getInstance();
-        String date = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
-        stateSelector.setText(date);
-    }*/
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -417,7 +419,7 @@ public class SetTimerFragment extends Fragment {
         // TODO: Update argument type and name
         //void showAddTimer();
         //void hideAddTimer();
-        void saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
+        long saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
                            String pe, String la, String su, String selector, String isiton);
         //void updateListview();
     }
@@ -429,54 +431,114 @@ public class SetTimerFragment extends Fragment {
         timerName = name.getText().toString();
         startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
         stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
-        mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
+        long rowId = mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
         //mListener.updateListview();
-        if(getActivity() != null) {
+        int rowIdToInt = (int)rowId;
+        String  rowIdString = String.valueOf(rowIdToInt);
+        if(getActivity() != null && setAlarms(rowIdString, startTime, stopTime)) {
             getActivity().onBackPressed();
         }
     }
 
     // Using key (requestCode) to differentiate intents
-    void setAlarms(String key, String ma, String ti, String ke, String to, String pe, String la, String su, String tila) {
+    boolean setAlarms(String key, String startTime, String stopTime) {
         // TODO: Logic for user defined schedule
         if(ctx != null) {
-            int requestCode = Integer.parseInt(key);
-            alarmMgr = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-            intent.putExtra("Ma", ma);
-            intent.putExtra("Ti", ti);
-            intent.putExtra("Ke", ke);
-            intent.putExtra("To", to);
-            intent.putExtra("Pe", pe);
-            intent.putExtra("La", la);
-            intent.putExtra("Su", su);
-            intent.putExtra("Tila", tila);
-            alarmIntent = PendingIntent.getBroadcast(getActivity(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            // requestCode is key + Hour + Minute for canceling reasons
 
+            String startHour = startTime.substring(0,2);
+            String startMinute = startTime.substring(3,5);
+            if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
+            if(startMinute.charAt(0) == '0') { startMinute = startTime.substring(4,5); }
+            int startHourPar = Integer.parseInt(startHour);
+            int startMinutePar = Integer.parseInt(startMinute);
+            int requestCode = Integer.parseInt(key) + startHourPar + startMinutePar;
+            //Toast.makeText(getActivity(), "Hour: " + startHourPar + " Minute: " + startMinutePar, Toast.LENGTH_LONG).show();
+            Log.e("TAG", "Hour: " + startHourPar + " Minute: " + startMinutePar);
+
+            alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+            Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
+            intentStart.putExtra("primaryKey", key);
+            intentStart.putExtra("Alkaa", "Starting alarm");
+            alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+            // TODO: set time based on user input
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 8);
-            calendar.set(Calendar.MINUTE, 30);
+            calendar.set(Calendar.HOUR_OF_DAY, startHourPar);
+            calendar.set(Calendar.MINUTE, startMinutePar);
 
-            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmMgrStart.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntentStart);
+            }
+            alarmMgrStart.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStart);
+
+
+
+            String stopHour = stopTime.substring(0,2);
+            String stopMinute = stopTime.substring(3,5);
+            if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
+            if(stopMinute.charAt(0) == '0') { stopMinute = stopTime.substring(4,5);}
+            int stopHourPar = Integer.parseInt(stopHour);
+            int stopMinutePar = Integer.parseInt(stopMinute);
+            requestCode = Integer.parseInt(key) + stopHourPar + stopMinutePar;
+
+            alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+            Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
+            intentStop.putExtra("primaryKey", key);
+            intentStop.putExtra("Loppuu", "Stopping alarm");
+            alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+            // TODO: set time based on user input
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTimeInMillis(System.currentTimeMillis());
+            calendar1.set(Calendar.HOUR_OF_DAY, stopHourPar);
+            calendar1.set(Calendar.MINUTE, stopMinutePar);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmMgrStop.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), alarmIntentStop);
+            }
+            alarmMgrStop.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStop);
+            return true;
         }
+        return false;
     }
 
-    void deleteAlarms(String key, String ma, String ti, String ke, String to, String pe, String la, String su, String tila) {
-        int requestCode = Integer.parseInt(key);
-        alarmMgr = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        intent.putExtra("Ma", ma);
-        intent.putExtra("Ti", ti);
-        intent.putExtra("Ke", ke);
-        intent.putExtra("To", to);
-        intent.putExtra("Pe", pe);
-        intent.putExtra("La", la);
-        intent.putExtra("Su", su);
-        intent.putExtra("Tila", tila);
-        alarmIntent = PendingIntent.getBroadcast(getActivity(), requestCode, intent, PendingIntent.FLAG_NO_CREATE);
-        if(alarmMgr != null) {
-            alarmMgr.cancel(alarmIntent);
+    void deleteAlarms(String key) {
+        // cancel starting intent
+        String startHour = startTime.substring(0,2);
+        String startMinute = startTime.substring(3,5);
+        if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
+        if(startMinute.charAt(0) == '0') { startMinute = startTime.substring(4,5); }
+        int startHourPar = Integer.parseInt(startHour);
+        int startMinutePar = Integer.parseInt(startMinute);
+        int requestCode = Integer.parseInt(key) + startHourPar + startMinutePar;
+
+        alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+        Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
+        intentStart.putExtra("primaryKey", key);
+        alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(alarmMgrStart != null) {
+            alarmMgrStart.cancel(alarmIntentStart);
+        }
+
+        // cancel stopping intent
+        String stopHour = stopTime.substring(0,2);
+        String stopMinute = stopTime.substring(3,5);
+        if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
+        if(stopMinute.charAt(0) == '0') { stopMinute = stopTime.substring(4,5); }
+        int stopHourPar = Integer.parseInt(stopHour);
+        int stopMinutePar = Integer.parseInt(stopMinute);
+        requestCode = Integer.parseInt(key) + stopHourPar + stopMinutePar;
+
+        alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+        Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
+        intentStop.putExtra("primaryKey", key);
+        alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(alarmMgrStop != null) {
+            alarmMgrStop.cancel(alarmIntentStop);
         }
     }
 }

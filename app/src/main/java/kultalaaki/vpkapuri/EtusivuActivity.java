@@ -268,31 +268,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         }
     }
 
-    /*void setMenuTexts() {
-        mDrawerLayout.addDrawerListener(
-                new DrawerLayout.DrawerListener() {
-                    @Override
-                    public void onDrawerSlide(@NonNull View view, float v) {
-
-                    }
-
-                    @Override
-                    public void onDrawerOpened(@NonNull View view) {
-
-                    }
-
-                    @Override
-                    public void onDrawerClosed(@NonNull View view) {
-
-                    }
-
-                    @Override
-                    public void onDrawerStateChanged(int i) {
-
-                    }
-                });
-    }*/
-
     public void startTimerActivity() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         TimerFragment timerFragment = new TimerFragment();
@@ -301,15 +276,17 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.replace(R.id.etusivuContainer, timerFragment, "timerFragment").commit();
     }
 
-    public void saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
+    public long saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
                               String pe, String la, String su, String selector, String isiton) {
         dbTimer = new DBTimer(this);
-        Toast.makeText(getApplicationContext(), "melkein " + name + startTime + stopTime + ma + ti+ke+to+pe+la+su+selector, Toast.LENGTH_LONG).show();
-        boolean tallennettu = dbTimer.insertData(name, startTime, stopTime,
+        //Toast.makeText(getApplicationContext(), "melkein " + name + startTime + stopTime + ma + ti+ke+to+pe+la+su+selector, Toast.LENGTH_LONG).show();
+        long tallennettu = dbTimer.insertData(name, startTime, stopTime,
                 ma, ti, ke, to, pe, la, su, selector, isiton);
-        if(tallennettu) {
+        if(tallennettu != -1) {
             Toast.makeText(getApplicationContext(), "Tallennettu", Toast.LENGTH_LONG).show();
+            return tallennettu;
         }
+        return -1;
     }
 
     @Override
