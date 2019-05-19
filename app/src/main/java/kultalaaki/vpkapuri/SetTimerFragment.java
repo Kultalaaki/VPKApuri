@@ -33,11 +33,9 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class SetTimerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
 
     DBTimer dbTimer;
@@ -60,15 +58,6 @@ public class SetTimerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     *
-     *
-     * @return A new instance of fragment SetTimerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SetTimerFragment newInstance(String primaryKey) {
         SetTimerFragment fragment = new SetTimerFragment();
         Bundle args = new Bundle();
@@ -298,13 +287,14 @@ public class SetTimerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(getArguments() != null) {
+                    deleteAlarms(mParam1);
                     timerName = name.getText().toString();
                     startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
                     stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
-                    deleteAlarms(mParam1);
                     dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
                     if(getActivity() != null) {
                         setAlarms(mParam1, startTime, stopTime);
+                        Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
                         getActivity().onBackPressed();
                     }
                 } else {
@@ -358,18 +348,6 @@ public class SetTimerFragment extends Fragment {
         minuteSelector2 = view.findViewById(R.id.minuteSelector2);
     }
 
-    /*@Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Log.i("TAG", "OnTimeSet reached");
-        if(startOrStopSelector) {
-            hourSelector.setText(hourOfDay);
-            minuteSelector.setText(minute);
-        } else {
-            hourSelector2.setText(hourOfDay);
-            minuteSelector2.setText(minute);
-        }
-    }*/
-
     public void setTimerTimes(int hour, int minute) {
         String min = String.valueOf(minute);
         String hou = String.valueOf(hour);
@@ -416,9 +394,6 @@ public class SetTimerFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        //void showAddTimer();
-        //void hideAddTimer();
         long saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
                            String pe, String la, String su, String selector, String isiton);
         //void updateListview();
@@ -426,7 +401,7 @@ public class SetTimerFragment extends Fragment {
 
     void saveTimerToDBs() {
         String ma="", ti="", ke="", to="", pe="", la="", su="", selector, timerName, startTime, stopTime;
-        if(bMonday){ma="ma";}if(bTuesday){ti="ti";}if(bWednesday){ke="ke";}if(bThursday){to="to";}if(bFriday){pe="pe";}if(bSaturday){la="la";}if(bSunday){su="su";}
+        if(bMonday){ma="Monday";}if(bTuesday){ti="Tuesday";}if(bWednesday){ke="Wednesday";}if(bThursday){to="Thursday";}if(bFriday){pe="Friday";}if(bSaturday){la="Saturday";}if(bSunday){su="Sunday";}
         if(selectoryo){ selector = "yotila"; } else { selector = "aaneton"; }
         timerName = name.getText().toString();
         startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
@@ -440,9 +415,12 @@ public class SetTimerFragment extends Fragment {
         }
     }
 
-    // Using key (requestCode) to differentiate intents
+    /*  Setting alarm intents
+    *   RequestCode is key + Hour + Minute for canceling reasons
+    *   Setting time based on user input
+    */
     boolean setAlarms(String key, String startTime, String stopTime) {
-        // TODO: Logic for user defined schedule
+
         if(ctx != null) {
             // requestCode is key + Hour + Minute for canceling reasons
 
@@ -459,11 +437,11 @@ public class SetTimerFragment extends Fragment {
             alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
             intentStart.putExtra("primaryKey", key);
-            intentStart.putExtra("Alkaa", "Starting alarm");
+            intentStart.putExtra("StartOrStop", "Starting alarm");
             alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-            // TODO: set time based on user input
+            // Setting time based on user input
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, startHourPar);
@@ -487,11 +465,11 @@ public class SetTimerFragment extends Fragment {
             alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
             intentStop.putExtra("primaryKey", key);
-            intentStop.putExtra("Loppuu", "Stopping alarm");
+            intentStop.putExtra("StartOrStop", "Stopping alarm");
             alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-            // TODO: set time based on user input
+            // Setting time based on user input
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTimeInMillis(System.currentTimeMillis());
             calendar1.set(Calendar.HOUR_OF_DAY, stopHourPar);
@@ -507,7 +485,7 @@ public class SetTimerFragment extends Fragment {
     }
 
     void deleteAlarms(String key) {
-        // cancel starting intent
+        // cancel starting intent.
         String startHour = startTime.substring(0,2);
         String startMinute = startTime.substring(3,5);
         if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
@@ -519,12 +497,13 @@ public class SetTimerFragment extends Fragment {
         alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
         Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
         intentStart.putExtra("primaryKey", key);
+        intentStart.putExtra("StartOrStop", "Starting alarm");
         alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
         if(alarmMgrStart != null) {
             alarmMgrStart.cancel(alarmIntentStart);
         }
 
-        // cancel stopping intent
+        // cancel stopping intent.
         String stopHour = stopTime.substring(0,2);
         String stopMinute = stopTime.substring(3,5);
         if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
@@ -536,6 +515,7 @@ public class SetTimerFragment extends Fragment {
         alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
         Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
         intentStop.putExtra("primaryKey", key);
+        intentStop.putExtra("StartOrStop", "Stopping alarm");
         alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
         if(alarmMgrStop != null) {
             alarmMgrStop.cancel(alarmIntentStop);

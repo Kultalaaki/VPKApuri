@@ -1,9 +1,6 @@
 package kultalaaki.vpkapuri;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +18,7 @@ import android.widget.TextView;
 
 public class TimerFragment extends Fragment {
 
-    Button addTimer, deleteTimers;
+    Button addTimer;
     ListView listViewTimers;
     DBTimer dbTimer;
     Context ctx;
@@ -50,7 +47,7 @@ public class TimerFragment extends Fragment {
         dbTimer = new DBTimer(ctx);
         listViewTimers = view.findViewById(R.id.listViewTimers);
         addTimer = view.findViewById(R.id.addTimer);
-        deleteTimers = view.findViewById(R.id.deleteTimers);
+        //deleteTimers = view.findViewById(R.id.deleteTimers);
     }
 
     @Override
@@ -85,12 +82,12 @@ public class TimerFragment extends Fragment {
                 mListener.openSetTimer();
             }
         });
-        deleteTimers.setOnClickListener(new View.OnClickListener() {
+        /*deleteTimers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showMessageClearTimers();
             }
-        });
+        });*/
     }
 
     private void getTimers() {
@@ -138,7 +135,7 @@ public class TimerFragment extends Fragment {
             });
     }*/
 
-    private void showMessageClearTimers() {
+    /*private void showMessageClearTimers() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Huomio!")
@@ -152,7 +149,7 @@ public class TimerFragment extends Fragment {
                     }
                 });
         builder.create().show();
-    }
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this
