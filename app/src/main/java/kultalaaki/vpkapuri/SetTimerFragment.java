@@ -102,14 +102,14 @@ public class SetTimerFragment extends Fragment {
             startTime = cursor.getString(cursor.getColumnIndex(DBTimer.STARTTIME));
             stopTime = cursor.getString(cursor.getColumnIndex(DBTimer.STOPTIME));
             state = cursor.getString(cursor.getColumnIndex(DBTimer.SELECTOR));
-            if(ma.equals("ma")) { bMonday = true; monday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(ti.equals("ti")) { bTuesday = true; tuesday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(ke.equals("ke")) { bWednesday = true; wednesday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(to.equals("to")) { bThursday = true; thursday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(pe.equals("pe")) { bFriday = true; friday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(la.equals("la")) { bSaturday = true; saturday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(su.equals("su")) { bSunday = true; sunday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(state.equals("yotila")) {
+            if(ma.equals("Ma")) { bMonday = true; monday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(ti.equals("Ti")) { bTuesday = true; tuesday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(ke.equals("Ke")) { bWednesday = true; wednesday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(to.equals("To")) { bThursday = true; thursday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(pe.equals("Pe")) { bFriday = true; friday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(la.equals("La")) { bSaturday = true; saturday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(su.equals("Su")) { bSunday = true; sunday.setTextColor(getResources().getColor(R.color.orange)); }
+            if(state.equals("Yötila")) {
                 selectoryo = true;
                 stateSelector.setText(R.string.nightMode);
                 stateSelector.setChecked(true);
@@ -133,7 +133,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bMonday) {
                     bMonday = true;
-                    ma = "ma";
+                    ma = "Ma";
                     monday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bMonday = false;
@@ -147,7 +147,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bTuesday) {
                     bTuesday = true;
-                    ti = "ti";
+                    ti = "Ti";
                     tuesday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bTuesday = false;
@@ -161,7 +161,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bWednesday) {
                     bWednesday = true;
-                    ke = "ke";
+                    ke = "Ke";
                     wednesday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bWednesday = false;
@@ -175,7 +175,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bThursday) {
                     bThursday = true;
-                    to = "to";
+                    to = "To";
                     thursday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bThursday = false;
@@ -189,7 +189,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bFriday) {
                     bFriday = true;
-                    pe = "pe";
+                    pe = "Pe";
                     friday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bFriday = false;
@@ -203,7 +203,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bSaturday) {
                     bSaturday = true;
-                    la = "la";
+                    la = "La";
                     saturday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bSaturday = false;
@@ -217,7 +217,7 @@ public class SetTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(!bSunday) {
                     bSunday = true;
-                    su = "su";
+                    su = "Su";
                     sunday.setTextColor(getResources().getColor(R.color.orange));
                 } else {
                     bSunday = false;
@@ -310,11 +310,11 @@ public class SetTimerFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     selectoryo = true;
-                    state = "yotila";
+                    state = "Yötila";
                     stateSelector.setText(R.string.nightMode);
                 } else {
                     selectoryo = false;
-                    state = "aaneton";
+                    state = "Äänetön";
                     stateSelector.setText(R.string.pref_ringtone_silent);
                 }
             }
@@ -401,8 +401,8 @@ public class SetTimerFragment extends Fragment {
 
     void saveTimerToDBs() {
         String ma="", ti="", ke="", to="", pe="", la="", su="", selector, timerName, startTime, stopTime;
-        if(bMonday){ma="Monday";}if(bTuesday){ti="Tuesday";}if(bWednesday){ke="Wednesday";}if(bThursday){to="Thursday";}if(bFriday){pe="Friday";}if(bSaturday){la="Saturday";}if(bSunday){su="Sunday";}
-        if(selectoryo){ selector = "yotila"; } else { selector = "aaneton"; }
+        if(bMonday){ma="Ma";}if(bTuesday){ti="Ti";}if(bWednesday){ke="Ke";}if(bThursday){to="To";}if(bFriday){pe="Pe";}if(bSaturday){la="La";}if(bSunday){su="Su";}
+        if(selectoryo){ selector = "Yötila"; } else { selector = "Äänetön"; }
         timerName = name.getText().toString();
         startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
         stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();

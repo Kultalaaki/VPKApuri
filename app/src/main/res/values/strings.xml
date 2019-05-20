@@ -471,4 +471,5 @@
     <string name="approveAnalytics">Hyväksyn tietojen keräämisen.</string>
     <string name="poistaAjastin">Poista ajastin</string>
     <string name="nime_ajastin">Nimeä ajastin</string>
+    <string name="lis_ajastin">Lisää ajastin</string>
 </resources>
