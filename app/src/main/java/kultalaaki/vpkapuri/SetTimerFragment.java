@@ -1,6 +1,7 @@
 package kultalaaki.vpkapuri;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -291,17 +292,35 @@ public class SetTimerFragment extends Fragment {
                     timerName = name.getText().toString();
                     startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
                     stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
-                    dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
-                    if(getActivity() != null) {
-                        setAlarms(mParam1, startTime, stopTime);
-                        Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
-                        getActivity().onBackPressed();
+
+                    if(startTime.equals(stopTime)) {
+                        dialog();
+                    } else {
+                        saveAndQuit();
                     }
+
                 } else {
                     saveTimerToDBs();
                 }
             }
         });
+    }
+
+    void saveAndQuit() {
+        dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
+        if(getActivity() != null) {
+            setAlarms(mParam1, startTime, stopTime);
+            Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+        }
+    }
+
+    void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle("Huomio!")
+                .setMessage("Ajastimen alkamisaika ja lopetusaika ei voi olla sama.")
+                .setPositiveButton("Ok", null);
+        builder.create().show();
     }
 
     public void stateSelectorState() {
@@ -406,24 +425,29 @@ public class SetTimerFragment extends Fragment {
         timerName = name.getText().toString();
         startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
         stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
-        long rowId = mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
-        //mListener.updateListview();
-        int rowIdToInt = (int)rowId;
-        String  rowIdString = String.valueOf(rowIdToInt);
-        if(getActivity() != null && setAlarms(rowIdString, startTime, stopTime)) {
-            getActivity().onBackPressed();
+        if(startTime.equals(stopTime)) {
+            dialog();
+        } else {
+            long rowId = mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
+            //mListener.updateListview();
+            int rowIdToInt = (int)rowId;
+            String  rowIdString = String.valueOf(rowIdToInt);
+            if(getActivity() != null && setAlarms(rowIdString, startTime, stopTime)) {
+                getActivity().onBackPressed();
+            }
         }
+
     }
 
-    /*  Setting alarm intents
-    *   RequestCode is key + Hour + Minute for canceling reasons
+    /**  Setting alarm intents
+    *   RequestCode is key + Hour + Minute, this way start and stop intents differ and we can cancel the timer.
     *   Setting time based on user input
     */
     boolean setAlarms(String key, String startTime, String stopTime) {
 
         if(ctx != null) {
-            // requestCode is key + Hour + Minute for canceling reasons
 
+            // Setting start PendingIntent
             String startHour = startTime.substring(0,2);
             String startMinute = startTime.substring(3,5);
             if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
@@ -453,7 +477,7 @@ public class SetTimerFragment extends Fragment {
             alarmMgrStart.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStart);
 
 
-
+            // Setting stop PendingIntent
             String stopHour = stopTime.substring(0,2);
             String stopMinute = stopTime.substring(3,5);
             if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
@@ -485,7 +509,7 @@ public class SetTimerFragment extends Fragment {
     }
 
     void deleteAlarms(String key) {
-        // cancel starting intent.
+        // cancel starting PendingIntent.
         String startHour = startTime.substring(0,2);
         String startMinute = startTime.substring(3,5);
         if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
@@ -503,7 +527,7 @@ public class SetTimerFragment extends Fragment {
             alarmMgrStart.cancel(alarmIntentStart);
         }
 
-        // cancel stopping intent.
+        // cancel stopping PendingIntent.
         String stopHour = stopTime.substring(0,2);
         String stopMinute = stopTime.substring(3,5);
         if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
