@@ -344,7 +344,7 @@
         <SwitchPreference
             android:key="Erica"
             android:title="Osoitteentunnistus ERICA"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summary="ERICA järjestelmän lähettämistä viesteistä osoitteen tunnistaminen. Käynnistä sovellus uudestaan jotta muutos tulee voimaan." />
         <SwitchPreference
             android:key="autoAukaisu"
