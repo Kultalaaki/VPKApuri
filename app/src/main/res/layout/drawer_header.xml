@@ -27,7 +27,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/vpk_apuri"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#802000"
+        android:textColor="@color/secondaryDarkColor"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 

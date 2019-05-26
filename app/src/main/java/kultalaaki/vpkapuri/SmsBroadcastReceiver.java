@@ -75,7 +75,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
                 //Toast.makeText(context, "Aseta numero näin: " + senderNum, Toast.LENGTH_LONG).show();
 
-                Intent startService = new Intent(context.getApplicationContext(), halyaaniService.class);
+                Intent startService = new Intent(context.getApplicationContext(), IsItAlarmService.class);
                 startService.putExtra("message", message);
                 startService.putExtra("halytysaani", "false");
                 startService.putExtra("number", senderNum);

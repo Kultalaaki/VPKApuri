@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1a1a1a">
+    android:background="@color/primaryColor">
 
     <ScrollView
         android:id="@+id/scrollView4"
@@ -162,7 +162,7 @@
                 android:id="@+id/cardTallenna"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                app:cardBackgroundColor="@color/orange"
+                app:cardBackgroundColor="@color/secondaryColor"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginBottom="8dp"
@@ -180,7 +180,7 @@
                     style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorBackground"
+                    android:background="@color/primaryDarkColor"
                     android:layout_margin="1dp">
                     <ImageView
                         android:id="@+id/iconSave"
@@ -217,7 +217,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/orange"
+                app:cardBackgroundColor="@color/secondaryColor"
                 app:layout_constraintTop_toBottomOf="@+id/kommenttiteksti"
                 app:layout_constraintEnd_toStartOf="@+id/cardNaytaKartta"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -231,7 +231,7 @@
                     style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorBackground"
+                    android:background="@color/primaryDarkColor"
                     android:layout_margin="1dp">
                     <ImageView
                         android:id="@+id/iconDelete"
@@ -271,7 +271,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/orange"
+                app:cardBackgroundColor="@color/secondaryColor"
                 app:layout_constraintTop_toBottomOf="@+id/kommenttiteksti"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -285,7 +285,7 @@
                     style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorBackground"
+                    android:background="@color/primaryDarkColor"
                     android:layout_margin="1dp">
                     <ImageView
                         android:id="@+id/iconMap"

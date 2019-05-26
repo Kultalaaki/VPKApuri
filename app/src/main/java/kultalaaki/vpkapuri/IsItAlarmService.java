@@ -38,34 +38,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class halyaaniService extends Service implements MediaPlayer.OnPreparedListener{
+public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener{
 
     private static final String TAG = "VPK Apuri käynnissä.";
     private static int previousStartId = 1;
     private static boolean mediaplayerRunning = false;
-    //final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
     MediaPlayer mMediaPlayer;
-    int aanetonser;
     Vibrator viber;
     static DBHelper db;
-    static ArrayList<String> kunnat = new ArrayList<>();
-    static ArrayList<String> halytunnukset = new ArrayList<>();
-    static ArrayList<String> halytekstit = new ArrayList<>();
+    static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>();
     SharedPreferences aaneton;
     private static final int MY_HALY_NOTIFICATION_ID = 264981;
-    //String voimakkuus;
-    int aanenVoimakkuus;
-    int volume;
-    boolean tarina;
-    boolean autoAukaisu;
-    boolean aanetVaiEi;
+    int aanenVoimakkuus, volume, aanetonser, palautaAani, palautaStreamAlarm;
+    boolean tarina, autoAukaisu, aanetVaiEi, puhelu, pitaaPalauttaa = false;
     String puheluHaly = "false";
-    int palautaAani, palautaStreamAlarm;
-    boolean pitaaPalauttaa = false;
-    boolean puhelu;
     static boolean erica;
 
-    public halyaaniService() {
+    public IsItAlarmService() {
     }
 
     @Override
@@ -76,258 +65,94 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
 
     public void onCreate(){
         super.onCreate();
-        //Log.e("halyaaniService", "onCreate");
+        //Log.e("IsItAlarmService", "onCreate");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeGround(TAG);
         }
     }
 
-    public void createNotification(String viesti){
-        Intent intentsms = new Intent(halyaaniService.this, HalytysActivity.class);
-        intentsms.setAction(Intent.ACTION_SEND);
-        intentsms.setType("text/plain");
-        intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(halyaaniService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
+    @SuppressLint("ApplySharedPref")
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if(intent != null) {
+            if(previousStartId != startId) {
+                stopSelf(previousStartId);
+                if(mediaplayerRunning && mMediaPlayer != null) {
+                    mMediaPlayer.stop();
+                    mediaplayerRunning = false;
+                }
+            }
+            previousStartId = startId;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForeGround(TAG);
+            }
 
-        Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
-        PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(halyaaniService.this, "HALYTYS")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("HÄLYTYS")
-                .setContentText(viesti)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setContentIntent(pendingIntent)
-                .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
-                .setVisibility(1)
-                .setDeleteIntent(stop)
-                //.setOngoing(true)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(halyaaniService.this);
-        notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
-    }
-
-    public void createNotificationPuhelu(String viesti){
-        Intent intentsms = new Intent(halyaaniService.this, HalytysActivity.class);
-        intentsms.setAction(Intent.ACTION_SEND);
-        intentsms.setType("text/plain");
-        intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(halyaaniService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        //Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
-        //PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(halyaaniService.this, "HALYTYS")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("HÄLYTYS")
-                .setContentText(viesti)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setContentIntent(pendingIntent)
-                //.addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
-                .setVisibility(1)
-                //.setDeleteIntent(stop)
-                //.setOngoing(true)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(halyaaniService.this);
-        notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
-    }
-
-    public void alarmSound(int startId) {
-        SharedPreferences getAlarms = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        //String alarms = getAlarms.getString("notifications_new_message_ringtone", null);
-        String alarms = getAlarms.getString("ringtone", null);
-        aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-        aanetonser = aaneton.getInt("aaneton_profiili", -1);
-        if(alarms != null) {
-            Uri uri = Uri.parse(alarms);
-            //Toast.makeText(aktiivinenHaly.this, " " + uri, Toast.LENGTH_LONG).show();
-            playSound2(halyaaniService.this, uri, startId);
-        } else {
-            Uri uri = Uri.parse("android.resource://kultalaaki.vpkapuri/" + R.raw.virve);
-            playSound2(halyaaniService.this, uri, startId);
-        }
-    }
-
-    private void playSound2 (Context context, Uri alert, int startId) {
-        mMediaPlayer = new MediaPlayer();
-        try {
-            mMediaPlayer.setDataSource(context, alert);
-            final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-            tarina = pref_general.getBoolean("varina", true);
-            aanetVaiEi = pref_general.getBoolean("aanetVaiEi", false);
-            aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
-            int checkVolume = -1;
-            //int streamAlarm;
-
-            //if(puheluHaly.equals("true")) {
-                if(audioManager != null) {
-                    checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-                    palautaStreamAlarm = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-                    palautaAani = checkVolume;
-                    //palautaStreamAlarm = streamAlarm;
-
-                    audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
-                    pitaaPalauttaa = true;
+            autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
+            String numero = intent.getStringExtra("number");
+            String message = intent.getStringExtra("message");
+            puheluHaly = intent.getStringExtra("halytysaani");
+            erica = pref_general.getBoolean("Erica", false);
+            // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
+            if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
+                alarmSound(startId);
+                lisaaHalyTunnukset();
+                if (erica) {
+                    lisaaKunnatErica();
+                } else {
+                    lisaaKunnat();
                 }
-            //} else {
-            //    if(audioManager != null) {
-            //        checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-            //    }
-            //}
 
-            if(aanetonser == 2) {
-                if(tarina) {
-                    vibrateSilent();
+                db = new DBHelper(getApplicationContext());
+
+                if(erica) {
+                    new IsItAlarmService.haeOsoiteErica().execute(message);
+                } else {
+                    new IsItAlarmService.haeOsoite().execute(message);
                 }
-            } else if (aanetonser == 3) {
-                //Yötila
-                if(aanetVaiEi && checkVolume == 0) {
-                    // ei saa tulla äänettömän läpi
-                    /*if(tarina) {
-                        vibrateSilent();
-                    }*/
-                    return;
+
+                if(autoAukaisu) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent halyAuki = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                            halyAuki.setAction(Intent.ACTION_SEND);
+                            halyAuki.setType("automaattinen");
+                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(halyAuki);
+                        }
+                    }, 3000);
+                } else {
+                    createNotification(message);
                 }
-                aanenVoimakkuus = 10;
-                volume = saadaAani(aanenVoimakkuus);
-                if (audioManager != null) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                    mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-                    mMediaPlayer.setOnPreparedListener(this);
-                    mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepareAsync();
-                    if (tarina) {
-                        vibrate();
-                    }
+            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")){
+                puhelu = pref_general.getBoolean("puhelu", false);
+                if(puhelu) {
+
+                    alarmSound(startId);
+                }
+                db = new DBHelper(getApplicationContext());
+                db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
+                if(autoAukaisu) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent halyAuki = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(halyAuki);
+                        }
+                    }, 3000);
+                } else {
+                    createNotificationPuhelu("Hälytys tuli puheluna");
                 }
             } else {
-                //Normaali
-                if(aanetVaiEi && checkVolume == 0) {
-                    // ei saa tulla äänettömän läpi
-                    /*if(tarina) {
-                        vibrateSilent();
-                    }*/
-                    return;
-                }
-                aanenVoimakkuus = 50;
-                aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
-                volume = saadaAani(aanenVoimakkuus);
-                if (audioManager != null) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                    mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-                    mMediaPlayer.setOnPreparedListener(this);
-                    mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepareAsync();
-                    if (tarina) {
-                        vibrate();
-                    }
-                }
+                //Log.e("IsItAlarmService", "onStartCommand stopSelf + startId: " + startId);
+                stopSelf(startId);
             }
-
-            final int stopper = startId;
-            int stopTime;
-            int stop = 60;
-            try {
-                String aika = pref_general.getString("stopTime", null);
-                if(aika != null) {
-                    stop = Integer.parseInt(aika);
-                }
-                //stop = Integer.parseInt(aika);
-                //stop = Integer.parseInt(pref_general.getString("stopTime", null));
-            } catch (Exception e) {
-                Log.e("Halyservice", "Stop ajastuksen arvoa ei voitu lukea.");
-            }
-            if(stop < 10) {
-                stop = 10;
-            }
-            stopTime = stop * 1000;
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    stopSelf(stopper);
-                }
-            }, stopTime);
-
-        } catch (IOException e) {
-            System.out.println("OOPS");
+        } else {
+            //Log.e("IsItAlarmService", "onStartCommand stopSelf + startId: " + startId);
+            stopSelf(startId);
         }
-    }
-
-    public int saadaAani(int voima) {
-        final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager != null) {
-            volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-            double aani = (double)volume/100*voima;
-            volume = (int) aani;
-        }
-
-        if(volume == 0) { return 1;
-        } else if(volume == 1) {
-            return 1;
-        } else if(volume == 2) {
-            return 2;
-        } else if(volume == 3) {
-            return 3;
-        } else if(volume == 4) {
-            return 4;
-        } else if(volume == 5) {
-            return 5;
-        } else if(volume == 6) {
-            return 6;
-        } else if(volume == 7) {
-            return 7;
-        }
-
-        return volume;
-    }
-
-    public void onPrepared(final MediaPlayer player) {
-        Thread music = new Thread() {
-            @Override
-            public void run() {
-                player.start();
-            }
-        };
-
-        music.start();
-        mediaplayerRunning = true;
-    }
-
-    public void vibrate() {
-        if(Build.VERSION.SDK_INT >= 21) {
-            viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if(viber != null && viber.hasVibrator()) {
-                if(Build.VERSION.SDK_INT >= 26) {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(VibrationEffect.createWaveform(pattern,5));
-                } else {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(pattern,5);
-                }
-            }
-        }
-    }
-
-    public void vibrateSilent() {
-        if(Build.VERSION.SDK_INT >= 21) {
-            viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if(viber != null && viber.hasVibrator()) {
-                if(Build.VERSION.SDK_INT >= 26) {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(VibrationEffect.createWaveform(pattern,-1));
-                } else {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(pattern,-1);
-                }
-            }
-        }
+        return Service.START_STICKY;
     }
 
     private boolean isItAlarmSMS(String numero, String message) {
@@ -531,98 +356,236 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
         return kaytaAvainsanaa && numeroTasmaa && avainsanaTasmaa;
     }
 
-    @SuppressLint("ApplySharedPref")
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null) {
-            if(previousStartId != startId) {
-                stopSelf(previousStartId);
-                if(mediaplayerRunning && mMediaPlayer != null) {
-                    mMediaPlayer.stop();
-                    mediaplayerRunning = false;
-                }
-                //Log.e(TAG,"ifin sisällä startId: " + startId + " edellinen: " + previousStartId);
-            }
-            previousStartId = startId;
-            //Log.e(TAG,"ifin jälkeen startId: " + startId + " edellinen: " + previousStartId);
-            // onCreate -->
-            //Log.e("halyaaniService", "onStartCommand + startId: " + startId);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeGround(TAG);
-            }
-            // <--onCreate
+    public void createNotification(String viesti){
+        Intent intentsms = new Intent(IsItAlarmService.this, HalytysActivity.class);
+        intentsms.setAction(Intent.ACTION_SEND);
+        intentsms.setType("text/plain");
+        intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
+        PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("HÄLYTYS")
+                .setContentText(viesti)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setContentIntent(pendingIntent)
+                .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
+                .setVisibility(1)
+                .setDeleteIntent(stop)
+                //.setOngoing(true)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(IsItAlarmService.this);
+        notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
+    }
+
+    public void createNotificationPuhelu(String viesti){
+        Intent intentsms = new Intent(IsItAlarmService.this, HalytysActivity.class);
+        intentsms.setAction(Intent.ACTION_SEND);
+        intentsms.setType("text/plain");
+        intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
+        //PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("HÄLYTYS")
+                .setContentText(viesti)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setContentIntent(pendingIntent)
+                //.addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
+                .setVisibility(1)
+                //.setDeleteIntent(stop)
+                //.setOngoing(true)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(IsItAlarmService.this);
+        notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
+    }
+
+    public void alarmSound(int startId) {
+        SharedPreferences getAlarms = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        //String alarms = getAlarms.getString("notifications_new_message_ringtone", null);
+        String alarms = getAlarms.getString("ringtone", null);
+        aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
+        aanetonser = aaneton.getInt("aaneton_profiili", -1);
+        if(alarms != null) {
+            Uri uri = Uri.parse(alarms);
+            //Toast.makeText(aktiivinenHaly.this, " " + uri, Toast.LENGTH_LONG).show();
+            playSound2(IsItAlarmService.this, uri, startId);
+        } else {
+            Uri uri = Uri.parse("android.resource://kultalaaki.vpkapuri/" + R.raw.virve);
+            playSound2(IsItAlarmService.this, uri, startId);
+        }
+    }
+
+    private void playSound2 (Context context, Uri alert, int startId) {
+        mMediaPlayer = new MediaPlayer();
+        try {
+            mMediaPlayer.setDataSource(context, alert);
+            final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-            autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
-            String numero = intent.getStringExtra("number");
-            String message = intent.getStringExtra("message");
-            //Log.e("tager", "s"+ numero);
-            // Todo poista ennen julkaisua
-            //message += " S" + numero + "S ";
-            //voisi ottaa tässä jo puheluhäly ja hylätä String halytysaani
-            //String halytysaani = intent.getStringExtra("halytysaani");
-            puheluHaly = intent.getStringExtra("halytysaani");
-            erica = pref_general.getBoolean("Erica", false);
-            //isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
-            if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
-                alarmSound(startId);
-                lisaaHalyTunnukset();
-                if (erica) {
-                    lisaaKunnatErica();
-                } else {
-                    lisaaKunnat();
-                }
+            tarina = pref_general.getBoolean("varina", true);
+            aanetVaiEi = pref_general.getBoolean("aanetVaiEi", false);
+            aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
+            int checkVolume = -1;
 
-                db = new DBHelper(getApplicationContext());
+            if(audioManager != null) {
+                checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+                palautaStreamAlarm = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+                palautaAani = checkVolume;
 
-                if(erica) {
-                    new halyaaniService.haeOsoiteErica().execute(message);
-                } else {
-                    new halyaaniService.haeOsoite().execute(message);
-                }
+                audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
+                pitaaPalauttaa = true;
+            }
 
-                if(autoAukaisu) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent halyAuki = new Intent(halyaaniService.this, HalytysActivity.class);
-                            halyAuki.setAction(Intent.ACTION_SEND);
-                            halyAuki.setType("automaattinen");
-                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(halyAuki);
-                        }
-                    }, 3000);
-                } else {
-                    createNotification(message);
+            if(aanetonser == 2) {
+                if(tarina) {
+                    vibrateSilent();
                 }
-            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")){
-                puhelu = pref_general.getBoolean("puhelu", false);
-                if(puhelu) {
-
-                    alarmSound(startId);
+            } else if (aanetonser == 3) {
+                //Yötila
+                if(aanetVaiEi && checkVolume == 0) {
+                    // ei saa tulla äänettömän läpi
+                    return;
                 }
-                db = new DBHelper(getApplicationContext());
-                db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
-                if(autoAukaisu) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent halyAuki = new Intent(halyaaniService.this, HalytysActivity.class);
-                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(halyAuki);
-                        }
-                    }, 3000);
-                } else {
-                    createNotificationPuhelu("Hälytys tuli puheluna");
+                aanenVoimakkuus = 10;
+                volume = saadaAani(aanenVoimakkuus);
+                if (audioManager != null) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
+                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                    mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                    mMediaPlayer.setOnPreparedListener(this);
+                    mMediaPlayer.setLooping(true);
+                    mMediaPlayer.prepareAsync();
+                    if (tarina) {
+                        vibrate();
+                    }
                 }
             } else {
-                //Log.e("halyaaniService", "onStartCommand stopSelf + startId: " + startId);
-                stopSelf(startId);
+                // Normaali
+                if(aanetVaiEi && checkVolume == 0) {
+                    // ei saa tulla äänettömän läpi
+                    return;
+                }
+                aanenVoimakkuus = 50;
+                aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
+                volume = saadaAani(aanenVoimakkuus);
+                if (audioManager != null) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
+                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                    mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                    mMediaPlayer.setOnPreparedListener(this);
+                    mMediaPlayer.setLooping(true);
+                    mMediaPlayer.prepareAsync();
+                    if (tarina) {
+                        vibrate();
+                    }
+                }
             }
-        } else {
-            //Log.e("halyaaniService", "onStartCommand stopSelf + startId: " + startId);
-            stopSelf(startId);
+
+            final int stopper = startId;
+            int stopTime;
+            int stop = 60;
+            try {
+                String aika = pref_general.getString("stopTime", null);
+                if(aika != null) {
+                    stop = Integer.parseInt(aika);
+                }
+            } catch (Exception e) {
+                Log.e("Halyservice", "Stop ajastuksen arvoa ei voitu lukea.");
+            }
+            if(stop < 10) {
+                stop = 10;
+            }
+            stopTime = stop * 1000;
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    stopSelf(stopper);
+                }
+            }, stopTime);
+
+        } catch (IOException e) {
+            System.out.println("OOPS");
         }
-        return Service.START_STICKY;
+    }
+
+    public int saadaAani(int voima) {
+        final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        if(audioManager != null) {
+            volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+            double aani = (double)volume/100*voima;
+            volume = (int) aani;
+        }
+
+        if(volume == 0) { return 1;
+        } else if(volume == 1) {
+            return 1;
+        } else if(volume == 2) {
+            return 2;
+        } else if(volume == 3) {
+            return 3;
+        } else if(volume == 4) {
+            return 4;
+        } else if(volume == 5) {
+            return 5;
+        } else if(volume == 6) {
+            return 6;
+        } else if(volume == 7) {
+            return 7;
+        }
+
+        return volume;
+    }
+
+    public void onPrepared(final MediaPlayer player) {
+        Thread music = new Thread() {
+            @Override
+            public void run() {
+                player.start();
+            }
+        };
+
+        music.start();
+        mediaplayerRunning = true;
+    }
+
+    public void vibrate() {
+        if(Build.VERSION.SDK_INT >= 21) {
+            viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if(viber != null && viber.hasVibrator()) {
+                if(Build.VERSION.SDK_INT >= 26) {
+                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
+                    viber.vibrate(VibrationEffect.createWaveform(pattern,5));
+                } else {
+                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
+                    viber.vibrate(pattern,5);
+                }
+            }
+        }
+    }
+
+    public void vibrateSilent() {
+        if(Build.VERSION.SDK_INT >= 21) {
+            viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if(viber != null && viber.hasVibrator()) {
+                if(Build.VERSION.SDK_INT >= 26) {
+                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
+                    viber.vibrate(VibrationEffect.createWaveform(pattern,-1));
+                } else {
+                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
+                    viber.vibrate(pattern,-1);
+                }
+            }
+        }
     }
 
     public void lisaaKunnat () {
@@ -1477,11 +1440,6 @@ public class halyaaniService extends Service implements MediaPlayer.OnPreparedLi
 
     private static class haeOsoite extends AsyncTask<String, Void, String[]> {
 
-        //private WeakReference<aktiivinenHaly> activityReference;
-
-        //haeOsoite(aktiivinenHaly context) {
-          //  activityReference = new WeakReference<>(context);
-        //}
         private boolean rajaapoisvuosiluvut(String vuosiluku) {
             return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
         }

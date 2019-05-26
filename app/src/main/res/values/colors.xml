@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="accent_material_light_1">#0704d3</color>
-    <color name="background_material_light" tools:override="true">#212121</color>
+    <color name="background_material_light" tools:override="true">#121212</color>
     <color name="primary_material_ligh">#ffffff</color>
     <color name="foreground_material_ligh">#decfcf</color>
     <color name="colorBackground">#1a1a1a</color>
@@ -11,7 +11,7 @@
     <color name="text_color_primary">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="grey">#DD555555</color>
-    <color name="primary_material_dark_1">#212121</color>
+    <color name="primary_material_dark_1">#121212</color>
     <color name="orange">#BF3600</color>
     <color name="green">#1DBF00</color>
     <color name="yellow">#BFB500</color>
@@ -19,4 +19,21 @@
     <color name="redCard">#66210C</color>
     <color name="yellowCard">#6D5900</color>
     <color name="greenCard">#306D00</color>
+
+    <!--New colors theme-->
+    <color name="primaryColor">#121212</color>
+
+    <color name="primaryLightColor">#383838</color>
+
+    <color name="primaryDarkColor">#000000</color>
+
+    <color name="secondaryColor">#bf3600</color>
+
+    <color name="secondaryLightColor">#f96833</color>
+
+    <color name="secondaryDarkColor">#870000</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+
+    <color name="secondaryTextColor">#ffffff</color>
 </resources>

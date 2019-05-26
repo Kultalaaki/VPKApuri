@@ -137,7 +137,7 @@ public class HalytysButtonsFragment extends Fragment {
             public void onClick(View v) {
                 Context ctx = getActivity();
                 if(ctx != null) {
-                    Intent stopAlarm = new Intent(ctx, halyaaniService.class);
+                    Intent stopAlarm = new Intent(ctx, IsItAlarmService.class);
                     ctx.stopService(stopAlarm);
                 }
                 if(koneluku) {
@@ -612,7 +612,7 @@ public class HalytysButtonsFragment extends Fragment {
         super.onPause();
         Context ctx = getActivity();
         if(stopAlarm && ctx != null) {
-            Intent stopAlarm = new Intent(ctx, halyaaniService.class);
+            Intent stopAlarm = new Intent(ctx, IsItAlarmService.class);
             ctx.stopService(stopAlarm);
         }
     }

@@ -46,11 +46,6 @@ public class EtusivuFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // Testing
-        /*Calendar calendar = Calendar.getInstance();
-        String day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-        Toast.makeText(getActivity(), "Päivä: " + day, Toast.LENGTH_LONG).show();*/
-
         halytys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

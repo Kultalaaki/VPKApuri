@@ -15,7 +15,7 @@ public class stopHalyaaniService extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent stopService = new Intent(context, halyaaniService.class);
+        Intent stopService = new Intent(context, IsItAlarmService.class);
         context.stopService(stopService);
     }
 }

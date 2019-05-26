@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#1a1a1a">
+    android:background="@color/primaryColor">
 
     <ScrollView
         android:id="@+id/scrollView4"
@@ -95,7 +95,7 @@
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
-                app:cardBackgroundColor="@color/orange"
+                app:cardBackgroundColor="@color/secondaryColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
-                    android:background="@color/colorBackground">
+                    android:background="@color/primaryDarkColor">
 
                     <ImageView
                         android:id="@+id/iconSave"

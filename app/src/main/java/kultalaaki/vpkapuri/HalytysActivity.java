@@ -115,7 +115,7 @@ public class HalytysActivity extends AppCompatActivity
 
         if (Intent.ACTION_SEND.equals(action)&& type != null) {
             if ("text/plain".equals(type)){
-                Intent stopAlarm = new Intent(HalytysActivity.this, halyaaniService.class);
+                Intent stopAlarm = new Intent(HalytysActivity.this, IsItAlarmService.class);
                 HalytysActivity.this.stopService(stopAlarm);
                 if(koneluku && !autoAukaisu) {
                     waitForFragment();
@@ -131,7 +131,7 @@ public class HalytysActivity extends AppCompatActivity
             hiljenna.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent stopAlarm = new Intent(aktiivinenHaly.this, halyaaniService.class);
+                    Intent stopAlarm = new Intent(aktiivinenHaly.this, IsItAlarmService.class);
                     aktiivinenHaly.this.stopService(stopAlarm);
                     if(koneluku) {
                         AudioManager ad = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);

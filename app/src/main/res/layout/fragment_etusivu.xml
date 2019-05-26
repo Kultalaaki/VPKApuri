@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingBottom="16dp"
-        android:background="#f2f2f2"
+        android:background="@color/primaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,8 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                tools:targetApi="lollipop">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -64,15 +65,15 @@
                         android:id="@+id/textHaly"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#ffffff"
+                        android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_halytys"
-                        android:textColor="#000000"
+                        android:textColor="@color/secondaryColor"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:alpha="0.7"
+                        android:alpha="0.9"
                         android:gravity="center_horizontal"
                         card_view:layout_constraintBottom_toBottomOf="parent"
                         card_view:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +100,8 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                tools:targetApi="lollipop">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -120,14 +122,14 @@
                         android:id="@+id/textarkisto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#ffffff"
+                        android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_arkisto"
-                        android:textColor="#000000"
+                        android:textColor="@color/secondaryLightColor"
                         android:textSize="24sp"
-                        android:alpha="0.7"
+                        android:alpha="0.9"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         card_view:layout_constraintBottom_toBottomOf="parent"
@@ -155,7 +157,8 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                tools:targetApi="lollipop">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -176,15 +179,15 @@
                         android:id="@+id/textohjeet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#ffffff"
+                        android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_ohjeet"
-                        android:textColor="#000000"
+                        android:textColor="@color/secondaryLightColor"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:alpha="0.7"
+                        android:alpha="0.9"
                         android:gravity="center_horizontal"
                         card_view:layout_constraintBottom_toBottomOf="parent"
                         card_view:layout_constraintEnd_toEndOf="parent"
@@ -213,7 +216,8 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                tools:targetApi="lollipop">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -235,123 +239,23 @@
                         android:id="@+id/textasetukset"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#ffffff"
+                        android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_asetukset"
-                        android:textColor="#000000"
+                        android:textColor="@color/secondaryLightColor"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:alpha="0.7"
+                        android:alpha="0.9"
                         android:gravity="center_horizontal"
                         card_view:layout_constraintBottom_toBottomOf="parent"
                         card_view:layout_constraintEnd_toEndOf="parent"
                         card_view:layout_constraintStart_toStartOf="parent" />
                 </android.support.constraint.ConstraintLayout>
-
-
             </android.support.v7.widget.CardView>
-
-
-
-            <!--<Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:id="@+id/tietosuoja"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="Tietosuoja"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-                app:layout_constraintEnd_toEndOf="@+id/toolbar"
-                app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
-
-
-            <!--<Button
-                android:id="@+id/halytysSivu"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/nappaimet"
-                android:drawableLeft="@drawable/ic_whatshot_white_36dp"
-                android:drawableStart="@drawable/ic_whatshot_white_36dp"
-                android:padding="8dp"
-                android:text="@string/action_halytys"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toTopOf="@+id/ohjeita"
-                app:layout_constraintEnd_toStartOf="@+id/arkisto"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/arkisto"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/nappaimet"
-                android:drawableLeft="@drawable/ic_dehaze_white_36dp"
-                android:drawableStart="@drawable/ic_dehaze_white_36dp"
-                android:padding="8dp"
-                android:text="@string/action_arkisto"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toTopOf="@+id/asetukset"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/halytysSivu" />
-
-            <Button
-                android:id="@+id/ohjeita"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/nappaimet"
-                android:drawableLeft="@drawable/ic_error_outline_white_36dp"
-                android:drawableStart="@drawable/ic_error_outline_white_36dp"
-                android:padding="8dp"
-                android:text="@string/action_ohjeet"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/asetukset"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/asetukset"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/nappaimet"
-                android:drawableLeft="@drawable/ic_settings_applications_white_36dp"
-                android:drawableStart="@drawable/ic_settings_applications_white_36dp"
-                android:padding="8dp"
-                android:text="@string/action_asetukset"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ohjeita" />-->
 
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
-
-
-
 </android.support.constraint.ConstraintLayout>

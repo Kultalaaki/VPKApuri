@@ -45,7 +45,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RemoteViews;
 import android.widget.TimePicker;
@@ -367,7 +366,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
                 public void run() {
-                    Intent halyaaniService = new Intent(getApplicationContext(), halyaaniService.class);
+                    Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
                     halyaaniService.putExtra("message", getString(R.string.testihalytysErica));
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");
@@ -378,7 +377,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    Intent halyaaniService = new Intent(getApplicationContext(), halyaaniService.class);
+                    Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
                     halyaaniService.putExtra("message", getString(R.string.testihalytys));
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");

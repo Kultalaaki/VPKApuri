@@ -13,8 +13,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.Locale;
 //import android.util.Log;
@@ -77,7 +75,7 @@ public class halypuhelu2 extends BroadcastReceiver {
     protected void onIncomingCallStarted(Context ctx, String number){
         //Toast.makeText(ctx, "check number " + number, Toast.LENGTH_LONG).show();
         if(number != null) {
-            Intent startService = new Intent(ctx.getApplicationContext(), halyaaniService.class);
+            Intent startService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             startService.putExtra("message", "Hälytys tulossa.");
             startService.putExtra("halytysaani", "true");
             //number = PhoneNumberUtils.formatNumber(number);
@@ -99,7 +97,7 @@ public class halypuhelu2 extends BroadcastReceiver {
     protected void onOutgoingCallStarted(Context ctx, String number){
         if(number != null) {
             //Log.e("onOutgoingCallStarted", "stopService");
-            Intent stopService = new Intent(ctx.getApplicationContext(), halyaaniService.class);
+            Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
         //Toast.makeText(ctx, "puhelureceiver " + number, Toast.LENGTH_LONG).show();
@@ -108,12 +106,12 @@ public class halypuhelu2 extends BroadcastReceiver {
     protected void onIncomingCallEnded(Context ctx, String number){
         if(number != null) {
             //Log.e("onIncomingCallEnded", "stopService");
-            Intent stopService = new Intent(ctx.getApplicationContext(), halyaaniService.class);
+            Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
 
         /*Toast.makeText(ctx, "puhelureceiver " + number, Toast.LENGTH_LONG).show();
-        Intent startService = new Intent(ctx.getApplicationContext(), halyaaniService.class);
+        Intent startService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
         startService.putExtra("message", "999A Hälytys tuli puheluna. ");
         startService.putExtra("halytysaani", false);
         startService.putExtra("number", number);
@@ -125,7 +123,7 @@ public class halypuhelu2 extends BroadcastReceiver {
     protected void onMissedCall(Context ctx, String number){
         if(number != null) {
             //Log.e("onMissedCall", "stopService");
-            Intent stopService = new Intent(ctx.getApplicationContext(), halyaaniService.class);
+            Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
 
