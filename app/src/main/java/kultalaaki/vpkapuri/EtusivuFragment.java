@@ -106,6 +106,8 @@ public class EtusivuFragment extends Fragment {
         // TODO: Update argument type and name
         void loadArkistoFragment();
         void loadOhjeetFragment();
+
+        void testResponderFragment();
     }
 
     public void avaaHaly () {
@@ -122,6 +124,7 @@ public class EtusivuFragment extends Fragment {
 
     public void avaaArkisto () {
         mListener.loadArkistoFragment();
+        mListener.testResponderFragment();
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
             Intent intent = new Intent(getActivity(), ArkistoActivity.class);

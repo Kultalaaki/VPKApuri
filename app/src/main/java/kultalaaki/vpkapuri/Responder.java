@@ -10,30 +10,32 @@ public class Responder {
     private int id;
 
     private String name;
+    private String vacancyNumber;
     private String message;
     private String attributeLeader;
     private String attributeDriverLicense;
     private String attributeSmoke;
     private String attributeChemical;
-    private String attributeOptional;
-    private String attributeOptiona2;
-    private String attributeOptiona3;
-    private String attributeOptiona4;
-    private String attributeOptiona5;
+    private String attributeOptionall;
+    private String attributeOptional2;
+    private String attributeOptional3;
+    private String attributeOptional4;
+    private String attributeOptional5;
 
-    public Responder(String name, String message, String attributeLeader, String attributeDriverLicense, String attributeSmoke, String attributeChemical, String attributeOptional,
-                     String attributeOptiona2, String attributeOptiona3, String attributeOptiona4, String attributeOptiona5) {
+    public Responder(String name, String vacancyNumber, String message, String attributeLeader, String attributeDriverLicense, String attributeSmoke, String attributeChemical, String attributeOptionall,
+                     String attributeOptional2, String attributeOptional3, String attributeOptional4, String attributeOptional5) {
         this.name = name;
+        this.vacancyNumber = vacancyNumber;
         this.message = message;
         this.attributeLeader = attributeLeader;
         this.attributeDriverLicense = attributeDriverLicense;
         this.attributeSmoke = attributeSmoke;
         this.attributeChemical = attributeChemical;
-        this.attributeOptional = attributeOptional;
-        this.attributeOptiona2 = attributeOptiona2;
-        this.attributeOptiona3 = attributeOptiona3;
-        this.attributeOptiona4 = attributeOptiona4;
-        this.attributeOptiona5 = attributeOptiona5;
+        this.attributeOptionall = attributeOptionall;
+        this.attributeOptional2 = attributeOptional2;
+        this.attributeOptional3 = attributeOptional3;
+        this.attributeOptional4 = attributeOptional4;
+        this.attributeOptional5 = attributeOptional5;
     }
 
     public void setId(int id) {
@@ -46,6 +48,10 @@ public class Responder {
 
     public String getName() {
         return name;
+    }
+
+    public String getVacancyNumber() {
+        return vacancyNumber;
     }
 
     public String getMessage() {
@@ -68,23 +74,23 @@ public class Responder {
         return attributeChemical;
     }
 
-    public String getAttributeOptional() {
-        return attributeOptional;
+    public String getAttributeOptional1() {
+        return attributeOptionall;
     }
 
-    public String getAttributeOptiona2() {
-        return attributeOptiona2;
+    public String getAttributeOptional2() {
+        return attributeOptional2;
     }
 
-    public String getAttributeOptiona3() {
-        return attributeOptiona3;
+    public String getAttributeOptional3() {
+        return attributeOptional3;
     }
 
-    public String getAttributeOptiona4() {
-        return attributeOptiona4;
+    public String getAttributeOptional4() {
+        return attributeOptional4;
     }
 
-    public String getAttributeOptiona5() {
-        return attributeOptiona5;
+    public String getAttributeOptional5() {
+        return attributeOptional5;
     }
 }

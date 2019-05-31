@@ -239,6 +239,16 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
     }
 
+    // TODO: testing ResponderFragment
+    public void testResponderFragment() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        ResponderFragment responderFragment = new ResponderFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.etusivuContainer, responderFragment, "responderFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     public void openSetTimer() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = new SetTimerFragment();
@@ -254,7 +264,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         createChannels();
         new WhatsNewScreen(this).show();
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
+        ericaEtusivu = pref_general.getBoolean("Erica", true);
         analytics = pref_general.getBoolean("analyticsEnabled", false);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
     }

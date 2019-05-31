@@ -1,0 +1,82 @@
+package kultalaaki.vpkapuri;
+
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ResponderAdapter extends RecyclerView.Adapter<ResponderAdapter.ResponderHolder> {
+    private List<Responder> responders = new ArrayList<>();
+
+
+    @NonNull
+    @Override
+    public ResponderHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.responder_item, viewGroup, false);
+        return new ResponderHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ResponderHolder responderHolder, int i) {
+        Responder currentResponder = responders.get(i);
+        responderHolder.textViewName.setText(currentResponder.getName());
+        responderHolder.textViewVacancyNumber.setText(currentResponder.getVacancyNumber());
+        responderHolder.textViewMessage.setText(currentResponder.getMessage());
+        responderHolder.textViewAttributeLeader.setText(currentResponder.getAttributeLeader());
+        responderHolder.textViewAttributeDriverLicense.setText(currentResponder.getAttributeDriverLicense());
+        responderHolder.textViewAttributeSmoke.setText(currentResponder.getAttributeSmoke());
+        responderHolder.textViewAttributeChemical.setText(currentResponder.getAttributeChemical());
+        responderHolder.textViewAttributeOptional1.setText(currentResponder.getAttributeOptional1());
+        responderHolder.textViewAttributeOptional2.setText(currentResponder.getAttributeOptional2());
+        responderHolder.textViewAttributeOptional3.setText(currentResponder.getAttributeOptional3());
+        responderHolder.textViewAttributeOptional4.setText(currentResponder.getAttributeOptional4());
+        responderHolder.textViewAttributeOptional5.setText(currentResponder.getAttributeOptional5());
+    }
+
+    @Override
+    public int getItemCount() {
+        return responders.size();
+    }
+
+    public void setResponders(List<Responder> responders) {
+        this.responders = responders;
+        notifyDataSetChanged();
+    }
+
+    class ResponderHolder extends RecyclerView.ViewHolder {
+        private TextView textViewName;
+        private TextView textViewVacancyNumber;
+        private TextView textViewMessage;
+        private TextView textViewAttributeLeader;
+        private TextView textViewAttributeDriverLicense;
+        private TextView textViewAttributeSmoke;
+        private TextView textViewAttributeChemical;
+        private TextView textViewAttributeOptional1;
+        private TextView textViewAttributeOptional2;
+        private TextView textViewAttributeOptional3;
+        private TextView textViewAttributeOptional4;
+        private TextView textViewAttributeOptional5;
+
+        public ResponderHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewName = itemView.findViewById(R.id.text_view_name);
+            textViewVacancyNumber = itemView.findViewById(R.id.text_view_attribute_vacancy);
+            textViewMessage = itemView.findViewById(R.id.text_view_message);
+            textViewAttributeLeader = itemView.findViewById(R.id.text_view_attribute_leader);
+            textViewAttributeDriverLicense = itemView.findViewById(R.id.text_view_attribute_driver_license);
+            textViewAttributeSmoke = itemView.findViewById(R.id.text_view_attribute_smoke);
+            textViewAttributeChemical = itemView.findViewById(R.id.text_view_attribute_chemical);
+            textViewAttributeOptional1 = itemView.findViewById(R.id.text_view_attribute_optional1);
+            textViewAttributeOptional2 = itemView.findViewById(R.id.text_view_attribute_optional2);
+            textViewAttributeOptional3 = itemView.findViewById(R.id.text_view_attribute_optional3);
+            textViewAttributeOptional4 = itemView.findViewById(R.id.text_view_attribute_optional4);
+            textViewAttributeOptional5 = itemView.findViewById(R.id.text_view_attribute_optional5);
+        }
+    }
+}

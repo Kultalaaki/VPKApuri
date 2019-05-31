@@ -62,7 +62,6 @@ dependencies {
         * */
     // Lifecycle components
     implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.compiler:extensions:1.1.1"
 
     // Room Components
     implementation "android.arch.persistence.room:runtime:1.1.1"

@@ -15,6 +15,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,6 +54,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     boolean tarina, autoAukaisu, aanetVaiEi, puhelu, pitaaPalauttaa = false;
     String puheluHaly = "false";
     static boolean erica;
+    static boolean asemataulu;
+
+    private ResponderViewModel mViewModel;
+    Context context;
 
     public IsItAlarmService() {
     }
@@ -65,6 +70,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     public void onCreate(){
         super.onCreate();
+        context = this;
         //Log.e("IsItAlarmService", "onCreate");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeGround(TAG);
@@ -91,9 +97,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             puheluHaly = intent.getStringExtra("halytysaani");
-            erica = pref_general.getBoolean("Erica", false);
+            erica = pref_general.getBoolean("Erica", true);
+            asemataulu = pref_general.getBoolean("Asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
-            if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
+            if(asemataulu) {
+                // TODO: Asemataulu käytössä. Tuo asemataulun asetus jutskat tänne
+            } else if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
                 alarmSound(startId);
                 lisaaHalyTunnukset();
                 if (erica) {
@@ -105,6 +114,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 db = new DBHelper(getApplicationContext());
 
                 if(erica) {
+                    Responder responder = new Responder("Aki", "Alle 5min", "Y", "C", "S", "Ch",
+                            null, null, null, null, null);
+                    mViewModel = new ResponderViewModel(getApplication());
+
+                    mViewModel.insert(responder);
                     new IsItAlarmService.haeOsoiteErica().execute(message);
                 } else {
                     new IsItAlarmService.haeOsoite().execute(message);

@@ -171,7 +171,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                || NotificationPreferenceFragment.class.getName().equals(fragmentName)
+                || AsematauluPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -532,6 +533,126 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 //all is good, continue flow
             }
         }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class AsematauluPreferenceFragment extends PreferenceFragment {
+
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_asemataulu);
+
+            setHasOptionsMenu(true);
+
+            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+            // to their values. When their values change, their summaries are
+            // updated to reflect the new value, per the Android Design
+            // guidelines.
+            bindPreferenceSummaryToValue(findPreference("nimi1"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero1"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero1"));
+            bindPreferenceSummaryToValue(findPreference("nimi2"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero2"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero2"));
+            bindPreferenceSummaryToValue(findPreference("nimi3"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero3"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero3"));
+            bindPreferenceSummaryToValue(findPreference("nimi4"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero4"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero4"));
+            bindPreferenceSummaryToValue(findPreference("nimi5"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero5"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero5"));
+            bindPreferenceSummaryToValue(findPreference("nimi6"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero6"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero6"));
+            bindPreferenceSummaryToValue(findPreference("nimi7"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero7"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero7"));
+            bindPreferenceSummaryToValue(findPreference("nimi8"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero8"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero8"));
+            bindPreferenceSummaryToValue(findPreference("nimi9"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero9"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero9"));
+            bindPreferenceSummaryToValue(findPreference("nimi10"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero10"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero10"));
+            bindPreferenceSummaryToValue(findPreference("nimi11"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero11"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero11"));
+            bindPreferenceSummaryToValue(findPreference("nimi12"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero12"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero12"));
+            bindPreferenceSummaryToValue(findPreference("nimi13"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero13"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero13"));
+            bindPreferenceSummaryToValue(findPreference("nimi14"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero14"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero14"));
+            bindPreferenceSummaryToValue(findPreference("nimi15"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero15"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero15"));
+            bindPreferenceSummaryToValue(findPreference("nimi16"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero16"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero16"));
+            bindPreferenceSummaryToValue(findPreference("nimi17"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero17"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero17"));
+            bindPreferenceSummaryToValue(findPreference("nimi18"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero18"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero18"));
+            bindPreferenceSummaryToValue(findPreference("nimi19"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero19"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero19"));
+            bindPreferenceSummaryToValue(findPreference("nimi20"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero20"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero20"));
+            bindPreferenceSummaryToValue(findPreference("nimi21"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero21"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero21"));
+            bindPreferenceSummaryToValue(findPreference("nimi22"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero22"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero22"));
+            bindPreferenceSummaryToValue(findPreference("nimi23"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero23"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero23"));
+            bindPreferenceSummaryToValue(findPreference("nimi24"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero24"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero24"));
+            bindPreferenceSummaryToValue(findPreference("nimi25"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero25"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero25"));
+            bindPreferenceSummaryToValue(findPreference("nimi26"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero26"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero26"));
+            bindPreferenceSummaryToValue(findPreference("nimi27"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero27"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero27"));
+            bindPreferenceSummaryToValue(findPreference("nimi28"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero28"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero28"));
+            bindPreferenceSummaryToValue(findPreference("nimi29"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero29"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero29"));
+            bindPreferenceSummaryToValue(findPreference("nimi30"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero30"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero30"));
+        }
+
+
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
