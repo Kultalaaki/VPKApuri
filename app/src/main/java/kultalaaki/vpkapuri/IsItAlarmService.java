@@ -98,10 +98,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String message = intent.getStringExtra("message");
             puheluHaly = intent.getStringExtra("halytysaani");
             erica = pref_general.getBoolean("Erica", true);
-            asemataulu = pref_general.getBoolean("Asemataulu", false);
+            asemataulu = pref_general.getBoolean("asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
             if(asemataulu) {
                 // TODO: Asemataulu käytössä. Tuo asemataulun asetus jutskat tänne
+                Responder responder = new Responder("Aki", "Alle 5min", "Y", "C", "S", "Ch",
+                        "", "", "", "", "", "");
+                mViewModel = new ResponderViewModel(getApplication());
+                mViewModel.insert(responder);
             } else if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
                 alarmSound(startId);
                 lisaaHalyTunnukset();
@@ -114,11 +118,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 db = new DBHelper(getApplicationContext());
 
                 if(erica) {
-                    Responder responder = new Responder("Aki", "Alle 5min", "Y", "C", "S", "Ch",
-                            "", "", "", "", "", "");
-                    mViewModel = new ResponderViewModel(getApplication());
-
-                    mViewModel.insert(responder);
                     new IsItAlarmService.haeOsoiteErica().execute(message);
                 } else {
                     new IsItAlarmService.haeOsoite().execute(message);

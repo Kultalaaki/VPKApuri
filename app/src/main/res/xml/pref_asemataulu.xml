@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Asemataulu" />
+    <SwitchPreference
+        android:title="Asemataulu"
+        android:defaultValue="false"
+        android:key="asemataulu"
+        android:summary="Asemataulu toiminnon päällekytkentä" />
+    <PreferenceCategory
+        android:title="Jäsenet" />
     <PreferenceScreen
         android:title="Jäsen 1"
+        android:dependency="asemataulu"
         android:key="nimi1"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -91,6 +101,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 2"
+        android:dependency="asemataulu"
         android:key="nimi2"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -182,6 +193,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 3"
+        android:dependency="asemataulu"
         android:key="nimi3"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -273,6 +285,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 4"
+        android:dependency="asemataulu"
         android:key="nimi4"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -364,6 +377,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 5"
+        android:dependency="asemataulu"
         android:key="nimi5"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -455,6 +469,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 6"
+        android:dependency="asemataulu"
         android:key="nimi6"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -546,6 +561,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 7"
+        android:dependency="asemataulu"
         android:key="nimi7"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -637,6 +653,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 8"
+        android:dependency="asemataulu"
         android:key="nimi8"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -728,6 +745,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 9"
+        android:dependency="asemataulu"
         android:key="nimi9"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -819,6 +837,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 10"
+        android:dependency="asemataulu"
         android:key="nimi10"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -910,6 +929,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 11"
+        android:dependency="asemataulu"
         android:key="nimi11"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1001,6 +1021,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 12"
+        android:dependency="asemataulu"
         android:key="nimi12"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1092,6 +1113,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 13"
+        android:dependency="asemataulu"
         android:key="nimi13"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1183,6 +1205,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 14"
+        android:dependency="asemataulu"
         android:key="nimi14"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1274,6 +1297,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 15"
+        android:dependency="asemataulu"
         android:key="nimi15"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1365,6 +1389,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 16"
+        android:dependency="asemataulu"
         android:key="nimi16"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1456,6 +1481,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 17"
+        android:dependency="asemataulu"
         android:key="nimi17"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1547,6 +1573,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 18"
+        android:dependency="asemataulu"
         android:key="nimi18"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1638,6 +1665,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 19"
+        android:dependency="asemataulu"
         android:key="nimi19"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1729,6 +1757,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 20"
+        android:dependency="asemataulu"
         android:key="nimi20"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1820,6 +1849,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 21"
+        android:dependency="asemataulu"
         android:key="nimi21"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -1911,6 +1941,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 22"
+        android:dependency="asemataulu"
         android:key="nimi22"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2002,6 +2033,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 23"
+        android:dependency="asemataulu"
         android:key="nimi23"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2093,6 +2125,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 24"
+        android:dependency="asemataulu"
         android:key="nimi24"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2184,6 +2217,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 25"
+        android:dependency="asemataulu"
         android:key="nimi25"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2275,6 +2309,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 26"
+        android:dependency="asemataulu"
         android:key="nimi26"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2366,6 +2401,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 27"
+        android:dependency="asemataulu"
         android:key="nimi27"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2457,6 +2493,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 28"
+        android:dependency="asemataulu"
         android:key="nimi28"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2548,6 +2585,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 29"
+        android:dependency="asemataulu"
         android:key="nimi29"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2639,6 +2677,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 30"
+        android:dependency="asemataulu"
         android:key="nimi30"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2730,6 +2769,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 31"
+        android:dependency="asemataulu"
         android:key="nimi31"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2821,6 +2861,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 32"
+        android:dependency="asemataulu"
         android:key="nimi32"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -2912,6 +2953,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 33"
+        android:dependency="asemataulu"
         android:key="nimi33"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3003,6 +3045,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 34"
+        android:dependency="asemataulu"
         android:key="nimi34"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3094,6 +3137,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 35"
+        android:dependency="asemataulu"
         android:key="nimi35"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3185,6 +3229,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 36"
+        android:dependency="asemataulu"
         android:key="nimi36"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3276,6 +3321,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 37"
+        android:dependency="asemataulu"
         android:key="nimi37"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3367,6 +3413,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 38"
+        android:dependency="asemataulu"
         android:key="nimi38"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3458,6 +3505,7 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 39"
+        android:dependency="asemataulu"
         android:key="nimi39"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
@@ -3549,7 +3597,8 @@
     </PreferenceScreen>
     <PreferenceScreen
         android:title="Jäsen 40"
-        android:key="nimi30"
+        android:dependency="asemataulu"
+        android:key="nimi40"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
         <PreferenceCategory
             android:title="Jäsen 40"
