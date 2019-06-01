@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,120 +9,175 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/parent_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/divider20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/divider40"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/divider60"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6" />
 
         <TextView
             android:id="@+id/text_view_attribute_vacancy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7511"
+            android:layout_marginTop="4dp"
             android:textColor="@color/secondaryColor"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_view_name"
-            android:text="Matti Meikäläinen"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/text_view_attribute_vacancy"/>
+            android:layout_marginTop="4dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_attribute_vacancy"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_attribute_vacancy" />
 
         <TextView
             android:id="@+id/text_view_message"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Alle 5 min"
-            android:maxLines="1"
-            android:layout_below="@id/text_view_name"
-            android:layout_alignParentEnd="true"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
-            android:layout_alignParentRight="true" />
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_attribute_vacancy"
+            app:layout_constraintStart_toEndOf="@id/divider60"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
 
         <TextView
             android:id="@+id/text_view_attribute_driver_license"
             android:layout_width="wrap_content"
-            android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:text="C"
-            android:textColor="@color/secondaryDarkColor"/>
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/secondaryDarkColor"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_view_attribute_smoke"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="S"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:textColor="@color/greenCard"
-            android:layout_toRightOf="@id/text_view_attribute_driver_license"
-            android:layout_toEndOf="@id/text_view_attribute_driver_license"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text_view_attribute_leader"
+            app:layout_constraintTop_toTopOf="@+id/text_view_attribute_driver_license" />
 
         <TextView
             android:id="@+id/text_view_attribute_leader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Y"
-            android:layout_toRightOf="@id/text_view_attribute_smoke"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"
-            android:layout_toEndOf="@id/text_view_attribute_smoke" />
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintStart_toEndOf="@+id/text_view_attribute_driver_license"
+            app:layout_constraintTop_toTopOf="@+id/text_view_attribute_driver_license" />
 
         <TextView
             android:id="@+id/text_view_attribute_chemical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="K"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:textColor="@color/yellowCard"
-            android:layout_toRightOf="@id/text_view_attribute_leader"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"
-            android:layout_toEndOf="@id/text_view_attribute_leader" />
+            app:layout_constraintStart_toEndOf="@+id/text_view_attribute_smoke"
+            app:layout_constraintTop_toTopOf="@+id/text_view_attribute_driver_license" />
 
         <TextView
             android:id="@+id/text_view_attribute_optional1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Pintapelastaja"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:ellipsize="end"
-            android:layout_below="@id/text_view_attribute_driver_license" />
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/divider20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_attribute_driver_license" />
 
         <TextView
             android:id="@+id/text_view_attribute_optional2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Opt 2"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:ellipsize="end"
-            android:layout_below="@id/text_view_attribute_driver_license"
-            android:layout_toRightOf="@id/text_view_attribute_optional1"
-            android:paddingLeft="8dp"
-            android:layout_toEndOf="@id/text_view_attribute_optional1"
-            android:paddingStart="8dp" />
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/divider40"
+            app:layout_constraintStart_toEndOf="@+id/divider20"
+            app:layout_constraintTop_toTopOf="@+id/text_view_attribute_optional1" />
 
         <TextView
             android:id="@+id/text_view_attribute_optional3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/divider20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_attribute_optional1" />
 
         <TextView
             android:id="@+id/text_view_attribute_optional4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/divider40"
+            app:layout_constraintStart_toEndOf="@+id/divider20"
+            app:layout_constraintTop_toTopOf="@+id/text_view_attribute_optional3" />
 
         <TextView
             android:id="@+id/text_view_attribute_optional5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/divider60"
+            app:layout_constraintStart_toEndOf="@+id/divider40"
+            app:layout_constraintTop_toTopOf="@+id/text_view_attribute_optional3" />
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

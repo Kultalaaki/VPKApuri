@@ -58,6 +58,10 @@ public class Responder {
         return message;
     }
 
+    public String getAttributeOptionall() {
+        return attributeOptionall;
+    }
+
     public String getAttributeLeader() {
         return attributeLeader;
     }

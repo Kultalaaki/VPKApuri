@@ -115,7 +115,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 if(erica) {
                     Responder responder = new Responder("Aki", "Alle 5min", "Y", "C", "S", "Ch",
-                            null, null, null, null, null);
+                            "", "", "", "", "", "");
                     mViewModel = new ResponderViewModel(getApplication());
 
                     mViewModel.insert(responder);
