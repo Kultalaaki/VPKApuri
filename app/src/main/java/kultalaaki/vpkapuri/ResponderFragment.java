@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,6 +44,16 @@ public class ResponderFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         final ResponderAdapter adapter = new ResponderAdapter();
         mRecyclerView.setAdapter(adapter);
+
+        /**
+         AutoFitGridLayoutManager that auto fits the cells by the column width defined.
+         **/
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 500);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // Basic GridLayoutManager
+        /*GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(manager);*/
 
         mViewModel = ViewModelProviders.of(this).get(ResponderViewModel.class);
         mViewModel.getAllResponders().observe(this, new Observer<List<Responder>>() {

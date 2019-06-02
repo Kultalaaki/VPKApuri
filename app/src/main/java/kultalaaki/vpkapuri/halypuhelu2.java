@@ -78,6 +78,7 @@ public class halypuhelu2 extends BroadcastReceiver {
             Intent startService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             startService.putExtra("message", "Hälytys tulossa.");
             startService.putExtra("halytysaani", "true");
+            startService.putExtra("timestamp", "00");
             //number = PhoneNumberUtils.formatNumber(number);
             //Log.i("onIncomingCallStarted", "startService");
             //Toast.makeText(ctx, "service starttaa: " + number, Toast.LENGTH_LONG).show();

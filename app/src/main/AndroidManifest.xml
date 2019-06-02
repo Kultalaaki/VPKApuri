@@ -59,8 +59,7 @@
 
         <activity
             android:name=".HalytysActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -81,8 +80,7 @@
         <activity
             android:name=".SettingsActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_activity_settings" />
 
         <receiver
             android:name=".SmsBroadcastReceiver"
@@ -120,8 +118,7 @@
 
         <activity
             android:name=".EtusivuActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

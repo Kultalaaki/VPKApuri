@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "956365878624-2a24ud5s20iokrunfs52rt237q68v3tf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kultalaaki.vpkapuri",
+            "certificate_hash": "87506a91b0978c19c2282996e75e98b17453393c"
+          }
+        },
+        {
           "client_id": "956365878624-bdcrnnok9p285820ufuvgdkbue5tie9j.apps.googleusercontent.com",
           "client_type": 3
         }

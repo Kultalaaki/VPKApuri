@@ -63,7 +63,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 /*if (senderNum.charAt(0) == '0') {
                     senderNum = "+358" + senderNum.substring(1);
                 }*/
-                message += "\n" + Aika;
+                //message += "\n" + Aika;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     senderNum = PhoneNumberUtils.formatNumber(senderNum, Locale.getDefault().getCountry());
@@ -79,6 +79,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 startService.putExtra("message", message);
                 startService.putExtra("halytysaani", "false");
                 startService.putExtra("number", senderNum);
+                startService.putExtra("timestamp", Aika);
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.getApplicationContext().startForegroundService(startService);
                 } else {

@@ -15,7 +15,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -56,7 +56,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     static boolean erica;
     static boolean asemataulu;
 
-    private ResponderViewModel mViewModel;
     Context context;
 
     public IsItAlarmService() {
@@ -96,16 +95,41 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
+            String timestamp = intent.getStringExtra("timestamp");
             puheluHaly = intent.getStringExtra("halytysaani");
             erica = pref_general.getBoolean("Erica", true);
             asemataulu = pref_general.getBoolean("asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
             if(asemataulu) {
-                // TODO: Asemataulu käytössä. Tuo asemataulun asetus jutskat tänne
-                Responder responder = new Responder("Aki", "Alle 5min", "Y", "C", "S", "Ch",
-                        "", "", "", "", "", "");
-                mViewModel = new ResponderViewModel(getApplication());
-                mViewModel.insert(responder);
+                // Test if it is alarm message. If not alarm, test is it person attending alarm.
+                if(isItAlarmSMS(numero, message)) {
+                    if (erica) {
+                        lisaaKunnatErica();
+                    } else {
+                        lisaaKunnat();
+                    }
+                    db = new DBHelper(getApplicationContext());
+                    message += "\n" + timestamp;
+                    if(erica) {
+                        new IsItAlarmService.haeOsoiteErica().execute(message);
+                    } else {
+                        new IsItAlarmService.haeOsoite().execute(message);
+                    }
+
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                            openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            IsItAlarmService.this.startActivity(openHalytysActivity);
+                        }
+                    }, 3000);
+                } else {
+                    // TODO: create method to test who is coming and save to database..
+                    whoIsComing(numero, message);
+                    stopSelf(startId);
+                }
             } else if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
                 alarmSound(startId);
                 lisaaHalyTunnukset();
@@ -116,7 +140,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
 
                 db = new DBHelper(getApplicationContext());
-
+                message += "\n" + timestamp;
                 if(erica) {
                     new IsItAlarmService.haeOsoiteErica().execute(message);
                 } else {
@@ -166,6 +190,72 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             stopSelf(startId);
         }
         return Service.START_STICKY;
+    }
+
+    private void whoIsComing(String numero, String message) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        ResponderRepository repository = new ResponderRepository(getApplication());
+        for(int i=1; i<=40; i++) {
+            String numeroFromSettings = preferences.getString("puhelinnumero" + i, null);
+            Log.e("TAG", "Numero: " + numeroFromSettings + i);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
+                    numeroFromSettings = PhoneNumberUtils.formatNumber(numeroFromSettings, Locale.getDefault().getCountry());
+                    if (numeroFromSettings.charAt(0) == '0') {
+                        numeroFromSettings = "+358" + numeroFromSettings.substring(1);
+                    }
+                    numeroFromSettings = numeroFromSettings.replaceAll("[()\\s-+]+", "");
+                }
+            } else {
+                if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
+                    numeroFromSettings = PhoneNumberUtils.formatNumber(numeroFromSettings);
+                    if (numeroFromSettings.charAt(0) == '0') {
+                        numeroFromSettings = "+358" + numeroFromSettings.substring(1);
+                    }
+                    numeroFromSettings = numeroFromSettings.replaceAll("[()\\s-+]+", "");
+                }
+            }
+            if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
+                if(numeroFromSettings.equals(numero)) {
+                    // TODO: numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
+                    Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
+                    String name = preferences.getString("nimi" + i, null);
+                    boolean driversLicense = preferences.getBoolean("kortti" + i, false);
+                    boolean smoke = preferences.getBoolean("savusukeltaja" + i, false);
+                    boolean chemical = preferences.getBoolean("kemikaalisukeltaja" + i, false);
+                    boolean leader = preferences.getBoolean("yksikonjohtaja" + i, false);
+                    String vacancyNumber = preferences.getString("vakanssinumero" + i, null);
+                    String optional1 = preferences.getString("optional1_" + i, null);
+                    String optional2 = preferences.getString("optional2_" + i, null);
+                    String optional3 = preferences.getString("optional3_" + i, null);
+                    String optional4 = preferences.getString("optional4_" + i, null);
+                    String optional5 = preferences.getString("optional5_" + i, null);
+                    String driver = "";
+                    String smok = "";
+                    String chem = "";
+                    String lead = "";
+                    if(driversLicense) {
+                        driver = "C";
+                    }
+                    if(smoke) {
+                        smok = "S";
+                    }
+                    if(chemical) {
+                        chem = "K";
+                    }
+                    if(leader) {
+                        lead = "Y";
+                    }
+                    Responder responder = new Responder(name, vacancyNumber, message, lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
+                    repository.insert(responder);
+                    //mViewModel = new ResponderViewModel(getApplication());
+                    //mViewModel.insert(responder);
+                    break;
+                }
+            }
+        }
+        //mViewModel = new ResponderViewModel(getApplication());
+        //mViewModel.insert(responder);
     }
 
     private boolean isItAlarmSMS(String numero, String message) {

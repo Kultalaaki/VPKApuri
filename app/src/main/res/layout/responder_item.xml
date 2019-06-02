@@ -60,6 +60,8 @@
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textAlignment="viewEnd"
+            android:gravity="end"
             app:layout_constraintEnd_toEndOf="@+id/text_view_attribute_vacancy"
             app:layout_constraintStart_toEndOf="@id/divider60"
             app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
