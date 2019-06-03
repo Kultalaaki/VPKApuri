@@ -2,29 +2,35 @@ package kultalaaki.vpkapuri;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class HalytysActivity extends AppCompatActivity
         implements HalytysButtonsFragment.Listener {
 
-    boolean koneluku, autoAukaisu;
+    boolean koneluku, autoAukaisu, asemataulu;
     String action, type;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        asemataulu = preferences.getBoolean("asemataulu", false);
+        if(!asemataulu) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         setContentView(R.layout.activity_halytys);
         Intent intent = getIntent();
         action = intent.getAction();
         type = intent.getType();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        koneluku = sharedPreferences.getBoolean("koneluku", false);
-        autoAukaisu = sharedPreferences.getBoolean("autoAukaisu", false);
+        koneluku = preferences.getBoolean("koneluku", false);
+        autoAukaisu = preferences.getBoolean("autoAukaisu", false);
     }
 
     public void hiljenna() {
@@ -57,9 +63,23 @@ public class HalytysActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         loadhalytysFragment();
-        loadhalytysButtonsFragment();
+        if(asemataulu) {
+            // TODO: Asemataulu käytössä
+            loadResponderFragment();
+        } else {
+            loadhalytysButtonsFragment();
+        }
         //Log.i("test", action + " " + type);
         getParameters(action, type);
+    }
+
+    public void loadResponderFragment() {
+        if(findViewById(R.id.responder_view) != null) {
+            FragmentManager fragmentManager = this.getSupportFragmentManager();
+            ResponderFragment responderFragment = new ResponderFragment();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.responder_view, responderFragment, "ResponderFragment").commit();
+        }
     }
 
     public void loadhalytysFragment() {

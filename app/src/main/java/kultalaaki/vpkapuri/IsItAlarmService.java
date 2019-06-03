@@ -30,8 +30,8 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
@@ -77,7 +77,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     @SuppressLint("ApplySharedPref")
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, final int startId) {
         if(intent != null) {
             if(previousStartId != startId) {
                 stopSelf(previousStartId);
@@ -103,6 +103,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             if(asemataulu) {
                 // Test if it is alarm message. If not alarm, test is it person attending alarm.
                 if(isItAlarmSMS(numero, message)) {
+                    lisaaHalyTunnukset();
                     if (erica) {
                         lisaaKunnatErica();
                     } else {
@@ -123,6 +124,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                             Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
                             openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             IsItAlarmService.this.startActivity(openHalytysActivity);
+                            stopSelf(startId);
                         }
                     }, 3000);
                 } else {
@@ -477,7 +479,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntent)
                 .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
-                .setVisibility(1)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
                 //.setOngoing(true)
                 .setAutoCancel(true);
@@ -504,7 +506,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntent)
                 //.addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
-                .setVisibility(1)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 //.setDeleteIntent(stop)
                 //.setOngoing(true)
                 .setAutoCancel(true);

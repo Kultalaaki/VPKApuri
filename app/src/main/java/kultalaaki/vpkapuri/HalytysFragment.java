@@ -12,11 +12,10 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,7 +71,8 @@ public class HalytysFragment extends Fragment {
     void checkDoNotDisturb() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean disturb = pref.getBoolean("DoNotDisturb", false);
-        if(!disturb && getActivity() != null) {
+        boolean asemataulu = pref.getBoolean("asemataulu", false);
+        if(!disturb && getActivity() != null && !asemataulu) {
             NotificationManager notificationManager =
                     (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             if(notificationManager != null) {

@@ -13,9 +13,19 @@
         android:layout_height="0dp"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@id/ylaAlaJako"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/leftRightJako"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/HalytysAlaosa"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/leftRightJako"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ylaAlaJako" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/ylaAlaJako"
@@ -24,14 +34,21 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75000" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftRightJako"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50000" />
+
     <FrameLayout
-        android:id="@+id/HalytysAlaosa"
+        android:id="@+id/responder_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ylaAlaJako" />
+        app:layout_constraintStart_toEndOf="@id/leftRightJako"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

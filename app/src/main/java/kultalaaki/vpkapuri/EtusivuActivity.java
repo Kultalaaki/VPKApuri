@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,20 +31,20 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.RemoteViews;
@@ -73,13 +74,18 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     DBHelper db;
     DBTimer dbTimer;
     SharedPreferences aaneton, sharedPreferences;
-    boolean ericaEtusivu, analytics;
+    boolean ericaEtusivu, analytics, asemataulu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final int MY_NOTIFICATION_ID = 15245;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        asemataulu = sharedPreferences.getBoolean("asemataulu", false);
+        if(!asemataulu) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         setContentView(R.layout.etusivusidepanel);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -154,7 +160,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         osoite = new String [1];
         osoite[0] = "info@vpkapuri.fi";
         aihe = "VPK Apuri palaute";
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         if(sharedPreferences.contains("termsShown")) {
             loadEtusivuFragment();
         } else {
@@ -237,16 +243,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
-    }
-
-    // TODO: testing ResponderFragment
-    public void testResponderFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ResponderFragment responderFragment = new ResponderFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.etusivuContainer, responderFragment, "responderFragment");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 
     public void openSetTimer() {
@@ -441,7 +437,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_ALARM)
                     .setContentIntent(hiljennetty)
-                    .setVisibility(1)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setOngoing(true)
                     .setAutoCancel(false);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
@@ -531,15 +527,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                         tietokantaVarmuuskopio();
                     }
                 });
-        builder.create().show();
-    }
-
-    private void showMessageOKCancelAjastin() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
-                .setTitle("Ajastin")
-                .setMessage("Tämä ominaisuus on vielä työn alla.")
-                .setNegativeButton("OK", null);
         builder.create().show();
     }
 

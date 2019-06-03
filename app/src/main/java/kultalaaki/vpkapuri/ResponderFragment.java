@@ -1,16 +1,17 @@
 package kultalaaki.vpkapuri;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +47,6 @@ public class ResponderFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         final ResponderAdapter adapter = new ResponderAdapter();
         mRecyclerView.setAdapter(adapter);
-
-        /**
-         AutoFitGridLayoutManager that auto fits the cells by the column width defined.
-         **/
-        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 800);
-        mRecyclerView.setLayoutManager(layoutManager);
 
         // Basic GridLayoutManager
         /*GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
@@ -93,4 +88,36 @@ public class ResponderFragment extends Fragment {
         });
     }
 
+    public void onResume() {
+        super.onResume();
+        /**
+         AutoFitGridLayoutManager that auto fits the cells by the column width defined.
+         **/
+        int orientation = getResources().getConfiguration().orientation;
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+            AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 500);
+            mRecyclerView.setLayoutManager(layoutManager);
+        } else {
+            // In portrait
+            AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 800);
+            mRecyclerView.setLayoutManager(layoutManager);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+            AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 500);
+            mRecyclerView.setLayoutManager(layoutManager);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            // In portrait
+            AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 800);
+            mRecyclerView.setLayoutManager(layoutManager);
+        }
+    }
 }

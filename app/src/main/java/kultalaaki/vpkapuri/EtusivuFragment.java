@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,8 +106,6 @@ public class EtusivuFragment extends Fragment {
         // TODO: Update argument type and name
         void loadArkistoFragment();
         void loadOhjeetFragment();
-
-        void testResponderFragment();
     }
 
     public void avaaHaly () {
@@ -124,7 +122,6 @@ public class EtusivuFragment extends Fragment {
 
     public void avaaArkisto () {
         mListener.loadArkistoFragment();
-        mListener.testResponderFragment();
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
             Intent intent = new Intent(getActivity(), ArkistoActivity.class);
