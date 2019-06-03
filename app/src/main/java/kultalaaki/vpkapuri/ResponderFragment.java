@@ -10,9 +10,11 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class ResponderFragment extends Fragment {
         /**
          AutoFitGridLayoutManager that auto fits the cells by the column width defined.
          **/
-        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 500);
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 800);
         mRecyclerView.setLayoutManager(layoutManager);
 
         // Basic GridLayoutManager
@@ -60,9 +62,24 @@ public class ResponderFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Responder> responders) {
                 // TODO: update RecyclerView
-                adapter.setResponders(responders);
+                adapter.submitList(responders);
             }
         });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                mViewModel.delete(adapter.getResponderAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(getActivity(), "Lähtijä poistettu listalta!", Toast.LENGTH_LONG).show();
+            }
+        }).attachToRecyclerView(mRecyclerView);
     }
 
     public void onStart() {

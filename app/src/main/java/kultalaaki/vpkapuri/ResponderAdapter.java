@@ -1,6 +1,8 @@
 package kultalaaki.vpkapuri;
 
 import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponderAdapter extends RecyclerView.Adapter<ResponderAdapter.ResponderHolder> {
-    private List<Responder> responders = new ArrayList<>();
+public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.ResponderHolder> {
+
+    public ResponderAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<Responder> DIFF_CALLBACK = new DiffUtil.ItemCallback<Responder>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Responder responder, @NonNull Responder t1) {
+            return responder.getId() == t1.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Responder responder, @NonNull Responder t1) {
+            return responder.getName().equals(t1.getName()) &&
+                    responder.getVacancyNumber().equals(t1.getVacancyNumber()) &&
+                    responder.getMessage().equals(t1.getMessage());
+        }
+    };
 
 
     @NonNull
@@ -24,7 +43,7 @@ public class ResponderAdapter extends RecyclerView.Adapter<ResponderAdapter.Resp
 
     @Override
     public void onBindViewHolder(@NonNull ResponderHolder responderHolder, int i) {
-        Responder currentResponder = responders.get(i);
+        Responder currentResponder = getItem(i);
         responderHolder.textViewName.setText(currentResponder.getName());
         responderHolder.textViewVacancyNumber.setText(currentResponder.getVacancyNumber());
         responderHolder.textViewMessage.setText(currentResponder.getMessage());
@@ -39,15 +58,19 @@ public class ResponderAdapter extends RecyclerView.Adapter<ResponderAdapter.Resp
         responderHolder.textViewAttributeOptional5.setText(currentResponder.getAttributeOptional5());
     }
 
-    @Override
+    /*@Override
     public int getItemCount() {
         return responders.size();
+    }*/
+
+    public Responder getResponderAt(int position) {
+        return getItem(position);
     }
 
-    public void setResponders(List<Responder> responders) {
+    /*public void setResponders(List<Responder> responders) {
         this.responders = responders;
         notifyDataSetChanged();
-    }
+    }*/
 
     class ResponderHolder extends RecyclerView.ViewHolder {
         private TextView textViewName;
