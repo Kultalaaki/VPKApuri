@@ -17,9 +17,9 @@
         android:icon="@drawable/ic_settings_applications_white_24dp"
         android:title="Luvat &amp; käyttöönotto" />
 
-    <header
+    <!--<header
         android:fragment="kultalaaki.vpkapuri.SettingsActivity$AsematauluPreferenceFragment"
         android:icon="@drawable/ic_asemataulu"
-        android:title="Asemataulu" />
+        android:title="Asemataulu" />-->
 
 </preference-headers>

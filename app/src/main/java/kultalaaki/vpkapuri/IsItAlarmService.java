@@ -481,6 +481,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
+                .setFullScreenIntent(pendingIntent, true) // AndroidQ fullScreenIntent testing
                 //.setOngoing(true)
                 .setAutoCancel(true);
 
