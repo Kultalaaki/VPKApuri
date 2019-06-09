@@ -6,7 +6,7 @@
   ~ Last modified 6.5.2018 11:39
   -->
 
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,4 +20,4 @@
         android:paddingBottom="32dp"
         android:text="@string/whatsnew" />
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

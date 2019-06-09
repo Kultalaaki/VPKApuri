@@ -29,10 +29,11 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -374,7 +375,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntent)
                 .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
-                .setVisibility(1)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
                 //.setOngoing(true)
                 .setAutoCancel(true);
@@ -401,7 +402,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntent)
                 //.addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
-                .setVisibility(1)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 //.setDeleteIntent(stop)
                 //.setOngoing(true)
                 .setAutoCancel(true);
