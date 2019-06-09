@@ -1320,8 +1320,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         halytunnukset.add("217"); halytekstit.add("RAIDELIIKENNE: MAAN ALLA: KESKISUURI");
         halytunnukset.add("218"); halytekstit.add("RAIDELIIKENNE: MAAN ALLA: SUURI");
         halytunnukset.add("220"); halytekstit.add("VESILIIKENNE: MUU");
-        halytunnukset.add("221"); halytekstit.add("VESILIIKENNE: KESKISUURI");
-        halytunnukset.add("222"); halytekstit.add("VESILIIKENNE: SUURI");
+        halytunnukset.add("221"); halytekstit.add("VESILIIKENNE: PIENI");
+        halytunnukset.add("222"); halytekstit.add("VESILIIKENNE: KESKISUURI");
+        halytunnukset.add("223"); halytekstit.add("VESILIIKENNE: SUURI");
         halytunnukset.add("231"); halytekstit.add("ILMALIIKENNEONNETTOMUUS: PIENI");
         halytunnukset.add("232"); halytekstit.add("ILMALIIKENNEONNETTOMUUS: KESKISUURI");
         halytunnukset.add("233"); halytekstit.add("ILMALIIKENNEONNETTOMUUS: SUURI");
