@@ -76,7 +76,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setCategory(NotificationCompat.CATEGORY_ALARM)
                             .setContentIntent(hiljennetty)
-                            .setVisibility(1)
+                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                             .setOngoing(true)
                             .setAutoCancel(false);
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
@@ -100,7 +100,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setCategory(NotificationCompat.CATEGORY_ALARM)
                             .setContentIntent(hiljennetty)
-                            .setVisibility(1)
+                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                             .setOngoing(true)
                             .setAutoCancel(false);
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

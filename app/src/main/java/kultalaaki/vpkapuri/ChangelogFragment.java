@@ -2,9 +2,11 @@ package kultalaaki.vpkapuri;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import androidx.core.app.Fragment;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
