@@ -15,7 +15,7 @@ android {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 92
+        versionCode 93
         versionName "3.3"
     }
     buildTypes {
@@ -37,6 +37,7 @@ buildscript {
         google()
     }
     dependencies {
+        classpath 'com.google.gms:google-services:4.2.0'  // Google Services plugin
         classpath 'com.android.tools.build:gradle:3.4.1'
         classpath 'io.fabric.tools:gradle:1.28.1'
     }
@@ -76,6 +77,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
+
+    // Add dependency
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     api('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true

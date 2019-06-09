@@ -83,6 +83,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = sharedPreferences.getBoolean("asemataulu", false);
+        ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
+        analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
+
         if(!asemataulu) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -104,6 +107,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Fabric.with(this, new Crashlytics());
         }
 
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -177,6 +181,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void loadArkistoFragment() {
+        //Crashlytics.getInstance().crash(); // Force a crash
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArkistoFragment arkistoFragment = new ArkistoFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -259,10 +264,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", true);
-        analytics = pref_general.getBoolean("analyticsEnabled", false);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
     }
 
     @Override
