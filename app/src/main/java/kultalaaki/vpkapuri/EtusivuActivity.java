@@ -84,6 +84,11 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.etusivusidepanel);
 
+        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
+        ericaEtusivu = pref_general.getBoolean("Erica", false);
+        analytics = pref_general.getBoolean("analyticsEnabled", false);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -99,6 +104,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         if(analytics) {
             Fabric.with(this, new Crashlytics());
         }
+
 
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -173,6 +179,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void loadArkistoFragment() {
+        Crashlytics.getInstance().crash(); // Force a crash
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArkistoFragment arkistoFragment = new ArkistoFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -255,10 +262,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
-        analytics = pref_general.getBoolean("analyticsEnabled", false);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
     }
 
     @Override
