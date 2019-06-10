@@ -30,14 +30,22 @@ public class HalytysButtonsFragment extends Fragment {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 3;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 4;
-    CardView call, fiveMin, tenMin, tenMinplus, hiljenna, openMap;
-    boolean five, ten, autoAukaisu, koneluku, tenplus = false, stopAlarm = false, SmsGreenVisible, SmsYellowVisible, SmsRedVisible, CallButtonVisible;
+    private CardView call, fiveMin, tenMin, tenMinplus, hiljenna, openMap;
+    private boolean five;
+    private boolean ten;
+    private boolean koneluku;
+    private boolean tenplus = false;
+    private boolean stopAlarm = false;
+    private boolean SmsGreenVisible;
+    private boolean SmsYellowVisible;
+    private boolean SmsRedVisible;
+    private boolean CallButtonVisible;
     static DBHelper db;
-    TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
-    String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
+    private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
+    private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
     Intent intent;
 
-    Listener mCallback;
+    private Listener mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
@@ -89,7 +97,7 @@ public class HalytysButtonsFragment extends Fragment {
         setTexts();
     }
 
-    public void setTexts() {
+    private void setTexts() {
         if(CallButtonVisible) {
             callNumber.setText(soittonumero);
         } else {
@@ -123,12 +131,12 @@ public class HalytysButtonsFragment extends Fragment {
         }
     }
 
-    public void setTextHiljennaPuhe() {
+    void setTextHiljennaPuhe() {
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_puhe);
     }
 
-    public void autoAukaisu() {
+    void autoAukaisu() {
         stopAlarm = true;
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_halytys);
@@ -149,7 +157,7 @@ public class HalytysButtonsFragment extends Fragment {
         });
     }
 
-    public void autoAukaisuHiljennaPuhe() {
+    private void autoAukaisuHiljennaPuhe() {
         mCallback.autoAukaisuPuhu();
         hiljennys.setText(R.string.hiljenna_puhe);
         hiljenna.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +169,7 @@ public class HalytysButtonsFragment extends Fragment {
         });
     }
 
-    public String osoite(){
+    private String osoite(){
         try {
             db = new DBHelper(getActivity());
             Cursor c = db.haeViimeisinLisays();
@@ -203,7 +211,7 @@ public class HalytysButtonsFragment extends Fragment {
         hiljennys = view.findViewById(R.id.hiljennys);
     }
 
-    void setResources() {
+    private void setResources() {
         SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
         soittonumero = pref_general.getString("example_text", null);
         smsnumero = pref_general.getString("sms_numero", null);
@@ -216,7 +224,6 @@ public class HalytysButtonsFragment extends Fragment {
         tenplusmintxtotsikko = pref_general.getString("tenplusmintextotsikko", null);
         tenplusmintxt = pref_general.getString("tenplusmintxt", null);
         koneluku = pref_general.getBoolean("koneluku", false);
-        autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
         SmsGreenVisible = pref_general.getBoolean("SmsGreenVisible", true);
         SmsYellowVisible = pref_general.getBoolean("SmsYellowVisible", true);
         SmsRedVisible = pref_general.getBoolean("SmsRedVisible", true);
@@ -224,7 +231,7 @@ public class HalytysButtonsFragment extends Fragment {
         db = new DBHelper(getActivity());
     }
 
-    void setOnClickListeners() {
+    private void setOnClickListeners() {
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -433,7 +440,7 @@ public class HalytysButtonsFragment extends Fragment {
         }
     }*/
 
-    public void pyydaLuvatSms() {
+    private void pyydaLuvatSms() {
         Context ctx = getActivity();
         if(ctx != null) {
             if (ContextCompat.checkSelfPermission(ctx,
@@ -544,7 +551,7 @@ public class HalytysButtonsFragment extends Fragment {
         }
     }
 
-    public void btnfive() {
+    private void btnfive() {
         // Alle 5min ilmoitus
         try {
             //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
@@ -559,7 +566,7 @@ public class HalytysButtonsFragment extends Fragment {
         five = false;
     }
 
-    public void btnten() {
+    private void btnten() {
         // Alle 10min ilmoitus
         try {
             //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
@@ -574,7 +581,7 @@ public class HalytysButtonsFragment extends Fragment {
         ten = false;
     }
 
-    public void btntenplus() {
+    private void btntenplus() {
         // Yli 10min ilmoitus
         try {
             //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);

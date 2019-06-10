@@ -15,10 +15,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,8 +33,6 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -47,7 +42,6 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.RemoteViews;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -73,10 +67,10 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     String aihe;
     DBHelper db;
     DBTimer dbTimer;
-    SharedPreferences aaneton, sharedPreferences;
+    SharedPreferences sharedPreferences;
     boolean ericaEtusivu, analytics, asemataulu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
-    private static final int MY_NOTIFICATION_ID = 15245;
+    SoundControls soundControls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +92,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_36dp);
         }
+
+        soundControls = new SoundControls();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -127,8 +123,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                                 return true;
                             case R.id.hiljenna_halyt:
                                 //hiljennaHalytykset();
-                                aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-                                if(aaneton.getInt("aaneton_profiili", -1) == 1) {
+                                if(sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
                                     showMessage("Hälytysten hiljennys", "Haluatko varmasti hiljentää hälytykset?");
                                 } else {
                                     hiljennaHalytykset();
@@ -330,6 +325,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             ilmChannel.setDescription("Tämä ilmoituskanava ilmoittaa kun sovelluksesta on hälytykset hiljennetty");
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
+            ilmChannel.setSound(null, null);
+            ilmChannel.enableVibration(false);
             NotificationManager notificationManager = (NotificationManager) getSystemService(
                     NOTIFICATION_SERVICE);
             if (notificationManager != null) {
@@ -366,8 +363,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     public void startTestaaHalytys() {
 
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
+        ericaEtusivu = sharedPreferences.getBoolean("Erica", false);
 
         if(ericaEtusivu) {
             Handler handler1 = new Handler();
@@ -416,11 +412,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     @SuppressLint("ApplySharedPref")
     public void hiljennaHalytykset() {
-        aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-        if (aaneton.getInt("aaneton_profiili", -1) == 1) {
+
+        if (sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
             //hiljenna haly
+            soundControls.setSilent(this);
             //HILJENNA_HALY = 2;
-            aaneton.edit().putInt("aaneton_profiili", 2).commit();
+            /*aaneton.edit().putInt("aaneton_profiili", 2).commit();
             RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
             text.setTextViewText(R.id.teksti, "Äänetön");
             Toast.makeText(getApplicationContext(),"Äänetön tila käytössä.", Toast.LENGTH_SHORT).show();
@@ -442,11 +439,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                     .setOngoing(true)
                     .setAutoCancel(false);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
-            notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
+            notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());*/
         } else {
             //äänet päälle
+            soundControls.setNormal(this);
             //HILJENNA_HALY = 1;
-            aaneton.edit().putInt("aaneton_profiili", 1).commit();
+            /*aaneton.edit().putInt("aaneton_profiili", 1).commit();
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
             notificationManager.cancel(MY_NOTIFICATION_ID);
             RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
@@ -455,7 +453,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
             ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
             AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
-            manager.updateAppWidget(thisWidget, text);
+            manager.updateAppWidget(thisWidget, text);*/
         }
     }
 
@@ -636,10 +634,10 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 // Kokeillaan versionCode == getLongVersionCode()
                 final int versionCode = BuildConfig.VERSION_CODE;
                 if (versionCode != lastVersionCode) {
-                    aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-                    if (aaneton.getBoolean("firstrun", true)) {
-                        aaneton.edit().putInt("aaneton_profiili", 1).commit();
-                        aaneton.edit().putBoolean("firstrun", false).commit();
+
+                    if (prefs.getBoolean("firstrun", true)) {
+                        prefs.edit().putInt("aaneton_profiili", 1).commit();
+                        prefs.edit().putBoolean("firstrun", false).commit();
                     }
                     db = new DBHelper(getApplicationContext());
                     db.insertData("915C", "Ei osoitetta", "Uusi asennus tai sovellus on päivitetty. Tervetuloa käyttämään palokuntalaisille suunniteltua hälytys sovellusta. " +

@@ -9,7 +9,6 @@ package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -32,6 +31,8 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
+
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
@@ -48,7 +49,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     Vibrator viber;
     static DBHelper db;
     static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>();
-    SharedPreferences aaneton;
+    SharedPreferences sharedPreferences;
     private static final int MY_HALY_NOTIFICATION_ID = 264981;
     int aanenVoimakkuus, volume, aanetonser, palautaAani, palautaStreamAlarm;
     boolean tarina, autoAukaisu, aanetVaiEi, puhelu, pitaaPalauttaa = false;
@@ -91,14 +92,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 startForeGround(TAG);
             }
 
-            SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-            autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            autoAukaisu = sharedPreferences.getBoolean("autoAukaisu", false);
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             String timestamp = intent.getStringExtra("timestamp");
             puheluHaly = intent.getStringExtra("halytysaani");
-            erica = pref_general.getBoolean("Erica", true);
-            asemataulu = pref_general.getBoolean("asemataulu", false);
+            erica = sharedPreferences.getBoolean("Erica", true);
+            asemataulu = sharedPreferences.getBoolean("asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
             if(asemataulu) {
                 // Test if it is alarm message. If not alarm, test is it person attending alarm.
@@ -164,7 +165,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     createNotification(message);
                 }
             } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")){
-                puhelu = pref_general.getBoolean("puhelu", false);
+                puhelu = sharedPreferences.getBoolean("puhelu", false);
                 if(puhelu) {
 
                     alarmSound(startId);
@@ -177,6 +178,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         public void run() {
                             Intent halyAuki = new Intent(IsItAlarmService.this, HalytysActivity.class);
                             halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            halyAuki.setAction(Intent.ACTION_SEND);
+                            halyAuki.setType("automaattinen");
                             startActivity(halyAuki);
                         }
                     }, 3000);
@@ -195,10 +198,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     private void whoIsComing(String numero, String message) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ResponderRepository repository = new ResponderRepository(getApplication());
         for(int i=1; i<=40; i++) {
-            String numeroFromSettings = preferences.getString("puhelinnumero" + i, null);
+            String numeroFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
             Log.e("TAG", "Numero: " + numeroFromSettings + i);
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
@@ -221,17 +223,17 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if(numeroFromSettings.equals(numero)) {
                     // TODO: numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
                     Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
-                    String name = preferences.getString("nimi" + i, null);
-                    boolean driversLicense = preferences.getBoolean("kortti" + i, false);
-                    boolean smoke = preferences.getBoolean("savusukeltaja" + i, false);
-                    boolean chemical = preferences.getBoolean("kemikaalisukeltaja" + i, false);
-                    boolean leader = preferences.getBoolean("yksikonjohtaja" + i, false);
-                    String vacancyNumber = preferences.getString("vakanssinumero" + i, null);
-                    String optional1 = preferences.getString("optional1_" + i, null);
-                    String optional2 = preferences.getString("optional2_" + i, null);
-                    String optional3 = preferences.getString("optional3_" + i, null);
-                    String optional4 = preferences.getString("optional4_" + i, null);
-                    String optional5 = preferences.getString("optional5_" + i, null);
+                    String name = sharedPreferences.getString("nimi" + i, null);
+                    boolean driversLicense = sharedPreferences.getBoolean("kortti" + i, false);
+                    boolean smoke = sharedPreferences.getBoolean("savusukeltaja" + i, false);
+                    boolean chemical = sharedPreferences.getBoolean("kemikaalisukeltaja" + i, false);
+                    boolean leader = sharedPreferences.getBoolean("yksikonjohtaja" + i, false);
+                    String vacancyNumber = sharedPreferences.getString("vakanssinumero" + i, null);
+                    String optional1 = sharedPreferences.getString("optional1_" + i, null);
+                    String optional2 = sharedPreferences.getString("optional2_" + i, null);
+                    String optional3 = sharedPreferences.getString("optional3_" + i, null);
+                    String optional4 = sharedPreferences.getString("optional4_" + i, null);
+                    String optional5 = sharedPreferences.getString("optional5_" + i, null);
                     String driver = "";
                     String smok = "";
                     String chem = "";
@@ -261,20 +263,19 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     private boolean isItAlarmSMS(String numero, String message) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         if (numero.charAt(0) == '0') {
             numero = "+358" + numero.substring(1);
         }
-        String halynumero1 = pref.getString("halyvastaanotto1", null);
-        String halynumero2 = pref.getString("halyvastaanotto2", null);
-        String halynumero3 = pref.getString("halyvastaanotto3", null);
-        String halynumero4 = pref.getString("halyvastaanotto4", null);
-        String halynumero5 = pref.getString("halyvastaanotto5", null);
-        String halynumero6 = pref.getString("halyvastaanotto6", null);
-        String halynumero7 = pref.getString("halyvastaanotto7", null);
-        String halynumero8 = pref.getString("halyvastaanotto8", null);
-        String halynumero9 = pref.getString("halyvastaanotto9", null);
-        String halynumero10 = pref.getString("halyvastaanotto10", null);
+        String halynumero1 = sharedPreferences.getString("halyvastaanotto1", null);
+        String halynumero2 = sharedPreferences.getString("halyvastaanotto2", null);
+        String halynumero3 = sharedPreferences.getString("halyvastaanotto3", null);
+        String halynumero4 = sharedPreferences.getString("halyvastaanotto4", null);
+        String halynumero5 = sharedPreferences.getString("halyvastaanotto5", null);
+        String halynumero6 = sharedPreferences.getString("halyvastaanotto6", null);
+        String halynumero7 = sharedPreferences.getString("halyvastaanotto7", null);
+        String halynumero8 = sharedPreferences.getString("halyvastaanotto8", null);
+        String halynumero9 = sharedPreferences.getString("halyvastaanotto9", null);
+        String halynumero10 = sharedPreferences.getString("halyvastaanotto10", null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if(halynumero1 != null && !halynumero1.isEmpty()) {
@@ -402,7 +403,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             halynumero10 = halynumero10.replaceAll("[()\\s-+]+", "");
         }
         //Log.e("tager", "s"+ numero);
-        boolean kaytaAvainsanaa = pref.getBoolean("avainsana", false);
+        boolean kaytaAvainsanaa = sharedPreferences.getBoolean("avainsana", false);
         boolean numeroTasmaa = false;
         boolean avainsanaTasmaa = false;
 
@@ -429,11 +430,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
         }
         if(kaytaAvainsanaa) {
-            String avainsana1 = pref.getString("avainsana1", null);
-            String avainsana2 = pref.getString("avainsana2", null);
-            String avainsana3 = pref.getString("avainsana3", null);
-            String avainsana4 = pref.getString("avainsana4", null);
-            String avainsana5 = pref.getString("avainsana5", null);
+            String avainsana1 = sharedPreferences.getString("avainsana1", null);
+            String avainsana2 = sharedPreferences.getString("avainsana2", null);
+            String avainsana3 = sharedPreferences.getString("avainsana3", null);
+            String avainsana4 = sharedPreferences.getString("avainsana4", null);
+            String avainsana5 = sharedPreferences.getString("avainsana5", null);
             // tarkista viestin sanat ja hälytä jos avainsana havaittu
             if(message.length() > 3) {
                 char merkki;
@@ -466,6 +467,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // TODO: tee tästä alta
+        //TaskStackBuilder stackBuilder =  TaskStackBuilder.create(this);
+        //stackBuilder.addNextIntentWithParentStack(intentsms);
+        //PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        // TODO: todon välistä aseta käyttöön .setContentIntent(pendingIntentWithBackStack) ja kokeile.
         PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
@@ -517,11 +523,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void alarmSound(int startId) {
-        SharedPreferences getAlarms = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        //String alarms = getAlarms.getString("notifications_new_message_ringtone", null);
-        String alarms = getAlarms.getString("ringtone", null);
-        aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-        aanetonser = aaneton.getInt("aaneton_profiili", -1);
+
+        String alarms = sharedPreferences.getString("ringtone", null);
+
+        aanetonser = sharedPreferences.getInt("aaneton_profiili", -1);
         if(alarms != null) {
             Uri uri = Uri.parse(alarms);
             //Toast.makeText(aktiivinenHaly.this, " " + uri, Toast.LENGTH_LONG).show();
@@ -537,10 +542,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         try {
             mMediaPlayer.setDataSource(context, alert);
             final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-            tarina = pref_general.getBoolean("varina", true);
-            aanetVaiEi = pref_general.getBoolean("aanetVaiEi", false);
-            aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
+            tarina = sharedPreferences.getBoolean("varina", true);
+            aanetVaiEi = sharedPreferences.getBoolean("aanetVaiEi", false);
+            aanenVoimakkuus = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
             int checkVolume = -1;
 
             if(audioManager != null) {
@@ -582,7 +586,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     return;
                 }
                 aanenVoimakkuus = 50;
-                aanenVoimakkuus = pref_general.getInt("SEEKBAR_VALUE", -1);
+                aanenVoimakkuus = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
                 volume = saadaAani(aanenVoimakkuus);
                 if (audioManager != null) {
                     audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
@@ -601,7 +605,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             int stopTime;
             int stop = 60;
             try {
-                String aika = pref_general.getString("stopTime", null);
+                String aika = sharedPreferences.getString("stopTime", null);
                 if(aika != null) {
                     stop = Integer.parseInt(aika);
                 }

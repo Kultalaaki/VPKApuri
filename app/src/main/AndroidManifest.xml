@@ -59,6 +59,7 @@
 
         <activity
             android:name=".HalytysActivity"
+            android:parentActivityName=".EtusivuActivity"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -79,6 +80,7 @@
 
         <activity
             android:name=".SettingsActivity"
+            android:parentActivityName=".EtusivuActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_settings" />
 

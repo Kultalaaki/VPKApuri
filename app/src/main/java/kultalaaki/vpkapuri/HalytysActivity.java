@@ -129,6 +129,8 @@ public class HalytysActivity extends AppCompatActivity
                 }
             }
         }, 1000);
+        action = null;
+        type = null;
     }
 
     public void getParameters(String action, String type) {
@@ -144,49 +146,5 @@ public class HalytysActivity extends AppCompatActivity
                 waitForButtonsFragment();
             }
         }
-
-        //if(autoAukaisu) {
-            //waitForButtonsFragment();
-            /*hiljenna.setVisibility(View.VISIBLE);
-            hiljenna.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent stopAlarm = new Intent(aktiivinenHaly.this, IsItAlarmService.class);
-                    aktiivinenHaly.this.stopService(stopAlarm);
-                    if(koneluku) {
-                        AudioManager ad = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-                        if(ad != null) {
-                            // teksti puheeksi äänenvoimakkuus
-                            palautaMediaVol = ad.getStreamVolume(AudioManager.STREAM_MUSIC);
-                            palautaMediaVolBoolean = true;
-                            ad.setStreamVolume(AudioManager.STREAM_MUSIC, 4, 0);
-                            try {
-                                SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                tekstiPuheeksiVol = pref_general.getInt("tekstiPuheeksiVol", -1);
-                                tekstiPuheeksiVol = saadaAani(tekstiPuheeksiVol);
-                                ad.setStreamVolume(AudioManager.STREAM_MUSIC, tekstiPuheeksiVol, 0);
-                            } catch (Exception e) {
-                                Log.i("VPK Apuri", "Teksti puheeksi äänenvoimakkuuden lukeminen asetuksista epäonnistui.");
-                            }
-                        }
-                        txtToSpeech();
-                        hiljenna.setText(R.string.hiljenna_puhe);
-                        hiljenna.setOnClickListener(new View.OnClickListener(){
-                            public void onClick(View view){
-                                AudioManager ad = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-                                if(ad != null) {
-                                    ad.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                                    hiljenna.setVisibility(View.INVISIBLE);
-                                }
-                                if(t1 != null) {
-                                    t1.stop();
-                                    t1.shutdown();
-                                }
-                            }
-                        });
-                    }
-                }
-            });*/
-        //}
     }
 }
