@@ -468,11 +468,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // TODO: tee tästä alta
-        //TaskStackBuilder stackBuilder =  TaskStackBuilder.create(this);
-        //stackBuilder.addNextIntentWithParentStack(intentsms);
-        //PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        TaskStackBuilder stackBuilder =  TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(intentsms);
+        PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         // TODO: todon välistä aseta käyttöön .setContentIntent(pendingIntentWithBackStack) ja kokeile.
-        PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
+        //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
         PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
@@ -483,11 +483,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setContentText(viesti)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntentWithBackStack)
                 .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
-                .setFullScreenIntent(pendingIntent, true) // AndroidQ fullScreenIntent testing
+                .setFullScreenIntent(pendingIntentWithBackStack, true) // AndroidQ fullScreenIntent testing
                 //.setOngoing(true)
                 .setAutoCancel(true);
 
@@ -500,7 +500,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
+        // TODO: tee tästä alta
+        TaskStackBuilder stackBuilder =  TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(intentsms);
+        PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        // TODO: todon välistä aseta käyttöön .setContentIntent(pendingIntentWithBackStack) ja kokeile.
+        //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
         //PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
@@ -511,7 +516,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setContentText(viesti)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntentWithBackStack)
                 //.addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 //.setDeleteIntent(stop)
