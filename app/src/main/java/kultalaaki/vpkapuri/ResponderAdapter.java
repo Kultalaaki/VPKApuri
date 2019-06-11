@@ -100,3 +100,53 @@ public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.Re
         }
     }
 }
+/**
+ * public FireAlarmAdapter() {
+ *         super(DIFF_CALLBACK);
+ *     }
+ *
+ *     private static final DiffUtil.ItemCallback<FireAlarm> DIFF_CALLBACK = new DiffUtil.ItemCallback<FireAlarm>() {
+ *         @Override
+ *         public boolean areItemsTheSame(@NonNull FireAlarm oldItem, @NonNull FireAlarm newItem) {
+ *             return oldItem.getId() == newItem.getId();
+ *         }
+ *
+ *         @Override
+ *         public boolean areContentsTheSame(@NonNull FireAlarm oldItem, @NonNull FireAlarm newItem) {
+ *             return oldItem.getViesti().equals(newItem.getViesti()) &&
+ *                     oldItem.getLuokka().equals(newItem.getLuokka()) &&
+ *                     oldItem.getTunnus().equals(newItem.getTunnus());
+ *         }
+ *     };
+ *
+ *     @NonNull
+ *     @Override
+ *     public FireAlarmHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+ *         View itemView = LayoutInflater.from(viewGroup.getContext())
+ *                 .inflate(R.layout.item_layout, viewGroup, false);
+ *         return new FireAlarmHolder(itemView);
+ *     }
+ *
+ *     @Override
+ *     public void onBindViewHolder(@NonNull FireAlarmHolder fireAlarmHolder, int i) {
+ *         FireAlarm currentAlarm = getItem(i);
+ *         fireAlarmHolder.textViewSija.setText(currentAlarm.getId());
+ *         fireAlarmHolder.textViewTunnus.setText(currentAlarm.getTunnus());
+ *         fireAlarmHolder.textViewViesti.setText(currentAlarm.getViesti());
+ *     }
+ *
+ *     public FireAlarm getFireAlarmAt(int position) {return getItem(position);}
+ *
+ *     class FireAlarmHolder extends RecyclerView.ViewHolder {
+ *         private TextView textViewSija;
+ *         private TextView textViewTunnus;
+ *         private TextView textViewViesti;
+ *
+ *         public FireAlarmHolder (@NonNull View itemView) {
+ *             super(itemView);
+ *             textViewSija = itemView.findViewById(R.id.sija);
+ *             textViewTunnus = itemView.findViewById(R.id.tunnus);
+ *             textViewViesti = itemView.findViewById(R.id.viesti);
+ *         }
+ *     }
+ */
