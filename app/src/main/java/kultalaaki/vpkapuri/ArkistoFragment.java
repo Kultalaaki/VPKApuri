@@ -4,8 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +20,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 
 /**
@@ -32,6 +42,8 @@ public class ArkistoFragment extends Fragment {
     DBHelper db;
     ListView showAlarms;
     Context ctx;
+    private RecyclerView mRecyclerView;
+    private FireAlarmViewModel mViewModel;
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,14 +84,51 @@ public class ArkistoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        ctx = getActivity();
-        db = new DBHelper(ctx);
-        showAlarms = view.findViewById(R.id.listViewHalyt);
+        //ctx = getActivity();
+        //db = new DBHelper(ctx);
+        mRecyclerView = view.findViewById(R.id.listview_alarms);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final FireAlarmAdapter adapter = new FireAlarmAdapter();
+        mRecyclerView.setAdapter(adapter);
+
+        mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        mViewModel.getAllFireAlarms().observe(this, new Observer<List<FireAlarm>>() {
+            @Override
+            public void onChanged(List<FireAlarm> fireAlarms) {
+                adapter.submitList(fireAlarms);
+            }
+        });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                mViewModel.delete(adapter.getFireAlarmAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(getActivity(), "Hälytys poistettu arkistosta!", Toast.LENGTH_LONG).show();
+            }
+        }).attachToRecyclerView(mRecyclerView);
+
+        adapter.setOnItemClickListener(new FireAlarmAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(FireAlarm fireAlarm) {
+
+            }
+        });
     }
 
     public void onStart() {
         super.onStart();
-        populateListView();
+        //populateListView();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

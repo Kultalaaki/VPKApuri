@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -32,13 +31,25 @@ public class HalytysTietokannastaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+    private static String id;
+    private static String tunnus;
+    private static String luokka;
+    private static String viesti;
+    private static String osoite;
+    private static String kommentti;
+    private static String vastaus;
+    private static String optionalField;
+    private static String optionalField2;
+    private static String optionalField3;
+    private static String optionalField4;
+    private static String optionalField5;
 
     // TODO: Rename and change types of parameters
     private String primaryKey;
     DBHelper db;
     CardView save, delete, showOnMap;
-    TextView tunnus, luokka, viesti, kommentti;
-    EditText tunnusteksti, luokkateksti, viestiteksti, kommenttiteksti;
+    TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti;
+    EditText tunnusteksti, osoiteteksti, viestiteksti, kommenttiteksti;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,10 +58,21 @@ public class HalytysTietokannastaFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static HalytysTietokannastaFragment newInstance(String param1) {
+    public static HalytysTietokannastaFragment newInstance(FireAlarm fireAlarm) {
         HalytysTietokannastaFragment fragment = new HalytysTietokannastaFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putInt(id, fireAlarm.getId());
+        args.putString(tunnus, fireAlarm.getTunnus());
+        args.putString(luokka, fireAlarm.getLuokka());
+        args.putString(viesti, fireAlarm.getViesti());
+        args.putString(osoite, fireAlarm.getOsoite());
+        args.putString(kommentti, fireAlarm.getKommentti());
+        args.putString(vastaus, fireAlarm.getVastaus());
+        args.putString(optionalField, fireAlarm.getOptionalField());
+        args.putString(optionalField2, fireAlarm.getOptionalField2());
+        args.putString(optionalField3, fireAlarm.getOptionalField3());
+        args.putString(optionalField4, fireAlarm.getOptionalField4());
+        args.putString(optionalField5, fireAlarm.getOptionalField5());
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,13 +87,20 @@ public class HalytysTietokannastaFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        Cursor cursor = db.halyID(primaryKey);
+        if(getArguments() != null) {
+            tunnusteksti.setText(getArguments().getString(tunnus));
+            osoiteteksti.setText(getArguments().getString(osoite));
+            viestiteksti.setText(getArguments().getString(viesti));
+            kommenttiteksti.setText(getArguments().getString(kommentti));
+        }
+
+        /*Cursor cursor = db.halyID(primaryKey);
         if(cursor != null) {
             tunnusteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.TUNNUS)));
             luokkateksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.LUOKKA)));
             viestiteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.VIESTI)));
             kommenttiteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KOMMENTTI)));
-        }
+        }*/
 
         if(getActivity() != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -80,7 +109,7 @@ public class HalytysTietokannastaFragment extends Fragment {
         showOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String osoite = luokkateksti.getText().toString();
+                String osoite = osoiteteksti.getText().toString();
                 Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoite);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 //mapIntent.setPackage("com.google.android.apps.maps");
@@ -114,13 +143,13 @@ public class HalytysTietokannastaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         db = new DBHelper(getActivity());
-        tunnus = view.findViewById(R.id.tunnus);
+        textViewTunnus = view.findViewById(R.id.tunnus);
         tunnusteksti = view.findViewById(R.id.tunnusteksti);
-        luokka = view.findViewById(R.id.luokka);
-        luokkateksti = view.findViewById(R.id.luokkateksti);
-        viesti = view.findViewById(R.id.viesti);
+        textViewLuokka = view.findViewById(R.id.luokka);
+        osoiteteksti = view.findViewById(R.id.luokkateksti);
+        textViewViesti = view.findViewById(R.id.viesti);
         viestiteksti = view.findViewById(R.id.viestiteksti);
-        kommentti = view.findViewById(R.id.kommentti);
+        textViewKommentti = view.findViewById(R.id.kommentti);
         kommenttiteksti = view.findViewById(R.id.kommenttiteksti);
         kommenttiteksti.setCursorVisible(false);
         save = view.findViewById(R.id.cardTallenna);
@@ -161,14 +190,14 @@ public class HalytysTietokannastaFragment extends Fragment {
         builder.create().show();
     }
 
-    public void lisaaKommentti() {
+    private void lisaaKommentti() {
         save.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String kommentti = kommenttiteksti.getText().toString();
                         String tunnus = tunnusteksti.getText().toString();
-                        String luokka = luokkateksti.getText().toString();
+                        String luokka = osoiteteksti.getText().toString();
                         String viesti = viestiteksti.getText().toString();
                         boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);
                         if(lisattyKommentti){
@@ -201,7 +230,7 @@ public class HalytysTietokannastaFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
     }
 }
