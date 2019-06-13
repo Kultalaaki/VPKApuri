@@ -15,24 +15,68 @@ public class FireAlarm {
     private String osoite;
     private String kommentti;
     private String vastaus;
-    private String optionalField;
+    private String timeStamp;
     private String optionalField2;
     private String optionalField3;
     private String optionalField4;
     private String optionalField5;
 
     public FireAlarm(String tunnus, String luokka, String viesti, String osoite, String kommentti, String vastaus,
-                     String optionalField, String optionalField2, String optionalField3, String optionalField4, String optionalField5) {
+                     String timeStamp, String optionalField2, String optionalField3, String optionalField4, String optionalField5) {
         this.tunnus = tunnus;
         this.luokka = luokka;
         this.viesti = viesti;
         this.osoite = osoite;
         this.kommentti = kommentti;
         this.vastaus = vastaus;
-        this.optionalField = optionalField;
+        this.timeStamp = timeStamp;
         this.optionalField2 = optionalField2;
         this.optionalField3 = optionalField3;
         this.optionalField4 = optionalField4;
+        this.optionalField5 = optionalField5;
+    }
+
+    public void setTunnus(String tunnus) {
+        this.tunnus = tunnus;
+    }
+
+    public void setLuokka(String luokka) {
+        this.luokka = luokka;
+    }
+
+    public void setViesti(String viesti) {
+        this.viesti = viesti;
+    }
+
+    public void setOsoite(String osoite) {
+        this.osoite = osoite;
+    }
+
+    public void setKommentti(String kommentti) {
+        this.kommentti = kommentti;
+    }
+
+    public void setVastaus(String vastaus) {
+        this.vastaus = vastaus;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setOptionalField2(String optionalField2) {
+        this.optionalField2 = optionalField2;
+    }
+
+    public void setOptionalField3(String optionalField3) {
+        this.optionalField3 = optionalField3;
+    }
+
+    public void setOptionalField4(String optionalField4) {
+        this.optionalField4 = optionalField4;
+    }
+
+    public void setOptionalField5(String optionalField5) {
         this.optionalField5 = optionalField5;
     }
 
@@ -68,8 +112,8 @@ public class FireAlarm {
         return vastaus;
     }
 
-    public String getOptionalField() {
-        return optionalField;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
     public String getOptionalField2() {

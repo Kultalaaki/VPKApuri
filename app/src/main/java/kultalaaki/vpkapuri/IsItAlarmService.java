@@ -29,6 +29,7 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -40,7 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener{
+public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
 
     private static final String TAG = "VPK Apuri käynnissä.";
     private static int previousStartId = 1;
@@ -64,11 +65,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e(TAG, "onBind()" );
+        Log.e(TAG, "onBind()");
         return null;
     }
 
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         context = this;
         //Log.e("IsItAlarmService", "onCreate");
@@ -79,10 +80,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     @SuppressLint("ApplySharedPref")
     public int onStartCommand(Intent intent, int flags, final int startId) {
-        if(intent != null) {
-            if(previousStartId != startId) {
+        if (intent != null) {
+            if (previousStartId != startId) {
                 stopSelf(previousStartId);
-                if(mediaplayerRunning && mMediaPlayer != null) {
+                if (mediaplayerRunning && mMediaPlayer != null) {
                     mMediaPlayer.stop();
                     mediaplayerRunning = false;
                 }
@@ -101,9 +102,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             erica = sharedPreferences.getBoolean("Erica", true);
             asemataulu = sharedPreferences.getBoolean("asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
-            if(asemataulu) {
+            if (asemataulu) {
                 // Test if it is alarm message. If not alarm, test is it person attending alarm.
-                if(isItAlarmSMS(numero, message)) {
+                if (isItAlarmSMS(numero, message)) {
                     lisaaHalyTunnukset();
                     if (erica) {
                         lisaaKunnatErica();
@@ -111,9 +112,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         lisaaKunnat();
                     }
                     db = new DBHelper(getApplicationContext());
-                    message += "\n" + timestamp;
-                    if(erica) {
-                        new IsItAlarmService.haeOsoiteErica().execute(message);
+
+                    if (erica) {
+                        addressLookUp(message, timestamp);
+                        //new IsItAlarmService.haeOsoiteErica().execute(message);
                     } else {
                         new IsItAlarmService.haeOsoite().execute(message);
                     }
@@ -133,7 +135,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     whoIsComing(numero, message);
                     stopSelf(startId);
                 }
-            } else if(isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
+            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
                 alarmSound(startId);
                 lisaaHalyTunnukset();
                 if (erica) {
@@ -143,14 +145,16 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
 
                 db = new DBHelper(getApplicationContext());
-                message += "\n" + timestamp;
-                if(erica) {
-                    new IsItAlarmService.haeOsoiteErica().execute(message);
+
+                if (erica) {
+                    addressLookUp(message, timestamp);
+                    //new IsItAlarmService.haeOsoiteErica().execute(message);
                 } else {
+                    // TODO: change this to OHTO alarms
                     new IsItAlarmService.haeOsoite().execute(message);
                 }
 
-                if(autoAukaisu) {
+                if (autoAukaisu) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -164,15 +168,15 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 } else {
                     createNotification(message);
                 }
-            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")){
+            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")) {
                 puhelu = sharedPreferences.getBoolean("puhelu", false);
-                if(puhelu) {
+                if (puhelu) {
 
                     alarmSound(startId);
                 }
                 db = new DBHelper(getApplicationContext());
                 db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
-                if(autoAukaisu) {
+                if (autoAukaisu) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -199,11 +203,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     private void whoIsComing(String numero, String message) {
         ResponderRepository repository = new ResponderRepository(getApplication());
-        for(int i=1; i<=40; i++) {
+        for (int i = 1; i <= 40; i++) {
             String numeroFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
             Log.e("TAG", "Numero: " + numeroFromSettings + i);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
                     numeroFromSettings = PhoneNumberUtils.formatNumber(numeroFromSettings, Locale.getDefault().getCountry());
                     if (numeroFromSettings.charAt(0) == '0') {
                         numeroFromSettings = "+358" + numeroFromSettings.substring(1);
@@ -211,7 +215,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     numeroFromSettings = numeroFromSettings.replaceAll("[()\\s-+]+", "");
                 }
             } else {
-                if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
+                if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
                     numeroFromSettings = PhoneNumberUtils.formatNumber(numeroFromSettings);
                     if (numeroFromSettings.charAt(0) == '0') {
                         numeroFromSettings = "+358" + numeroFromSettings.substring(1);
@@ -219,8 +223,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     numeroFromSettings = numeroFromSettings.replaceAll("[()\\s-+]+", "");
                 }
             }
-            if(numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
-                if(numeroFromSettings.equals(numero)) {
+            if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
+                if (numeroFromSettings.equals(numero)) {
                     // TODO: numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
                     Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
                     String name = sharedPreferences.getString("nimi" + i, null);
@@ -238,16 +242,16 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     String smok = "";
                     String chem = "";
                     String lead = "";
-                    if(driversLicense) {
+                    if (driversLicense) {
                         driver = "C";
                     }
-                    if(smoke) {
+                    if (smoke) {
                         smok = "S";
                     }
-                    if(chemical) {
+                    if (chemical) {
                         chem = "K";
                     }
-                    if(leader) {
+                    if (leader) {
                         lead = "Y";
                     }
                     Responder responder = new Responder(name, vacancyNumber, message, lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
@@ -278,125 +282,125 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         String halynumero10 = sharedPreferences.getString("halyvastaanotto10", null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if(halynumero1 != null && !halynumero1.isEmpty()) {
+            if (halynumero1 != null && !halynumero1.isEmpty()) {
                 halynumero1 = PhoneNumberUtils.formatNumber(halynumero1, Locale.getDefault().getCountry());
             }
-            if(halynumero2 != null && !halynumero2.isEmpty()) {
+            if (halynumero2 != null && !halynumero2.isEmpty()) {
                 halynumero2 = PhoneNumberUtils.formatNumber(halynumero2, Locale.getDefault().getCountry());
             }
-            if(halynumero3 != null && !halynumero3.isEmpty()) {
+            if (halynumero3 != null && !halynumero3.isEmpty()) {
                 halynumero3 = PhoneNumberUtils.formatNumber(halynumero3, Locale.getDefault().getCountry());
             }
-            if(halynumero4 != null && !halynumero4.isEmpty()) {
+            if (halynumero4 != null && !halynumero4.isEmpty()) {
                 halynumero4 = PhoneNumberUtils.formatNumber(halynumero4, Locale.getDefault().getCountry());
             }
-            if(halynumero5 != null && !halynumero5.isEmpty()) {
+            if (halynumero5 != null && !halynumero5.isEmpty()) {
                 halynumero5 = PhoneNumberUtils.formatNumber(halynumero5, Locale.getDefault().getCountry());
             }
-            if(halynumero6 != null && !halynumero6.isEmpty()) {
+            if (halynumero6 != null && !halynumero6.isEmpty()) {
                 halynumero6 = PhoneNumberUtils.formatNumber(halynumero6, Locale.getDefault().getCountry());
             }
-            if(halynumero7 != null && !halynumero7.isEmpty()) {
+            if (halynumero7 != null && !halynumero7.isEmpty()) {
                 halynumero7 = PhoneNumberUtils.formatNumber(halynumero7, Locale.getDefault().getCountry());
             }
-            if(halynumero8 != null && !halynumero8.isEmpty()) {
+            if (halynumero8 != null && !halynumero8.isEmpty()) {
                 halynumero8 = PhoneNumberUtils.formatNumber(halynumero8, Locale.getDefault().getCountry());
             }
-            if(halynumero9 != null && !halynumero9.isEmpty()) {
+            if (halynumero9 != null && !halynumero9.isEmpty()) {
                 halynumero9 = PhoneNumberUtils.formatNumber(halynumero9, Locale.getDefault().getCountry());
             }
-            if(halynumero10 != null && !halynumero10.isEmpty()) {
+            if (halynumero10 != null && !halynumero10.isEmpty()) {
                 halynumero10 = PhoneNumberUtils.formatNumber(halynumero10, Locale.getDefault().getCountry());
             }
         } else {
-            if(halynumero1 != null && !halynumero1.isEmpty()) {
+            if (halynumero1 != null && !halynumero1.isEmpty()) {
                 halynumero1 = PhoneNumberUtils.formatNumber(halynumero1);
             }
-            if(halynumero2 != null && !halynumero2.isEmpty()) {
+            if (halynumero2 != null && !halynumero2.isEmpty()) {
                 halynumero2 = PhoneNumberUtils.formatNumber(halynumero2);
             }
-            if(halynumero3 != null && !halynumero3.isEmpty()) {
+            if (halynumero3 != null && !halynumero3.isEmpty()) {
                 halynumero3 = PhoneNumberUtils.formatNumber(halynumero3);
             }
-            if(halynumero4 != null && !halynumero4.isEmpty()) {
+            if (halynumero4 != null && !halynumero4.isEmpty()) {
                 halynumero4 = PhoneNumberUtils.formatNumber(halynumero4);
             }
-            if(halynumero5 != null && !halynumero5.isEmpty()) {
+            if (halynumero5 != null && !halynumero5.isEmpty()) {
                 halynumero5 = PhoneNumberUtils.formatNumber(halynumero5);
             }
-            if(halynumero6 != null && !halynumero6.isEmpty()) {
+            if (halynumero6 != null && !halynumero6.isEmpty()) {
                 halynumero6 = PhoneNumberUtils.formatNumber(halynumero6);
             }
-            if(halynumero7 != null && !halynumero7.isEmpty()) {
+            if (halynumero7 != null && !halynumero7.isEmpty()) {
                 halynumero7 = PhoneNumberUtils.formatNumber(halynumero7);
             }
-            if(halynumero8 != null && !halynumero8.isEmpty()) {
+            if (halynumero8 != null && !halynumero8.isEmpty()) {
                 halynumero8 = PhoneNumberUtils.formatNumber(halynumero8);
             }
-            if(halynumero9 != null && !halynumero9.isEmpty()) {
+            if (halynumero9 != null && !halynumero9.isEmpty()) {
                 halynumero9 = PhoneNumberUtils.formatNumber(halynumero9);
             }
-            if(halynumero10 != null && !halynumero10.isEmpty()) {
+            if (halynumero10 != null && !halynumero10.isEmpty()) {
                 halynumero10 = PhoneNumberUtils.formatNumber(halynumero10);
             }//Deprecated method
         }
 
         numero = numero.replaceAll("[()\\s-+]+", "");
-        if(halynumero1 != null && !halynumero1.isEmpty()) {
+        if (halynumero1 != null && !halynumero1.isEmpty()) {
             if (halynumero1.charAt(0) == '0') {
                 halynumero1 = "+358" + halynumero1.substring(1);
             }
             halynumero1 = halynumero1.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero2 != null && !halynumero2.isEmpty()) {
+        if (halynumero2 != null && !halynumero2.isEmpty()) {
             if (halynumero2.charAt(0) == '0') {
                 halynumero2 = "+358" + halynumero2.substring(1);
             }
             halynumero2 = halynumero2.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero3 != null && !halynumero3.isEmpty()) {
+        if (halynumero3 != null && !halynumero3.isEmpty()) {
             if (halynumero3.charAt(0) == '0') {
                 halynumero3 = "+358" + halynumero3.substring(1);
             }
             halynumero3 = halynumero3.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero4 != null && !halynumero4.isEmpty()) {
+        if (halynumero4 != null && !halynumero4.isEmpty()) {
             if (halynumero4.charAt(0) == '0') {
                 halynumero4 = "+358" + halynumero4.substring(1);
             }
             halynumero4 = halynumero4.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero5 != null && !halynumero5.isEmpty()) {
+        if (halynumero5 != null && !halynumero5.isEmpty()) {
             if (halynumero5.charAt(0) == '0') {
                 halynumero5 = "+358" + halynumero5.substring(1);
             }
             halynumero5 = halynumero5.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero6 != null && !halynumero6.isEmpty()) {
+        if (halynumero6 != null && !halynumero6.isEmpty()) {
             if (halynumero6.charAt(0) == '0') {
                 halynumero6 = "+358" + halynumero6.substring(1);
             }
             halynumero6 = halynumero6.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero7 != null && !halynumero7.isEmpty()) {
+        if (halynumero7 != null && !halynumero7.isEmpty()) {
             if (halynumero7.charAt(0) == '0') {
                 halynumero7 = "+358" + halynumero7.substring(1);
             }
             halynumero7 = halynumero7.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero8 != null && !halynumero8.isEmpty()) {
+        if (halynumero8 != null && !halynumero8.isEmpty()) {
             if (halynumero8.charAt(0) == '0') {
                 halynumero8 = "+358" + halynumero8.substring(1);
             }
             halynumero8 = halynumero8.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero9 != null && !halynumero9.isEmpty()) {
+        if (halynumero9 != null && !halynumero9.isEmpty()) {
             if (halynumero9.charAt(0) == '0') {
                 halynumero9 = "+358" + halynumero9.substring(1);
             }
             halynumero9 = halynumero9.replaceAll("[()\\s-+]+", "");
         }
-        if(halynumero10 != null && !halynumero10.isEmpty()) {
+        if (halynumero10 != null && !halynumero10.isEmpty()) {
             if (halynumero10.charAt(0) == '0') {
                 halynumero10 = "+358" + halynumero10.substring(1);
             }
@@ -412,16 +416,16 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             salsa = message.substring(0, 5);
         }
         String testaahaly = "";
-        if(message.length() > 13) {
-            testaahaly = message.substring(0,13);
+        if (message.length() > 13) {
+            testaahaly = message.substring(0, 13);
         }
 
         if (numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) ||
                 numero.equals(halynumero5) || numero.equals(halynumero6)
                 || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) ||
                 salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
-            if(kaytaAvainsanaa) {
-                if(testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
+            if (kaytaAvainsanaa) {
+                if (testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
                     return true;
                 }
                 numeroTasmaa = true;
@@ -429,30 +433,30 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 return true;
             }
         }
-        if(kaytaAvainsanaa) {
+        if (kaytaAvainsanaa) {
             String avainsana1 = sharedPreferences.getString("avainsana1", null);
             String avainsana2 = sharedPreferences.getString("avainsana2", null);
             String avainsana3 = sharedPreferences.getString("avainsana3", null);
             String avainsana4 = sharedPreferences.getString("avainsana4", null);
             String avainsana5 = sharedPreferences.getString("avainsana5", null);
             // tarkista viestin sanat ja hälytä jos avainsana havaittu
-            if(message.length() > 3) {
+            if (message.length() > 3) {
                 char merkki;
                 StringBuilder sana = new StringBuilder();
-                ArrayList<String> sanat= new ArrayList<>();
+                ArrayList<String> sanat = new ArrayList<>();
 
-                for (int i = 0; i <= message.length() -1; i++) {
+                for (int i = 0; i <= message.length() - 1; i++) {
                     merkki = message.charAt(i);
                     // Katko sanat regex:in mukaan
-                    if(Character.toString(merkki).matches("[.,/:; ]")) {
+                    if (Character.toString(merkki).matches("[.,/:; ]")) {
                         sanat.add(sana.toString());
                         sana.delete(0, sana.length());
                     } else {
                         sana.append(merkki);
                     }
                 }
-                for(String avainsana : sanat) {
-                    if(avainsana.equals(avainsana1) || avainsana.equals(avainsana2) || avainsana.equals(avainsana3) || avainsana.equals(avainsana4) || avainsana.equals(avainsana5)) {
+                for (String avainsana : sanat) {
+                    if (avainsana.equals(avainsana1) || avainsana.equals(avainsana2) || avainsana.equals(avainsana3) || avainsana.equals(avainsana4) || avainsana.equals(avainsana5)) {
                         avainsanaTasmaa = true;
                     }
                 }
@@ -462,20 +466,20 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return kaytaAvainsanaa && numeroTasmaa && avainsanaTasmaa;
     }
 
-    public void createNotification(String viesti){
+    public void createNotification(String viesti) {
         Intent intentsms = new Intent(IsItAlarmService.this, HalytysActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // TODO: tee tästä alta
-        TaskStackBuilder stackBuilder =  TaskStackBuilder.create(this);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(intentsms);
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         // TODO: todon välistä aseta käyttöön .setContentIntent(pendingIntentWithBackStack) ja kokeile.
         //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
-        PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -495,13 +499,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
     }
 
-    public void createNotificationPuhelu(String viesti){
+    public void createNotificationPuhelu(String viesti) {
         Intent intentsms = new Intent(IsItAlarmService.this, HalytysActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // TODO: tee tästä alta
-        TaskStackBuilder stackBuilder =  TaskStackBuilder.create(this);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(intentsms);
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         // TODO: todon välistä aseta käyttöön .setContentIntent(pendingIntentWithBackStack) ja kokeile.
@@ -532,7 +536,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         String alarms = sharedPreferences.getString("ringtone", null);
 
         aanetonser = sharedPreferences.getInt("aaneton_profiili", -1);
-        if(alarms != null) {
+        if (alarms != null) {
             Uri uri = Uri.parse(alarms);
             //Toast.makeText(aktiivinenHaly.this, " " + uri, Toast.LENGTH_LONG).show();
             playSound2(IsItAlarmService.this, uri, startId);
@@ -542,7 +546,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
-    private void playSound2 (Context context, Uri alert, int startId) {
+    private void playSound2(Context context, Uri alert, int startId) {
         mMediaPlayer = new MediaPlayer();
         try {
             mMediaPlayer.setDataSource(context, alert);
@@ -552,7 +556,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             aanenVoimakkuus = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
             int checkVolume = -1;
 
-            if(audioManager != null) {
+            if (audioManager != null) {
                 checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
                 palautaStreamAlarm = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
                 palautaAani = checkVolume;
@@ -561,13 +565,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 pitaaPalauttaa = true;
             }
 
-            if(aanetonser == 2) {
-                if(tarina) {
+            if (aanetonser == 2) {
+                if (tarina) {
                     vibrateSilent();
                 }
             } else if (aanetonser == 3) {
                 //Yötila
-                if(aanetVaiEi && checkVolume == 0) {
+                if (aanetVaiEi && checkVolume == 0) {
                     // ei saa tulla äänettömän läpi
                     return;
                 }
@@ -586,7 +590,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
             } else {
                 // Normaali
-                if(aanetVaiEi && checkVolume == 0) {
+                if (aanetVaiEi && checkVolume == 0) {
                     // ei saa tulla äänettömän läpi
                     return;
                 }
@@ -611,13 +615,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             int stop = 60;
             try {
                 String aika = sharedPreferences.getString("stopTime", null);
-                if(aika != null) {
+                if (aika != null) {
                     stop = Integer.parseInt(aika);
                 }
             } catch (Exception e) {
                 Log.e("Halyservice", "Stop ajastuksen arvoa ei voitu lukea.");
             }
-            if(stop < 10) {
+            if (stop < 10) {
                 stop = 10;
             }
             stopTime = stop * 1000;
@@ -635,26 +639,27 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     public int saadaAani(int voima) {
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager != null) {
+        if (audioManager != null) {
             volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-            double aani = (double)volume/100*voima;
+            double aani = (double) volume / 100 * voima;
             volume = (int) aani;
         }
 
-        if(volume == 0) { return 1;
-        } else if(volume == 1) {
+        if (volume == 0) {
             return 1;
-        } else if(volume == 2) {
+        } else if (volume == 1) {
+            return 1;
+        } else if (volume == 2) {
             return 2;
-        } else if(volume == 3) {
+        } else if (volume == 3) {
             return 3;
-        } else if(volume == 4) {
+        } else if (volume == 4) {
             return 4;
-        } else if(volume == 5) {
+        } else if (volume == 5) {
             return 5;
-        } else if(volume == 6) {
+        } else if (volume == 6) {
             return 6;
-        } else if(volume == 7) {
+        } else if (volume == 7) {
             return 7;
         }
 
@@ -674,36 +679,36 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void vibrate() {
-        if(Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if(viber != null && viber.hasVibrator()) {
-                if(Build.VERSION.SDK_INT >= 26) {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(VibrationEffect.createWaveform(pattern,5));
+            if (viber != null && viber.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= 26) {
+                    long[] pattern = new long[]{0, 200, 200, 200, 200, 200, 200, 200};
+                    viber.vibrate(VibrationEffect.createWaveform(pattern, 5));
                 } else {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(pattern,5);
+                    long[] pattern = new long[]{0, 200, 200, 200, 200, 200, 200, 200};
+                    viber.vibrate(pattern, 5);
                 }
             }
         }
     }
 
     public void vibrateSilent() {
-        if(Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if(viber != null && viber.hasVibrator()) {
-                if(Build.VERSION.SDK_INT >= 26) {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(VibrationEffect.createWaveform(pattern,-1));
+            if (viber != null && viber.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= 26) {
+                    long[] pattern = new long[]{0, 200, 200, 200, 200, 200, 200, 200};
+                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
                 } else {
-                    long[] pattern = new long[] {0,200,200,200,200,200,200,200};
-                    viber.vibrate(pattern,-1);
+                    long[] pattern = new long[]{0, 200, 200, 200, 200, 200, 200, 200};
+                    viber.vibrate(pattern, -1);
                 }
             }
         }
     }
 
-    public void lisaaKunnat () {
+    public void lisaaKunnat() {
         //ArrayList<String> kunnat = new ArrayList<>();
         kunnat.add("akaa");
         kunnat.add("alajärvi");
@@ -1055,7 +1060,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         //Toast.makeText(aktiivinenHaly.this, "Kuntia listassa " + kunnat.size() + ".",Toast.LENGTH_LONG).show();
     }
 
-    public void lisaaKunnatErica () {
+    public void lisaaKunnatErica() {
         //ArrayList<String> kunnat = new ArrayList<>();
         kunnat.add("Akaa");
         kunnat.add("Alajärvi");
@@ -1409,149 +1414,425 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     public void lisaaHalyTunnukset() {
 
-        halytunnukset.add("103"); halytekstit.add("PALOHÄLYTYS");
-        halytunnukset.add("104"); halytekstit.add("SÄTEILYHÄLYTYS");
-        halytunnukset.add("105"); halytekstit.add("HISSIHÄLYTYS");
-        halytunnukset.add("106"); halytekstit.add("LAITEVIKA");
-        halytunnukset.add("107"); halytekstit.add("YHTEYSVIKA");
-        halytunnukset.add("108"); halytekstit.add("HUOLTO");
-        halytunnukset.add("200"); halytekstit.add("TIELIIKENNE: MUU TAI ONNETTOMUUDEN UHKA");
-        halytunnukset.add("201"); halytekstit.add("TIELIIKENNE: PELTIKOLARI, SUISTUMINEN");
-        halytunnukset.add("202"); halytekstit.add("TIELIIKENNE: PIENI");
-        halytunnukset.add("203"); halytekstit.add("TIELIIKENNE: KESKISUURI");
-        halytunnukset.add("204"); halytekstit.add("TIELIIKENNE: SUURI");
-        halytunnukset.add("205"); halytekstit.add("TIELIIKENNE: ELÄIN OSALLISEENA");
-        halytunnukset.add("206"); halytekstit.add("TIELIIKENNE: MAAN ALLA: PIENI");
-        halytunnukset.add("207"); halytekstit.add("TIELIIKENNE: MAAN ALLA: KESKISUURI");
-        halytunnukset.add("208"); halytekstit.add("TIELIIKENNE: MAAN ALLA: SUURI");
-        halytunnukset.add("210"); halytekstit.add("RAIDELIIKENNE: MUU");
-        halytunnukset.add("211"); halytekstit.add("RAIDELIIKENNE: PELTIKOLARI");
-        halytunnukset.add("212"); halytekstit.add("RAIDELIIKENNE: PIENI");
-        halytunnukset.add("213"); halytekstit.add("RAIDELIIKENNE: KESKISUURI");
-        halytunnukset.add("214"); halytekstit.add("RAIDELIIKENNE: SUURI");
-        halytunnukset.add("215"); halytekstit.add("RAIDELIIKENNE: ELÄIN OSALLISENA");
-        halytunnukset.add("216"); halytekstit.add("RAIDELIIKENNE: MAAN ALLA: PIENI");
-        halytunnukset.add("217"); halytekstit.add("RAIDELIIKENNE: MAAN ALLA: KESKISUURI");
-        halytunnukset.add("218"); halytekstit.add("RAIDELIIKENNE: MAAN ALLA: SUURI");
-        halytunnukset.add("220"); halytekstit.add("VESILIIKENNE: MUU");
-        halytunnukset.add("221"); halytekstit.add("VESILIIKENNE: PIENI");
-        halytunnukset.add("222"); halytekstit.add("VESILIIKENNE: KESKISUURI");
-        halytunnukset.add("223"); halytekstit.add("VESILIIKENNE: SUURI");
-        halytunnukset.add("231"); halytekstit.add("ILMALIIKENNEONNETTOMUUS: PIENI");
-        halytunnukset.add("232"); halytekstit.add("ILMALIIKENNEONNETTOMUUS: KESKISUURI");
-        halytunnukset.add("233"); halytekstit.add("ILMALIIKENNEONNETTOMUUS: SUURI");
-        halytunnukset.add("234"); halytekstit.add("ILMALIIKENNE VAARA: PIENI");
-        halytunnukset.add("235"); halytekstit.add("ILMALIIKENNE VAARA: KESKISUURI");
-        halytunnukset.add("236"); halytekstit.add("ILMALIIKENNE VAARA: SUURI");
-        halytunnukset.add("271"); halytekstit.add("MAASTOLIIKENNEONNETTOMUUS");
-        halytunnukset.add("H351"); halytekstit.add("VARIKKO TAI ASEMAVALMIUS");
-        halytunnukset.add("401"); halytekstit.add("RAKENNUSPALO: PIENI");
-        halytunnukset.add("402"); halytekstit.add("RAKENNUSPALO: KESKISUURI");
-        halytunnukset.add("403"); halytekstit.add("RAKENNUSPALO: SUURI");
-        halytunnukset.add("404"); halytekstit.add("RAKENNUSPALO: MAAN ALLA: PIENI");
-        halytunnukset.add("405"); halytekstit.add("RAKENNUSPALO: MAAN ALLA: KESKISUURI");
-        halytunnukset.add("406"); halytekstit.add("RAKENNUSPALO: MAAN ALLA: SUURI");
-        halytunnukset.add("411"); halytekstit.add("LIIKENNEVÄLINEPALO: PIENI");
-        halytunnukset.add("412"); halytekstit.add("LIIKENNEVÄLINEPALO: KESKISUURI");
-        halytunnukset.add("413"); halytekstit.add("LIIKENNEVÄLINEPALO: SUURI");
-        halytunnukset.add("414"); halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: PIENI");
-        halytunnukset.add("415"); halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: KESKISUURI");
-        halytunnukset.add("416"); halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: SUURI");
-        halytunnukset.add("420"); halytekstit.add("SAVUHAVAINTO");
-        halytunnukset.add("421"); halytekstit.add("MAASTOPALO: PIENI");
-        halytunnukset.add("422"); halytekstit.add("MAASTOPALO: KESKISUURI");
-        halytunnukset.add("423"); halytekstit.add("MAASTOPALO: SUURI");
-        halytunnukset.add("424"); halytekstit.add("TURVETUOTANTOALUEPALO: PIENI");
-        halytunnukset.add("425"); halytekstit.add("TURVETUOTANTOALUEPALO: KESKISUURI");
-        halytunnukset.add("426"); halytekstit.add("TURVETUOTANTOALUEPALO: SUURI");
-        halytunnukset.add("431"); halytekstit.add("TULIPALO, MUU: PIENI");
-        halytunnukset.add("432"); halytekstit.add("TULIPALO, MUU: KESKISUURI");
-        halytunnukset.add("433"); halytekstit.add("TULIPALO, MUU: SUURI");
-        halytunnukset.add("434"); halytekstit.add("TULIPALO, MUU: MAAN ALLA: PIENI");
-        halytunnukset.add("435"); halytekstit.add("TULIPALO, MUU: MAAN ALLA: KESKISUURI");
-        halytunnukset.add("436"); halytekstit.add("TULIPALO, MUU: MAAN ALLA: SUURI");
-        halytunnukset.add("441"); halytekstit.add("RÄJÄHDYS/SORTUMA: PIENI");
-        halytunnukset.add("442"); halytekstit.add("RÄJÄHDYS/SORTUMA: KESKISUURI");
-        halytunnukset.add("443"); halytekstit.add("RÄJÄHDYS/SORTUMA: SUURI");
-        halytunnukset.add("444"); halytekstit.add("RÄJÄHDYS-/SORTUMAVAARA");
-        halytunnukset.add("451"); halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: PIENI");
-        halytunnukset.add("452"); halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: KESKISUURI");
-        halytunnukset.add("453"); halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: SUURI");
-        halytunnukset.add("455"); halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: ONNETTOMUUSVAARA");
-        halytunnukset.add("461"); halytekstit.add("VAHINGONTORJUNTA: PIENI");
-        halytunnukset.add("462"); halytekstit.add("VAHINGONTORJUNTA: KESKISUURI");
-        halytunnukset.add("463"); halytekstit.add("VAHINGONTORJUNTA: SUURI");
-        halytunnukset.add("471"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: MAALLA: PIENI");
-        halytunnukset.add("472"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: MAALLA: KESKISUURI");
-        halytunnukset.add("473"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: MAALLA: SUURI");
-        halytunnukset.add("474"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: VESISTÖSSÄ: PIENI");
-        halytunnukset.add("475"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: VESISTÖSSÄ: KESKISUURI");
-        halytunnukset.add("476"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: VESISTÖSSÄ: SUURI");
-        halytunnukset.add("477"); halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: ONNETTOMUUSVAARA");
-        halytunnukset.add("480"); halytekstit.add("IHMISEN PELASTAMINEN: MUU");
-        halytunnukset.add("481"); halytekstit.add("IHMISEN PELASTAMINEN: ETSINTÄ");
-        halytunnukset.add("482"); halytekstit.add("IHMISEN PELASTAMINEN: AVUNANTO");
-        halytunnukset.add("483"); halytekstit.add("IHMISEN PELASTAMINEN: VEDESTÄ");
-        halytunnukset.add("484"); halytekstit.add("IHMISEN PELASTAMINEN: PINTAPELASTUS");
-        halytunnukset.add("485"); halytekstit.add("IHMISEN PELASTAMINEN: MAASTOSTA");
-        halytunnukset.add("486"); halytekstit.add("IHMISEN PELASTAMINEN: PURISTUKSISTA");
-        halytunnukset.add("487"); halytekstit.add("IHMISEN PELASTAMINEN: YLHÄÄLTÄ/ALHAALTA");
-        halytunnukset.add("490"); halytekstit.add("EPÄSELVÄ ONNETTOMUUS");
-        halytunnukset.add("491"); halytekstit.add("LIIKENNEVÄLINEPALO- TAI MUU TULIPALO MAAN ALLA: PIENI");
-        halytunnukset.add("492"); halytekstit.add("LIIKENNEVÄLINEPALO- TAI MUU TULIPALO MAAN ALLA: KESKISUURI");
-        halytunnukset.add("493"); halytekstit.add("LIIKENNEVÄLINEPALO- TAI MUU TULIPALO MAAN ALLA: SUURI");
-        halytunnukset.add("550"); halytekstit.add("AVUNANTO: MUU");
-        halytunnukset.add("551"); halytekstit.add("VIRKA-APUTEHTÄVÄ");
-        halytunnukset.add("552"); halytekstit.add("AVUNANTOTEHTÄVÄ");
-        halytunnukset.add("553"); halytekstit.add("UHKA-/VARUILLAOLO");
-        halytunnukset.add("554"); halytekstit.add("TARKISTUS-/VARMISTUS");
-        halytunnukset.add("580"); halytekstit.add("ELÄINTEHTÄVÄ: MUU");
-        halytunnukset.add("581"); halytekstit.add("ELÄIMEN PELASTAMINEN");
-        halytunnukset.add("700"); halytekstit.add("Eloton");
-        halytunnukset.add("701"); halytekstit.add("Elvytys");
-        halytunnukset.add("702"); halytekstit.add("Tajuttomuus");
-        halytunnukset.add("703"); halytekstit.add("Hengitysvaikeus");
-        halytunnukset.add("704"); halytekstit.add("Rintakipu");
-        halytunnukset.add("705"); halytekstit.add("PEH; Muu äkillisesti heikentynyt yleistila");
-        halytunnukset.add("706"); halytekstit.add("Aivohalvaus");
-        halytunnukset.add("710"); halytekstit.add("Tukehtuminen");
-        halytunnukset.add("711"); halytekstit.add("Ilmatie-este");
-        halytunnukset.add("712"); halytekstit.add("Jääminen suljettuun tilaan");
-        halytunnukset.add("713"); halytekstit.add("Hirttäytyminen, Kuristuminen");
-        halytunnukset.add("714"); halytekstit.add("Hukuksiin joutuminen");
-        halytunnukset.add("741"); halytekstit.add("Putoaminen");
-        halytunnukset.add("744"); halytekstit.add("Haava");
-        halytunnukset.add("745"); halytekstit.add("Kaatuminen");
-        halytunnukset.add("746"); halytekstit.add("Isku");
-        halytunnukset.add("747"); halytekstit.add("Vamma; muu");
-        halytunnukset.add("751"); halytekstit.add("Kaasumyrkytys");
-        halytunnukset.add("752"); halytekstit.add("Myrkytys");
-        halytunnukset.add("753"); halytekstit.add("Sähköisku");
-        halytunnukset.add("755"); halytekstit.add("Palovamma, lämpöhalvaus");
-        halytunnukset.add("756"); halytekstit.add("Alilämpöisyys");
-        halytunnukset.add("757"); halytekstit.add("Onnettomuus; muu");
-        halytunnukset.add("761"); halytekstit.add("Verenvuoto, Suusta");
-        halytunnukset.add("762"); halytekstit.add("Verenvuoto, Gynekologinen/urologinen");
-        halytunnukset.add("763"); halytekstit.add("Vernevuoto, Korva/nenä");
-        halytunnukset.add("764"); halytekstit.add("Säärihaava/Muu");
-        halytunnukset.add("770"); halytekstit.add("Sairauskohtaus");
-        halytunnukset.add("771"); halytekstit.add("Sokeritasapainon häiriö");
-        halytunnukset.add("772"); halytekstit.add("Kouristelu");
-        halytunnukset.add("773"); halytekstit.add("Yliherkkyysreaktio");
-        halytunnukset.add("774"); halytekstit.add("Heikentynyt yleistila, muu sairaus");
-        halytunnukset.add("775"); halytekstit.add("Oksentelu, Ripuli");
-        halytunnukset.add("781"); halytekstit.add("Vatsakipu");
-        halytunnukset.add("782"); halytekstit.add("Pää-/Niskasärky");
-        halytunnukset.add("783"); halytekstit.add("Selkä-/raaja-/vartalokipu");
-        halytunnukset.add("784"); halytekstit.add("Aistioire");
-        halytunnukset.add("785"); halytekstit.add("Mielenterveysongelma");
-        halytunnukset.add("790"); halytekstit.add("Hälytys puhelun aikana");
-        halytunnukset.add("791"); halytekstit.add("Synnytys");
-        halytunnukset.add("792"); halytekstit.add("Varallaolo, valmiussiirto");
-        halytunnukset.add("793"); halytekstit.add("Hoitolaitossiirto");
-        halytunnukset.add("794"); halytekstit.add("Muu sairaankuljetustehtävä");
-        halytunnukset.add("796"); halytekstit.add("Monipotilastilanne/Suuronnettomuus");
-        halytunnukset.add("901"); halytekstit.add("PELASTUSTOIMI POIKKEUSOLOISSA");
+        halytunnukset.add("103");
+        halytekstit.add("PALOHÄLYTYS");
+        halytunnukset.add("104");
+        halytekstit.add("SÄTEILYHÄLYTYS");
+        halytunnukset.add("105");
+        halytekstit.add("HISSIHÄLYTYS");
+        halytunnukset.add("106");
+        halytekstit.add("LAITEVIKA");
+        halytunnukset.add("107");
+        halytekstit.add("YHTEYSVIKA");
+        halytunnukset.add("108");
+        halytekstit.add("HUOLTO");
+        halytunnukset.add("200");
+        halytekstit.add("TIELIIKENNE: MUU TAI ONNETTOMUUDEN UHKA");
+        halytunnukset.add("201");
+        halytekstit.add("TIELIIKENNE: PELTIKOLARI, SUISTUMINEN");
+        halytunnukset.add("202");
+        halytekstit.add("TIELIIKENNE: PIENI");
+        halytunnukset.add("203");
+        halytekstit.add("TIELIIKENNE: KESKISUURI");
+        halytunnukset.add("204");
+        halytekstit.add("TIELIIKENNE: SUURI");
+        halytunnukset.add("205");
+        halytekstit.add("TIELIIKENNE: ELÄIN OSALLISEENA");
+        halytunnukset.add("206");
+        halytekstit.add("TIELIIKENNE: MAAN ALLA: PIENI");
+        halytunnukset.add("207");
+        halytekstit.add("TIELIIKENNE: MAAN ALLA: KESKISUURI");
+        halytunnukset.add("208");
+        halytekstit.add("TIELIIKENNE: MAAN ALLA: SUURI");
+        halytunnukset.add("210");
+        halytekstit.add("RAIDELIIKENNE: MUU");
+        halytunnukset.add("211");
+        halytekstit.add("RAIDELIIKENNE: PELTIKOLARI");
+        halytunnukset.add("212");
+        halytekstit.add("RAIDELIIKENNE: PIENI");
+        halytunnukset.add("213");
+        halytekstit.add("RAIDELIIKENNE: KESKISUURI");
+        halytunnukset.add("214");
+        halytekstit.add("RAIDELIIKENNE: SUURI");
+        halytunnukset.add("215");
+        halytekstit.add("RAIDELIIKENNE: ELÄIN OSALLISENA");
+        halytunnukset.add("216");
+        halytekstit.add("RAIDELIIKENNE: MAAN ALLA: PIENI");
+        halytunnukset.add("217");
+        halytekstit.add("RAIDELIIKENNE: MAAN ALLA: KESKISUURI");
+        halytunnukset.add("218");
+        halytekstit.add("RAIDELIIKENNE: MAAN ALLA: SUURI");
+        halytunnukset.add("220");
+        halytekstit.add("VESILIIKENNE: MUU");
+        halytunnukset.add("221");
+        halytekstit.add("VESILIIKENNE: PIENI");
+        halytunnukset.add("222");
+        halytekstit.add("VESILIIKENNE: KESKISUURI");
+        halytunnukset.add("223");
+        halytekstit.add("VESILIIKENNE: SUURI");
+        halytunnukset.add("231");
+        halytekstit.add("ILMALIIKENNEONNETTOMUUS: PIENI");
+        halytunnukset.add("232");
+        halytekstit.add("ILMALIIKENNEONNETTOMUUS: KESKISUURI");
+        halytunnukset.add("233");
+        halytekstit.add("ILMALIIKENNEONNETTOMUUS: SUURI");
+        halytunnukset.add("234");
+        halytekstit.add("ILMALIIKENNE VAARA: PIENI");
+        halytunnukset.add("235");
+        halytekstit.add("ILMALIIKENNE VAARA: KESKISUURI");
+        halytunnukset.add("236");
+        halytekstit.add("ILMALIIKENNE VAARA: SUURI");
+        halytunnukset.add("271");
+        halytekstit.add("MAASTOLIIKENNEONNETTOMUUS");
+        halytunnukset.add("H351");
+        halytekstit.add("VARIKKO TAI ASEMAVALMIUS");
+        halytunnukset.add("401");
+        halytekstit.add("RAKENNUSPALO: PIENI");
+        halytunnukset.add("402");
+        halytekstit.add("RAKENNUSPALO: KESKISUURI");
+        halytunnukset.add("403");
+        halytekstit.add("RAKENNUSPALO: SUURI");
+        halytunnukset.add("404");
+        halytekstit.add("RAKENNUSPALO: MAAN ALLA: PIENI");
+        halytunnukset.add("405");
+        halytekstit.add("RAKENNUSPALO: MAAN ALLA: KESKISUURI");
+        halytunnukset.add("406");
+        halytekstit.add("RAKENNUSPALO: MAAN ALLA: SUURI");
+        halytunnukset.add("411");
+        halytekstit.add("LIIKENNEVÄLINEPALO: PIENI");
+        halytunnukset.add("412");
+        halytekstit.add("LIIKENNEVÄLINEPALO: KESKISUURI");
+        halytunnukset.add("413");
+        halytekstit.add("LIIKENNEVÄLINEPALO: SUURI");
+        halytunnukset.add("414");
+        halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: PIENI");
+        halytunnukset.add("415");
+        halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: KESKISUURI");
+        halytunnukset.add("416");
+        halytekstit.add("LIIKENNEVÄLINEPALO: MAAN ALLA: SUURI");
+        halytunnukset.add("420");
+        halytekstit.add("SAVUHAVAINTO");
+        halytunnukset.add("421");
+        halytekstit.add("MAASTOPALO: PIENI");
+        halytunnukset.add("422");
+        halytekstit.add("MAASTOPALO: KESKISUURI");
+        halytunnukset.add("423");
+        halytekstit.add("MAASTOPALO: SUURI");
+        halytunnukset.add("424");
+        halytekstit.add("TURVETUOTANTOALUEPALO: PIENI");
+        halytunnukset.add("425");
+        halytekstit.add("TURVETUOTANTOALUEPALO: KESKISUURI");
+        halytunnukset.add("426");
+        halytekstit.add("TURVETUOTANTOALUEPALO: SUURI");
+        halytunnukset.add("431");
+        halytekstit.add("TULIPALO, MUU: PIENI");
+        halytunnukset.add("432");
+        halytekstit.add("TULIPALO, MUU: KESKISUURI");
+        halytunnukset.add("433");
+        halytekstit.add("TULIPALO, MUU: SUURI");
+        halytunnukset.add("434");
+        halytekstit.add("TULIPALO, MUU: MAAN ALLA: PIENI");
+        halytunnukset.add("435");
+        halytekstit.add("TULIPALO, MUU: MAAN ALLA: KESKISUURI");
+        halytunnukset.add("436");
+        halytekstit.add("TULIPALO, MUU: MAAN ALLA: SUURI");
+        halytunnukset.add("441");
+        halytekstit.add("RÄJÄHDYS/SORTUMA: PIENI");
+        halytunnukset.add("442");
+        halytekstit.add("RÄJÄHDYS/SORTUMA: KESKISUURI");
+        halytunnukset.add("443");
+        halytekstit.add("RÄJÄHDYS/SORTUMA: SUURI");
+        halytunnukset.add("444");
+        halytekstit.add("RÄJÄHDYS-/SORTUMAVAARA");
+        halytunnukset.add("451");
+        halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: PIENI");
+        halytunnukset.add("452");
+        halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: KESKISUURI");
+        halytunnukset.add("453");
+        halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: SUURI");
+        halytunnukset.add("455");
+        halytekstit.add("VAARALLISEN AINEEN ONNETTOMUUS: ONNETTOMUUSVAARA");
+        halytunnukset.add("461");
+        halytekstit.add("VAHINGONTORJUNTA: PIENI");
+        halytunnukset.add("462");
+        halytekstit.add("VAHINGONTORJUNTA: KESKISUURI");
+        halytunnukset.add("463");
+        halytekstit.add("VAHINGONTORJUNTA: SUURI");
+        halytunnukset.add("471");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: MAALLA: PIENI");
+        halytunnukset.add("472");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: MAALLA: KESKISUURI");
+        halytunnukset.add("473");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: MAALLA: SUURI");
+        halytunnukset.add("474");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: VESISTÖSSÄ: PIENI");
+        halytunnukset.add("475");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: VESISTÖSSÄ: KESKISUURI");
+        halytunnukset.add("476");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: VESISTÖSSÄ: SUURI");
+        halytunnukset.add("477");
+        halytekstit.add("ÖLJYVAHINKO/YMPÄRISTÖONNETTOMUUS: ONNETTOMUUSVAARA");
+        halytunnukset.add("480");
+        halytekstit.add("IHMISEN PELASTAMINEN: MUU");
+        halytunnukset.add("481");
+        halytekstit.add("IHMISEN PELASTAMINEN: ETSINTÄ");
+        halytunnukset.add("482");
+        halytekstit.add("IHMISEN PELASTAMINEN: AVUNANTO");
+        halytunnukset.add("483");
+        halytekstit.add("IHMISEN PELASTAMINEN: VEDESTÄ");
+        halytunnukset.add("484");
+        halytekstit.add("IHMISEN PELASTAMINEN: PINTAPELASTUS");
+        halytunnukset.add("485");
+        halytekstit.add("IHMISEN PELASTAMINEN: MAASTOSTA");
+        halytunnukset.add("486");
+        halytekstit.add("IHMISEN PELASTAMINEN: PURISTUKSISTA");
+        halytunnukset.add("487");
+        halytekstit.add("IHMISEN PELASTAMINEN: YLHÄÄLTÄ/ALHAALTA");
+        halytunnukset.add("490");
+        halytekstit.add("EPÄSELVÄ ONNETTOMUUS");
+        halytunnukset.add("491");
+        halytekstit.add("LIIKENNEVÄLINEPALO- TAI MUU TULIPALO MAAN ALLA: PIENI");
+        halytunnukset.add("492");
+        halytekstit.add("LIIKENNEVÄLINEPALO- TAI MUU TULIPALO MAAN ALLA: KESKISUURI");
+        halytunnukset.add("493");
+        halytekstit.add("LIIKENNEVÄLINEPALO- TAI MUU TULIPALO MAAN ALLA: SUURI");
+        halytunnukset.add("550");
+        halytekstit.add("AVUNANTO: MUU");
+        halytunnukset.add("551");
+        halytekstit.add("VIRKA-APUTEHTÄVÄ");
+        halytunnukset.add("552");
+        halytekstit.add("AVUNANTOTEHTÄVÄ");
+        halytunnukset.add("553");
+        halytekstit.add("UHKA-/VARUILLAOLO");
+        halytunnukset.add("554");
+        halytekstit.add("TARKISTUS-/VARMISTUS");
+        halytunnukset.add("580");
+        halytekstit.add("ELÄINTEHTÄVÄ: MUU");
+        halytunnukset.add("581");
+        halytekstit.add("ELÄIMEN PELASTAMINEN");
+        halytunnukset.add("700");
+        halytekstit.add("Eloton");
+        halytunnukset.add("701");
+        halytekstit.add("Elvytys");
+        halytunnukset.add("702");
+        halytekstit.add("Tajuttomuus");
+        halytunnukset.add("703");
+        halytekstit.add("Hengitysvaikeus");
+        halytunnukset.add("704");
+        halytekstit.add("Rintakipu");
+        halytunnukset.add("705");
+        halytekstit.add("PEH; Muu äkillisesti heikentynyt yleistila");
+        halytunnukset.add("706");
+        halytekstit.add("Aivohalvaus");
+        halytunnukset.add("710");
+        halytekstit.add("Tukehtuminen");
+        halytunnukset.add("711");
+        halytekstit.add("Ilmatie-este");
+        halytunnukset.add("712");
+        halytekstit.add("Jääminen suljettuun tilaan");
+        halytunnukset.add("713");
+        halytekstit.add("Hirttäytyminen, Kuristuminen");
+        halytunnukset.add("714");
+        halytekstit.add("Hukuksiin joutuminen");
+        halytunnukset.add("741");
+        halytekstit.add("Putoaminen");
+        halytunnukset.add("744");
+        halytekstit.add("Haava");
+        halytunnukset.add("745");
+        halytekstit.add("Kaatuminen");
+        halytunnukset.add("746");
+        halytekstit.add("Isku");
+        halytunnukset.add("747");
+        halytekstit.add("Vamma; muu");
+        halytunnukset.add("751");
+        halytekstit.add("Kaasumyrkytys");
+        halytunnukset.add("752");
+        halytekstit.add("Myrkytys");
+        halytunnukset.add("753");
+        halytekstit.add("Sähköisku");
+        halytunnukset.add("755");
+        halytekstit.add("Palovamma, lämpöhalvaus");
+        halytunnukset.add("756");
+        halytekstit.add("Alilämpöisyys");
+        halytunnukset.add("757");
+        halytekstit.add("Onnettomuus; muu");
+        halytunnukset.add("761");
+        halytekstit.add("Verenvuoto, Suusta");
+        halytunnukset.add("762");
+        halytekstit.add("Verenvuoto, Gynekologinen/urologinen");
+        halytunnukset.add("763");
+        halytekstit.add("Vernevuoto, Korva/nenä");
+        halytunnukset.add("764");
+        halytekstit.add("Säärihaava/Muu");
+        halytunnukset.add("770");
+        halytekstit.add("Sairauskohtaus");
+        halytunnukset.add("771");
+        halytekstit.add("Sokeritasapainon häiriö");
+        halytunnukset.add("772");
+        halytekstit.add("Kouristelu");
+        halytunnukset.add("773");
+        halytekstit.add("Yliherkkyysreaktio");
+        halytunnukset.add("774");
+        halytekstit.add("Heikentynyt yleistila, muu sairaus");
+        halytunnukset.add("775");
+        halytekstit.add("Oksentelu, Ripuli");
+        halytunnukset.add("781");
+        halytekstit.add("Vatsakipu");
+        halytunnukset.add("782");
+        halytekstit.add("Pää-/Niskasärky");
+        halytunnukset.add("783");
+        halytekstit.add("Selkä-/raaja-/vartalokipu");
+        halytunnukset.add("784");
+        halytekstit.add("Aistioire");
+        halytunnukset.add("785");
+        halytekstit.add("Mielenterveysongelma");
+        halytunnukset.add("790");
+        halytekstit.add("Hälytys puhelun aikana");
+        halytunnukset.add("791");
+        halytekstit.add("Synnytys");
+        halytunnukset.add("792");
+        halytekstit.add("Varallaolo, valmiussiirto");
+        halytunnukset.add("793");
+        halytekstit.add("Hoitolaitossiirto");
+        halytunnukset.add("794");
+        halytekstit.add("Muu sairaankuljetustehtävä");
+        halytunnukset.add("796");
+        halytekstit.add("Monipotilastilanne/Suuronnettomuus");
+        halytunnukset.add("901");
+        halytekstit.add("PELASTUSTOIMI POIKKEUSOLOISSA");
+    }
+
+    private boolean rajaapoisvuosiluvut(String vuosiluku) {
+        return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
+    }
+
+    private void addressLookUp(String viesti, String timeStamp) {
+
+        FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+
+        String osoite = "";
+        //String[] palautus = new String[5];
+        int length = viesti.length();
+        //int pituus = strings[0].length();
+        int halytunnusSijainti = 0;
+        int listaPaikka = 0;
+        ArrayList<String> viestinSanat = new ArrayList<>();
+        ArrayList<String> sanatYksinaan = new ArrayList<>();
+        StringBuilder viestinLauseet = new StringBuilder();
+        StringBuilder viestiTeksti = new StringBuilder();
+        StringBuilder sanatYksitellen = new StringBuilder();
+        String sana;
+        String sanaYksin;
+        String halytysLuokka = "";
+        String kiireellisyysLuokka = "";
+        char merkki;
+        boolean loytyi = false;
+
+        for (int o = 0; o <= length - 1; o++) {
+            viestiTeksti.append(viesti.charAt(o));
+        }
+
+        // Katkotaan viesti sanoihin
+        for (int i = 0; i <= length - 1; i++) {
+            merkki = viesti.charAt(i);
+            // Katko sanat regex:in mukaan
+            if (Character.toString(merkki).matches("[.,/:; ]")) {
+                sanaYksin = sanatYksitellen.toString();
+                if (sanaYksin.length() >= 1 || sanaYksin.matches("[0-9]")) {
+                    sanatYksinaan.add(sanaYksin);
+                }
+                sanatYksitellen.delete(0, sanatYksitellen.length());
+            } else {
+                sanatYksitellen.append(viesti.charAt(i));
+            }
+        }
+
+        // Katkotaan viesti osiin puolipilkkujen mukaan
+        for (int i = 0; i <= length - 1; i++) {
+            merkki = viesti.charAt(i);
+            // Katko sanat regex:in mukaan
+            if (Character.toString(merkki).matches("[;]")) {
+                sana = viestinLauseet.toString();
+                if (sana.length() > 1 || sana.matches("[0-9]")) {
+                    viestinSanat.add(sana);
+                }
+                viestinLauseet.delete(0, viestinLauseet.length());
+            } else {
+                viestinLauseet.append(viesti.charAt(i));
+            }
+        }
+
+        String kommentti = "";
+        // Etsitään mikä lause sisältää kunnan
+        try {
+            outer:
+            for (String valmisSana : viestinSanat) {
+                //String pieni = valmisSana.toLowerCase();
+                for (String kunta : kunnat) {
+                    if (valmisSana.contains(kunta)) {
+                        osoite = valmisSana;
+                        break outer;
+                    }
+                }
+            }
+
+            // Kiireellisyysluokan kirjaimen etsiminen
+            for (String luokkaKirjain : viestinSanat) {
+                if (luokkaKirjain.trim().equals("A") || luokkaKirjain.trim().equals("B") || luokkaKirjain.trim().equals("C") || luokkaKirjain.trim().equals("D")) {
+                    kiireellisyysLuokka = luokkaKirjain;
+                    break;
+                }
+            }
+
+            // Etsitään listalta hälytunnus ja luokka. Tee tähän alapuolelle.
+            for (String valmisSana : sanatYksinaan) {
+                if (valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
+                    //String osaSana = valmisSana.substring(0,3);
+                    if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.substring(0, 3).equals("H35")) {
+
+                        if (valmisSana.substring(0, 3).equals("H35")) {
+                            valmisSana = "H351";
+                            halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
+                            listaPaikka = halytunnukset.indexOf("H351");
+                            loytyi = true;
+                            break;
+                        }
+                        halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
+                        listaPaikka = halytunnukset.indexOf(valmisSana.substring(0, 3));
+                        loytyi = true;
+                        break;
+                    }
+                }
+            }
+
+            if (loytyi) {
+                halytysLuokka = halytekstit.get(listaPaikka);
+            } else {
+                halytysLuokka = "Ei löytynyt listalta";
+            }
+
+            //palautus[0] = osoite;
+            //palautus[1] = sanatYksinaan.get(halytunnusSijainti);
+            //palautus[3] = halytysLuokka;
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            kommentti = "Tapahtui virhe haettaessa listalta oikeaa tunnusta tai kuntaa. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
+            //palautus[1] = "Tapahtui virhe.";
+            //palautus[3] = "Katso arkistosta hälytyksen kommentti.";
+        } catch (Exception e) {
+            kommentti = "Tuntematon virhe esti osoitteen löytämisen viestistä. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
+            //palautus[1] = "Tapahtui virhe.";
+            //palautus[3] = "Katso arkistosta hälytyksen kommentti.";
+        }
+
+        FireAlarm fireAlarm = new FireAlarm(sanatYksinaan.get(halytunnusSijainti) + " " + halytysLuokka, kiireellisyysLuokka, viesti,
+                osoite, kommentti, "", timeStamp, "", "", "", "");
+
+        fireAlarmRepository.insert(fireAlarm);
+        //palautus[2] = viestiTeksti.toString();
+        //palautus[4] = kommentti;
+        viestinSanat.clear();
+        sanatYksinaan.clear();
     }
 
     private static class haeOsoite extends AsyncTask<String, Void, String[]> {
@@ -1586,14 +1867,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 viestiTeksti.append(strings[0].charAt(o));
             }
             // Erotellaan viestistä sanat perustuen tiettyihin merkkeihin ja lisätään sanat listaan
-            for (int i = 0; i <= pituus -1; i++) {
+            for (int i = 0; i <= pituus - 1; i++) {
                 merkki = strings[0].charAt(i);
                 // Katko sanat regex:in mukaan
-                if(Character.toString(merkki).matches("[.,/:; \\r\\n]")) {
+                if (Character.toString(merkki).matches("[.,/:; \\r\\n]")) {
                     sana = halyOsoite.toString();
-                    if(sana.length() > 1 || sana.matches("[0-9]")) {
+                    if (sana.length() > 1 || sana.matches("[0-9]")) {
                         String sanaLower = sana.toLowerCase();
-                        switch(sanaLower) {
+                        switch (sanaLower) {
                             case "koski":
                                 sana = "koski tl";
                                 break;
@@ -1619,17 +1900,17 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             try {
                 for (String valmisSana : viestinSanat) {
                     String kirjPieneksi = valmisSana.toLowerCase();
-                    if(kunnat.contains(kirjPieneksi)){
+                    if (kunnat.contains(kirjPieneksi)) {
                         kuntaSijainti = viestinSanat.indexOf(valmisSana);
                         break;
                     }
                 }
                 // Etsitään listalta hälytunnus ja luokka. Tee tähän alapuolelle.
                 for (String valmisSana : viestinSanat) {
-                    if(valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
+                    if (valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
                         //String osaSana = valmisSana.substring(0,3);
-                        if(halytunnukset.contains(valmisSana.substring(0,3)) || valmisSana.substring(0,3).equals("H35")) {
-                            if(valmisSana.substring(0,3).equals("H35")) {
+                        if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.substring(0, 3).equals("H35")) {
+                            if (valmisSana.substring(0, 3).equals("H35")) {
                                 valmisSana = "H351";
                                 halytunnusSijainti = viestinSanat.indexOf(valmisSana);
                                 listaPaikka = halytunnukset.indexOf("H351");
@@ -1637,43 +1918,43 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                                 break;
                             }
                             halytunnusSijainti = viestinSanat.indexOf(valmisSana);
-                            listaPaikka = halytunnukset.indexOf(valmisSana.substring(0,3));
+                            listaPaikka = halytunnukset.indexOf(valmisSana.substring(0, 3));
                             loytyi = true;
                             break;
                         }
                     }
                 }
 
-                if(kuntaSijainti != 0) {
-                    if(viestinSanat.size() >= kuntaSijainti + 1) {
+                if (kuntaSijainti != 0) {
+                    if (viestinSanat.size() >= kuntaSijainti + 1) {
                         osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                        " " + viestinSanat.get(kuntaSijainti + 1));
+                                " " + viestinSanat.get(kuntaSijainti + 1));
                         osoite = osoitteet.get(0);
-                     }
-                     if(viestinSanat.size() >= kuntaSijainti + 2) {
-                     osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                     " " + viestinSanat.get(kuntaSijainti + 1) +
-                     " " + viestinSanat.get(kuntaSijainti + 2));
-                     osoite1 = osoitteet.get(1);
-                     }
-                     if(viestinSanat.size() >= kuntaSijainti + 3) {
-                     osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                     " " + viestinSanat.get(kuntaSijainti + 1) +
-                     " " + viestinSanat.get(kuntaSijainti + 2) +
-                     " " + viestinSanat.get(kuntaSijainti + 3));
-                     osoite2 = osoitteet.get(2);
-                     }
-                     if(viestinSanat.size() >= kuntaSijainti + 4) {
-                     osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                     " " + viestinSanat.get(kuntaSijainti + 1) +
-                     " " + viestinSanat.get(kuntaSijainti + 2) +
-                     " " + viestinSanat.get(kuntaSijainti + 3) +
-                     " " + viestinSanat.get(kuntaSijainti + 4));
-                     osoite3 = osoitteet.get(3);
-                     }
+                    }
+                    if (viestinSanat.size() >= kuntaSijainti + 2) {
+                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
+                                " " + viestinSanat.get(kuntaSijainti + 1) +
+                                " " + viestinSanat.get(kuntaSijainti + 2));
+                        osoite1 = osoitteet.get(1);
+                    }
+                    if (viestinSanat.size() >= kuntaSijainti + 3) {
+                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
+                                " " + viestinSanat.get(kuntaSijainti + 1) +
+                                " " + viestinSanat.get(kuntaSijainti + 2) +
+                                " " + viestinSanat.get(kuntaSijainti + 3));
+                        osoite2 = osoitteet.get(2);
+                    }
+                    if (viestinSanat.size() >= kuntaSijainti + 4) {
+                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
+                                " " + viestinSanat.get(kuntaSijainti + 1) +
+                                " " + viestinSanat.get(kuntaSijainti + 2) +
+                                " " + viestinSanat.get(kuntaSijainti + 3) +
+                                " " + viestinSanat.get(kuntaSijainti + 4));
+                        osoite3 = osoitteet.get(3);
+                    }
                 }
 
-                if(osoite.matches((".*[0-9].*"))) {
+                if (osoite.matches((".*[0-9].*"))) {
                     valmisOsoite = osoite;
                 } else if (osoite1.matches((".*[0-9].*"))) {
                     valmisOsoite = osoite1;
@@ -1685,7 +1966,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     valmisOsoite = osoite;
                 }
 
-                if(loytyi) {
+                if (loytyi) {
                     halytysLuokka = halytekstit.get(listaPaikka);
                 } else {
                     halytysLuokka = "Ei löytynyt listalta";
@@ -1695,7 +1976,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 palautus[1] = viestinSanat.get(halytunnusSijainti);
                 palautus[3] = halytysLuokka;
 
-            } catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 kommentti = "Tapahtui virhe haettaessa listalta oikeaa tunnusta tai kuntaa. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
                 palautus[1] = "Tapahtui virhe.";
                 palautus[3] = "Katso arkistosta hälytyksen kommentti.";
@@ -1722,7 +2003,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
-    private static class haeOsoiteErica extends AsyncTask<String, Void, String[]> {
+    /*private static class haeOsoiteErica extends AsyncTask<String, Void, String[]> {
 
         private boolean rajaapoisvuosiluvut(String vuosiluku) {
             return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
@@ -1744,6 +2025,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String sana;
             String sanaYksin;
             String halytysLuokka;
+            String kiireellisyysLuokka;
             char merkki;
             boolean loytyi = false;
 
@@ -1752,12 +2034,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
 
             // Katkotaan viesti sanoihin
-            for (int i = 0; i <= pituus -1; i++) {
+            for (int i = 0; i <= pituus - 1; i++) {
                 merkki = strings[0].charAt(i);
                 // Katko sanat regex:in mukaan
-                if(Character.toString(merkki).matches("[.,/:; ]")) {
+                if (Character.toString(merkki).matches("[.,/:; ]")) {
                     sanaYksin = sanatYksitellen.toString();
-                    if(sanaYksin.length() > 1 || sanaYksin.matches("[0-9]")) {
+                    if (sanaYksin.length() >= 1 || sanaYksin.matches("[0-9]")) {
                         sanatYksinaan.add(sanaYksin);
                     }
                     sanatYksitellen.delete(0, sanatYksitellen.length());
@@ -1767,12 +2049,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
 
             // Katkotaan viesti osiin puolipilkkujen mukaan
-            for (int i = 0; i <= pituus -1; i++) {
+            for (int i = 0; i <= pituus - 1; i++) {
                 merkki = strings[0].charAt(i);
                 // Katko sanat regex:in mukaan
-                if(Character.toString(merkki).matches("[;]")) {
+                if (Character.toString(merkki).matches("[;]")) {
                     sana = viestinLauseet.toString();
-                    if(sana.length() > 1 || sana.matches("[0-9]")) {
+                    if (sana.length() > 1 || sana.matches("[0-9]")) {
                         viestinSanat.add(sana);
                     }
                     viestinLauseet.delete(0, viestinLauseet.length());
@@ -1784,23 +2066,32 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String kommentti = "";
             // Etsitään mikä lause sisältää kunnan
             try {
-                outer: for (String valmisSana : viestinSanat) {
+                outer:
+                for (String valmisSana : viestinSanat) {
                     //String pieni = valmisSana.toLowerCase();
                     for (String kunta : kunnat) {
                         if (valmisSana.contains(kunta)) {
-                           osoite = valmisSana;
-                           break outer;
+                            osoite = valmisSana;
+                            break outer;
                         }
+                    }
+                }
+
+                // Kiireellisyysluokan kirjaimen etsiminen
+                for (String luokkaKirjain : viestinSanat) {
+                    if (luokkaKirjain.equals("A") || luokkaKirjain.equals("B") || luokkaKirjain.equals("C") || luokkaKirjain.equals("D")) {
+                        kiireellisyysLuokka = luokkaKirjain;
+                        break;
                     }
                 }
 
                 // Etsitään listalta hälytunnus ja luokka. Tee tähän alapuolelle.
                 for (String valmisSana : sanatYksinaan) {
-                    if(valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
+                    if (valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
                         //String osaSana = valmisSana.substring(0,3);
-                        if(halytunnukset.contains(valmisSana.substring(0,3)) || valmisSana.substring(0,3).equals("H35")) {
+                        if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.substring(0, 3).equals("H35")) {
 
-                            if(valmisSana.substring(0,3).equals("H35")) {
+                            if (valmisSana.substring(0, 3).equals("H35")) {
                                 valmisSana = "H351";
                                 halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
                                 listaPaikka = halytunnukset.indexOf("H351");
@@ -1808,14 +2099,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                                 break;
                             }
                             halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
-                            listaPaikka = halytunnukset.indexOf(valmisSana.substring(0,3));
+                            listaPaikka = halytunnukset.indexOf(valmisSana.substring(0, 3));
                             loytyi = true;
                             break;
                         }
                     }
                 }
 
-                if(loytyi) {
+                if (loytyi) {
                     halytysLuokka = halytekstit.get(listaPaikka);
                 } else {
                     halytysLuokka = "Ei löytynyt listalta";
@@ -1825,7 +2116,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 palautus[1] = sanatYksinaan.get(halytunnusSijainti);
                 palautus[3] = halytysLuokka;
 
-            }catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 kommentti = "Tapahtui virhe haettaessa listalta oikeaa tunnusta tai kuntaa. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
                 palautus[1] = "Tapahtui virhe.";
                 palautus[3] = "Katso arkistosta hälytyksen kommentti.";
@@ -1841,14 +2132,16 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             sanatYksinaan.clear();
             return palautus;
         }
+
         protected void onPostExecute(String[] result) {
             db.insertData(result[1] + " " + result[3], result[0], result[2], result[4]);
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
-    }
+    }*/
 
     @TargetApi(Build.VERSION_CODES.O)
     public void startForeGround(String viesti) {
@@ -1860,11 +2153,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
         Notification notification = builder.build();
 
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("ACTIVE SERVICE", "ACTIVE SERVICE", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription("VPK Apuri käynnissä.");
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if(notificationManager != null) {
+            if (notificationManager != null) {
                 notificationManager.createNotificationChannel(channel);
             }
         }
@@ -1874,19 +2167,19 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     @Override
     public void onDestroy() {
-        if(mMediaPlayer != null) {
+        if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
         }
 
-        if(viber != null) {
+        if (viber != null) {
             viber.cancel();
         }
         kunnat.clear();
         halytunnukset.clear();
         halytekstit.clear();
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager != null && pitaaPalauttaa) {
+        if (audioManager != null && pitaaPalauttaa) {
             audioManager.setStreamVolume(AudioManager.STREAM_RING, palautaAani, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, palautaStreamAlarm, 0);
         }

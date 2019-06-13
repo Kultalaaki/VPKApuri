@@ -1,5 +1,6 @@
 package kultalaaki.vpkapuri;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,12 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
         return new FireAlarmHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull FireAlarmHolder holder, int position) {
         FireAlarm currentAlarm = getItem(position);
-        holder.textViewSija.setText(currentAlarm.getId());
+        // TODO: Sijanumero muuttaa niin että saadaan arkistossa näkyviin monesko hälytys uusin aina on
+        holder.textViewSija.setText(Integer.toString(currentAlarm.getId()));
         holder.textViewTunnus.setText(currentAlarm.getTunnus());
         holder.textViewViesti.setText(currentAlarm.getViesti());
     }

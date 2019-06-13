@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,9 @@ public class HalytysTietokannastaFragment extends Fragment {
     TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti;
     EditText tunnusteksti, osoiteteksti, viestiteksti, kommenttiteksti;
 
+    private FireAlarmViewModel fireAlarmViewModel;
+    private static FireAlarm mFireAlarm;
+
     private OnFragmentInteractionListener mListener;
 
     public HalytysTietokannastaFragment() {
@@ -59,20 +64,21 @@ public class HalytysTietokannastaFragment extends Fragment {
 
     // TODO: Rename and change types and number of parameters
     public static HalytysTietokannastaFragment newInstance(FireAlarm fireAlarm) {
+        mFireAlarm = fireAlarm;
         HalytysTietokannastaFragment fragment = new HalytysTietokannastaFragment();
         Bundle args = new Bundle();
-        args.putInt(id, fireAlarm.getId());
-        args.putString(tunnus, fireAlarm.getTunnus());
-        args.putString(luokka, fireAlarm.getLuokka());
-        args.putString(viesti, fireAlarm.getViesti());
-        args.putString(osoite, fireAlarm.getOsoite());
-        args.putString(kommentti, fireAlarm.getKommentti());
-        args.putString(vastaus, fireAlarm.getVastaus());
-        args.putString(optionalField, fireAlarm.getOptionalField());
-        args.putString(optionalField2, fireAlarm.getOptionalField2());
-        args.putString(optionalField3, fireAlarm.getOptionalField3());
-        args.putString(optionalField4, fireAlarm.getOptionalField4());
-        args.putString(optionalField5, fireAlarm.getOptionalField5());
+        args.putInt("id", fireAlarm.getId());
+        args.putString("tunnus", fireAlarm.getTunnus());
+        args.putString("luokka", fireAlarm.getLuokka());
+        args.putString("viesti", fireAlarm.getViesti());
+        args.putString("osoite", fireAlarm.getOsoite());
+        args.putString("kommentti", fireAlarm.getKommentti());
+        args.putString("vastaus", fireAlarm.getVastaus());
+        args.putString("optionalField", fireAlarm.getTimeStamp());
+        args.putString("optionalField2", fireAlarm.getOptionalField2());
+        args.putString("optionalField3", fireAlarm.getOptionalField3());
+        args.putString("optionalField4", fireAlarm.getOptionalField4());
+        args.putString("optionalField5", fireAlarm.getOptionalField5());
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,11 +93,19 @@ public class HalytysTietokannastaFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        fireAlarmViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
         if(getArguments() != null) {
-            tunnusteksti.setText(getArguments().getString(tunnus));
-            osoiteteksti.setText(getArguments().getString(osoite));
-            viestiteksti.setText(getArguments().getString(viesti));
-            kommenttiteksti.setText(getArguments().getString(kommentti));
+            tunnus = getArguments().getString("tunnus");
+            osoite = getArguments().getString("osoite");
+            viesti = getArguments().getString("viesti");
+            luokka = getArguments().getString("luokka");
+            kommentti = getArguments().getString("kommentti");
+            tunnusteksti.setText(tunnus);
+            osoiteteksti.setText(osoite);
+            //osoiteteksti.setText(luokka);
+            viestiteksti.setText(viesti);
+            kommenttiteksti.setText(kommentti);
+            //Toast.makeText(getActivity(), "Tunnus: " + tunnus, Toast.LENGTH_LONG).show();
         }
 
         /*Cursor cursor = db.halyID(primaryKey);
@@ -178,9 +192,10 @@ public class HalytysTietokannastaFragment extends Fragment {
 
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Poista hälytys tietokannasta ja palaa arkiston etusivulle ja hae päivitety tietokanta esiin.
-                        int paikka = Integer.parseInt(primaryKey);
+                        fireAlarmViewModel.delete(mFireAlarm);
+                        /*int paikka = Integer.parseInt(primaryKey);
                         db.deleteRow(paikka);
-
+                        */
                         dialogInterface.dismiss();
                         if(getActivity() != null) {
                             getActivity().onBackPressed();
@@ -197,10 +212,23 @@ public class HalytysTietokannastaFragment extends Fragment {
                     public void onClick(View v) {
                         String kommentti = kommenttiteksti.getText().toString();
                         String tunnus = tunnusteksti.getText().toString();
-                        String luokka = osoiteteksti.getText().toString();
+                        String osoite = osoiteteksti.getText().toString();
                         String viesti = viestiteksti.getText().toString();
-                        boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);
-                        if(lisattyKommentti){
+
+                        mFireAlarm.setViesti(viesti);
+                        mFireAlarm.setTunnus(tunnus);
+                        mFireAlarm.setOsoite(osoite);
+                        mFireAlarm.setKommentti(kommentti);
+
+                        fireAlarmViewModel.update(mFireAlarm);
+
+                        kommenttiteksti.setCursorVisible(false);
+
+                        if(getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
+                        //boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);
+                        /*if(lisattyKommentti){
                             Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
                             kommenttiteksti.setCursorVisible(false);
                             if(getActivity() != null) {
@@ -208,7 +236,7 @@ public class HalytysTietokannastaFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Tallennus epäonnistui", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
                     }
                 }
         );

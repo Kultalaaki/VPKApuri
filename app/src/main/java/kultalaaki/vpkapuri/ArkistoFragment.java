@@ -1,25 +1,19 @@
 package kultalaaki.vpkapuri;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -40,8 +34,6 @@ public class ArkistoFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     DBHelper db;
-    ListView showAlarms;
-    Context ctx;
     private RecyclerView mRecyclerView;
     private FireAlarmViewModel mViewModel;
 
@@ -121,7 +113,7 @@ public class ArkistoFragment extends Fragment {
         adapter.setOnItemClickListener(new FireAlarmAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(FireAlarm fireAlarm) {
-
+                mListener.loadHalytysTietokannastaFragment(fireAlarm);
             }
         });
     }
@@ -167,10 +159,10 @@ public class ArkistoFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void loadHalytysTietokannastaFragment(String primarykey);
+        void loadHalytysTietokannastaFragment(FireAlarm fireAlarm);
     }
 
-    private void populateListView() {
+    /*private void populateListView() {
         if(ctx != null) {
             Cursor cursor = db.getAllRows();
             String[] fromFieldNames = new String[] {DBHelper.COL_1, DBHelper.VIESTI, DBHelper.TUNNUS};
@@ -187,9 +179,9 @@ public class ArkistoFragment extends Fragment {
                     Log.e("TAG", "tulee " + DBHelper.COL_1);
                     TextView textView = view.findViewById(R.id.sija);
                     String primaryKey = textView.getText().toString();
-                    mListener.loadHalytysTietokannastaFragment(primaryKey);
+                    mListener.loadHalytysTietokannastaFragment();
                 }
             });
         }
-    }
+    }*/
 }
