@@ -52,7 +52,6 @@ import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 
@@ -573,7 +572,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         builder.create().show();
     }
 
-    public void tietokantaVarmuuskopio() {
+    /*public void tietokantaVarmuuskopio() {
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
         FileChannel source;
@@ -593,12 +592,11 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         } catch(IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void tietokantaBackUp() {
         try {
             File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
 
             if(sd.canWrite()) {
                 String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
@@ -621,13 +619,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void tietokantaTyhjennys () {
-        //db = new DBHelper(getApplicationContext());
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.deleteAllFireAlarms();
         Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
-        /*if (db.tyhjennaTietokanta()) {
-            Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
-        }*/
     }
 
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
@@ -677,7 +671,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
                     final String title = mActivity.getString(R.string.app_name) + " v" + packageInfo.versionName;
 
-                    final String message = mActivity.getString(R.string.whatsnew);
+                    final String message = mActivity.getString(R.string.onlyNewest);
 
                     // Show the News since last version
                     AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)

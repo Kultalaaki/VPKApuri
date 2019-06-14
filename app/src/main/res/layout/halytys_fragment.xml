@@ -29,7 +29,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
+            <TextView
+                android:id="@+id/kiireellisyys"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:hint="Kiireellisyysluokka"
+                android:textColorHighlight="@color/secondaryDarkColor"
+                android:inputType="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/halytyksenTunnus" />
+
+            <TextView
                 android:id="@+id/halytyksenTunnus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,11 +71,11 @@
                 android:id="@+id/halytyksenViesti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:hint="@string/h_lytysviestin_kentt"
                 android:inputType="none"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -65,8 +83,9 @@
                 android:textColorHighlight="@color/secondaryDarkColor"
                 android:textIsSelectable="true"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/halytyksenTunnus"
+                app:layout_constraintTop_toBottomOf="@+id/kiireellisyys"
                 tools:ignore="Autofill" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

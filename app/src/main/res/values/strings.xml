@@ -22,10 +22,28 @@
     </string>
 
     <!--Mitä uutta-->
-    <string name="whatsnew">
+    <string name="onlyNewest">
         UUSIN VERSIO!\n\n
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
+
+        <u><b>Versio 3.4</b></u>\n\n
+        Asemataulu yhdistetty samaan sovellukseen.\n
+        Taustalla toimivan hälytyksien tunnistuksen parannuksia.\n
+        Arkiston muutoksia\n
+        - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
+        - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
+    </string>
+    <!--Näytetään vain muutosloki sivulla-->
+    <string name="whatsnew">
+        UUSIN VERSIO!\n\n
+
+        <u><b>Versio 3.4</b></u>\n\n
+        Asemataulu yhdistetty samaan sovellukseen.\n
+        Taustalla toimivan hälytyksien tunnistuksen parannuksia.\n
+        Arkiston muutoksia\n
+        - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
+        - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
 
         <u><b>Versio 3.3</b></u>\n\n
         Ajastin käyttöönotettu.\n

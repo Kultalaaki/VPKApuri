@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -32,7 +33,9 @@ import java.util.Locale;
 public class HalytysFragment extends Fragment {
 
     static DBHelper db;
-    EditText halytyksentunnus, halytyksenviesti;
+    EditText halytyksenviesti;
+    TextView halytyksentunnus;
+    TextView kiireellisyys;
     TextToSpeech t1;
     int palautaMediaVol, tekstiPuheeksiVol;
     boolean palautaMediaVolBoolean = false;
@@ -121,12 +124,14 @@ public class HalytysFragment extends Fragment {
         // Setup any handles to view objects here
         halytyksentunnus = view.findViewById(R.id.halytyksenTunnus);
         halytyksenviesti = view.findViewById(R.id.halytyksenViesti);
+        kiireellisyys = view.findViewById(R.id.kiireellisyys);
     }
 
     public void getNewestDatabaseEntry(){
         try {
             halytyksentunnus.setText(fireAlarm.getTunnus());
             halytyksenviesti.setText(fireAlarm.getViesti());
+            kiireellisyys.setText(fireAlarm.getLuokka());
             /*db = new DBHelper(getActivity());
             Cursor c = db.haeViimeisinLisays();
             if(c != null) {

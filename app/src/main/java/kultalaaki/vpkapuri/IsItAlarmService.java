@@ -49,7 +49,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     private static boolean mediaplayerRunning = false;
     MediaPlayer mMediaPlayer;
     Vibrator viber;
-    //static DBHelper db;
     static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>();
     SharedPreferences sharedPreferences;
     private static final int MY_HALY_NOTIFICATION_ID = 264981;
@@ -108,6 +107,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String numero = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             String timestamp = intent.getStringExtra("timestamp");
+
             puheluHaly = intent.getStringExtra("halytysaani");
             erica = sharedPreferences.getBoolean("Erica", true);
             asemataulu = sharedPreferences.getBoolean("asemataulu", false);
@@ -117,15 +117,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (isItAlarmSMS(numero, message)) {
                     lisaaHalyTunnukset();
                     if (erica) {
+
                         lisaaKunnatErica();
                     } else {
                         lisaaKunnat();
                     }
-                    //db = new DBHelper(getApplicationContext());
 
                     if (erica) {
                         addressLookUp(message, timestamp);
-                        //new IsItAlarmService.haeOsoiteErica().execute(message);
                     } else {
                         new IsItAlarmService.haeOsoite().execute(message);
                     }
@@ -157,6 +156,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 //db = new DBHelper(getApplicationContext());
 
                 if (erica) {
+                    /*AlarmMessage alarmMessage = new AlarmMessage(message, timestamp);
+
+                    FireAlarm fireAlarm = new FireAlarm(alarmMessage.getTunnus(), alarmMessage.getKiireLuokka(), message,
+                            alarmMessage.getOsoite(), "", "", alarmMessage.getTimeStamp(), "", "", "", "");
+
+                    FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                    fireAlarmRepository.insert(fireAlarm);*/
                     addressLookUp(message, timestamp);
                     //new IsItAlarmService.haeOsoiteErica().execute(message);
                 } else {
