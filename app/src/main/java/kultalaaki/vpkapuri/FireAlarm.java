@@ -2,6 +2,7 @@ package kultalaaki.vpkapuri;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Query;
 
 @Entity(tableName = "firealarm_table")
 public class FireAlarm {

@@ -26,5 +26,9 @@ public class FireAlarmViewModel extends AndroidViewModel {
 
     public void deleteAll(FireAlarm fireAlarm) {repository.deleteAllFireAlarms();}
 
+    public FireAlarm lastEntry() {
+        return repository.getLatest();
+    }
+
     public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
 }

@@ -37,6 +37,7 @@ import androidx.core.app.TaskStackBuilder;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -48,7 +49,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     private static boolean mediaplayerRunning = false;
     MediaPlayer mMediaPlayer;
     Vibrator viber;
-    static DBHelper db;
+    //static DBHelper db;
     static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>();
     SharedPreferences sharedPreferences;
     private static final int MY_HALY_NOTIFICATION_ID = 264981;
@@ -57,6 +58,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     String puheluHaly = "false";
     static boolean erica;
     static boolean asemataulu;
+
+    PowerManager powerManager;
+    PowerManager.WakeLock wakeLock;
 
     Context context;
 
@@ -81,6 +85,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     @SuppressLint("ApplySharedPref")
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (intent != null) {
+            powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            if(powerManager != null) {
+                wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                        "VPKApuri::HälytysServiceTaustalla");
+            }
+
             if (previousStartId != startId) {
                 stopSelf(previousStartId);
                 if (mediaplayerRunning && mMediaPlayer != null) {
@@ -111,7 +121,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     } else {
                         lisaaKunnat();
                     }
-                    db = new DBHelper(getApplicationContext());
+                    //db = new DBHelper(getApplicationContext());
 
                     if (erica) {
                         addressLookUp(message, timestamp);
@@ -144,7 +154,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     lisaaKunnat();
                 }
 
-                db = new DBHelper(getApplicationContext());
+                //db = new DBHelper(getApplicationContext());
 
                 if (erica) {
                     addressLookUp(message, timestamp);
@@ -174,8 +184,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                     alarmSound(startId);
                 }
-                db = new DBHelper(getApplicationContext());
-                db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
+                //db = new DBHelper(getApplicationContext());
+                //db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
                 if (autoAukaisu) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -1994,7 +2004,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
 
         protected void onPostExecute(String[] result) {
-            db.insertData(result[1] + " " + result[3], result[0], result[2], result[4]);
+            //db.insertData(result[1] + " " + result[3], result[0], result[2], result[4]);
         }
 
         @Override
@@ -2167,6 +2177,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
@@ -2178,12 +2189,22 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         kunnat.clear();
         halytunnukset.clear();
         halytekstit.clear();
+
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {
             audioManager.setStreamVolume(AudioManager.STREAM_RING, palautaAani, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, palautaStreamAlarm, 0);
         }
-        super.onDestroy();
+        if(wakeLock != null) {
+            try {
+                wakeLock.release();
+            } catch (Throwable th) {
+                // No Need to do anything.
+            }
+
+        }
+
+
     }
 
     @Override

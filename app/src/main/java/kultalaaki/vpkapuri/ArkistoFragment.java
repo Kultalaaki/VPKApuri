@@ -161,27 +161,4 @@ public class ArkistoFragment extends Fragment {
         // TODO: Update argument type and name
         void loadHalytysTietokannastaFragment(FireAlarm fireAlarm);
     }
-
-    /*private void populateListView() {
-        if(ctx != null) {
-            Cursor cursor = db.getAllRows();
-            String[] fromFieldNames = new String[] {DBHelper.COL_1, DBHelper.VIESTI, DBHelper.TUNNUS};
-            final int[] toViewIDs = new int[] {R.id.sija, R.id.viesti, R.id.tunnus};
-            SimpleCursorAdapter myCursorAdapter;
-            myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_layout, cursor, fromFieldNames, toViewIDs, 0);
-            //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
-            showAlarms.setAdapter(myCursorAdapter);
-            showAlarms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // When clicked perform some action...
-                    //TODO
-                    Log.e("TAG", "tulee " + DBHelper.COL_1);
-                    TextView textView = view.findViewById(R.id.sija);
-                    String primaryKey = textView.getText().toString();
-                    mListener.loadHalytysTietokannastaFragment();
-                }
-            });
-        }
-    }*/
 }

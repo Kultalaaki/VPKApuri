@@ -2,6 +2,7 @@ package kultalaaki.vpkapuri;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import androidx.lifecycle.LiveData;
 
@@ -10,11 +11,14 @@ import java.util.List;
 public class FireAlarmRepository {
     private FireAlarmDao fireAlarmDao;
     private LiveData<List<FireAlarm>> allFireAlarms;
+    private FireAlarm fireAlarm;
+    private boolean sendResult = false;
 
     public FireAlarmRepository(Application application) {
         FireAlarmDatabase database = FireAlarmDatabase.getInstance(application);
         fireAlarmDao = database.fireAlarmsDao();
         allFireAlarms = fireAlarmDao.getAllFireAlarms();
+        fireAlarm = fireAlarmDao.latest();
     }
 
     public void insert(FireAlarm fireAlarm) {
@@ -29,11 +33,34 @@ public class FireAlarmRepository {
         new DeleteFireAlarmAsyncTask(fireAlarmDao).execute(fireAlarm);
     }
 
+    public FireAlarm getLatest() {
+        return fireAlarm = fireAlarmDao.latest();
+    }
+
     public void deleteAllFireAlarms() {
         new DeleteAllFireAlarmAsyncTask(fireAlarmDao).execute();
     }
 
     public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
+
+    private static class LatestFireAlarmAsyncTask extends AsyncTask<Void, Void, FireAlarm> {
+        private FireAlarmDao fireAlarmDao;
+
+        private LatestFireAlarmAsyncTask(FireAlarmDao fireAlarmDao) {
+            this.fireAlarmDao = fireAlarmDao;
+        }
+
+        @Override
+        protected FireAlarm doInBackground(Void... voids) {
+
+            return fireAlarmDao.latest();
+        }
+
+        @Override
+        protected void onPostExecute(FireAlarm fireAlarm) {
+            super.onPostExecute(fireAlarm);
+        }
+    }
 
     private static class InsertFireAlarmAsyncTask extends AsyncTask<FireAlarm, Void, Void> {
         private FireAlarmDao fireAlarmDao;

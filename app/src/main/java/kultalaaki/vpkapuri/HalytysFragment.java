@@ -15,7 +15,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +36,9 @@ public class HalytysFragment extends Fragment {
     TextToSpeech t1;
     int palautaMediaVol, tekstiPuheeksiVol;
     boolean palautaMediaVolBoolean = false;
+
+    private FireAlarmViewModel mViewModel;
+    private FireAlarm fireAlarm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,15 @@ public class HalytysFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.halytys_fragment, parent, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+
+        fireAlarm = mViewModel.lastEntry();
     }
 
     @Override
@@ -110,12 +125,14 @@ public class HalytysFragment extends Fragment {
 
     public void getNewestDatabaseEntry(){
         try {
-            db = new DBHelper(getActivity());
+            halytyksentunnus.setText(fireAlarm.getTunnus());
+            halytyksenviesti.setText(fireAlarm.getViesti());
+            /*db = new DBHelper(getActivity());
             Cursor c = db.haeViimeisinLisays();
             if(c != null) {
                 halytyksentunnus.setText(c.getString(c.getColumnIndex(DBHelper.TUNNUS)));
                 halytyksenviesti.setText(c.getString(c.getColumnIndex(DBHelper.VIESTI)));
-            }
+            }*/
         } catch (Exception e) {
             new AlertDialog.Builder(getActivity())
                     .setTitle("Huomautus!")

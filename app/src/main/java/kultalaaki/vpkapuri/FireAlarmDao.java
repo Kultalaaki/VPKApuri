@@ -24,6 +24,9 @@ public interface FireAlarmDao {
     @Query("DELETE FROM firealarm_table")
     void deleteAllFireAlarms();
 
+    @Query("SELECT * FROM firealarm_table WHERE id = (SELECT MAX(id) FROM firealarm_table)")
+    FireAlarm latest();
+
     @Query("SELECT * FROM firealarm_table ORDER BY id DESC")
     LiveData<List<FireAlarm>> getAllFireAlarms();
 }

@@ -38,6 +38,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollView4">
 
+            <EditText
+                android:id="@+id/kiireellisyys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="@string/kiireellisyysluokka"
+                android:inputType="textCapCharacters"
+                app:layout_constraintStart_toEndOf="@+id/kommentti"
+                app:layout_constraintTop_toBottomOf="@+id/tunnusteksti"
+                tools:ignore="Autofill" />
+
             <TextView
                 android:id="@+id/tunnus"
                 android:layout_width="0dp"
@@ -132,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:ems="10"
@@ -141,7 +155,7 @@
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/kommentti"
-                app:layout_constraintTop_toBottomOf="@+id/tunnusteksti"
+                app:layout_constraintTop_toBottomOf="@+id/kiireellisyys"
                 tools:ignore="Autofill" />
 
             <EditText

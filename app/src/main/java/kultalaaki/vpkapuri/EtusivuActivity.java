@@ -523,7 +523,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        tietokantaVarmuuskopio();
+                        //tietokantaVarmuuskopio();
+                        tietokantaBackUp();
                     }
                 });
         builder.create().show();
@@ -577,7 +578,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         File data = Environment.getDataDirectory();
         FileChannel source;
         FileChannel destination;
-        String currentDBPath = "/data/" + "kultalaaki.vpkapuri/databases/halytyksetArkisto.db";
+        String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
+        //String currentDBPath = "/data/" + "kultalaaki.vpkapuri/databases/VPK_Apuri_Halytykset.db";
         String backupDBPath = "Hälytykset VPK Apuri";
         File currentDB = new File(data, currentDBPath);
         File backupDB = new File(sd, backupDBPath);
@@ -593,11 +595,39 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         }
     }
 
-    public void tietokantaTyhjennys () {
-        db = new DBHelper(getApplicationContext());
-        if (db.tyhjennaTietokanta()) {
-            Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
+    public void tietokantaBackUp() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if(sd.canWrite()) {
+                String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
+                String backUpPath = "Hälytykset_VPK_Apuri";
+                File currentDB = new File(currentDBPath);
+                File backUpDP = new File(sd, backUpPath);
+
+                if(currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backUpDP).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+                Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    public void tietokantaTyhjennys () {
+        //db = new DBHelper(getApplicationContext());
+        FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+        fireAlarmRepository.deleteAllFireAlarms();
+        Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
+        /*if (db.tyhjennaTietokanta()) {
+            Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
+        }*/
     }
 
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {

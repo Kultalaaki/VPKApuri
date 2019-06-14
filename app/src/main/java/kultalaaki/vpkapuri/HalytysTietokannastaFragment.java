@@ -47,11 +47,10 @@ public class HalytysTietokannastaFragment extends Fragment {
     private static String optionalField5;
 
     // TODO: Rename and change types of parameters
-    private String primaryKey;
     DBHelper db;
-    CardView save, delete, showOnMap;
-    TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti;
-    EditText tunnusteksti, osoiteteksti, viestiteksti, kommenttiteksti;
+    private CardView save, delete, showOnMap;
+    private TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti;
+    private EditText tunnusteksti, kiireellisyys, osoiteteksti, viestiteksti, kommenttiteksti;
 
     private FireAlarmViewModel fireAlarmViewModel;
     private static FireAlarm mFireAlarm;
@@ -86,9 +85,9 @@ public class HalytysTietokannastaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             primaryKey = getArguments().getString(ARG_PARAM1);
-        }
+        }*/
     }
 
     public void onStart() {
@@ -102,7 +101,7 @@ public class HalytysTietokannastaFragment extends Fragment {
             kommentti = getArguments().getString("kommentti");
             tunnusteksti.setText(tunnus);
             osoiteteksti.setText(osoite);
-            //osoiteteksti.setText(luokka);
+            kiireellisyys.setText(luokka);
             viestiteksti.setText(viesti);
             kommenttiteksti.setText(kommentti);
             //Toast.makeText(getActivity(), "Tunnus: " + tunnus, Toast.LENGTH_LONG).show();
@@ -163,6 +162,7 @@ public class HalytysTietokannastaFragment extends Fragment {
         osoiteteksti = view.findViewById(R.id.luokkateksti);
         textViewViesti = view.findViewById(R.id.viesti);
         viestiteksti = view.findViewById(R.id.viestiteksti);
+        kiireellisyys = view.findViewById(R.id.kiireellisyys);
         textViewKommentti = view.findViewById(R.id.kommentti);
         kommenttiteksti = view.findViewById(R.id.kommenttiteksti);
         kommenttiteksti.setCursorVisible(false);
@@ -214,10 +214,12 @@ public class HalytysTietokannastaFragment extends Fragment {
                         String tunnus = tunnusteksti.getText().toString();
                         String osoite = osoiteteksti.getText().toString();
                         String viesti = viestiteksti.getText().toString();
+                        String luokka = kiireellisyys.getText().toString();
 
                         mFireAlarm.setViesti(viesti);
                         mFireAlarm.setTunnus(tunnus);
                         mFireAlarm.setOsoite(osoite);
+                        mFireAlarm.setLuokka(luokka);
                         mFireAlarm.setKommentti(kommentti);
 
                         fireAlarmViewModel.update(mFireAlarm);
