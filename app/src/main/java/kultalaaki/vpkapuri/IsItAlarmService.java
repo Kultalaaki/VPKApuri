@@ -1739,7 +1739,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         StringBuilder sanatYksitellen = new StringBuilder();
         String sana;
         String sanaYksin;
-        String halytysLuokka = "";
+        //String halytysLuokka;
         String kiireellisyysLuokka = "";
         char merkki;
         boolean loytyi = false;
@@ -1825,11 +1825,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
             }
 
-            if (loytyi) {
+            /*if (loytyi) {
                 halytysLuokka = halytekstit.get(listaPaikka);
             } else {
                 halytysLuokka = "Ei löytynyt listalta";
-            }
+            }*/
 
             //palautus[0] = osoite;
             //palautus[1] = sanatYksinaan.get(halytunnusSijainti);
