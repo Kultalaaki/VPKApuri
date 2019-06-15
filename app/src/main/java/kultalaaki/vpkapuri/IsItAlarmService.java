@@ -1837,12 +1837,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
         } catch (ArrayIndexOutOfBoundsException e) {
             kommentti = "Tapahtui virhe haettaessa listalta oikeaa tunnusta tai kuntaa. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
-            //palautus[1] = "Tapahtui virhe.";
-            //palautus[3] = "Katso arkistosta hälytyksen kommentti.";
+
         } catch (Exception e) {
             kommentti = "Tuntematon virhe esti osoitteen löytämisen viestistä. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
-            //palautus[1] = "Tapahtui virhe.";
-            //palautus[3] = "Katso arkistosta hälytyksen kommentti.";
+
         }
 
         if(!kiire) {
