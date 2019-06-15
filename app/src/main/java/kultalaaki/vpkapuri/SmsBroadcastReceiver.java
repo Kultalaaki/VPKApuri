@@ -58,7 +58,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 }
 
                 aika = System.currentTimeMillis();
-                Aika = (String) DateFormat.format("EEEE, dd MMMM, yyyy H:mm:ss", new Date(aika));
+                Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
                 // Todo poistettu numeroiden formatointi vanha käytöstä tästä alta ja testataan ongelmatapausten kanssa
                 //senderNum = PhoneNumberUtils.formatNumber(senderNum);
                 /*if (senderNum.charAt(0) == '0') {

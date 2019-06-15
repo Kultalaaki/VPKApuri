@@ -496,4 +496,6 @@
     <string name="nime_ajastin">Nimeä ajastin</string>
     <string name="lis_ajastin">Lisää ajastin</string>
     <string name="kiireellisyysluokka">Kiireellisyysluokka</string>
+    <string name="aikaleima">Aikaleima</string>
+    <string name="aika">Aika</string>
 </resources>

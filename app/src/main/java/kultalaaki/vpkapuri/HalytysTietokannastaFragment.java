@@ -40,7 +40,7 @@ public class HalytysTietokannastaFragment extends Fragment {
     private static String osoite;
     private static String kommentti;
     private static String vastaus;
-    private static String optionalField;
+    private static String timeStamp;
     private static String optionalField2;
     private static String optionalField3;
     private static String optionalField4;
@@ -49,8 +49,8 @@ public class HalytysTietokannastaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     DBHelper db;
     private CardView save, delete, showOnMap;
-    private TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti;
-    private EditText tunnusteksti, kiireellisyys, osoiteteksti, viestiteksti, kommenttiteksti;
+    private TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti, textViewAika;
+    private EditText tunnusteksti, kiireellisyys, osoiteteksti, viestiteksti, kommenttiteksti, aikaleima;
 
     private FireAlarmViewModel fireAlarmViewModel;
     private static FireAlarm mFireAlarm;
@@ -73,7 +73,7 @@ public class HalytysTietokannastaFragment extends Fragment {
         args.putString("osoite", fireAlarm.getOsoite());
         args.putString("kommentti", fireAlarm.getKommentti());
         args.putString("vastaus", fireAlarm.getVastaus());
-        args.putString("optionalField", fireAlarm.getTimeStamp());
+        args.putString("timeStamp", fireAlarm.getTimeStamp());
         args.putString("optionalField2", fireAlarm.getOptionalField2());
         args.putString("optionalField3", fireAlarm.getOptionalField3());
         args.putString("optionalField4", fireAlarm.getOptionalField4());
@@ -99,10 +99,12 @@ public class HalytysTietokannastaFragment extends Fragment {
             viesti = getArguments().getString("viesti");
             luokka = getArguments().getString("luokka");
             kommentti = getArguments().getString("kommentti");
+            timeStamp = getArguments().getString("timeStamp");
             tunnusteksti.setText(tunnus);
             osoiteteksti.setText(osoite);
             kiireellisyys.setText(luokka);
             viestiteksti.setText(viesti);
+            aikaleima.setText(timeStamp);
             kommenttiteksti.setText(kommentti);
             //Toast.makeText(getActivity(), "Tunnus: " + tunnus, Toast.LENGTH_LONG).show();
         }
@@ -164,6 +166,8 @@ public class HalytysTietokannastaFragment extends Fragment {
         viestiteksti = view.findViewById(R.id.viestiteksti);
         kiireellisyys = view.findViewById(R.id.kiireellisyys);
         textViewKommentti = view.findViewById(R.id.kommentti);
+        textViewAika = view.findViewById(R.id.aika);
+        aikaleima = view.findViewById(R.id.aikaLeima);
         kommenttiteksti = view.findViewById(R.id.kommenttiteksti);
         kommenttiteksti.setCursorVisible(false);
         save = view.findViewById(R.id.cardTallenna);
@@ -210,17 +214,19 @@ public class HalytysTietokannastaFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String kommentti = kommenttiteksti.getText().toString();
-                        String tunnus = tunnusteksti.getText().toString();
-                        String osoite = osoiteteksti.getText().toString();
+                        String kommentti = kommenttiteksti.getText().toString().trim();
+                        String tunnus = tunnusteksti.getText().toString().trim();
+                        String osoite = osoiteteksti.getText().toString().trim();
                         String viesti = viestiteksti.getText().toString();
-                        String luokka = kiireellisyys.getText().toString();
+                        String luokka = kiireellisyys.getText().toString().trim();
+                        String aikaLeima = aikaleima.getText().toString();
 
                         mFireAlarm.setViesti(viesti);
                         mFireAlarm.setTunnus(tunnus);
                         mFireAlarm.setOsoite(osoite);
                         mFireAlarm.setLuokka(luokka);
                         mFireAlarm.setKommentti(kommentti);
+                        mFireAlarm.setTimeStamp(aikaLeima);
 
                         fireAlarmViewModel.update(mFireAlarm);
 

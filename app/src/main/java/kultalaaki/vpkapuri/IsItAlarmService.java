@@ -1743,6 +1743,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         String kiireellisyysLuokka = "";
         char merkki;
         boolean loytyi = false;
+        boolean kiire = false;
+        boolean osoitet = false;
 
         for (int o = 0; o <= length - 1; o++) {
             viestiTeksti.append(viesti.charAt(o));
@@ -1787,6 +1789,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 for (String kunta : kunnat) {
                     if (valmisSana.contains(kunta)) {
                         osoite = valmisSana;
+                        osoitet = true;
                         break outer;
                     }
                 }
@@ -1796,6 +1799,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             for (String luokkaKirjain : viestinSanat) {
                 if (luokkaKirjain.trim().equals("A") || luokkaKirjain.trim().equals("B") || luokkaKirjain.trim().equals("C") || luokkaKirjain.trim().equals("D")) {
                     kiireellisyysLuokka = luokkaKirjain;
+                    kiire = true;
                     break;
                 }
             }
@@ -1841,8 +1845,22 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             //palautus[3] = "Katso arkistosta hälytyksen kommentti.";
         }
 
-        FireAlarm fireAlarm = new FireAlarm(sanatYksinaan.get(halytunnusSijainti) + " " + halytysLuokka, kiireellisyysLuokka, viesti,
-                osoite, kommentti, "", timeStamp, "", "", "", "");
+        if(!kiire) {
+            kiireellisyysLuokka = "Ei löytynyt";
+        }
+        if(!osoitet) {
+            osoite = "Ei löytynyt";
+        }
+
+        String tallennettavaTunnus = "Ei löytynyt";
+
+        if(loytyi) {
+            tallennettavaTunnus = sanatYksinaan.get(halytunnusSijainti).trim() + " " + halytekstit.get(listaPaikka).trim();
+        }
+
+
+        FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
 
         fireAlarmRepository.insert(fireAlarm);
         //palautus[2] = viestiTeksti.toString();

@@ -40,6 +40,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TimePicker;
@@ -53,6 +55,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.util.Date;
 
 
 public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener,
@@ -368,10 +371,13 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
                 public void run() {
+                    long aika = System.currentTimeMillis();
+                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
                     halyaaniService.putExtra("message", getString(R.string.testihalytysErica));
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");
+                    halyaaniService.putExtra("timestamp", Aika);
                     getApplicationContext().startService(halyaaniService);
                 }
             }, 5000);
