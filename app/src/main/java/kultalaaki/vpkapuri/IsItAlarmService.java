@@ -358,7 +358,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
             if (halynumero10 != null && !halynumero10.isEmpty()) {
                 halynumero10 = PhoneNumberUtils.formatNumber(halynumero10);
-            }//Deprecated method
+            }
         }
 
         numero = numero.replaceAll("[()\\s-+]+", "");

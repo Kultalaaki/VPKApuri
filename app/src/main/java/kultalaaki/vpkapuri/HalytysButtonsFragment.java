@@ -8,16 +8,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,7 @@ public class HalytysButtonsFragment extends Fragment {
     private boolean SmsYellowVisible;
     private boolean SmsRedVisible;
     private boolean CallButtonVisible;
+    private String osoiteFromDB;
     static DBHelper db;
     private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
     private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
@@ -75,6 +78,22 @@ public class HalytysButtonsFragment extends Fragment {
     }*/
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+
+        try {
+            FireAlarm fireAlarm = mViewModel.lastEntry();
+            osoiteFromDB = fireAlarm.getOsoite();
+        } catch (Exception e) {
+            // Empty database
+            osoiteFromDB = "";
+        }
+
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -104,7 +123,7 @@ public class HalytysButtonsFragment extends Fragment {
             call.setVisibility(View.GONE);
         }
 
-        osoite.setText(osoite());
+        osoite.setText(osoiteFromDB);
 
         if(SmsGreenVisible) {
             sms5Otsikko.setText(fivemintxtotsikko);
@@ -167,19 +186,6 @@ public class HalytysButtonsFragment extends Fragment {
                 hiljenna.setVisibility(View.GONE);
             }
         });
-    }
-
-    private String osoite(){
-        try {
-            db = new DBHelper(getActivity());
-            Cursor c = db.haeViimeisinLisays();
-            if(c != null) {
-                return c.getString(c.getColumnIndex(DBHelper.LUOKKA));
-            }
-            return "";
-        } catch (Exception e) {
-            return "";
-        }
     }
 
     @Override
@@ -360,7 +366,7 @@ public class HalytysButtonsFragment extends Fragment {
             }
         });
 
-        Cursor c = db.haeViimeisinLisays();
+        /*Cursor c = db.haeViimeisinLisays();
         //openMap.setText(c.getString(c.getColumnIndex(DBHelper.LUOKKA)));
         String osoitee = "";
         try {
@@ -368,12 +374,12 @@ public class HalytysButtonsFragment extends Fragment {
         } catch (Exception e) {
             Toast.makeText(getActivity(), "Arkisto on tyhjä.", Toast.LENGTH_LONG).show();
         }
-        final String osoite = osoitee;
+        final String osoite = osoitee;*/
 
         openMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoite);
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoiteFromDB);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 //mapIntent.setPackage("com.google.android.apps.maps");
                 Context context = getActivity();

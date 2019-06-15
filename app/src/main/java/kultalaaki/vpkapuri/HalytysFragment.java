@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,14 +32,13 @@ import java.util.Locale;
 public class HalytysFragment extends Fragment {
 
     static DBHelper db;
-    EditText halytyksenviesti;
-    TextView halytyksentunnus;
-    TextView kiireellisyys;
-    TextToSpeech t1;
-    int palautaMediaVol, tekstiPuheeksiVol;
-    boolean palautaMediaVolBoolean = false;
+    private EditText halytyksenviesti;
+    private TextView halytyksentunnus;
+    private TextView kiireellisyys;
+    private TextToSpeech t1;
+    private int palautaMediaVol, tekstiPuheeksiVol;
+    private boolean palautaMediaVolBoolean = false;
 
-    private FireAlarmViewModel mViewModel;
     private FireAlarm fireAlarm;
 
     @Override
@@ -70,7 +68,7 @@ public class HalytysFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
         fireAlarm = mViewModel.lastEntry();
     }
@@ -86,7 +84,7 @@ public class HalytysFragment extends Fragment {
         }
     }
 
-    void checkDoNotDisturb() {
+    private void checkDoNotDisturb() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean disturb = pref.getBoolean("DoNotDisturb", false);
         boolean asemataulu = pref.getBoolean("asemataulu", false);
@@ -96,17 +94,16 @@ public class HalytysFragment extends Fragment {
             if(notificationManager != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && !notificationManager.isNotificationPolicyAccessGranted()) {
-                    showMessage("Huomautus!", "Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa. Tätä lupaa käytetään äänikanavien muuttamiseen kun hälytys tulee." +
-                            " Painamalla Ok, pääset suoraan asetukseen missä voit sallia Älä häiritse tilan muuttamisen VPK Apuri sovellukselle");
+                    showMessage();
                 }
             }
         }
     }
 
-    public void showMessage(String title, String message){
+    private void showMessage(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
+                .setTitle("Huomautus!")
+                .setMessage("Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa. Tätä lupaa käytetään äänikanavien muuttamiseen kun hälytys tulee. Painamalla Ok, pääset suoraan asetukseen missä voit sallia Älä häiritse tilan muuttamisen VPK Apuri sovellukselle")
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
@@ -127,7 +124,7 @@ public class HalytysFragment extends Fragment {
         kiireellisyys = view.findViewById(R.id.kiireellisyys);
     }
 
-    public void getNewestDatabaseEntry(){
+    private void getNewestDatabaseEntry(){
         try {
             halytyksentunnus.setText(fireAlarm.getTunnus());
             halytyksenviesti.setText(fireAlarm.getViesti());
@@ -148,7 +145,7 @@ public class HalytysFragment extends Fragment {
         }
     }
 
-    public void txtToSpeechVolume() {
+    private void txtToSpeechVolume() {
         Context ctx = getActivity();
         if(ctx != null) {
             AudioManager ad = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
@@ -170,7 +167,7 @@ public class HalytysFragment extends Fragment {
         }
     }
 
-    public int saadaAani(int voima) {
+    private int saadaAani(int voima) {
         Context ctx = getActivity();
         if(ctx != null) {
             final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
@@ -202,7 +199,7 @@ public class HalytysFragment extends Fragment {
         return 0;
     }
 
-    public void txtToSpeech(){
+    void txtToSpeech(){
         t1 = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -219,7 +216,7 @@ public class HalytysFragment extends Fragment {
         });
     }
 
-    public void lopetaPuhe() {
+    void lopetaPuhe() {
         Context ctx = getActivity();
         if(ctx != null) {
             AudioManager ad = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
@@ -233,7 +230,7 @@ public class HalytysFragment extends Fragment {
         }
     }
 
-    public void puhu() {
+    private void puhu() {
         String puheeksi = halytyksentunnus.getText().toString() + " " + halytyksenviesti.getText().toString();
         if(Build.VERSION.SDK_INT >= 21) {
             t1.playSilentUtterance(1000, TextToSpeech.QUEUE_FLUSH, null);
