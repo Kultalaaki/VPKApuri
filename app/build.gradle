@@ -15,7 +15,7 @@ android {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 95
+        versionCode 96
         versionName "3.4"
     }
     buildTypes {
@@ -65,8 +65,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
     // Room Components
-    implementation 'androidx.room:room-runtime:2.0.0'
-    annotationProcessor 'androidx.room:room-compiler:2.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
