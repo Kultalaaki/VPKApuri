@@ -192,6 +192,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
                 //db = new DBHelper(getApplicationContext());
                 //db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
+                FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                FireAlarm fireAlarm = new FireAlarm("999", "A", "Hälytys tuli puheluna",
+                        "Ei osoitetta", "", "", timestamp, "", "", "", "");
+
+                fireAlarmRepository.insert(fireAlarm);
+
                 if (autoAukaisu) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
