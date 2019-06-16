@@ -498,4 +498,6 @@
     <string name="kiireellisyysluokka">Kiireellisyysluokka</string>
     <string name="aikaleima">Aikaleima</string>
     <string name="aika">Aika</string>
+    <string name="kamera">KAMERA</string>
+    <string name="l_htij_t">LÄHTIJÄT</string>
 </resources>
