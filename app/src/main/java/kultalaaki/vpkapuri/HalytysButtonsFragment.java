@@ -1,6 +1,7 @@
 package kultalaaki.vpkapuri;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -42,7 +43,9 @@ public class HalytysButtonsFragment extends Fragment {
     private boolean SmsYellowVisible;
     private boolean SmsRedVisible;
     private boolean CallButtonVisible;
+    private boolean showHiljennaButton;
     private String osoiteFromDB;
+    SharedPreferences pref_general;
     static DBHelper db;
     private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
     private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
@@ -114,6 +117,9 @@ public class HalytysButtonsFragment extends Fragment {
         super.onStart();
         setOnClickListeners();
         setTexts();
+        if(showHiljennaButton) {
+            autoAukaisu();
+        }
     }
 
     private void setTexts() {
@@ -218,7 +224,8 @@ public class HalytysButtonsFragment extends Fragment {
     }
 
     private void setResources() {
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        showHiljennaButton = pref_general.getBoolean("showHiljenna", false);
         soittonumero = pref_general.getString("example_text", null);
         smsnumero = pref_general.getString("sms_numero", null);
         smsnumero10 = pref_general.getString("sms_numero10", null);
@@ -620,13 +627,15 @@ public class HalytysButtonsFragment extends Fragment {
                 .show();
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         Context ctx = getActivity();
         if(stopAlarm && ctx != null) {
             Intent stopAlarm = new Intent(ctx, IsItAlarmService.class);
             ctx.stopService(stopAlarm);
         }
+        pref_general.edit().putBoolean("showHiljenna", false).commit();
     }
 }

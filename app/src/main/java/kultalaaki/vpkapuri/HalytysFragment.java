@@ -172,7 +172,7 @@ public class HalytysFragment extends Fragment {
         if(ctx != null) {
             final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
             if(audioManager != null) {
-                tekstiPuheeksiVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+                tekstiPuheeksiVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
                 double aani = (double)tekstiPuheeksiVol/100*voima;
                 tekstiPuheeksiVol = (int) aani;
             }

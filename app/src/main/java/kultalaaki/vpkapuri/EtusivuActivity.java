@@ -81,6 +81,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         asemataulu = sharedPreferences.getBoolean("asemataulu", false);
         ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
         analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
+        sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
 
         if(!asemataulu) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

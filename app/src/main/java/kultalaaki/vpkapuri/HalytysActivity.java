@@ -1,5 +1,6 @@
 package kultalaaki.vpkapuri;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -133,6 +134,7 @@ public class HalytysActivity extends AppCompatActivity
         type = null;
     }
 
+    @SuppressLint("ApplySharedPref")
     public void getParameters(String action, String type) {
 
         if (Intent.ACTION_SEND.equals(action)&& type != null) {
@@ -143,6 +145,7 @@ public class HalytysActivity extends AppCompatActivity
                     waitForFragment();
                 }
             } else if("automaattinen".equals(type)) {
+                preferences.edit().putBoolean("showHiljenna", true).commit();
                 waitForButtonsFragment();
             }
         }
