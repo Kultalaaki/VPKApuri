@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.text.format.DateFormat;
@@ -20,10 +22,22 @@ import android.util.Log;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.content.Context.POWER_SERVICE;
+
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
+    private PowerManager.WakeLock wakeLock;
+
     public void onReceive(Context context, Intent intent) {
+
+
+
+        PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
+        if(powerManager != null) {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    "VPKApuri::HälytysServiceTaustalla");
+        }
 
         final Bundle myBundle = intent.getExtras();
         String message = "";
@@ -91,5 +105,13 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         } catch (Exception e) {
             Log.e("SmsReceiver", "Exception smsReceiver " + e);
         }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wakeLock.release();
+            }
+        }, 500);
     }
 }
