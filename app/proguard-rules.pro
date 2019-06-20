@@ -19,3 +19,4 @@
 -keep class com.crashlytics.android.**
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
+-keep class androidx.core.app.CoreComponentFactory { *; }

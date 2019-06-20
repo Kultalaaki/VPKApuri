@@ -3,6 +3,8 @@ package kultalaaki.vpkapuri;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ public class ResponderFragment extends Fragment {
     private ResponderViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private CardView cardViewDeleteResponders;
+    private int deleteCounter = 0;
 
     public static ResponderFragment newInstance() {
         return new ResponderFragment();
@@ -83,9 +88,25 @@ public class ResponderFragment extends Fragment {
         cardViewDeleteResponders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.deleteAll();
+                if(deleteCounter < 1) {
+                    Toast.makeText(getActivity(), "Paina uudestaan tyhjentääksesi lähtijät lista!", Toast.LENGTH_LONG).show();
+                    deleteCounter++;
+                } else {
+                    mViewModel.deleteAll();
+                    deleteCounter = 0;
+                    Toast.makeText(getActivity(), "Tyhjennetty!", Toast.LENGTH_LONG).show();
+                }
             }
         });
+    }
+
+    @SuppressLint("ApplySharedPref")
+    @Override
+    public void onPause() {
+        super.onPause();
+        deleteCounter = 0;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.edit().putBoolean("responderFragmentShowing", false).commit();
     }
 
     public void onResume() {

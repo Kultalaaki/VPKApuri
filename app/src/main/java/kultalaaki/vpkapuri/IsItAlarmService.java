@@ -20,7 +20,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -36,6 +35,7 @@ import androidx.core.app.TaskStackBuilder;
 
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     SharedPreferences sharedPreferences;
     private static final int MY_HALY_NOTIFICATION_ID = 264981;
     int aanenVoimakkuus, volume, aanetonser, palautaAani, palautaStreamAlarm;
-    boolean tarina, autoAukaisu, aanetVaiEi, puhelu, pitaaPalauttaa = false;
+    boolean tarina, autoAukaisu, aanetVaiEi, puhelu, pitaaPalauttaa = false, OHTO = false;
     String puheluHaly = "false";
     static boolean erica;
     static boolean asemataulu;
@@ -109,24 +109,22 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String timestamp = intent.getStringExtra("timestamp");
 
             puheluHaly = intent.getStringExtra("halytysaani");
+            // if erica is false, it's OHTO alarm.
             erica = sharedPreferences.getBoolean("Erica", true);
+            OHTO = sharedPreferences.getBoolean("OHTO", false);
             asemataulu = sharedPreferences.getBoolean("asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
             if (asemataulu) {
                 // Test if it is alarm message. If not alarm, test is it person attending alarm.
                 if (isItAlarmSMS(numero, message)) {
-                    lisaaHalyTunnukset();
-                    if (erica) {
 
+                    if (erica) {
+                        lisaaHalyTunnukset();
                         lisaaKunnatErica();
-                    } else {
-                        lisaaKunnat();
-                    }
-
-                    if (erica) {
                         addressLookUp(message, timestamp);
                     } else {
-                        new IsItAlarmService.haeOsoite().execute(message);
+                        // TODO: OHTO alarm
+                        OHTOAlarm(message, timestamp);
                     }
 
                     Handler handler = new Handler(Looper.getMainLooper());
@@ -150,24 +148,15 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (erica) {
                     lisaaKunnatErica();
                 } else {
-                    lisaaKunnat();
+                    // TODO: OHTO alarm
+                    OHTOAlarm(message, timestamp);
                 }
 
-                //db = new DBHelper(getApplicationContext());
-
                 if (erica) {
-                    /*AlarmMessage alarmMessage = new AlarmMessage(message, timestamp);
-
-                    FireAlarm fireAlarm = new FireAlarm(alarmMessage.getTunnus(), alarmMessage.getKiireLuokka(), message,
-                            alarmMessage.getOsoite(), "", "", alarmMessage.getTimeStamp(), "", "", "", "");
-
-                    FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
-                    fireAlarmRepository.insert(fireAlarm);*/
                     addressLookUp(message, timestamp);
-                    //new IsItAlarmService.haeOsoiteErica().execute(message);
                 } else {
-                    // TODO: change this to OHTO alarms
-                    new IsItAlarmService.haeOsoite().execute(message);
+                    // TODO: OHTO alarm
+                    OHTOAlarm(message, timestamp);
                 }
 
                 if (autoAukaisu) {
@@ -223,269 +212,178 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return Service.START_STICKY;
     }
 
+    private String numberFormat(String number) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (number != null && !number.isEmpty()) {
+                if(number.substring(0,1).equals("O")) {
+                    number = number.substring(1);
+                    erica = false;
+                }
+                number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+                if(number != null) {
+                    if (number.charAt(0) == '0') {
+                        number = "+358" + number.substring(1);
+                    }
+                    number = number.replaceAll("[()\\s-+]+", "");
+                    return number;
+                }
+                return "99987654321";
+            }
+            return "99987654321";
+        } else {
+            if (number != null && !number.isEmpty()) {
+                number = PhoneNumberUtils.formatNumber(number);
+                if(number != null) {
+                    if (number.charAt(0) == '0') {
+                        number = "+358" + number.substring(1);
+                    }
+                    number = number.replaceAll("[()\\s-+]+", "");
+                    return number;
+                }
+                return "99987654321";
+            }
+            return "99987654321";
+        }
+    }
+
     private void whoIsComing(String numero, String message) {
         ResponderRepository repository = new ResponderRepository(getApplication());
-        for (int i = 1; i <= 40; i++) {
-            String numeroFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
-            Log.e("TAG", "Numero: " + numeroFromSettings + i);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        numero = numberFormat(numero);
+
+        if(!numero.equals("99987654321")) {
+            for (int i = 1; i <= 40; i++) {
+                String numeroFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
+                Log.e("TAG", "Numero: " + numeroFromSettings + i);
+                numeroFromSettings = numberFormat(numeroFromSettings);
+
                 if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
-                    numeroFromSettings = PhoneNumberUtils.formatNumber(numeroFromSettings, Locale.getDefault().getCountry());
-                    if (numeroFromSettings.charAt(0) == '0') {
-                        numeroFromSettings = "+358" + numeroFromSettings.substring(1);
+                    if (numeroFromSettings.equals(numero)) {
+                        // TODO: numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
+                        Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
+                        String name = sharedPreferences.getString("nimi" + i, null);
+                        boolean driversLicense = sharedPreferences.getBoolean("kortti" + i, false);
+                        boolean smoke = sharedPreferences.getBoolean("savusukeltaja" + i, false);
+                        boolean chemical = sharedPreferences.getBoolean("kemikaalisukeltaja" + i, false);
+                        boolean leader = sharedPreferences.getBoolean("yksikonjohtaja" + i, false);
+                        String vacancyNumber = sharedPreferences.getString("vakanssinumero" + i, null);
+                        String optional1 = sharedPreferences.getString("optional1_" + i, null);
+                        String optional2 = sharedPreferences.getString("optional2_" + i, null);
+                        String optional3 = sharedPreferences.getString("optional3_" + i, null);
+                        String optional4 = sharedPreferences.getString("optional4_" + i, null);
+                        String optional5 = sharedPreferences.getString("optional5_" + i, null);
+                        String driver = "";
+                        String smok = "";
+                        String chem = "";
+                        String lead = "";
+                        if (driversLicense) {
+                            driver = "C";
+                        }
+                        if (smoke) {
+                            smok = "S";
+                        }
+                        if (chemical) {
+                            chem = "K";
+                        }
+                        if (leader) {
+                            lead = "Y";
+                        }
+                        Responder responder = new Responder(name, vacancyNumber, message, lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
+                        repository.insert(responder);
+
+                        Toast.makeText(this, name + " ilmoittautui hälytykseen.", Toast.LENGTH_SHORT).show();
+
+                        break;
                     }
-                    numeroFromSettings = numeroFromSettings.replaceAll("[()\\s-+]+", "");
-                }
-            } else {
-                if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
-                    numeroFromSettings = PhoneNumberUtils.formatNumber(numeroFromSettings);
-                    if (numeroFromSettings.charAt(0) == '0') {
-                        numeroFromSettings = "+358" + numeroFromSettings.substring(1);
-                    }
-                    numeroFromSettings = numeroFromSettings.replaceAll("[()\\s-+]+", "");
-                }
-            }
-            if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
-                if (numeroFromSettings.equals(numero)) {
-                    // TODO: numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
-                    Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
-                    String name = sharedPreferences.getString("nimi" + i, null);
-                    boolean driversLicense = sharedPreferences.getBoolean("kortti" + i, false);
-                    boolean smoke = sharedPreferences.getBoolean("savusukeltaja" + i, false);
-                    boolean chemical = sharedPreferences.getBoolean("kemikaalisukeltaja" + i, false);
-                    boolean leader = sharedPreferences.getBoolean("yksikonjohtaja" + i, false);
-                    String vacancyNumber = sharedPreferences.getString("vakanssinumero" + i, null);
-                    String optional1 = sharedPreferences.getString("optional1_" + i, null);
-                    String optional2 = sharedPreferences.getString("optional2_" + i, null);
-                    String optional3 = sharedPreferences.getString("optional3_" + i, null);
-                    String optional4 = sharedPreferences.getString("optional4_" + i, null);
-                    String optional5 = sharedPreferences.getString("optional5_" + i, null);
-                    String driver = "";
-                    String smok = "";
-                    String chem = "";
-                    String lead = "";
-                    if (driversLicense) {
-                        driver = "C";
-                    }
-                    if (smoke) {
-                        smok = "S";
-                    }
-                    if (chemical) {
-                        chem = "K";
-                    }
-                    if (leader) {
-                        lead = "Y";
-                    }
-                    Responder responder = new Responder(name, vacancyNumber, message, lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
-                    repository.insert(responder);
-                    //mViewModel = new ResponderViewModel(getApplication());
-                    //mViewModel.insert(responder);
-                    break;
                 }
             }
         }
-        //mViewModel = new ResponderViewModel(getApplication());
-        //mViewModel.insert(responder);
     }
 
     private boolean isItAlarmSMS(String numero, String message) {
-        if (numero.charAt(0) == '0') {
-            numero = "+358" + numero.substring(1);
-        }
-        String halynumero1 = sharedPreferences.getString("halyvastaanotto1", null);
-        String halynumero2 = sharedPreferences.getString("halyvastaanotto2", null);
-        String halynumero3 = sharedPreferences.getString("halyvastaanotto3", null);
-        String halynumero4 = sharedPreferences.getString("halyvastaanotto4", null);
-        String halynumero5 = sharedPreferences.getString("halyvastaanotto5", null);
-        String halynumero6 = sharedPreferences.getString("halyvastaanotto6", null);
-        String halynumero7 = sharedPreferences.getString("halyvastaanotto7", null);
-        String halynumero8 = sharedPreferences.getString("halyvastaanotto8", null);
-        String halynumero9 = sharedPreferences.getString("halyvastaanotto9", null);
-        String halynumero10 = sharedPreferences.getString("halyvastaanotto10", null);
+        numero = numberFormat(numero);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (halynumero1 != null && !halynumero1.isEmpty()) {
-                halynumero1 = PhoneNumberUtils.formatNumber(halynumero1, Locale.getDefault().getCountry());
-            }
-            if (halynumero2 != null && !halynumero2.isEmpty()) {
-                halynumero2 = PhoneNumberUtils.formatNumber(halynumero2, Locale.getDefault().getCountry());
-            }
-            if (halynumero3 != null && !halynumero3.isEmpty()) {
-                halynumero3 = PhoneNumberUtils.formatNumber(halynumero3, Locale.getDefault().getCountry());
-            }
-            if (halynumero4 != null && !halynumero4.isEmpty()) {
-                halynumero4 = PhoneNumberUtils.formatNumber(halynumero4, Locale.getDefault().getCountry());
-            }
-            if (halynumero5 != null && !halynumero5.isEmpty()) {
-                halynumero5 = PhoneNumberUtils.formatNumber(halynumero5, Locale.getDefault().getCountry());
-            }
-            if (halynumero6 != null && !halynumero6.isEmpty()) {
-                halynumero6 = PhoneNumberUtils.formatNumber(halynumero6, Locale.getDefault().getCountry());
-            }
-            if (halynumero7 != null && !halynumero7.isEmpty()) {
-                halynumero7 = PhoneNumberUtils.formatNumber(halynumero7, Locale.getDefault().getCountry());
-            }
-            if (halynumero8 != null && !halynumero8.isEmpty()) {
-                halynumero8 = PhoneNumberUtils.formatNumber(halynumero8, Locale.getDefault().getCountry());
-            }
-            if (halynumero9 != null && !halynumero9.isEmpty()) {
-                halynumero9 = PhoneNumberUtils.formatNumber(halynumero9, Locale.getDefault().getCountry());
-            }
-            if (halynumero10 != null && !halynumero10.isEmpty()) {
-                halynumero10 = PhoneNumberUtils.formatNumber(halynumero10, Locale.getDefault().getCountry());
-            }
-        } else {
-            if (halynumero1 != null && !halynumero1.isEmpty()) {
-                halynumero1 = PhoneNumberUtils.formatNumber(halynumero1);
-            }
-            if (halynumero2 != null && !halynumero2.isEmpty()) {
-                halynumero2 = PhoneNumberUtils.formatNumber(halynumero2);
-            }
-            if (halynumero3 != null && !halynumero3.isEmpty()) {
-                halynumero3 = PhoneNumberUtils.formatNumber(halynumero3);
-            }
-            if (halynumero4 != null && !halynumero4.isEmpty()) {
-                halynumero4 = PhoneNumberUtils.formatNumber(halynumero4);
-            }
-            if (halynumero5 != null && !halynumero5.isEmpty()) {
-                halynumero5 = PhoneNumberUtils.formatNumber(halynumero5);
-            }
-            if (halynumero6 != null && !halynumero6.isEmpty()) {
-                halynumero6 = PhoneNumberUtils.formatNumber(halynumero6);
-            }
-            if (halynumero7 != null && !halynumero7.isEmpty()) {
-                halynumero7 = PhoneNumberUtils.formatNumber(halynumero7);
-            }
-            if (halynumero8 != null && !halynumero8.isEmpty()) {
-                halynumero8 = PhoneNumberUtils.formatNumber(halynumero8);
-            }
-            if (halynumero9 != null && !halynumero9.isEmpty()) {
-                halynumero9 = PhoneNumberUtils.formatNumber(halynumero9);
-            }
-            if (halynumero10 != null && !halynumero10.isEmpty()) {
-                halynumero10 = PhoneNumberUtils.formatNumber(halynumero10);
-            }
-        }
+        if(!numero.equals("99987654321")) {
+            String halynumero1 = sharedPreferences.getString("halyvastaanotto1", null);
+            String halynumero2 = sharedPreferences.getString("halyvastaanotto2", null);
+            String halynumero3 = sharedPreferences.getString("halyvastaanotto3", null);
+            String halynumero4 = sharedPreferences.getString("halyvastaanotto4", null);
+            String halynumero5 = sharedPreferences.getString("halyvastaanotto5", null);
+            String halynumero6 = sharedPreferences.getString("halyvastaanotto6", null);
+            String halynumero7 = sharedPreferences.getString("halyvastaanotto7", null);
+            String halynumero8 = sharedPreferences.getString("halyvastaanotto8", null);
+            String halynumero9 = sharedPreferences.getString("halyvastaanotto9", null);
+            String halynumero10 = sharedPreferences.getString("halyvastaanotto10", null);
 
-        numero = numero.replaceAll("[()\\s-+]+", "");
-        if (halynumero1 != null && !halynumero1.isEmpty()) {
-            if (halynumero1.charAt(0) == '0') {
-                halynumero1 = "+358" + halynumero1.substring(1);
-            }
-            halynumero1 = halynumero1.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero2 != null && !halynumero2.isEmpty()) {
-            if (halynumero2.charAt(0) == '0') {
-                halynumero2 = "+358" + halynumero2.substring(1);
-            }
-            halynumero2 = halynumero2.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero3 != null && !halynumero3.isEmpty()) {
-            if (halynumero3.charAt(0) == '0') {
-                halynumero3 = "+358" + halynumero3.substring(1);
-            }
-            halynumero3 = halynumero3.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero4 != null && !halynumero4.isEmpty()) {
-            if (halynumero4.charAt(0) == '0') {
-                halynumero4 = "+358" + halynumero4.substring(1);
-            }
-            halynumero4 = halynumero4.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero5 != null && !halynumero5.isEmpty()) {
-            if (halynumero5.charAt(0) == '0') {
-                halynumero5 = "+358" + halynumero5.substring(1);
-            }
-            halynumero5 = halynumero5.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero6 != null && !halynumero6.isEmpty()) {
-            if (halynumero6.charAt(0) == '0') {
-                halynumero6 = "+358" + halynumero6.substring(1);
-            }
-            halynumero6 = halynumero6.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero7 != null && !halynumero7.isEmpty()) {
-            if (halynumero7.charAt(0) == '0') {
-                halynumero7 = "+358" + halynumero7.substring(1);
-            }
-            halynumero7 = halynumero7.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero8 != null && !halynumero8.isEmpty()) {
-            if (halynumero8.charAt(0) == '0') {
-                halynumero8 = "+358" + halynumero8.substring(1);
-            }
-            halynumero8 = halynumero8.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero9 != null && !halynumero9.isEmpty()) {
-            if (halynumero9.charAt(0) == '0') {
-                halynumero9 = "+358" + halynumero9.substring(1);
-            }
-            halynumero9 = halynumero9.replaceAll("[()\\s-+]+", "");
-        }
-        if (halynumero10 != null && !halynumero10.isEmpty()) {
-            if (halynumero10.charAt(0) == '0') {
-                halynumero10 = "+358" + halynumero10.substring(1);
-            }
-            halynumero10 = halynumero10.replaceAll("[()\\s-+]+", "");
-        }
-        //Log.e("tager", "s"+ numero);
-        boolean kaytaAvainsanaa = sharedPreferences.getBoolean("avainsana", false);
-        boolean numeroTasmaa = false;
-        boolean avainsanaTasmaa = false;
+            halynumero1 = numberFormat(halynumero1);
+            halynumero2 = numberFormat(halynumero2);
+            halynumero3 = numberFormat(halynumero3);
+            halynumero4 = numberFormat(halynumero4);
+            halynumero5 = numberFormat(halynumero5);
+            halynumero6 = numberFormat(halynumero6);
+            halynumero7 = numberFormat(halynumero7);
+            halynumero8 = numberFormat(halynumero8);
+            halynumero9 = numberFormat(halynumero9);
+            halynumero10 = numberFormat(halynumero10);
 
-        String salsa = "";
-        if (message.length() > 5) {
-            salsa = message.substring(0, 5);
-        }
-        String testaahaly = "";
-        if (message.length() > 13) {
-            testaahaly = message.substring(0, 13);
-        }
+            boolean kaytaAvainsanaa = sharedPreferences.getBoolean("avainsana", false);
+            boolean numeroTasmaa = false;
+            boolean avainsanaTasmaa = false;
 
-        if (numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) ||
-                numero.equals(halynumero5) || numero.equals(halynumero6)
-                || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) ||
-                salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
-            if (kaytaAvainsanaa) {
-                if (testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
+            String salsa = "";
+            if (message.length() > 5) {
+                salsa = message.substring(0, 5);
+            }
+            String testaahaly = "";
+            if (message.length() > 13) {
+                testaahaly = message.substring(0, 13);
+            }
+
+            if (numero.equals(halynumero1) || numero.equals(halynumero2) || numero.equals(halynumero3) || numero.equals(halynumero4) ||
+                    numero.equals(halynumero5) || numero.equals(halynumero6)
+                    || numero.equals(halynumero7) || numero.equals(halynumero8) || numero.equals(halynumero9) || numero.equals(halynumero10) ||
+                    salsa.equals("SALSA") || testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
+                if (kaytaAvainsanaa) {
+                    if (testaahaly.equals("TESTIHÄLYTYS:") || testaahaly.equals("TESTIHÄLYTYS;")) {
+                        return true;
+                    }
+                    numeroTasmaa = true;
+                } else {
                     return true;
                 }
-                numeroTasmaa = true;
-            } else {
-                return true;
             }
-        }
-        if (kaytaAvainsanaa) {
-            String avainsana1 = sharedPreferences.getString("avainsana1", null);
-            String avainsana2 = sharedPreferences.getString("avainsana2", null);
-            String avainsana3 = sharedPreferences.getString("avainsana3", null);
-            String avainsana4 = sharedPreferences.getString("avainsana4", null);
-            String avainsana5 = sharedPreferences.getString("avainsana5", null);
-            // tarkista viestin sanat ja hälytä jos avainsana havaittu
-            if (message.length() > 3) {
-                char merkki;
-                StringBuilder sana = new StringBuilder();
-                ArrayList<String> sanat = new ArrayList<>();
+            if (kaytaAvainsanaa) {
+                String avainsana1 = sharedPreferences.getString("avainsana1", null);
+                String avainsana2 = sharedPreferences.getString("avainsana2", null);
+                String avainsana3 = sharedPreferences.getString("avainsana3", null);
+                String avainsana4 = sharedPreferences.getString("avainsana4", null);
+                String avainsana5 = sharedPreferences.getString("avainsana5", null);
+                // tarkista viestin sanat ja hälytä jos avainsana havaittu
+                if (message.length() > 3) {
+                    char merkki;
+                    StringBuilder sana = new StringBuilder();
+                    ArrayList<String> sanat = new ArrayList<>();
 
-                for (int i = 0; i <= message.length() - 1; i++) {
-                    merkki = message.charAt(i);
-                    // Katko sanat regex:in mukaan
-                    if (Character.toString(merkki).matches("[.,/:; ]")) {
-                        sanat.add(sana.toString());
-                        sana.delete(0, sana.length());
-                    } else {
-                        sana.append(merkki);
+                    for (int i = 0; i <= message.length() - 1; i++) {
+                        merkki = message.charAt(i);
+                        // Katko sanat regex:in mukaan
+                        if (Character.toString(merkki).matches("[.,/:; ]")) {
+                            sanat.add(sana.toString());
+                            sana.delete(0, sana.length());
+                        } else {
+                            sana.append(merkki);
+                        }
                     }
-                }
-                for (String avainsana : sanat) {
-                    if (avainsana.equals(avainsana1) || avainsana.equals(avainsana2) || avainsana.equals(avainsana3) || avainsana.equals(avainsana4) || avainsana.equals(avainsana5)) {
-                        avainsanaTasmaa = true;
+                    for (String avainsana : sanat) {
+                        if (avainsana.equals(avainsana1) || avainsana.equals(avainsana2) || avainsana.equals(avainsana3) || avainsana.equals(avainsana4) || avainsana.equals(avainsana5)) {
+                            avainsanaTasmaa = true;
+                        }
                     }
+                    sanat.clear();
                 }
-                sanat.clear();
             }
+            return kaytaAvainsanaa && numeroTasmaa && avainsanaTasmaa;
         }
-        return kaytaAvainsanaa && numeroTasmaa && avainsanaTasmaa;
+        return false;
     }
 
     public void createNotification(String viesti) {
@@ -552,6 +450,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     public void alarmSound(int startId) {
 
         String alarms = sharedPreferences.getString("ringtone", null);
+
+        if(OHTO) {
+            alarms = sharedPreferences.getString("ringtoneOHTO", null);
+        }
 
         aanetonser = sharedPreferences.getInt("aaneton_profiili", -1);
         if (alarms != null) {
@@ -726,7 +628,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
-    public void lisaaKunnat() {
+    /*public void lisaaKunnat() {
         //ArrayList<String> kunnat = new ArrayList<>();
         kunnat.add("akaa");
         kunnat.add("alajärvi");
@@ -1076,7 +978,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         kunnat.add("ähtäri");
         kunnat.add("äänekoski");
         //Toast.makeText(aktiivinenHaly.this, "Kuntia listassa " + kunnat.size() + ".",Toast.LENGTH_LONG).show();
-    }
+    }*/
 
     public void lisaaKunnatErica() {
         //ArrayList<String> kunnat = new ArrayList<>();
@@ -1869,7 +1771,15 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         sanatYksinaan.clear();
     }
 
-    private static class haeOsoite extends AsyncTask<String, Void, String[]> {
+    private void OHTOAlarm(String message, String timestamp) {
+        FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+        FireAlarm fireAlarm = new FireAlarm("OHTO Hälytys", "", message,
+                "", "", "", timestamp, "", "", "", "");
+
+        fireAlarmRepository.insert(fireAlarm);
+    }
+
+    /*private static class haeOsoite extends AsyncTask<String, Void, String[]> {
 
         private boolean rajaapoisvuosiluvut(String vuosiluku) {
             return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
@@ -2035,7 +1945,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         protected void onPreExecute() {
             super.onPreExecute();
         }
-    }
+    }*/
 
     /*private static class haeOsoiteErica extends AsyncTask<String, Void, String[]> {
 

@@ -21,7 +21,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi1"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -65,35 +65,35 @@
             <EditTextPreference
                 android:key="optional1_1"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_1"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_1"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_1"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_1"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -113,7 +113,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi2"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -157,35 +157,35 @@
             <EditTextPreference
                 android:key="optional1_2"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_2"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_2"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_2"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_2"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -205,7 +205,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi3"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -249,35 +249,35 @@
             <EditTextPreference
                 android:key="optional1_3"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_3"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_3"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_3"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_3"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -297,7 +297,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi4"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -341,35 +341,35 @@
             <EditTextPreference
                 android:key="optional1_4"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_4"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_4"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_4"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_4"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -389,7 +389,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi5"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -433,35 +433,35 @@
             <EditTextPreference
                 android:key="optional1_5"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_5"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_5"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_5"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_5"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -481,7 +481,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi6"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -525,35 +525,35 @@
             <EditTextPreference
                 android:key="optional1_6"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_6"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_6"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_6"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_6"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -573,7 +573,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi7"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -617,35 +617,35 @@
             <EditTextPreference
                 android:key="optional1_7"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_7"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_7"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_7"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_7"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -665,7 +665,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi8"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -709,35 +709,35 @@
             <EditTextPreference
                 android:key="optional1_8"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_8"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_8"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_8"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_8"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -757,7 +757,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi9"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -801,35 +801,35 @@
             <EditTextPreference
                 android:key="optional1_9"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_9"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_9"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_9"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_9"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -849,7 +849,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi10"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -893,35 +893,35 @@
             <EditTextPreference
                 android:key="optional1_10"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_10"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_10"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_10"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_10"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -941,7 +941,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi11"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -985,35 +985,35 @@
             <EditTextPreference
                 android:key="optional1_11"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_11"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_11"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_11"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_11"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1033,7 +1033,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi12"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1077,35 +1077,35 @@
             <EditTextPreference
                 android:key="optional1_12"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_12"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_12"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_12"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_12"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1125,7 +1125,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi13"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1169,35 +1169,35 @@
             <EditTextPreference
                 android:key="optional1_13"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_13"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_13"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_13"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_13"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1217,7 +1217,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi14"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1261,35 +1261,35 @@
             <EditTextPreference
                 android:key="optional1_14"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_14"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_14"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_14"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_14"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1309,7 +1309,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi15"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1353,35 +1353,35 @@
             <EditTextPreference
                 android:key="optional1_15"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_15"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_15"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_15"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_15"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1401,7 +1401,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi16"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1445,35 +1445,35 @@
             <EditTextPreference
                 android:key="optional1_16"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_16"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_16"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_16"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_16"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1493,7 +1493,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi17"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1537,35 +1537,35 @@
             <EditTextPreference
                 android:key="optional1_17"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_17"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_17"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_17"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_17"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1585,7 +1585,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi18"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1629,35 +1629,35 @@
             <EditTextPreference
                 android:key="optional1_18"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_18"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_18"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_18"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_18"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1677,7 +1677,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi19"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1721,35 +1721,35 @@
             <EditTextPreference
                 android:key="optional1_19"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_19"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_19"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_19"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_19"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1769,7 +1769,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi20"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1813,35 +1813,35 @@
             <EditTextPreference
                 android:key="optional1_20"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_20"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_20"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_20"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_20"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1861,7 +1861,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi21"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1905,35 +1905,35 @@
             <EditTextPreference
                 android:key="optional1_21"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_21"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_21"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_21"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_21"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -1953,7 +1953,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi22"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -1997,35 +1997,35 @@
             <EditTextPreference
                 android:key="optional1_22"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_22"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_22"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_22"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_22"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2045,7 +2045,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi23"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2089,35 +2089,35 @@
             <EditTextPreference
                 android:key="optional1_23"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_23"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_23"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_23"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_23"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2137,7 +2137,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi24"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2181,35 +2181,35 @@
             <EditTextPreference
                 android:key="optional1_24"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_24"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_24"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_24"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_24"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2229,7 +2229,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi25"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2273,35 +2273,35 @@
             <EditTextPreference
                 android:key="optional1_25"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_25"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_25"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_25"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_25"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2321,7 +2321,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi26"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2365,35 +2365,35 @@
             <EditTextPreference
                 android:key="optional1_26"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_26"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_26"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_26"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_26"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2413,7 +2413,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi27"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2457,35 +2457,35 @@
             <EditTextPreference
                 android:key="optional1_27"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_27"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_27"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_27"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_27"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2505,7 +2505,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi28"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2549,35 +2549,35 @@
             <EditTextPreference
                 android:key="optional1_28"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_28"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_28"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_28"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_28"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2597,7 +2597,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi29"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2641,35 +2641,35 @@
             <EditTextPreference
                 android:key="optional1_29"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_29"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_29"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_29"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_29"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2689,7 +2689,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi30"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2733,35 +2733,35 @@
             <EditTextPreference
                 android:key="optional1_30"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_30"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_30"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_30"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_30"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2781,7 +2781,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi31"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2825,35 +2825,35 @@
             <EditTextPreference
                 android:key="optional1_31"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_31"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_31"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_31"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_31"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2873,7 +2873,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi32"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -2917,35 +2917,35 @@
             <EditTextPreference
                 android:key="optional1_32"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_32"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_32"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_32"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_32"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -2965,7 +2965,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi33"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3009,35 +3009,35 @@
             <EditTextPreference
                 android:key="optional1_33"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_33"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_33"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_33"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_33"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3057,7 +3057,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi34"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3101,35 +3101,35 @@
             <EditTextPreference
                 android:key="optional1_34"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_34"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_34"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_34"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_34"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3149,7 +3149,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi35"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3193,35 +3193,35 @@
             <EditTextPreference
                 android:key="optional1_35"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_35"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_35"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_35"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_35"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3241,7 +3241,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi36"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3285,35 +3285,35 @@
             <EditTextPreference
                 android:key="optional1_36"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_36"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_36"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_36"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_36"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3333,7 +3333,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi37"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3377,35 +3377,35 @@
             <EditTextPreference
                 android:key="optional1_37"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_37"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_37"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_37"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_37"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3425,7 +3425,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi38"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3469,35 +3469,35 @@
             <EditTextPreference
                 android:key="optional1_38"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_38"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_38"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_38"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_38"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3517,7 +3517,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi39"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3561,35 +3561,35 @@
             <EditTextPreference
                 android:key="optional1_39"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_39"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_39"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_39"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_39"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
@@ -3609,7 +3609,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="Martti Martikainen"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:key="nimi40"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -3653,35 +3653,35 @@
             <EditTextPreference
                 android:key="optional1_40"
                 android:title="Ominaisuus 1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional2_40"
                 android:title="Ominaisuus 2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional3_40"
                 android:title="Ominaisuus 3"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional4_40"
                 android:title="Ominaisuus 4"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />
             <EditTextPreference
                 android:key="optional5_40"
                 android:title="Ominaisuus 5"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:selectAllOnFocus="true" />

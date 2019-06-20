@@ -43,6 +43,28 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="Lisää ääniasetuksia"
+        android:key="extraSettings">
+        <SwitchPreference
+            android:key="OHTO"
+            android:title="OHTO"
+            android:summary="OHTO Hälytyksille oma hälytysääni."
+            android:defaultValue="false"/>
+        <kultalaaki.vpkapuri.ExtraRingtonePreference
+            android:key="ringtoneOHTO"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:title="@string/pref_title_ringtone"
+            android:summary="@string/ringtoneSummary"
+            android:defaultValue="content://settings/system/notification_sound"
+            auto:ringtoneType="all"
+            auto:showSilent="false"
+            auto:showDefault="false"
+            android:dependency="OHTO"
+            auto:extraRingtones="@array/extraRingtones"
+            auto:extraRingtoneTitles="@array/extraRingtoneTitles"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="Hälytysäänen voimakkuus ja värinä"
         android:key="pref_key_voimakkuus">
         <kultalaaki.vpkapuri.SeekBarPreference

@@ -1,17 +1,27 @@
 package kultalaaki.vpkapuri;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +41,14 @@ public class AsematauluButtonsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int MY_PERMISSION_REQUEST_CAMERA = 1;
 
-    private CardView osoiteKortti, vahvuudetKortti, kameraKortti;
+    private CardView osoiteKortti;
+    private CardView responderKortti;
+    private CardView kameraKortti;
+    private CardView manpowerCard;
 
     private String osoiteFromDB;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,14 +77,10 @@ public class AsematauluButtonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_asemataulu_buttons, container, false);
@@ -84,7 +90,8 @@ public class AsematauluButtonsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         osoiteKortti = view.findViewById(R.id.addressCard);
         kameraKortti = view.findViewById(R.id.cameraCard);
-        vahvuudetKortti = view.findViewById(R.id.responderCard);
+        responderKortti = view.findViewById(R.id.responderCard);
+        manpowerCard = view.findViewById(R.id.manpowerCard);
     }
 
     @Override
@@ -100,7 +107,6 @@ public class AsematauluButtonsFragment extends Fragment {
             // Empty database
             osoiteFromDB = "";
         }
-
     }
 
     @Override
@@ -128,14 +134,21 @@ public class AsematauluButtonsFragment extends Fragment {
         kameraKortti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.openCamera();
+                cameraPermissionCheck();
             }
         });
 
-        vahvuudetKortti.setOnClickListener(new View.OnClickListener() {
+        responderKortti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.loadResponderFragmentPhone();
+                mListener.loadResponderFragment();
+            }
+        });
+
+        manpowerCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -157,6 +170,51 @@ public class AsematauluButtonsFragment extends Fragment {
         mListener = null;
     }
 
+    private void cameraPermissionCheck() {
+        if(getActivity() != null) {
+            if (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Pitäisikö näyttää selite?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        Manifest.permission.SEND_SMS)) {
+
+                    // Näytä selite, älä blokkaa threadia.
+                    showMessage(
+                            new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.M)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    requestPermissions(new String[] {Manifest.permission.CAMERA},
+                                            MY_PERMISSION_REQUEST_CAMERA);
+                                }
+                            });
+                } else {
+
+                    // Selitettä ei tarvita.
+
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.CAMERA},
+                            MY_PERMISSION_REQUEST_CAMERA);
+                }
+            } else {
+                // Permission granted
+                mListener.openCamera();
+            }
+        }
+    }
+
+    private void showMessage(DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("Sovelluksella ei ole lupaa käyttää kameraa.")
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Peruuta", null)
+                .create()
+                .show();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -170,6 +228,6 @@ public class AsematauluButtonsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void openCamera();
-        void loadResponderFragmentPhone();
+        void loadResponderFragment();
     }
 }

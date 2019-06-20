@@ -106,12 +106,18 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             Log.e("SmsReceiver", "Exception smsReceiver " + e);
         }
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                wakeLock.release();
-            }
-        }, 500);
+        try {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(wakeLock.isHeld()) {
+                        wakeLock.release();
+                    }
+                }
+            }, 500);
+        } catch (Exception e) {
+            // Wakelock already released
+        }
     }
 }

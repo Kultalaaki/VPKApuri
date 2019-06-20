@@ -31,15 +31,17 @@ public class HalytysActivity extends AppCompatActivity
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    boolean koneluku, autoAukaisu, asemataulu;
+    boolean koneluku, autoAukaisu, asemataulu, responderFragmentShowing;
     String action, type, currentPhotoPath;
     SharedPreferences preferences;
 
+    @SuppressLint("ApplySharedPref")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = preferences.getBoolean("asemataulu", false);
+        preferences.edit().putBoolean("responderFragmentShowing", false).commit();
         if (!asemataulu) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -101,19 +103,22 @@ public class HalytysActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.HalytysAlaosa, asematauluButtonsFragment, "asematauluButtonsFragment").commit();
     }
 
+    @SuppressLint("ApplySharedPref")
     public void loadResponderFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ResponderFragment responderFragment = new ResponderFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.responder_view, responderFragment, "ResponderFragment").commit();
-    }
-
-    public void loadResponderFragmentPhone() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ResponderFragment responderFragment = new ResponderFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.HalytysYlaosa, responderFragment, "ResponderFragment").commit();
+        responderFragmentShowing = preferences.getBoolean("responderFragmentShowing", false);
+        if(!responderFragmentShowing) {
+            FragmentManager fragmentManager = this.getSupportFragmentManager();
+            ResponderFragment responderFragment = new ResponderFragment();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            if (findViewById(R.id.responder_view) != null) {
+                fragmentTransaction.replace(R.id.responder_view, responderFragment, "ResponderFragment").commit();
+                preferences.edit().putBoolean("responderFragmentShowing", true).commit();
+            } else {
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.HalytysYlaosa, responderFragment, "ResponderFragment").commit();
+                preferences.edit().putBoolean("responderFragmentShowing", true).commit();
+            }
+        }
     }
 
     public void loadhalytysFragment() {
@@ -187,12 +192,13 @@ public class HalytysActivity extends AppCompatActivity
     /**
      * AsematauluButtonsFragment methods below this
      *
-     * <--Methods to taker picture and add it to gallery-->
+     * <--Methods to take picture and add it to gallery-->
      * openCamera
      * createImageFile
      * galleryAddPic
      * onActivityResult
      */
+
     public void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
