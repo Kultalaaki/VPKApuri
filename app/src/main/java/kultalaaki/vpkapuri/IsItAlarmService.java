@@ -49,7 +49,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     private static boolean mediaplayerRunning = false;
     MediaPlayer mMediaPlayer;
     Vibrator viber;
-    static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>();
+    static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>(), OHTOnumbers = new ArrayList<>();
     SharedPreferences sharedPreferences;
     private static final int MY_HALY_NOTIFICATION_ID = 264981;
     int aanenVoimakkuus, volume, aanetonser, palautaAani, palautaStreamAlarm;
@@ -124,20 +124,23 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         lisaaKunnatErica();
                         addressLookUp(message, timestamp);
                     } else {
-                        // TODO: OHTO alarm
+                        // OHTO alarm
                         OHTOAlarm(message, timestamp);
                     }
 
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
-                            openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            IsItAlarmService.this.startActivity(openHalytysActivity);
-                            stopSelf(startId);
-                        }
-                    }, 3000);
+                    if(!sharedPreferences.getBoolean("HalytysOpen", false)) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                                openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                IsItAlarmService.this.startActivity(openHalytysActivity);
+                                stopSelf(startId);
+                            }
+                        }, 3000);
+                    }
+
                 } else {
                     // Test who is coming and save to database..
                     whoIsComing(numero, message);
@@ -214,7 +217,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             if (number != null && !number.isEmpty()) {
                 if(number.substring(0,1).equals("O")) {
                     number = number.substring(1);
-                    erica = false;
+                    // this is OHTO alarm number
+                    OHTOnumbers.add(number);
                 }
                 number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
                 if(number != null) {
@@ -229,6 +233,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             return "99987654321";
         } else {
             if (number != null && !number.isEmpty()) {
+                if(number.substring(0,1).equals("O")) {
+                    number = number.substring(1);
+                    // this is OHTO alarm number
+                    OHTOnumbers.add(number);
+                }
                 number = PhoneNumberUtils.formatNumber(number);
                 if(number != null) {
                     if (number.charAt(0) == '0') {
@@ -321,6 +330,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             halynumero8 = numberFormat(halynumero8);
             halynumero9 = numberFormat(halynumero9);
             halynumero10 = numberFormat(halynumero10);
+
+            for(String testattava : OHTOnumbers) {
+                if(testattava.equals(numero)) {
+                    erica = false;
+                    break;
+                }
+            }
 
             boolean kaytaAvainsanaa = sharedPreferences.getBoolean("avainsana", false);
             boolean numeroTasmaa = false;
@@ -448,7 +464,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
         String alarms = sharedPreferences.getString("ringtone", null);
 
-        if(OHTO) {
+        if(OHTO && !erica) {
             alarms = sharedPreferences.getString("ringtoneOHTO", null);
         } else if(alarmIsEnsivaste) {
             alarms = sharedPreferences.getString("ringtoneEnsivaste", null);
@@ -1767,10 +1783,27 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         if(!kiire && !osoitet && !loytyi) {
             // Tunnus, osoite ja kiireellisyysluokka ei löytynyt. Yhdistä edellisen hälytyksen kanssa.
             FireAlarm fireAlarmLastEntry = fireAlarmRepository.getLatest();
-            String addMessage = fireAlarmLastEntry.getViesti();
-            addMessage += " " + viesti;
-            fireAlarmLastEntry.setViesti(addMessage);
-            fireAlarmRepository.update(fireAlarmLastEntry);
+            if(fireAlarmLastEntry != null) {
+                if(fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys")) {
+                    // Last alarm was OHTO alarm. Make new alarm.
+                    FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                            osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+
+                    fireAlarmRepository.insert(fireAlarm);
+                } else {
+                    // Last alarm was not OHTO alarm, update last alarm with new information
+                    String addMessage = fireAlarmLastEntry.getViesti();
+                    addMessage += " " + viesti;
+                    fireAlarmLastEntry.setViesti(addMessage);
+                    fireAlarmRepository.update(fireAlarmLastEntry);
+                }
+            } else {
+                FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                        osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+
+                fireAlarmRepository.insert(fireAlarm);
+            }
+
         } else {
             FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
                     osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
@@ -2137,6 +2170,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         kunnat.clear();
         halytunnukset.clear();
         halytekstit.clear();
+        OHTOnumbers.clear();
 
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {

@@ -33,7 +33,6 @@ public class ArkistoFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    DBHelper db;
     private RecyclerView mRecyclerView;
     private FireAlarmViewModel mViewModel;
 

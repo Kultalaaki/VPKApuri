@@ -67,7 +67,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     private DrawerLayout mDrawerLayout;
     String[] osoite;
     String aihe;
-    DBHelper db;
     DBTimer dbTimer;
     SharedPreferences sharedPreferences;
     boolean ericaEtusivu, analytics, asemataulu;
@@ -82,6 +81,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
         analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
         sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
+        sharedPreferences.edit().putBoolean("HalytysOpen", false).apply();
 
         if(!asemataulu) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -670,9 +670,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                         prefs.edit().putInt("aaneton_profiili", 1).commit();
                         prefs.edit().putBoolean("firstrun", false).commit();
                     }
-                    db = new DBHelper(getApplicationContext());
-                    db.insertData("915C", "Ei osoitetta", "Uusi asennus tai sovellus on päivitetty. Tervetuloa käyttämään palokuntalaisille suunniteltua hälytys sovellusta. " +
-                            "Ohjeet sivulta saat tietoa asetuksista.", "");
+                    // TODO: add updated app alarm to database
                     deleteCache(getApplicationContext());
                     Log.i(LOG_TAG, "versionCode " + versionCode + "is different from the last known version " + lastVersionCode);
 

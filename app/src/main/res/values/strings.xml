@@ -29,10 +29,19 @@
 
         <u><b>Versio 3.4</b></u>\n\n
         Asemataulu yhdistetty samaan sovellukseen.\n
+        Hälytys sivu päivittyy jos tulee uusi hälytys kun sivu on auki.\n
+        VaPePa toimintoja lisätty:\n
+        - OHTO hälytys numeron voi asettaa hälyttäviin numeroihin kun liittää eteen ison O-kirjaimen esim. O0401234567\n
+        - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet.\n
         Taustalla toimivan hälytyksien tunnistuksen parannuksia.\n
+        - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen.
         Arkiston muutoksia\n
         - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
         - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
+        Ääniasetuksia lisätty\n
+        - OHTO hälytyksille oma hälytysääni\n
+        - Ensivaste hälytyksille oma hälytysääni\n
+        - Puhelu hälytyksille oma hälytysääni\n
     </string>
     <!--Näytetään vain muutosloki sivulla-->
     <string name="whatsnew">

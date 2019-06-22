@@ -1,5 +1,6 @@
 package kultalaaki.vpkapuri;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,16 +34,13 @@ import java.util.Locale;
 
 public class HalytysFragment extends Fragment {
 
-    static DBHelper db;
     private EditText halytyksenviesti;
     private TextView halytyksentunnus;
     private TextView kiireellisyys;
     private TextToSpeech t1;
-    private int palautaMediaVol, tekstiPuheeksiVol;
+    private int palautaMediaVol, tekstiPuheeksiVol, counterShowUpdate = 0;
     private boolean palautaMediaVolBoolean = false;
-
-    private FireAlarm fireAlarm;
-    private FireAlarmViewModel mViewModel;
+    private SharedPreferences preferences;
 
     private Listener mCallback;
 
@@ -88,7 +86,7 @@ public class HalytysFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
         //fireAlarm = mViewModel.lastEntry();
         //mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
@@ -102,6 +100,10 @@ public class HalytysFragment extends Fragment {
                     kiireellisyys.setText(currentAlarm.getLuokka());
                     String newAddress = currentAlarm.getOsoite();
                     mCallback.updateAddress(newAddress);
+                    if(counterShowUpdate >= 1) {
+                        Toast.makeText(getActivity(), "Hälytys päivitetty.", Toast.LENGTH_SHORT).show();
+                    }
+                    counterShowUpdate++;
                 } else {
                     Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
                 }
@@ -109,6 +111,7 @@ public class HalytysFragment extends Fragment {
         });
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onStart() {
         super.onStart();
@@ -118,6 +121,8 @@ public class HalytysFragment extends Fragment {
             //getNewestDatabaseEntry();
             checkDoNotDisturb();
         }
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        preferences.edit().putBoolean("HalytysOpen", true).commit();
     }
 
     private void checkDoNotDisturb() {
@@ -160,7 +165,7 @@ public class HalytysFragment extends Fragment {
         kiireellisyys = view.findViewById(R.id.kiireellisyys);
     }
 
-    private void getNewestDatabaseEntry(){
+    /*private void getNewestDatabaseEntry(){
         try {
             halytyksentunnus.setText(fireAlarm.getTunnus());
             halytyksenviesti.setText(fireAlarm.getViesti());
@@ -173,7 +178,7 @@ public class HalytysFragment extends Fragment {
                     .create()
                     .show();
         }
-    }
+    }*/
 
     private void txtToSpeechVolume() {
         Context ctx = getActivity();
@@ -270,6 +275,7 @@ public class HalytysFragment extends Fragment {
         t1.speak(puheeksi, TextToSpeech.QUEUE_FLUSH, null);
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onPause() {
         super.onPause();
@@ -286,5 +292,6 @@ public class HalytysFragment extends Fragment {
                 }
             }
         }
+        preferences.edit().putBoolean("HalytysOpen", false).commit();
     }
 }

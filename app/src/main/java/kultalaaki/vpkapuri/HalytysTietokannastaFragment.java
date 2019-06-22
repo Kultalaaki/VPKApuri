@@ -47,7 +47,6 @@ public class HalytysTietokannastaFragment extends Fragment {
     private static String optionalField5;
 
     // TODO: Rename and change types of parameters
-    DBHelper db;
     private CardView save, delete, showOnMap;
     private TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti, textViewAika;
     private EditText tunnusteksti, kiireellisyys, osoiteteksti, viestiteksti, kommenttiteksti, aikaleima;
@@ -157,7 +156,6 @@ public class HalytysTietokannastaFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        db = new DBHelper(getActivity());
         textViewTunnus = view.findViewById(R.id.tunnus);
         tunnusteksti = view.findViewById(R.id.tunnusteksti);
         textViewLuokka = view.findViewById(R.id.luokka);

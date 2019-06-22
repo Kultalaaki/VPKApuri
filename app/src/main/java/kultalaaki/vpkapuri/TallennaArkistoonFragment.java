@@ -19,7 +19,6 @@ public class TallennaArkistoonFragment extends Fragment {
 
     private EditText tunnusteksti, luokkateksti, viestiteksti;
     private CardView tallenna;
-    static DBHelper db;
 
     private OnFragmentInteractionListener mListener;
 

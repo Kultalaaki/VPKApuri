@@ -46,7 +46,6 @@ public class HalytysButtonsFragment extends Fragment {
     private boolean showHiljennaButton;
     private String osoiteFromDB;
     SharedPreferences pref_general;
-    static DBHelper db;
     private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
     private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
     Intent intent;
@@ -241,7 +240,6 @@ public class HalytysButtonsFragment extends Fragment {
         SmsYellowVisible = pref_general.getBoolean("SmsYellowVisible", true);
         SmsRedVisible = pref_general.getBoolean("SmsRedVisible", true);
         CallButtonVisible = pref_general.getBoolean("CallButtonVisible", true);
-        db = new DBHelper(getActivity());
     }
 
     private void setOnClickListeners() {
