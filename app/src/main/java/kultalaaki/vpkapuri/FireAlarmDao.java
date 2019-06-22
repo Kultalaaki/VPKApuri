@@ -27,6 +27,9 @@ public interface FireAlarmDao {
     @Query("SELECT * FROM firealarm_table WHERE id = (SELECT MAX(id) FROM firealarm_table)")
     FireAlarm latest();
 
+    @Query("SELECT * FROM firealarm_table WHERE id = (SELECT MAX(id) FROM firealarm_table)")
+    LiveData<List<FireAlarm>> getLatest();
+
     @Query("SELECT * FROM firealarm_table ORDER BY id DESC")
     LiveData<List<FireAlarm>> getAllFireAlarms();
 }

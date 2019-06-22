@@ -11,11 +11,13 @@ import java.util.List;
 public class FireAlarmViewModel extends AndroidViewModel {
     private FireAlarmRepository repository;
     private LiveData<List<FireAlarm>> allFireAlarms;
+    private LiveData<List<FireAlarm>> lastFireAlarm;
 
     public FireAlarmViewModel(@NonNull Application application) {
         super(application);
         repository = new FireAlarmRepository(application);
         allFireAlarms = repository.getAllFireAlarms();
+        lastFireAlarm = repository.getLastEntry();
     }
 
     public void insert(FireAlarm fireAlarm) {repository.insert(fireAlarm);}
@@ -29,6 +31,8 @@ public class FireAlarmViewModel extends AndroidViewModel {
     public FireAlarm lastEntry() {
         return repository.getLatest();
     }
+
+    public LiveData<List<FireAlarm>> getLastEntry() {return lastFireAlarm;}
 
     public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
 }

@@ -408,6 +408,11 @@ public class HalytysButtonsFragment extends Fragment {
         });
     }
 
+    void updateAddress(String updatedAddress) {
+        osoiteFromDB = updatedAddress;
+        osoite.setText(updatedAddress);
+    }
+
     /*public void pyydaLuvatCallPhone() {
         Context context = getActivity();
         if(context != null) {

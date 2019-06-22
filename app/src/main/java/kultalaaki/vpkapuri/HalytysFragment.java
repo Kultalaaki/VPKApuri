@@ -16,6 +16,7 @@ import android.speech.tts.TextToSpeech;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Locale;
 
 public class HalytysFragment extends Fragment {
@@ -40,6 +42,9 @@ public class HalytysFragment extends Fragment {
     private boolean palautaMediaVolBoolean = false;
 
     private FireAlarm fireAlarm;
+    private FireAlarmViewModel mViewModel;
+
+    private Listener mCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,21 @@ public class HalytysFragment extends Fragment {
         return halytys;
     }*/
 
+    public interface Listener {
+        void updateAddress(String updatedAddress);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (Listener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement Listener");
+        }
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.halytys_fragment, parent, false);
@@ -68,9 +88,25 @@ public class HalytysFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
-        fireAlarm = mViewModel.lastEntry();
+        //fireAlarm = mViewModel.lastEntry();
+        //mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        mViewModel.getLastEntry().observe(this, new Observer<List<FireAlarm>>() {
+            @Override
+            public void onChanged(List<FireAlarm> fireAlarms) {
+                if(!fireAlarms.isEmpty()) {
+                    FireAlarm currentAlarm = fireAlarms.get(0);
+                    halytyksenviesti.setText(currentAlarm.getViesti());
+                    halytyksentunnus.setText(currentAlarm.getTunnus());
+                    kiireellisyys.setText(currentAlarm.getLuokka());
+                    String newAddress = currentAlarm.getOsoite();
+                    mCallback.updateAddress(newAddress);
+                } else {
+                    Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -79,7 +115,7 @@ public class HalytysFragment extends Fragment {
         if(getArguments() != null) {
             Toast.makeText(getActivity(), "Load basic.", Toast.LENGTH_LONG).show();
         } else {
-            getNewestDatabaseEntry();
+            //getNewestDatabaseEntry();
             checkDoNotDisturb();
         }
     }
@@ -129,12 +165,6 @@ public class HalytysFragment extends Fragment {
             halytyksentunnus.setText(fireAlarm.getTunnus());
             halytyksenviesti.setText(fireAlarm.getViesti());
             kiireellisyys.setText(fireAlarm.getLuokka());
-            /*db = new DBHelper(getActivity());
-            Cursor c = db.haeViimeisinLisays();
-            if(c != null) {
-                halytyksentunnus.setText(c.getString(c.getColumnIndex(DBHelper.TUNNUS)));
-                halytyksenviesti.setText(c.getString(c.getColumnIndex(DBHelper.VIESTI)));
-            }*/
         } catch (Exception e) {
             new AlertDialog.Builder(getActivity())
                     .setTitle("Huomautus!")

@@ -27,7 +27,7 @@ import java.util.Locale;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class HalytysActivity extends AppCompatActivity
-        implements HalytysButtonsFragment.Listener, AsematauluButtonsFragment.OnFragmentInteractionListener {
+        implements HalytysButtonsFragment.Listener, AsematauluButtonsFragment.OnFragmentInteractionListener, HalytysFragment.Listener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -118,6 +118,14 @@ public class HalytysActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.HalytysYlaosa, responderFragment, "ResponderFragment").commit();
                 preferences.edit().putBoolean("responderFragmentShowing", true).commit();
             }
+        }
+    }
+
+    public void updateAddress(String updatedAddress) {
+        HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
+                getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+        if (halytysButtonsFragment != null) {
+            halytysButtonsFragment.updateAddress(updatedAddress);
         }
     }
 
