@@ -351,6 +351,16 @@
             android:title="Automaattinen aukaisu"
             android:defaultValue="false"
             android:summary="Hälytys sivu aukeaa 3 sekunnin viiveellä jotta hälytys keretään tallentamaan ja osoite hakemaan valmiiksi. Hälytys hiljennetään hiljennä hälytys näppäimestä. Ei mahdollisuutta hiljentää lukitusnäytöltä."/>
+        <SwitchPreference
+            android:key="AlarmCounter"
+            android:title="Hälytyskello"
+            android:defaultValue="false"
+            android:summary="Näyttää hälytys sivulla ajan mikä on kulunut hälytyksestä." />
+        <EditTextPreference
+            android:title="Hälytyskellon aika"
+            android:key="AlarmCounterTime"
+            android:defaultValue="20"
+            android:summary="Aseta aika minuutteina." />
 
     </PreferenceCategory>
 

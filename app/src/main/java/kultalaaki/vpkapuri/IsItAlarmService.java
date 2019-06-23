@@ -1784,14 +1784,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             // Tunnus, osoite ja kiireellisyysluokka ei löytynyt. Yhdistä edellisen hälytyksen kanssa.
             FireAlarm fireAlarmLastEntry = fireAlarmRepository.getLatest();
             if(fireAlarmLastEntry != null) {
-                if(fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys")) {
-                    // Last alarm was OHTO alarm. Make new alarm.
+                if(fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
+                    // Last alarm was OHTO or phonecall alarm. Make new alarm.
                     FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
                             osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
                 } else {
-                    // Last alarm was not OHTO alarm, update last alarm with new information
+                    // Last alarm was not OHTO or phonecall alarm, update last alarm with new information
                     String addMessage = fireAlarmLastEntry.getViesti();
                     addMessage += " " + viesti;
                     fireAlarmLastEntry.setViesti(addMessage);

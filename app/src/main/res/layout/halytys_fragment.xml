@@ -88,6 +88,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/kiireellisyys"
                 tools:ignore="Autofill" />
 
+            <Chronometer
+                android:id="@+id/alarm_chronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:fontFamily="@font/digital7"
+                android:textSize="60sp"
+                android:textColor="@color/secondaryColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/halytyksenViesti" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

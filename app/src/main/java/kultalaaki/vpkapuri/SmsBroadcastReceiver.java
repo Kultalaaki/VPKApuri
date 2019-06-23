@@ -80,11 +80,11 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 }*/
                 //message += "\n" + Aika;
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     senderNum = PhoneNumberUtils.formatNumber(senderNum, Locale.getDefault().getCountry());
                 } else {
                     senderNum = PhoneNumberUtils.formatNumber(senderNum); //Deprecated method
-                }
+                }*/
 
 
 

@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import androidx.annotation.NonNull;
@@ -25,10 +26,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,9 +46,14 @@ public class HalytysFragment extends Fragment {
     private int palautaMediaVol, tekstiPuheeksiVol, counterShowUpdate = 0;
     private boolean palautaMediaVolBoolean = false;
     private SharedPreferences preferences;
+    private String chronometerStartTimeString;
+    private Chronometer chronometer;
+    private boolean chronoInUse;
+    private String alarmCounterTime;
 
     private Listener mCallback;
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +61,14 @@ public class HalytysFragment extends Fragment {
         if(ctx != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        preferences.edit().putBoolean("HalytysOpen", true).commit();
 
+        chronoInUse = preferences.getBoolean("AlarmCounter", false);
+        alarmCounterTime = preferences.getString("AlarmCounterTime", null);
+        if(alarmCounterTime == null) {
+            alarmCounterTime = "20";
+        }
     }
 
     /*public static HalytysFragment newInstance(String newAlarmComing) {
@@ -103,6 +120,13 @@ public class HalytysFragment extends Fragment {
                     if(counterShowUpdate >= 1) {
                         Toast.makeText(getActivity(), "Hälytys päivitetty.", Toast.LENGTH_SHORT).show();
                     }
+                    if(chronoInUse) {
+                        chronometerStartTimeString = currentAlarm.getTimeStamp();
+                        chronometer.setVisibility(View.VISIBLE);
+                        startChronometer();
+                    } else {
+                        chronometer.setVisibility(View.INVISIBLE);
+                    }
                     counterShowUpdate++;
                 } else {
                     Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
@@ -111,18 +135,11 @@ public class HalytysFragment extends Fragment {
         });
     }
 
-    @SuppressLint("ApplySharedPref")
     @Override
     public void onStart() {
         super.onStart();
-        if(getArguments() != null) {
-            Toast.makeText(getActivity(), "Load basic.", Toast.LENGTH_LONG).show();
-        } else {
-            //getNewestDatabaseEntry();
-            checkDoNotDisturb();
-        }
-        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        preferences.edit().putBoolean("HalytysOpen", true).commit();
+        //getNewestDatabaseEntry();
+        checkDoNotDisturb();
     }
 
     private void checkDoNotDisturb() {
@@ -163,6 +180,8 @@ public class HalytysFragment extends Fragment {
         halytyksentunnus = view.findViewById(R.id.halytyksenTunnus);
         halytyksenviesti = view.findViewById(R.id.halytyksenViesti);
         kiireellisyys = view.findViewById(R.id.kiireellisyys);
+
+        chronometer = view.findViewById(R.id.alarm_chronometer);
     }
 
     /*private void getNewestDatabaseEntry(){
@@ -179,6 +198,33 @@ public class HalytysFragment extends Fragment {
                     .show();
         }
     }*/
+
+    private void startChronometer() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd.MMM yyyy, H:mm:ss", Locale.getDefault());
+        try {
+            long timeNow = System.currentTimeMillis();
+            Date date = dateFormat.parse(chronometerStartTimeString);
+            long timeWhenAlarmCame = date.getTime();
+            chronometer.setBase(SystemClock.elapsedRealtime() - (timeNow - timeWhenAlarmCame));
+            if((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.valueOf(alarmCounterTime)) {
+                chronometer.setVisibility(View.INVISIBLE);
+            }
+            chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
+                    if((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.valueOf(alarmCounterTime)) {
+                        chronometer.stop();
+                        //chronometer.setBase(SystemClock.elapsedRealtime());
+                    }
+                }
+            });
+            if((SystemClock.elapsedRealtime() - chronometer.getBase()) <= 60000 * Integer.valueOf(alarmCounterTime)) {
+                chronometer.start();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void txtToSpeechVolume() {
         Context ctx = getActivity();

@@ -28,13 +28,19 @@
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
         <u><b>Versio 3.4</b></u>\n\n
-        Asemataulu yhdistetty samaan sovellukseen.\n
-        Hälytys sivu päivittyy jos tulee uusi hälytys kun sivu on auki.\n
+        Asemataulu yhdistetty samaan sovellukseen:\n
+        - Lähtijöiden ominaisuuksia lisätty\n
+        - Lähtijät listan ulkoasu muutettu\n
+        Hälytys sivu:\n
+        - Päivittyy jos tulee uusi hälytys kun sivu on auki\n
+        - Hälytyskello, kytketään asetuksista. Aika mikä on kulunut hälytyksen tulosta. Pysäytysaika asetetaan asetuksissa\n
         VaPePa toimintoja lisätty:\n
-        - OHTO hälytys numeron voi asettaa hälyttäviin numeroihin kun liittää eteen ison O-kirjaimen esim. O0401234567\n
-        - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet.\n
-        Taustalla toimivan hälytyksien tunnistuksen parannuksia.\n
-        - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen.
+        - Osoitteentunnistuksen voi kytkeä pois päältä jos sovellus tulee vain OHTO hälytys käyttöön.\n
+        - Jos sovellusta käytetään VPK sekä OHTO hälytyksiin. OHTO hälytysnumeron eteen tulee laittaa iso O-kirjain esim. O0401234567\n
+        - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet\n
+        Taustalla toimivan hälytyksien tunnistuksen parannuksia:\n
+        - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen\n
+        - Jos edellinen hälytys olikin OHTO hälytys tai puhelu hälytys, hälytys tulee arkistoon uutena hälytyksenä\n
         Arkiston muutoksia\n
         - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
         - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n

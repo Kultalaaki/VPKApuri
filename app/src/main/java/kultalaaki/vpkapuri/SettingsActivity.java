@@ -220,6 +220,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("avainsana3"));
             bindPreferenceSummaryToValue(findPreference("avainsana4"));
             bindPreferenceSummaryToValue(findPreference("avainsana5"));
+            bindPreferenceSummaryToValue(findPreference("AlarmCounterTime"));
 
             /*
             Preference button = findPreference(getString(R.string.Aseta_numerot));
