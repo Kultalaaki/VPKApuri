@@ -122,11 +122,20 @@ public class HalytysActivity extends AppCompatActivity
     }
 
     public void updateAddress(String updatedAddress) {
-        HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
-                getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
-        if (halytysButtonsFragment != null) {
-            halytysButtonsFragment.updateAddress(updatedAddress);
+        if(asemataulu) {
+            AsematauluButtonsFragment asematauluButtonsFragment = (AsematauluButtonsFragment)
+                    getSupportFragmentManager().findFragmentByTag("asematauluButtonsFragment");
+            if(asematauluButtonsFragment != null) {
+                asematauluButtonsFragment.updateAddress(updatedAddress);
+            }
+        } else {
+            HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
+                    getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+            if (halytysButtonsFragment != null) {
+                halytysButtonsFragment.updateAddress(updatedAddress);
+            }
         }
+
     }
 
     public void loadhalytysFragment() {

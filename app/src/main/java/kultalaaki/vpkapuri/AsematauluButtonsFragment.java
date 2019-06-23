@@ -1,13 +1,11 @@
 package kultalaaki.vpkapuri;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,10 +19,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -48,6 +46,7 @@ public class AsematauluButtonsFragment extends Fragment {
     private CardView kameraKortti;
     private CardView manpowerCard;
 
+    private TextView osoite;
     private String osoiteFromDB;
 
     private OnFragmentInteractionListener mListener;
@@ -92,6 +91,7 @@ public class AsematauluButtonsFragment extends Fragment {
         kameraKortti = view.findViewById(R.id.cameraCard);
         responderKortti = view.findViewById(R.id.responderCard);
         manpowerCard = view.findViewById(R.id.manpowerCard);
+        osoite = view.findViewById(R.id.osoiteteksti);
     }
 
     @Override
@@ -103,6 +103,7 @@ public class AsematauluButtonsFragment extends Fragment {
         try {
             FireAlarm fireAlarm = mViewModel.lastEntry();
             osoiteFromDB = fireAlarm.getOsoite();
+            osoite.setText(osoiteFromDB);
         } catch (Exception e) {
             // Empty database
             osoiteFromDB = "";
@@ -151,6 +152,11 @@ public class AsematauluButtonsFragment extends Fragment {
                 Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    void updateAddress(String updatedAddress) {
+        osoiteFromDB = updatedAddress;
+        osoite.setText(updatedAddress);
     }
 
     @Override

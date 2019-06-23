@@ -1,13 +1,8 @@
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Build;
@@ -43,7 +38,7 @@ public class HalytysFragment extends Fragment {
     private TextView halytyksentunnus;
     private TextView kiireellisyys;
     private TextToSpeech t1;
-    private int palautaMediaVol, tekstiPuheeksiVol, counterShowUpdate = 0;
+    private int palautaMediaVol, tekstiPuheeksiVol;
     private boolean palautaMediaVolBoolean = false;
     private SharedPreferences preferences;
     private String chronometerStartTimeString;
@@ -105,8 +100,6 @@ public class HalytysFragment extends Fragment {
 
         FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
-        //fireAlarm = mViewModel.lastEntry();
-        //mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
         mViewModel.getLastEntry().observe(this, new Observer<List<FireAlarm>>() {
             @Override
             public void onChanged(List<FireAlarm> fireAlarms) {
@@ -117,9 +110,7 @@ public class HalytysFragment extends Fragment {
                     kiireellisyys.setText(currentAlarm.getLuokka());
                     String newAddress = currentAlarm.getOsoite();
                     mCallback.updateAddress(newAddress);
-                    if(counterShowUpdate >= 1) {
-                        Toast.makeText(getActivity(), "Hälytys päivitetty.", Toast.LENGTH_SHORT).show();
-                    }
+
                     if(chronoInUse) {
                         chronometerStartTimeString = currentAlarm.getTimeStamp();
                         chronometer.setVisibility(View.VISIBLE);
@@ -127,7 +118,6 @@ public class HalytysFragment extends Fragment {
                     } else {
                         chronometer.setVisibility(View.INVISIBLE);
                     }
-                    counterShowUpdate++;
                 } else {
                     Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
                 }
@@ -138,7 +128,6 @@ public class HalytysFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //getNewestDatabaseEntry();
         checkDoNotDisturb();
     }
 
@@ -152,26 +141,10 @@ public class HalytysFragment extends Fragment {
             if(notificationManager != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && !notificationManager.isNotificationPolicyAccessGranted()) {
-                    showMessage();
+                    Toast.makeText(getActivity(), "Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa.", Toast.LENGTH_LONG).show();
                 }
             }
         }
-    }
-
-    private void showMessage(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Huomautus!")
-                .setMessage("Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa. Tätä lupaa käytetään äänikanavien muuttamiseen kun hälytys tulee. Painamalla Ok, pääset suoraan asetukseen missä voit sallia Älä häiritse tilan muuttamisen VPK Apuri sovellukselle")
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
-                    @TargetApi(Build.VERSION_CODES.M)
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                        startActivity(intent);
-                    }
-                });
-        builder.create().show();
     }
 
     @Override
@@ -182,6 +155,9 @@ public class HalytysFragment extends Fragment {
         kiireellisyys = view.findViewById(R.id.kiireellisyys);
 
         chronometer = view.findViewById(R.id.alarm_chronometer);
+        if(!chronoInUse) {
+            chronometer.setVisibility(View.INVISIBLE);
+        }
     }
 
     /*private void getNewestDatabaseEntry(){

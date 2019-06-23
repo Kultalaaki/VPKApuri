@@ -192,7 +192,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         OhjeetFragment ohjeetFragment = new OhjeetFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, ohjeetFragment, "ohjeetFragment").commit();
+        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, ohjeetFragment, "ohjeetFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, ohjeetFragment, "ohjeetFragment").commit();
+        }
+
     }
 
     public void loadEtusivuFragment() {
@@ -236,7 +241,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         HalytysTietokannastaFragment halytysTietokannastaFragment = HalytysTietokannastaFragment.newInstance(fireAlarm);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+        }
+
     }
 
     public void openSetTimerNewInstance(String primaryKey) {
@@ -374,8 +384,11 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 public void run() {
                     long aika = System.currentTimeMillis();
                     String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
+                    // 11:57:59_05.01.2019
+                    String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    halyaaniService.putExtra("message", getString(R.string.testihalytysErica));
+                    String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
+                    halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");
                     halyaaniService.putExtra("timestamp", Aika);
@@ -401,7 +414,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         ChangelogFragment changelogFragment = new ChangelogFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
+        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, changelogFragment, "changelogFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
+        }
+
         /*Intent intentChangelog = new Intent(EtusivuActivity.this, ChangelogActivity.class);
         startActivity(intentChangelog);*/
     }
@@ -670,7 +688,13 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                         prefs.edit().putInt("aaneton_profiili", 1).commit();
                         prefs.edit().putBoolean("firstrun", false).commit();
                     }
-                    // TODO: add updated app alarm to database
+                    // App updated, add alarm to database
+                    FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                    FireAlarm fireAlarm = new FireAlarm("999", "C", "Uusi asennus tai sovellus on päivitetty.", "Ei osoitetta", "", "",
+                            "", "", "", "", "");
+                    fireAlarmRepository.insert(fireAlarm);
+
+                    // Delete app cache to prevent unnecessary mistakes.
                     deleteCache(getApplicationContext());
                     Log.i(LOG_TAG, "versionCode " + versionCode + "is different from the last known version " + lastVersionCode);
 

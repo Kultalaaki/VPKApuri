@@ -14,13 +14,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.util.Date;
-import java.util.Locale;
 
 import static android.content.Context.POWER_SERVICE;
 

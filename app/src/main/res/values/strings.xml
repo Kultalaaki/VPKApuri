@@ -27,7 +27,7 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
-        <u><b>Versio 3.4</b></u>\n\n
+        <u><b>Versio 3.5</b></u>\n\n
         Asemataulu yhdistetty samaan sovellukseen:\n
         - Lähtijöiden ominaisuuksia lisätty\n
         - Lähtijät listan ulkoasu muutettu\n
@@ -40,7 +40,7 @@
         - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet\n
         Taustalla toimivan hälytyksien tunnistuksen parannuksia:\n
         - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen\n
-        - Jos edellinen hälytys olikin OHTO hälytys tai puhelu hälytys, hälytys tulee arkistoon uutena hälytyksenä\n
+        - Jos edellinen hälytys on OHTO hälytys tai puhelu hälytys, hälytys tulee arkistoon uutena hälytyksenä\n
         Arkiston muutoksia\n
         - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
         - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
@@ -48,6 +48,7 @@
         - OHTO hälytyksille oma hälytysääni\n
         - Ensivaste hälytyksille oma hälytysääni\n
         - Puhelu hälytyksille oma hälytysääni\n
+        + Muita pieniä korjauksia ja parannuksia.
     </string>
     <!--Näytetään vain muutosloki sivulla-->
     <string name="whatsnew">
@@ -466,7 +467,8 @@
     - Soita ja hallinnoi puheluita lupaa tarvitaan hälytys sivun soita painikkeen toimintaan ja jos hälytykset tulevat puheluilla.\n
     - Mediatiedostojen käyttämistä tarvitaan hälytysäänen asettamista varten.\n
     - Tekstiviestien lähettäminen ja vastaanottaminen tarvitaan sms viesteillä tuleviin hälytyksiin ja sms pikaviestien lähettämiseen.</string>
-    <string name="testihalytysErica">TESTIHÄLYTYS; 411; C; 11:57:59_05.01.2019; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
+    <string name="testihalytysEricaEtuosa">TESTIHÄLYTYS; 411; C;</string>
+    <string name="testihalytysEricaTakaosa">; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
     <string name="alkusanat">Alkusanat</string>
     <string name="h_lytys">Hälytys</string>
     <string name="asetukset">Asetukset</string>
