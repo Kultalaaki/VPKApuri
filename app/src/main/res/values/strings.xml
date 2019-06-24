@@ -518,4 +518,8 @@
     <string name="kamera">KAMERA</string>
     <string name="l_htij_t">LÄHTIJÄT</string>
     <string name="vahvuudet">VAHVUUDET</string>
+    <string name="kirjoita_vastaus">Kirjoita vastaus</string>
+    <string name="h_lytt_v_numero">Hälyttävä numero</string>
+    <string name="h_lytysvieti">Hälytysviesti</string>
+    <string name="l_het">Lähetä</string>
 </resources>

@@ -128,7 +128,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         addressLookUp(message, timestamp);
                     } else {
                         // OHTO alarm
-                        OHTOAlarm(message, timestamp);
+                        OHTOAlarm(message, timestamp, numero);
                     }
 
                     if(!sharedPreferences.getBoolean("HalytysOpen", false)) {
@@ -157,7 +157,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     addressLookUp(message, timestamp);
                 } else {
                     // OHTO alarm
-                    OHTOAlarm(message, timestamp);
+                    OHTOAlarm(message, timestamp, numero);
                 }
 
                 alarmSound(startId);
@@ -546,7 +546,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     // Last alarm was not OHTO or phonecall alarm, update last alarm with new information if time difference is smaller than 30 minutes.
                     if(calculateTimeDifference(fireAlarmLastEntry.getTimeStamp(), timeStamp)) {
                         String addMessage = fireAlarmLastEntry.getViesti();
-                        addMessage += " " + viesti;
+                        addMessage += "\n" +
+                                "\n" + viesti;
                         fireAlarmLastEntry.setViesti(addMessage);
                         fireAlarmRepository.update(fireAlarmLastEntry);
                     } else {
@@ -578,7 +579,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     // Last alarm was not OHTO or phonecall alarm, update last alarm with new information if time difference is smaller than 30 minutes.
                     if(calculateTimeDifference(fireAlarmLastEntry.getTimeStamp(), timeStamp)) {
                         String LastEntryViesti = fireAlarmLastEntry.getViesti();
-                        LastEntryViesti += " " + viesti;
+                        LastEntryViesti += "\n" +
+                                "\n" + viesti;
                         if(kiire) {
                             fireAlarmLastEntry.setLuokka(kiireellisyysLuokka.trim());
                         }
@@ -637,10 +639,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return false;
     }
 
-    private void OHTOAlarm(String message, String timestamp) {
+    private void OHTOAlarm(String message, String timestamp, String number) {
+        number = numberFormat(number);
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         FireAlarm fireAlarm = new FireAlarm("OHTO Hälytys", "", message,
-                "", "", "", timestamp, "", "", "", "");
+                "", "", "", timestamp, number, "", "", "");
 
         fireAlarmRepository.insert(fireAlarm);
     }

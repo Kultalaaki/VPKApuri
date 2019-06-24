@@ -399,10 +399,16 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    long aika = System.currentTimeMillis();
+                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
+                    // 11:57:59_05.01.2019
+                    String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    halyaaniService.putExtra("message", getString(R.string.testihalytys));
+                    String alarmMessage = "OHTO Hälytys testiviesti.";
+                    halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");
+                    halyaaniService.putExtra("timestamp", Aika);
                     getApplicationContext().startService(halyaaniService);
                 }
             }, 5000);
@@ -419,9 +425,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         } else {
             fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
         }
-
-        /*Intent intentChangelog = new Intent(EtusivuActivity.this, ChangelogActivity.class);
-        startActivity(intentChangelog);*/
     }
 
     public void startLahetaPalaute (){
@@ -440,44 +443,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         if (sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
             //hiljenna haly
             soundControls.setSilent(this);
-            //HILJENNA_HALY = 2;
-            /*aaneton.edit().putInt("aaneton_profiili", 2).commit();
-            RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
-            text.setTextViewText(R.id.teksti, "Äänetön");
-            Toast.makeText(getApplicationContext(),"Äänetön tila käytössä.", Toast.LENGTH_SHORT).show();
-
-            ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
-
-            Intent hiljennys = new Intent(EtusivuActivity.this, EtusivuActivity.class);
-            PendingIntent hiljennetty = PendingIntent.getActivity(EtusivuActivity.this, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
-            manager.updateAppWidget(thisWidget, text);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(EtusivuActivity.this, "HILJENNYS")
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("VPK Apuri")
-                    .setContentText("Hälytykset on hiljennetty.")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setCategory(NotificationCompat.CATEGORY_ALARM)
-                    .setContentIntent(hiljennetty)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setOngoing(true)
-                    .setAutoCancel(false);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
-            notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());*/
         } else {
             //äänet päälle
             soundControls.setNormal(this);
-            //HILJENNA_HALY = 1;
-            /*aaneton.edit().putInt("aaneton_profiili", 1).commit();
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
-            notificationManager.cancel(MY_NOTIFICATION_ID);
-            RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
-            text.setTextViewText(R.id.teksti, "Normaali");
-            Toast.makeText(getApplicationContext(),"Äänet kytketty.", Toast.LENGTH_SHORT).show();
-
-            ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
-            manager.updateAppWidget(thisWidget, text);*/
         }
     }
 
@@ -596,28 +564,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 });
         builder.create().show();
     }
-
-    /*public void tietokantaVarmuuskopio() {
-        File sd = Environment.getExternalStorageDirectory();
-        File data = Environment.getDataDirectory();
-        FileChannel source;
-        FileChannel destination;
-        String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
-        //String currentDBPath = "/data/" + "kultalaaki.vpkapuri/databases/VPK_Apuri_Halytykset.db";
-        String backupDBPath = "Hälytykset VPK Apuri";
-        File currentDB = new File(data, currentDBPath);
-        File backupDB = new File(sd, backupDBPath);
-        try {
-            source = new FileInputStream(currentDB).getChannel();
-            destination = new FileOutputStream(backupDB).getChannel();
-            destination.transferFrom(source, 0, source.size());
-            source.close();
-            destination.close();
-            Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public void tietokantaBackUp() {
         try {

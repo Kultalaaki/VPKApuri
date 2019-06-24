@@ -27,7 +27,7 @@ import java.util.Locale;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class HalytysActivity extends AppCompatActivity
-        implements HalytysButtonsFragment.Listener, AsematauluButtonsFragment.OnFragmentInteractionListener, HalytysFragment.Listener {
+        implements HalytysButtonsFragment.Listener, AsematauluButtonsFragment.OnFragmentInteractionListener, HalytysFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -101,6 +101,14 @@ public class HalytysActivity extends AppCompatActivity
         AsematauluButtonsFragment asematauluButtonsFragment = new AsematauluButtonsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.HalytysAlaosa, asematauluButtonsFragment, "asematauluButtonsFragment").commit();
+    }
+
+    public void loadOHTOAnswer(String numero, String halytysviesti) {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        AnswerOHTOFragment answerOHTOFragment = AnswerOHTOFragment.newInstance(numero, halytysviesti);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.add(R.id.HalytysYlaosa, answerOHTOFragment, "answerOHTOFragment").commit();
     }
 
     @SuppressLint("ApplySharedPref")

@@ -9,13 +9,13 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
     private int columnWidth;
     private boolean columnWidthChanged = true;
 
-    public AutoFitGridLayoutManager(Context context, int columnWidth) {
+    AutoFitGridLayoutManager(Context context, int columnWidth) {
         super(context, 1);
 
         setColumnWidth(columnWidth);
     }
 
-    public void setColumnWidth(int newColumnWidth) {
+    private void setColumnWidth(int newColumnWidth) {
         if (newColumnWidth > 0 && newColumnWidth != columnWidth) {
             columnWidth = newColumnWidth;
             columnWidthChanged = true;
@@ -26,7 +26,7 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (columnWidthChanged && columnWidth > 0) {
             int totalSpace;
-            if (getOrientation() == VERTICAL) {
+            if (getOrientation() == RecyclerView.VERTICAL) {
                 totalSpace = getWidth() - getPaddingRight() - getPaddingLeft();
             } else {
                 totalSpace = getHeight() - getPaddingTop() - getPaddingBottom();
