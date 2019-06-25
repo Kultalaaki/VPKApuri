@@ -1,7 +1,6 @@
 package kultalaaki.vpkapuri;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,26 +15,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AnswerOHTOFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AnswerOHTOFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AnswerOHTOFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private EditText halyttavaNumero, halytysViesti, vastausViesti;
+    private EditText halyttavaNumero, vastausViesti;
     private CardView sendAnswer;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -43,36 +27,13 @@ public class AnswerOHTOFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AnswerOHTOFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AnswerOHTOFragment newInstance(String param1, String param2) {
-        AnswerOHTOFragment fragment = new AnswerOHTOFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // mParam1 = numero mParam2 = viesti
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_answer_ohto, container, false);
@@ -81,7 +42,6 @@ public class AnswerOHTOFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         halyttavaNumero = view.findViewById(R.id.numero);
-        halytysViesti = view.findViewById(R.id.halytys_viesti);
         vastausViesti = view.findViewById(R.id.vastaus_viesti);
         sendAnswer = view.findViewById(R.id.send_answer);
     }
@@ -89,10 +49,20 @@ public class AnswerOHTOFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(getArguments() != null) {
-            halyttavaNumero.setText(mParam1);
-            halytysViesti.setText(mParam2);
-        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        halyttavaNumero.setText(mListener.returnNumero());
+        setOnClickListeners();
+    }
+
+    void setNumero(String numero) {
+        halyttavaNumero.setText(numero);
+    }
+
+    void setOnClickListeners() {
         sendAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,5 +115,6 @@ public class AnswerOHTOFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        String returnNumero();
     }
 }

@@ -17,7 +17,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,21 +97,34 @@ public class AsematauluButtonsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        /*FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
         try {
             FireAlarm fireAlarm = mViewModel.lastEntry();
             osoiteFromDB = fireAlarm.getOsoite();
+            message = fireAlarm.getViesti();
             osoite.setText(osoiteFromDB);
         } catch (Exception e) {
             // Empty database
             osoiteFromDB = "";
-        }
+        }*/
+    }
+
+    void setOsoite(String osoitet) {
+        osoiteFromDB = osoitet;
+        osoite.setText(osoitet);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        osoiteFromDB = mListener.returnOsoite();
         setOnClickListeners();
     }
 
@@ -149,6 +161,7 @@ public class AsematauluButtonsFragment extends Fragment {
         manpowerCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mListener.loadManpowerFragment();
                 Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
             }
         });
@@ -235,5 +248,7 @@ public class AsematauluButtonsFragment extends Fragment {
         // TODO: Update argument type and name
         void openCamera();
         void loadResponderFragment();
+        void loadManpowerFragment();
+        String returnOsoite();
     }
 }

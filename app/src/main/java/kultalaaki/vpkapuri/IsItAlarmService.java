@@ -216,12 +216,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     private String numberFormat(String number) {
+        boolean saveToOHTO = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (number != null && !number.isEmpty()) {
                 if(number.substring(0,1).equals("O")) {
                     number = number.substring(1);
-                    // this is OHTO alarm number
-                    OHTOnumbers.add(number);
+                    // this is OHTO alarm number, save to arraylist for later use.
+                    saveToOHTO = true;
                 }
                 number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
                 if(number != null) {
@@ -229,6 +230,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         number = "+358" + number.substring(1);
                     }
                     number = number.replaceAll("[()\\s-+]+", "");
+                    if(saveToOHTO) {
+                        OHTOnumbers.add(number);
+                    }
                     return number;
                 }
                 return "99987654321";
@@ -238,8 +242,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             if (number != null && !number.isEmpty()) {
                 if(number.substring(0,1).equals("O")) {
                     number = number.substring(1);
-                    // this is OHTO alarm number
+                    // this is OHTO alarm number, save to arraylist for later use.
                     OHTOnumbers.add(number);
+                    saveToOHTO = true;
                 }
                 number = PhoneNumberUtils.formatNumber(number);
                 if(number != null) {
@@ -247,6 +252,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         number = "+358" + number.substring(1);
                     }
                     number = number.replaceAll("[()\\s-+]+", "");
+                    if(saveToOHTO) {
+                        OHTOnumbers.add(number);
+                    }
                     return number;
                 }
                 return "99987654321";

@@ -19,7 +19,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
@@ -45,7 +44,6 @@ public class HalytysButtonsFragment extends Fragment {
     private boolean CallButtonVisible;
     private boolean showHiljennaButton;
     private String osoiteFromDB;
-    private FireAlarm fireAlarm;
     private SharedPreferences pref_general;
     private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
     private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
@@ -59,7 +57,7 @@ public class HalytysButtonsFragment extends Fragment {
         void hiljenna();
         void autoAukaisuPuhu();
         void avaaWebSivu(String url);
-        void loadOHTOAnswer(String numero, String halytysviesti);
+        String returnOsoite();
     }
 
     @Override
@@ -85,7 +83,7 @@ public class HalytysButtonsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        /*FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
         try {
             fireAlarm = mViewModel.lastEntry();
@@ -93,7 +91,7 @@ public class HalytysButtonsFragment extends Fragment {
         } catch (Exception e) {
             // Empty database
             osoiteFromDB = "";
-        }
+        }*/
 
     }
 
@@ -116,11 +114,22 @@ public class HalytysButtonsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        osoiteFromDB = mCallback.returnOsoite();
         setOnClickListeners();
         setTexts();
         if(showHiljennaButton) {
             autoAukaisu();
         }
+    }
+
+    void setOsoite(String osoiteFrom) {
+        osoite.setText(osoiteFrom);
+        osoiteFromDB = osoiteFrom;
     }
 
     private void setTexts() {
@@ -133,29 +142,9 @@ public class HalytysButtonsFragment extends Fragment {
         osoite.setText(osoiteFromDB);
 
         if(SmsGreenVisible) {
-            if(fireAlarm != null) {
-                if (fireAlarm.getTunnus().equals("OHTO Hälytys")) {
-                    sms5Otsikko.setText("OHTO");
-                    sms5Sisalto.setText("");
-                    sms5Recipient.setText("");
-                } else {
-                    sms5Otsikko.setText(fivemintxtotsikko);
-                    sms5Sisalto.setText(fivemintxt);
-                    sms5Recipient.setText(smsnumero);
-                }
-            } else {
-                sms5Otsikko.setText(fivemintxtotsikko);
-                sms5Sisalto.setText(fivemintxt);
-                sms5Recipient.setText(smsnumero);
-            }
-        } else if(fireAlarm != null) {
-            if(fireAlarm.getTunnus().equals("OHTO Hälytys")) {
-                sms5Otsikko.setText("OHTO");
-                sms5Sisalto.setText("");
-                sms5Recipient.setText("");
-            } else {
-                fiveMin.setVisibility(View.GONE);
-            }
+            sms5Otsikko.setText(fivemintxtotsikko);
+            sms5Sisalto.setText(fivemintxt);
+            sms5Recipient.setText(smsnumero);
         } else {
             fiveMin.setVisibility(View.GONE);
         }
@@ -276,11 +265,7 @@ public class HalytysButtonsFragment extends Fragment {
         fiveMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fireAlarm != null && fireAlarm.getTunnus().equals("OHTO Hälytys")) {
-                    if(fireAlarm.getTunnus().equals("OHTO Hälytys")) {
-                        mCallback.loadOHTOAnswer(fireAlarm.getOptionalField2(), fireAlarm.getViesti());
-                    }
-                } else if (smsnumero != null && smsnumero.equals("whatsapp")) {
+                if (smsnumero != null && smsnumero.equals("whatsapp")) {
                     Intent whatsapptxt = new Intent();
                     whatsapptxt.setAction(Intent.ACTION_SEND);
                     whatsapptxt.putExtra(Intent.EXTRA_TEXT, fivemintxt);

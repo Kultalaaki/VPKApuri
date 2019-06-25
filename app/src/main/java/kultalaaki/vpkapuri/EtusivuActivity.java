@@ -78,7 +78,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = sharedPreferences.getBoolean("asemataulu", false);
-        ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
         analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
         sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
         sharedPreferences.edit().putBoolean("HalytysOpen", false).apply();
@@ -376,7 +375,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     public void startTestaaHalytys() {
 
-        ericaEtusivu = sharedPreferences.getBoolean("Erica", false);
+        ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
 
         if(ericaEtusivu) {
             Handler handler1 = new Handler();
@@ -400,11 +399,10 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             handler.postDelayed(new Runnable() {
                 public void run() {
                     long aika = System.currentTimeMillis();
+                    Log.e("TAG", "Ei helvetti tass");
                     String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-                    // 11:57:59_05.01.2019
-                    String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    String alarmMessage = "OHTO Hälytys testiviesti.";
+                    String alarmMessage = "Operaatio nro 220/Etsintä/Kankaanpää/12.10.18:30. Kuittaus: 220 ok/ei/pm hh:mm";
                     halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");

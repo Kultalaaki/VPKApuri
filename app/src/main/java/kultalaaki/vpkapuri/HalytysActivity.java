@@ -10,9 +10,12 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
@@ -32,7 +36,8 @@ public class HalytysActivity extends AppCompatActivity
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     boolean koneluku, autoAukaisu, asemataulu, responderFragmentShowing;
-    String action, type, currentPhotoPath;
+    private String action, type, currentPhotoPath;
+    private String viesti = "", tunnus = "", kiireellisyysLuokka = "", osoite = "", numero = "", aikaleima = "";
     SharedPreferences preferences;
 
     @SuppressLint("ApplySharedPref")
@@ -51,6 +56,74 @@ public class HalytysActivity extends AppCompatActivity
         type = intent.getType();
         koneluku = preferences.getBoolean("koneluku", false);
         autoAukaisu = preferences.getBoolean("autoAukaisu", false);
+
+        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        mViewModel.getLastEntry().observe(this, new Observer<List<FireAlarm>>() {
+            @Override
+            public void onChanged(List<FireAlarm> fireAlarms) {
+                if(!fireAlarms.isEmpty()) {
+                    FireAlarm currentAlarm = fireAlarms.get(0);
+                    viesti = currentAlarm.getViesti();
+                    tunnus = currentAlarm.getTunnus();
+                    if(tunnus.equals("OHTO Hälytys")) {
+                        loadOHTOAnswer();
+                    }
+                    kiireellisyysLuokka = currentAlarm.getLuokka();
+                    osoite = currentAlarm.getOsoite();
+                    numero = currentAlarm.getOptionalField2();
+                    aikaleima = currentAlarm.getTimeStamp();
+                    HalytysFragment halytysFragment = (HalytysFragment)
+                            getSupportFragmentManager().findFragmentByTag("halytysFragment");
+                    if(halytysFragment != null) {
+                        // Notify. Uses viesti, tunnus, aikaleima ja kiireellisyysluokka.
+                        halytysFragment.setTexts(viesti, tunnus, kiireellisyysLuokka, aikaleima);
+                    }
+                    HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
+                            getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+                    if(halytysButtonsFragment != null) {
+                        // Notify. Osoite.
+                        halytysButtonsFragment.setOsoite(osoite);
+                    }
+                    AsematauluButtonsFragment asematauluButtonsFragment = (AsematauluButtonsFragment)
+                            getSupportFragmentManager().findFragmentByTag("asematauluButtonsFragment");
+                    if(asematauluButtonsFragment != null) {
+                        // Notify. Osoite.
+                        asematauluButtonsFragment.setOsoite(osoite);
+                    }
+                    AnswerOHTOFragment answerOHTOFragment = (AnswerOHTOFragment)
+                            getSupportFragmentManager().findFragmentByTag("answerOHTOFragment");
+                    if(answerOHTOFragment != null) {
+                        // Notify. Numero,
+                        answerOHTOFragment.setNumero(numero);
+                    }
+
+                }
+            }
+        });
+    }
+
+    public String returnOsoite() {
+        return osoite;
+    }
+
+    public String returnViesti() {
+        return viesti;
+    }
+
+    public String returnTunnus() {
+        return tunnus;
+    }
+
+    public String returnKiireellisyysLuokka() {
+        return kiireellisyysLuokka;
+    }
+
+    public String returnNumero() {
+        return numero;
+    }
+
+    public String returnAikaleima() {
+        return aikaleima;
     }
 
     public void hiljenna() {
@@ -82,6 +155,7 @@ public class HalytysActivity extends AppCompatActivity
 
     protected void onStart() {
         super.onStart();
+
         loadhalytysFragment();
         if (asemataulu) {
             // TODO: Asemataulu käytössä
@@ -92,8 +166,9 @@ public class HalytysActivity extends AppCompatActivity
         } else {
             loadhalytysButtonsFragment();
         }
-        //Log.i("test", action + " " + type);
         getParameters(action, type);
+
+
     }
 
     void loadAsematatuluButtons() {
@@ -103,12 +178,12 @@ public class HalytysActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.HalytysAlaosa, asematauluButtonsFragment, "asematauluButtonsFragment").commit();
     }
 
-    public void loadOHTOAnswer(String numero, String halytysviesti) {
+    public void loadOHTOAnswer() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        AnswerOHTOFragment answerOHTOFragment = AnswerOHTOFragment.newInstance(numero, halytysviesti);
+        AnswerOHTOFragment answerOHTOFragment = new AnswerOHTOFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(R.id.HalytysYlaosa, answerOHTOFragment, "answerOHTOFragment").commit();
+        fragmentTransaction.replace(R.id.HalytysAlaosa, answerOHTOFragment, "answerOHTOFragment").commit();
     }
 
     @SuppressLint("ApplySharedPref")
@@ -143,7 +218,6 @@ public class HalytysActivity extends AppCompatActivity
                 halytysButtonsFragment.updateAddress(updatedAddress);
             }
         }
-
     }
 
     public void loadhalytysFragment() {
@@ -152,6 +226,19 @@ public class HalytysActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.HalytysYlaosa, halytysFragment, "halytysFragment").commit();
+    }
+
+    public void loadManpowerFragment() {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        ManpowerFragment manpowerFragment = new ManpowerFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        fragmentTransaction.addToBackStack(null);
+        if(findViewById(R.id.responder_view) != null) {
+            fragmentTransaction.replace(R.id.responder_view, manpowerFragment, "manpowerFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.HalytysYlaosa, manpowerFragment, "manpowerFragment").commit();
+        }
     }
 
     public void loadhalytysButtonsFragment() {

@@ -13,8 +13,6 @@ import android.speech.tts.TextToSpeech;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +27,6 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class HalytysFragment extends Fragment {
@@ -41,7 +38,6 @@ public class HalytysFragment extends Fragment {
     private int palautaMediaVol, tekstiPuheeksiVol;
     private boolean palautaMediaVolBoolean = false;
     private SharedPreferences preferences;
-    private String chronometerStartTimeString;
     private Chronometer chronometer;
     private boolean chronoInUse;
     private String alarmCounterTime;
@@ -60,9 +56,11 @@ public class HalytysFragment extends Fragment {
         preferences.edit().putBoolean("HalytysOpen", true).commit();
 
         chronoInUse = preferences.getBoolean("AlarmCounter", false);
-        alarmCounterTime = preferences.getString("AlarmCounterTime", null);
-        if(alarmCounterTime == null) {
-            alarmCounterTime = "20";
+        if(chronoInUse) {
+            alarmCounterTime = preferences.getString("AlarmCounterTime", null);
+            if(alarmCounterTime == null) {
+                alarmCounterTime = "20";
+            }
         }
     }
 
@@ -75,7 +73,11 @@ public class HalytysFragment extends Fragment {
     }*/
 
     public interface Listener {
-        void updateAddress(String updatedAddress);
+        String returnViesti();
+        String returnTunnus();
+        String returnKiireellisyysLuokka();
+        String returnAikaleima();
+        void loadhalytysButtonsFragment();
     }
 
     @Override
@@ -98,7 +100,7 @@ public class HalytysFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        /*FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
         mViewModel.getLastEntry().observe(this, new Observer<List<FireAlarm>>() {
             @Override
@@ -110,7 +112,9 @@ public class HalytysFragment extends Fragment {
                     kiireellisyys.setText(currentAlarm.getLuokka());
                     String newAddress = currentAlarm.getOsoite();
                     mCallback.updateAddress(newAddress);
-
+                    if(currentAlarm.getTunnus().equals("OHTO Hälytys")) {
+                        mCallback.loadOHTOAnswer(currentAlarm.getOptionalField2());
+                    }
                     if(chronoInUse) {
                         chronometerStartTimeString = currentAlarm.getTimeStamp();
                         chronometer.setVisibility(View.VISIBLE);
@@ -122,13 +126,39 @@ public class HalytysFragment extends Fragment {
                     Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        });*/
     }
 
     @Override
     public void onStart() {
         super.onStart();
         checkDoNotDisturb();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkResources();
+    }
+
+    private void checkResources() {
+        halytyksenviesti.setText(mCallback.returnViesti());
+        halytyksentunnus.setText(mCallback.returnTunnus());
+        kiireellisyys.setText(mCallback.returnKiireellisyysLuokka());
+
+        if(chronoInUse) {
+            chronometer.setVisibility(View.VISIBLE);
+            startChronometer(mCallback.returnAikaleima());
+        } else {
+            chronometer.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    void setTexts(String viesti, String tunnus, String kiireellisyysLuokka, String aikaleima) {
+        halytyksenviesti.setText(viesti);
+        halytyksentunnus.setText(tunnus);
+        kiireellisyys.setText(kiireellisyysLuokka);
+        startChronometer(aikaleima);
     }
 
     private void checkDoNotDisturb() {
@@ -160,26 +190,11 @@ public class HalytysFragment extends Fragment {
         }
     }
 
-    /*private void getNewestDatabaseEntry(){
-        try {
-            halytyksentunnus.setText(fireAlarm.getTunnus());
-            halytyksenviesti.setText(fireAlarm.getViesti());
-            kiireellisyys.setText(fireAlarm.getLuokka());
-        } catch (Exception e) {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("Huomautus!")
-                    .setMessage("Arkisto on tyhjä. Ei näytettävää hälytystä.")
-                    .setPositiveButton("OK", null)
-                    .create()
-                    .show();
-        }
-    }*/
-
-    private void startChronometer() {
+    private void startChronometer(String aika) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd.MMM yyyy, H:mm:ss", Locale.getDefault());
         try {
             long timeNow = System.currentTimeMillis();
-            Date date = dateFormat.parse(chronometerStartTimeString);
+            Date date = dateFormat.parse(aika);
             long timeWhenAlarmCame = date.getTime();
             chronometer.setBase(SystemClock.elapsedRealtime() - (timeNow - timeWhenAlarmCame));
             if((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.valueOf(alarmCounterTime)) {
