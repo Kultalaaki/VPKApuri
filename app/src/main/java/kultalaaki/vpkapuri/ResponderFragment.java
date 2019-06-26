@@ -1,5 +1,6 @@
 package kultalaaki.vpkapuri;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -56,9 +57,9 @@ public class ResponderFragment extends Fragment {
         // Basic GridLayoutManager
         /*GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);*/
-
+        LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
         mViewModel = ViewModelProviders.of(this).get(ResponderViewModel.class);
-        mViewModel.getAllResponders().observe(this, new Observer<List<Responder>>() {
+        mViewModel.getAllResponders().observe(lifecycleOwner, new Observer<List<Responder>>() {
             @Override
             public void onChanged(@Nullable List<Responder> responders) {
                 // TODO: update RecyclerView

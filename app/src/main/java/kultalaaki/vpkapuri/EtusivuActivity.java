@@ -383,7 +383,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 public void run() {
                     long aika = System.currentTimeMillis();
                     String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-                    // 11:57:59_05.01.2019
                     String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
                     String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);

@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,33 +64,47 @@ public class HalytysActivity extends AppCompatActivity
                     FireAlarm currentAlarm = fireAlarms.get(0);
                     viesti = currentAlarm.getViesti();
                     tunnus = currentAlarm.getTunnus();
-                    if(tunnus.equals("OHTO Hälytys")) {
-                        loadOHTOAnswer();
-                    }
                     kiireellisyysLuokka = currentAlarm.getLuokka();
                     osoite = currentAlarm.getOsoite();
                     numero = currentAlarm.getOptionalField2();
                     aikaleima = currentAlarm.getTimeStamp();
+                    AsematauluButtonsFragment asematauluButtonsFragment = (AsematauluButtonsFragment)
+                            getSupportFragmentManager().findFragmentByTag("asematauluButtonsFragment");
                     HalytysFragment halytysFragment = (HalytysFragment)
                             getSupportFragmentManager().findFragmentByTag("halytysFragment");
+                    AnswerOHTOFragment answerOHTOFragment = (AnswerOHTOFragment)
+                            getSupportFragmentManager().findFragmentByTag("answerOHTOFragment");
+                    HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
+                            getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+                    if(tunnus.equals("OHTO Hälytys")) {
+                        loadOHTOAnswer();
+                    } else {
+                        if(asemataulu) {
+                            if(asematauluButtonsFragment == null) {
+                                loadAsematauluButtons();
+                            }
+                        } else {
+                            if(halytysButtonsFragment == null) {
+                                loadhalytysButtonsFragment();
+                            }
+                        }
+                    }
+
                     if(halytysFragment != null) {
                         // Notify. Uses viesti, tunnus, aikaleima ja kiireellisyysluokka.
                         halytysFragment.setTexts(viesti, tunnus, kiireellisyysLuokka, aikaleima);
                     }
-                    HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
-                            getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+
                     if(halytysButtonsFragment != null) {
                         // Notify. Osoite.
                         halytysButtonsFragment.setOsoite(osoite);
                     }
-                    AsematauluButtonsFragment asematauluButtonsFragment = (AsematauluButtonsFragment)
-                            getSupportFragmentManager().findFragmentByTag("asematauluButtonsFragment");
+
                     if(asematauluButtonsFragment != null) {
                         // Notify. Osoite.
                         asematauluButtonsFragment.setOsoite(osoite);
                     }
-                    AnswerOHTOFragment answerOHTOFragment = (AnswerOHTOFragment)
-                            getSupportFragmentManager().findFragmentByTag("answerOHTOFragment");
+
                     if(answerOHTOFragment != null) {
                         // Notify. Numero,
                         answerOHTOFragment.setNumero(numero);
@@ -147,7 +160,7 @@ public class HalytysActivity extends AppCompatActivity
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         WebviewFragment webviewFragment = WebviewFragment.newInstance(url);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_left);
         fragmentTransaction.replace(R.id.HalytysYlaosa, webviewFragment, "webviewFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -159,7 +172,7 @@ public class HalytysActivity extends AppCompatActivity
         loadhalytysFragment();
         if (asemataulu) {
             // TODO: Asemataulu käytössä
-            loadAsematatuluButtons();
+            loadAsematauluButtons();
             if (findViewById(R.id.responder_view) != null) {
                 loadResponderFragment();
             }
@@ -167,14 +180,13 @@ public class HalytysActivity extends AppCompatActivity
             loadhalytysButtonsFragment();
         }
         getParameters(action, type);
-
-
     }
 
-    void loadAsematatuluButtons() {
+    void loadAsematauluButtons() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         AsematauluButtonsFragment asematauluButtonsFragment = new AsematauluButtonsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_up, R.animator.slide_out_up);
         fragmentTransaction.add(R.id.HalytysAlaosa, asematauluButtonsFragment, "asematauluButtonsFragment").commit();
     }
 
@@ -197,6 +209,7 @@ public class HalytysActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.responder_view, responderFragment, "ResponderFragment").commit();
                 preferences.edit().putBoolean("responderFragmentShowing", true).commit();
             } else {
+                fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_down);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.HalytysYlaosa, responderFragment, "ResponderFragment").commit();
                 preferences.edit().putBoolean("responderFragmentShowing", true).commit();
@@ -224,6 +237,7 @@ public class HalytysActivity extends AppCompatActivity
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         HalytysFragment halytysFragment = new HalytysFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_down);
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.HalytysYlaosa, halytysFragment, "halytysFragment").commit();
     }
@@ -245,6 +259,7 @@ public class HalytysActivity extends AppCompatActivity
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         HalytysButtonsFragment halytysButtonsFragment = new HalytysButtonsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_up, R.animator.slide_out_up);
         fragmentTransaction.add(R.id.HalytysAlaosa, halytysButtonsFragment, "halytysButtonsFragment").commit();
     }
 
