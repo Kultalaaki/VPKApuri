@@ -23,7 +23,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -132,7 +131,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     }
 
                     if(!sharedPreferences.getBoolean("HalytysOpen", false)) {
-                        Handler handler = new Handler(Looper.getMainLooper());
+                        Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                        openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        IsItAlarmService.this.startActivity(openHalytysActivity);
+                        stopSelf(startId);
+                        /*Handler handler = new Handler(Looper.getMainLooper());
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -141,7 +144,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                                 IsItAlarmService.this.startActivity(openHalytysActivity);
                                 stopSelf(startId);
                             }
-                        }, 3000);
+                        }, 3000);*/
                     }
 
                 } else {
@@ -230,6 +233,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         number = "+358" + number.substring(1);
                     }
                     number = number.replaceAll("[()\\s-+]+", "");
+                    number = "0" + number.substring(3);
                     if(saveToOHTO) {
                         OHTOnumbers.add(number);
                     }
@@ -252,6 +256,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         number = "+358" + number.substring(1);
                     }
                     number = number.replaceAll("[()\\s-+]+", "");
+                    number = "0" + number.substring(3);
                     if(saveToOHTO) {
                         OHTOnumbers.add(number);
                     }

@@ -54,8 +54,8 @@ public class HalytysButtonsFragment extends Fragment {
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
         /** Called when a button is clicked in HalytysButtonsFragment */
-        void hiljenna();
-        void autoAukaisuPuhu();
+        void lopetaPuhe();
+        void startTextToSpeech();
         void avaaWebSivu(String url);
         String returnOsoite();
     }
@@ -66,33 +66,9 @@ public class HalytysButtonsFragment extends Fragment {
         setResources();
     }
 
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception.
-        try {
-            mCallback = (Listener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement Listener");
-        }
-    }*/
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        /*FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
-
-        try {
-            fireAlarm = mViewModel.lastEntry();
-            osoiteFromDB = fireAlarm.getOsoite();
-        } catch (Exception e) {
-            // Empty database
-            osoiteFromDB = "";
-        }*/
-
     }
 
     @Override
@@ -171,7 +147,7 @@ public class HalytysButtonsFragment extends Fragment {
         hiljennys.setText(R.string.hiljenna_puhe);
     }
 
-    void autoAukaisu() {
+    private void autoAukaisu() {
         stopAlarm = true;
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_halytys);
@@ -193,12 +169,12 @@ public class HalytysButtonsFragment extends Fragment {
     }
 
     private void autoAukaisuHiljennaPuhe() {
-        mCallback.autoAukaisuPuhu();
+        mCallback.startTextToSpeech();
         hiljennys.setText(R.string.hiljenna_puhe);
         hiljenna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.hiljenna();
+                mCallback.lopetaPuhe();
                 hiljenna.setVisibility(View.GONE);
             }
         });
@@ -383,7 +359,7 @@ public class HalytysButtonsFragment extends Fragment {
         hiljenna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.hiljenna();
+                mCallback.lopetaPuhe();
                 hiljenna.setVisibility(View.GONE);
             }
         });
