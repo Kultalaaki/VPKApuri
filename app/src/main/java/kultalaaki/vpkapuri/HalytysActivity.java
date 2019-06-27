@@ -1,15 +1,12 @@
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.core.content.FileProvider;
@@ -21,9 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,10 +35,9 @@ public class HalytysActivity extends AppCompatActivity
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     boolean koneluku, autoAukaisu, asemataulu, responderFragmentShowing;
-    private String currentPhotoPath;
+    private String action, type, currentPhotoPath;
     private String viesti = "", tunnus = "", kiireellisyysLuokka = "", osoite = "", numero = "", aikaleima = "";
     SharedPreferences preferences;
-    private TextToSpeech textToSpeech;
 
     @SuppressLint("ApplySharedPref")
     @Override
@@ -57,87 +51,40 @@ public class HalytysActivity extends AppCompatActivity
         }
         setContentView(R.layout.activity_halytys);
         Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
+        action = intent.getAction();
+        type = intent.getType();
         koneluku = preferences.getBoolean("koneluku", false);
         autoAukaisu = preferences.getBoolean("autoAukaisu", false);
 
-        FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
-        mViewModel.getLastEntry().observe(this, new Observer<List<FireAlarm>>() {
-            @Override
-            public void onChanged(List<FireAlarm> fireAlarms) {
-                if (!fireAlarms.isEmpty()) {
-                    FireAlarm currentAlarm = fireAlarms.get(0);
-                    viesti = currentAlarm.getViesti();
-                    tunnus = currentAlarm.getTunnus();
-                    kiireellisyysLuokka = currentAlarm.getLuokka();
-                    osoite = currentAlarm.getOsoite();
-                    numero = currentAlarm.getOptionalField2();
-                    aikaleima = currentAlarm.getTimeStamp();
-                    AsematauluButtonsFragment asematauluButtonsFragment = (AsematauluButtonsFragment)
-                            getSupportFragmentManager().findFragmentByTag("asematauluButtonsFragment");
-                    HalytysFragment halytysFragment = (HalytysFragment)
-                            getSupportFragmentManager().findFragmentByTag("halytysFragment");
-                    AnswerOHTOFragment answerOHTOFragment = (AnswerOHTOFragment)
-                            getSupportFragmentManager().findFragmentByTag("answerOHTOFragment");
-                    HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
-                            getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
-                    if (tunnus.equals("OHTO Hälytys")) {
-                        loadOHTOAnswer();
-                    } else {
-                        if (asemataulu) {
-                            if (asematauluButtonsFragment == null) {
-                                loadAsematauluButtons();
-                            }
-                        } else {
-                            if (halytysButtonsFragment == null) {
-                                loadhalytysButtonsFragment();
-                            }
-                        }
-                    }
+    }
 
-                    if (halytysFragment != null) {
-                        // Notify. Uses viesti, tunnus, aikaleima ja kiireellisyysluokka.
-                        halytysFragment.setTexts(viesti, tunnus, kiireellisyysLuokka, aikaleima);
-                    }
-
-                    if (halytysButtonsFragment != null) {
-                        // Notify. Osoite.
-                        halytysButtonsFragment.setOsoite(osoite);
-                    }
-
-                    if (asematauluButtonsFragment != null) {
-                        // Notify. Osoite.
-                        asematauluButtonsFragment.setOsoite(osoite);
-                    }
-
-                    if (answerOHTOFragment != null) {
-                        // Notify. Numero,
-                        answerOHTOFragment.setNumero(numero);
-                    }
-
-                }
-            }
-        });
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                Intent stopAlarm = new Intent(HalytysActivity.this, IsItAlarmService.class);
-                HalytysActivity.this.stopService(stopAlarm);
-                if (koneluku && !autoAukaisu) {
-                    //waitForFragment();
-                    startTextToSpeech();
-                    // Hälynappulat setTextHiljenna();
-                }
-            } else if ("automaattinen".equals(type)) {
-                preferences.edit().putBoolean("showHiljenna", true).commit();
-                // halytysButtonsFragment.autoAukaisu();
-                //waitForButtonsFragment();
-            }
+    public void hiljenna() {
+        HalytysFragment halytysFragment = (HalytysFragment)
+                getSupportFragmentManager().findFragmentByTag("halytysFragment");
+        if (halytysFragment != null) {
+            halytysFragment.lopetaPuhe();
         }
     }
 
-    @Override
+    public void autoAukaisuPuhu() {
+        HalytysFragment halytysFragment = (HalytysFragment)
+                getSupportFragmentManager().findFragmentByTag("halytysFragment");
+        //Log.i("HalytysActivity", halytysFragment.toString());
+        if (halytysFragment != null) {
+            halytysFragment.txtToSpeech();
+        }
+    }
+
+    public void avaaWebSivu(String url) {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        WebviewFragment webviewFragment = WebviewFragment.newInstance(url);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_left);
+        fragmentTransaction.replace(R.id.HalytysYlaosa, webviewFragment, "webviewFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     protected void onStart() {
         super.onStart();
 
@@ -151,62 +98,8 @@ public class HalytysActivity extends AppCompatActivity
         } else {
             loadhalytysButtonsFragment();
         }
-        checkDoNotDisturb();
+        getParameters(action, type);
     }
-
-    @SuppressLint("ApplySharedPref")
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (textToSpeech != null) {
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
-        if (palautaMediaVolBoolean) {
-            AudioManager ad = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-            if (ad != null) {
-                ad.setStreamVolume(AudioManager.STREAM_MUSIC, palautaMediaVol, 0);
-            }
-
-        }
-        preferences.edit().putBoolean("HalytysOpen", false).commit();
-    }
-
-    public String returnOsoite() {
-        return osoite;
-    }
-
-    public String returnViesti() {
-        return viesti;
-    }
-
-    public String returnTunnus() {
-        return tunnus;
-    }
-
-    public String returnKiireellisyysLuokka() {
-        return kiireellisyysLuokka;
-    }
-
-    public String returnNumero() {
-        return numero;
-    }
-
-    public String returnAikaleima() {
-        return aikaleima;
-    }
-
-    public void avaaWebSivu(String url) {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        WebviewFragment webviewFragment = WebviewFragment.newInstance(url);
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_left);
-        fragmentTransaction.replace(R.id.HalytysYlaosa, webviewFragment, "webviewFragment");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-
 
     void loadAsematauluButtons() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
@@ -227,7 +120,7 @@ public class HalytysActivity extends AppCompatActivity
     @SuppressLint("ApplySharedPref")
     public void loadResponderFragment() {
         responderFragmentShowing = preferences.getBoolean("responderFragmentShowing", false);
-        if (!responderFragmentShowing) {
+        if(!responderFragmentShowing) {
             FragmentManager fragmentManager = this.getSupportFragmentManager();
             ResponderFragment responderFragment = new ResponderFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -239,22 +132,6 @@ public class HalytysActivity extends AppCompatActivity
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.HalytysYlaosa, responderFragment, "ResponderFragment").commit();
                 preferences.edit().putBoolean("responderFragmentShowing", true).commit();
-            }
-        }
-    }
-
-    public void updateAddress(String updatedAddress) {
-        if (asemataulu) {
-            AsematauluButtonsFragment asematauluButtonsFragment = (AsematauluButtonsFragment)
-                    getSupportFragmentManager().findFragmentByTag("asematauluButtonsFragment");
-            if (asematauluButtonsFragment != null) {
-                asematauluButtonsFragment.updateAddress(updatedAddress);
-            }
-        } else {
-            HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
-                    getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
-            if (halytysButtonsFragment != null) {
-                halytysButtonsFragment.updateAddress(updatedAddress);
             }
         }
     }
@@ -274,7 +151,7 @@ public class HalytysActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.addToBackStack(null);
-        if (findViewById(R.id.responder_view) != null) {
+        if(findViewById(R.id.responder_view) != null) {
             fragmentTransaction.replace(R.id.responder_view, manpowerFragment, "manpowerFragment").commit();
         } else {
             fragmentTransaction.replace(R.id.HalytysYlaosa, manpowerFragment, "manpowerFragment").commit();
@@ -289,9 +166,62 @@ public class HalytysActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.HalytysAlaosa, halytysButtonsFragment, "halytysButtonsFragment").commit();
     }
 
+    public void waitForFragment() {
+        Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            public void run() {
+                HalytysFragment halytysFragment = (HalytysFragment)
+                        getSupportFragmentManager().findFragmentByTag("halytysFragment");
+                //Log.i("HalytysActivity", halytysFragment.toString());
+                if (halytysFragment != null) {
+                    halytysFragment.txtToSpeech();
+                }
+                HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
+                        getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+                if (halytysButtonsFragment != null) {
+                    halytysButtonsFragment.setTextHiljennaPuhe();
+                }
+            }
+        }, 1000);
+        action = null;
+        type = null;
+    }
+
+    public void waitForButtonsFragment() {
+        Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            public void run() {
+                HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
+                        getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
+                if (halytysButtonsFragment != null) {
+                    halytysButtonsFragment.autoAukaisu();
+                }
+            }
+        }, 1000);
+        action = null;
+        type = null;
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public void getParameters(String action, String type) {
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                Intent stopAlarm = new Intent(HalytysActivity.this, IsItAlarmService.class);
+                HalytysActivity.this.stopService(stopAlarm);
+                if (koneluku && !autoAukaisu) {
+                    waitForFragment();
+                }
+            } else if ("automaattinen".equals(type)) {
+                preferences.edit().putBoolean("showHiljenna", true).commit();
+                waitForButtonsFragment();
+            }
+        }
+    }
+
     /**
      * AsematauluButtonsFragment methods below this
-     * <p>
+     *
      * <--Methods to take picture and add it to gallery-->
      * openCamera
      * createImageFile
@@ -355,119 +285,6 @@ public class HalytysActivity extends AppCompatActivity
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             //setPic();
             galleryAddPic();
-        }
-    }
-
-    /**
-     * Text to speech
-     */
-    private int palautaMediaVol, tekstiPuheeksiVol;
-    private boolean palautaMediaVolBoolean = false;
-
-    public void startTextToSpeech() {
-        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int result = textToSpeech.setLanguage(Locale.getDefault());
-
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(getApplicationContext(), "Kieli ei ole tuettu.", Toast.LENGTH_LONG).show();
-                    }
-
-                    txtToSpeechVolume();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Virhe", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    private void txtToSpeechVolume() {
-
-        AudioManager ad = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        if (ad != null) {
-            palautaMediaVol = ad.getStreamVolume(AudioManager.STREAM_MUSIC);
-            palautaMediaVolBoolean = true;
-            ad.setStreamVolume(AudioManager.STREAM_MUSIC, 4, 0);
-            // teksti puheeksi äänenvoimakkuus
-            try {
-                SharedPreferences prefe_general = PreferenceManager.getDefaultSharedPreferences(this);
-                tekstiPuheeksiVol = prefe_general.getInt("tekstiPuheeksiVol", -1);
-                tekstiPuheeksiVol = saadaAani(tekstiPuheeksiVol);
-                ad.setStreamVolume(AudioManager.STREAM_MUSIC, tekstiPuheeksiVol, 0);
-                puhu();
-            } catch (Exception e) {
-                Log.i("VPK Apuri", "Teksti puheeksi äänenvoimakkuuden lukeminen asetuksista epäonnistui.");
-            }
-        }
-    }
-
-    private int saadaAani(int voima) {
-
-        final AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        if (audioManager != null) {
-            tekstiPuheeksiVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            double aani = (double) tekstiPuheeksiVol / 100 * voima;
-            tekstiPuheeksiVol = (int) aani;
-        }
-        if (tekstiPuheeksiVol == 0) {
-            return 1;
-        } else if (tekstiPuheeksiVol == 1) {
-            return 1;
-        } else if (tekstiPuheeksiVol == 2) {
-            return 2;
-        } else if (tekstiPuheeksiVol == 3) {
-            return 3;
-        } else if (tekstiPuheeksiVol == 4) {
-            return 4;
-        } else if (tekstiPuheeksiVol == 5) {
-            return 5;
-        } else if (tekstiPuheeksiVol == 6) {
-            return 6;
-        } else if (tekstiPuheeksiVol == 7) {
-            return 7;
-        }
-
-        return tekstiPuheeksiVol;
-    }
-
-    private void puhu() {
-        String puheeksi = tunnus + " " + viesti;
-        if (Build.VERSION.SDK_INT >= 21) {
-            textToSpeech.playSilentUtterance(1000, TextToSpeech.QUEUE_FLUSH, null);
-        } else {
-            textToSpeech.playSilence(1000, TextToSpeech.QUEUE_FLUSH, null);
-        }
-        textToSpeech.speak(puheeksi, TextToSpeech.QUEUE_FLUSH, null);
-    }
-
-    public void lopetaPuhe() {
-        AudioManager ad = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        if (ad != null) {
-            ad.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-            if (textToSpeech != null) {
-                textToSpeech.stop();
-                textToSpeech.shutdown();
-            }
-        }
-    }
-
-    /**
-     * Other methods
-     */
-    private void checkDoNotDisturb() {
-        boolean disturb = preferences.getBoolean("DoNotDisturb", false);
-        boolean asemataulu = preferences.getBoolean("asemataulu", false);
-        if (!disturb && !asemataulu) {
-            NotificationManager notificationManager =
-                    (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && !notificationManager.isNotificationPolicyAccessGranted()) {
-                    Toast.makeText(this, "Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa.", Toast.LENGTH_LONG).show();
-                }
-            }
         }
     }
 }

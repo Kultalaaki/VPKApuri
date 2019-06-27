@@ -19,6 +19,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
@@ -26,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 
 public class HalytysButtonsFragment extends Fragment {
@@ -54,21 +59,49 @@ public class HalytysButtonsFragment extends Fragment {
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
         /** Called when a button is clicked in HalytysButtonsFragment */
-        void lopetaPuhe();
-        void startTextToSpeech();
+        void hiljenna();
+        void autoAukaisuPuhu();
         void avaaWebSivu(String url);
-        String returnOsoite();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setResources();
+
     }
+
+    /*@Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception.
+        try {
+            mCallback = (Listener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement Listener");
+        }
+    }*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Context ctx = getActivity();
+        if(ctx != null) {
+            LifecycleOwner lf = getViewLifecycleOwner();
+            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+                @Override
+                public void onChanged(List<FireAlarm> fireAlarms) {
+                    if(!fireAlarms.isEmpty()) {
+                        FireAlarm currentAlarm = fireAlarms.get(0);
+                        osoiteFromDB = currentAlarm.getOsoite();
+                        osoite.setText(osoiteFromDB);
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -95,17 +128,11 @@ public class HalytysButtonsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        osoiteFromDB = mCallback.returnOsoite();
         setOnClickListeners();
         setTexts();
         if(showHiljennaButton) {
             autoAukaisu();
         }
-    }
-
-    void setOsoite(String osoiteFrom) {
-        osoite.setText(osoiteFrom);
-        osoiteFromDB = osoiteFrom;
     }
 
     private void setTexts() {
@@ -147,7 +174,7 @@ public class HalytysButtonsFragment extends Fragment {
         hiljennys.setText(R.string.hiljenna_puhe);
     }
 
-    private void autoAukaisu() {
+    void autoAukaisu() {
         stopAlarm = true;
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_halytys);
@@ -169,12 +196,12 @@ public class HalytysButtonsFragment extends Fragment {
     }
 
     private void autoAukaisuHiljennaPuhe() {
-        mCallback.startTextToSpeech();
+        mCallback.autoAukaisuPuhu();
         hiljennys.setText(R.string.hiljenna_puhe);
         hiljenna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.lopetaPuhe();
+                mCallback.hiljenna();
                 hiljenna.setVisibility(View.GONE);
             }
         });
@@ -359,7 +386,7 @@ public class HalytysButtonsFragment extends Fragment {
         hiljenna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.lopetaPuhe();
+                mCallback.hiljenna();
                 hiljenna.setVisibility(View.GONE);
             }
         });

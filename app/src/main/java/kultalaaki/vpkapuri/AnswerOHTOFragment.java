@@ -4,8 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
@@ -14,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
 
 
 public class AnswerOHTOFragment extends Fragment {
@@ -28,8 +33,28 @@ public class AnswerOHTOFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Context ctx = getActivity();
+        if(ctx != null) {
+            LifecycleOwner lf = getViewLifecycleOwner();
+            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+                @Override
+                public void onChanged(List<FireAlarm> fireAlarms) {
+                    if(!fireAlarms.isEmpty()) {
+                        FireAlarm currentAlarm = fireAlarms.get(0);
+                        halyttavaNumero.setText(currentAlarm.getOptionalField2());
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -53,16 +78,11 @@ public class AnswerOHTOFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
-        halyttavaNumero.setText(mListener.returnNumero());
+        super.onResume();;
         setOnClickListeners();
     }
 
-    void setNumero(String numero) {
-        halyttavaNumero.setText(numero);
-    }
-
-    void setOnClickListeners() {
+    private void setOnClickListeners() {
         sendAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +135,5 @@ public class AnswerOHTOFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        String returnNumero();
     }
 }

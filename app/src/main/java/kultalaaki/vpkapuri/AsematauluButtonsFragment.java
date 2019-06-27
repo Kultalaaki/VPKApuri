@@ -17,12 +17,17 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 
 /**
@@ -75,6 +80,7 @@ public class AsematauluButtonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -96,6 +102,21 @@ public class AsematauluButtonsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Context ctx = getActivity();
+        if(ctx != null) {
+            LifecycleOwner lf = getViewLifecycleOwner();
+            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+                @Override
+                public void onChanged(List<FireAlarm> fireAlarms) {
+                    if(!fireAlarms.isEmpty()) {
+                        FireAlarm currentAlarm = fireAlarms.get(0);
+                        osoiteFromDB = currentAlarm.getOsoite();
+                        osoite.setText(osoiteFromDB);
+                    }
+                }
+            });
+        }
 
         /*FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
 
@@ -110,21 +131,14 @@ public class AsematauluButtonsFragment extends Fragment {
         }*/
     }
 
-    void setOsoite(String osoitet) {
-        osoiteFromDB = osoitet;
-        osoite.setText(osoitet);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        osoiteFromDB = mListener.returnOsoite();
         setOnClickListeners();
     }
 
@@ -165,11 +179,6 @@ public class AsematauluButtonsFragment extends Fragment {
                 Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    void updateAddress(String updatedAddress) {
-        osoiteFromDB = updatedAddress;
-        osoite.setText(updatedAddress);
     }
 
     @Override
@@ -249,6 +258,5 @@ public class AsematauluButtonsFragment extends Fragment {
         void openCamera();
         void loadResponderFragment();
         void loadManpowerFragment();
-        String returnOsoite();
     }
 }
