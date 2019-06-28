@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
 
 
 public class AnswerOHTOFragment extends Fragment {
@@ -27,6 +25,8 @@ public class AnswerOHTOFragment extends Fragment {
     private CardView sendAnswer;
 
     private OnFragmentInteractionListener mListener;
+
+    private FireAlarmViewModel fireAlarmViewModel;
 
     public AnswerOHTOFragment() {
         // Required empty public constructor
@@ -37,15 +37,11 @@ public class AnswerOHTOFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Context ctx = getActivity();
         if(ctx != null) {
-            LifecycleOwner lf = getViewLifecycleOwner();
-            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
-            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            fireAlarmViewModel.getAlarmingNumber().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
                 @Override
-                public void onChanged(List<FireAlarm> fireAlarms) {
-                    if(!fireAlarms.isEmpty()) {
-                        FireAlarm currentAlarm = fireAlarms.get(0);
-                        halyttavaNumero.setText(currentAlarm.getOptionalField2());
-                    }
+                public void onChanged(CharSequence charSequence) {
+                    halyttavaNumero.setText(charSequence);
                 }
             });
         }
@@ -78,7 +74,7 @@ public class AnswerOHTOFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();;
+        super.onResume();
         setOnClickListeners();
     }
 

@@ -48,6 +48,8 @@ public class HalytysFragment extends Fragment {
 
     private Listener mCallback;
 
+    private FireAlarmViewModel fireAlarmViewModel;
+
     @SuppressLint("ApplySharedPref")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,9 +95,8 @@ public class HalytysFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Context ctx = getActivity();
         if(ctx != null) {
-            LifecycleOwner lf = getViewLifecycleOwner();
-            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
-            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            fireAlarmViewModel.getLastEntry().observe(getViewLifecycleOwner(), new Observer<List<FireAlarm>>() {
                 @Override
                 public void onChanged(List<FireAlarm> fireAlarms) {
                     if(!fireAlarms.isEmpty()) {
@@ -103,6 +104,9 @@ public class HalytysFragment extends Fragment {
                         halytyksenviesti.setText(currentAlarm.getViesti());
                         halytyksentunnus.setText(currentAlarm.getTunnus());
                         kiireellisyys.setText(currentAlarm.getLuokka());
+
+                        fireAlarmViewModel.setAddress(currentAlarm.getOsoite());
+                        fireAlarmViewModel.setAlarmingNumber(currentAlarm.getOptionalField2());
 
                         if(chronoInUse) {
                             chronometerStartTimeString = currentAlarm.getTimeStamp();

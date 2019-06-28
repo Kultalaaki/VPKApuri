@@ -56,6 +56,8 @@ public class HalytysButtonsFragment extends Fragment {
 
     private Listener mCallback;
 
+    private FireAlarmViewModel fireAlarmViewModel;
+
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
         /** Called when a button is clicked in HalytysButtonsFragment */
@@ -90,15 +92,12 @@ public class HalytysButtonsFragment extends Fragment {
         Context ctx = getActivity();
         if(ctx != null) {
             LifecycleOwner lf = getViewLifecycleOwner();
-            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
-            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            fireAlarmViewModel.getAddress().observe(lf, new Observer<CharSequence>() {
                 @Override
-                public void onChanged(List<FireAlarm> fireAlarms) {
-                    if(!fireAlarms.isEmpty()) {
-                        FireAlarm currentAlarm = fireAlarms.get(0);
-                        osoiteFromDB = currentAlarm.getOsoite();
-                        osoite.setText(osoiteFromDB);
-                    }
+                public void onChanged(CharSequence charSequence) {
+                    osoiteFromDB = charSequence.toString();
+                    osoite.setText(charSequence);
                 }
             });
         }

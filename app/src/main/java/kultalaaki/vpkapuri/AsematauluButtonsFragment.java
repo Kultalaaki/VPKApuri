@@ -55,6 +55,8 @@ public class AsematauluButtonsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private FireAlarmViewModel fireAlarmViewModel;
+
     public AsematauluButtonsFragment() {
         // Required empty public constructor
     }
@@ -104,16 +106,12 @@ public class AsematauluButtonsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Context ctx = getActivity();
         if(ctx != null) {
-            LifecycleOwner lf = getViewLifecycleOwner();
-            FireAlarmViewModel model = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
-            model.getLastEntry().observe(lf, new Observer<List<FireAlarm>>() {
+            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            fireAlarmViewModel.getAddress().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
                 @Override
-                public void onChanged(List<FireAlarm> fireAlarms) {
-                    if(!fireAlarms.isEmpty()) {
-                        FireAlarm currentAlarm = fireAlarms.get(0);
-                        osoiteFromDB = currentAlarm.getOsoite();
-                        osoite.setText(osoiteFromDB);
-                    }
+                public void onChanged(CharSequence charSequence) {
+                    osoiteFromDB = charSequence.toString();
+                    osoite.setText(charSequence);
                 }
             });
         }
