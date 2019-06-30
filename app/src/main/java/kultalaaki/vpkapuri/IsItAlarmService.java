@@ -124,7 +124,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     if (erica) {
                         lisaaHalyTunnukset();
                         lisaaKunnatErica();
-                        addressLookUp(message, timestamp);
+                        addressLookUp(message, timestamp, numero);
                     } else {
                         // OHTO alarm
                         OHTOAlarm(message, timestamp, numero);
@@ -154,10 +154,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
             } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
 
-                lisaaHalyTunnukset();
+
                 if (erica) {
+                    lisaaHalyTunnukset();
                     lisaaKunnatErica();
-                    addressLookUp(message, timestamp);
+                    addressLookUp(message, timestamp, numero);
                 } else {
                     // OHTO alarm
                     OHTOAlarm(message, timestamp, numero);
@@ -419,7 +420,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
     }
 
-    private void addressLookUp(String viesti, String timeStamp) {
+    private void addressLookUp(String viesti, String timeStamp, String number) {
 
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
 
@@ -552,7 +553,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if(fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
                     // Last alarm was OHTO or phonecall alarm. Make new alarm.
                     FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
-                            osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+                            osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
                 } else {
@@ -565,14 +566,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         fireAlarmRepository.update(fireAlarmLastEntry);
                     } else {
                         FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
-                                osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+                                osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                         fireAlarmRepository.insert(fireAlarm);
                     }
                 }
             } else {
                 FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
-                        osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+                        osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                 fireAlarmRepository.insert(fireAlarm);
             }
@@ -585,7 +586,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if(fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
                     // Last alarm was OHTO or phonecall alarm. Make new alarm.
                     FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
-                            osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+                            osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
                 } else {
@@ -608,7 +609,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     } else {
                         // Time difference over 30 minutes. Make new alarm.
                         FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
-                                osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+                                osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                         fireAlarmRepository.insert(fireAlarm);
                     }
@@ -624,10 +625,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
         } else {
             FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
-                    osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
+                    osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
             fireAlarmRepository.insert(fireAlarm);
         }
+
         viestinSanat.clear();
         sanatYksinaan.clear();
     }

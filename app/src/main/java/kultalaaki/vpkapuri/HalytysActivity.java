@@ -9,12 +9,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
@@ -36,13 +37,17 @@ public class HalytysActivity extends AppCompatActivity
 
     boolean koneluku, autoAukaisu, asemataulu, responderFragmentShowing;
     private String action, type, currentPhotoPath;
-    private String viesti = "", tunnus = "", kiireellisyysLuokka = "", osoite = "", numero = "", aikaleima = "";
     SharedPreferences preferences;
+    FragmentManager fragmentManager;
+
+    ConstraintLayout constraintLayout;
+    ConstraintSet constraintSet;
 
     @SuppressLint("ApplySharedPref")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = preferences.getBoolean("asemataulu", false);
         preferences.edit().putBoolean("responderFragmentShowing", false).commit();
@@ -56,6 +61,22 @@ public class HalytysActivity extends AppCompatActivity
         koneluku = preferences.getBoolean("koneluku", false);
         autoAukaisu = preferences.getBoolean("autoAukaisu", false);
 
+        constraintLayout = findViewById(R.id.activity_halytys);
+
+    }
+
+    public void changeLayout() {
+        constraintSet = new ConstraintSet();
+        //constraintSet.clone(constraintLayout);
+        constraintSet.load(this, R.layout.halytys_activity_ohto);
+        constraintSet.applyTo(constraintLayout);
+    }
+
+    public void changeLayoutBack() {
+        constraintSet = new ConstraintSet();
+        //constraintSet.clone(constraintLayout);
+        constraintSet.load(this, R.layout.activity_halytys);
+        constraintSet.applyTo(constraintLayout);
     }
 
     public void hiljenna() {
@@ -85,6 +106,7 @@ public class HalytysActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -101,7 +123,13 @@ public class HalytysActivity extends AppCompatActivity
         getParameters(action, type);
     }
 
-    void loadAsematauluButtons() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    public void loadAsematauluButtons() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         AsematauluButtonsFragment asematauluButtonsFragment = new AsematauluButtonsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -113,7 +141,6 @@ public class HalytysActivity extends AppCompatActivity
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         AnswerOHTOFragment answerOHTOFragment = new AnswerOHTOFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.HalytysAlaosa, answerOHTOFragment, "answerOHTOFragment").commit();
     }
 

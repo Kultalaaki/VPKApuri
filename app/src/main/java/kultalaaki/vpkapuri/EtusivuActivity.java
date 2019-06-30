@@ -376,7 +376,6 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     public void startTestaaHalytys() {
 
         ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
-
         if(ericaEtusivu) {
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
@@ -398,10 +397,9 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             handler.postDelayed(new Runnable() {
                 public void run() {
                     long aika = System.currentTimeMillis();
-                    Log.e("TAG", "Ei helvetti tass");
                     String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    String alarmMessage = "Operaatio nro 220/Etsintä/Kankaanpää/12.10.18:30. Kuittaus: 220 ok/ei/pm hh:mm";
+                    String alarmMessage = "TESTIHÄLYTYS; Operaatio nro 220/Etsintä/Kankaanpää/12.10.18:30. Kuittaus: 220 ok/ei/pm hh:mm";
                     halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");

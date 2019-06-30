@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class ResponderFragment extends Fragment {
     private ResponderViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private CardView cardViewDeleteResponders;
-    private int deleteCounter = 0;
+    private TextView combinedComers, smokeDivers;
+    private int deleteCounter = 0, combined = 0, smokes = 0;
 
     public static ResponderFragment newInstance() {
         return new ResponderFragment();
@@ -45,6 +47,8 @@ public class ResponderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mRecyclerView = view.findViewById(R.id.recycler_view_responders);
         cardViewDeleteResponders = view.findViewById(R.id.cardview_delete_responders);
+        combinedComers = view.findViewById(R.id.combined);
+        smokeDivers = view.findViewById(R.id.smokeDivers);
     }
 
     @Override
@@ -60,9 +64,29 @@ public class ResponderFragment extends Fragment {
         LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
         mViewModel = ViewModelProviders.of(this).get(ResponderViewModel.class);
         mViewModel.getAllResponders().observe(lifecycleOwner, new Observer<List<Responder>>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(@Nullable List<Responder> responders) {
                 // TODO: update RecyclerView
+                if(responders != null) {
+                    if(!responders.isEmpty()) {
+                        combined = responders.size();
+                        for(Responder responder : responders) {
+                            String smokeDiver = responder.getAttributeSmoke();
+                            if(smokeDiver.equals("S")) {
+                                smokes++;
+                            }
+                        }
+                        combinedComers.setText("Yht: " + combined);
+                        smokeDivers.setText("Savu: " + smokes);
+                    } else {
+                        combinedComers.setText("Yht: 0");
+                        smokeDivers.setText("Savu: 0");
+                    }
+                } else {
+                    combinedComers.setText("Yht: 0");
+                    smokeDivers.setText("Savu: 0");
+                }
                 adapter.submitList(responders);
             }
         });

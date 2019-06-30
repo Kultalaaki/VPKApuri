@@ -16,6 +16,7 @@ public class FireAlarmViewModel extends AndroidViewModel {
 
     private MutableLiveData<CharSequence> address = new MutableLiveData<>();
     private MutableLiveData<CharSequence> number = new MutableLiveData<>();
+    private MutableLiveData<CharSequence> tunnus = new MutableLiveData<>();
 
     public FireAlarmViewModel(@NonNull Application application) {
         super(application);
@@ -24,21 +25,25 @@ public class FireAlarmViewModel extends AndroidViewModel {
         lastFireAlarm = repository.getLastEntry();
     }
 
-    public void setAddress(CharSequence input) {
+    void setAddress(CharSequence input) {
         address.setValue(input);
     }
 
-    public LiveData<CharSequence> getAddress() {
+    LiveData<CharSequence> getAddress() {
         return address;
     }
 
-    public void setAlarmingNumber(CharSequence input) {
+    void setAlarmingNumber(CharSequence input) {
         number.setValue(input);
     }
 
-    public LiveData<CharSequence> getAlarmingNumber() {
+    LiveData<CharSequence> getAlarmingNumber() {
         return number;
     }
+
+    void setTunnus(CharSequence input) {tunnus.setValue(input);}
+
+    LiveData<CharSequence> getTunnus() {return tunnus;}
 
     public void insert(FireAlarm fireAlarm) {repository.insert(fireAlarm);}
 
@@ -52,7 +57,7 @@ public class FireAlarmViewModel extends AndroidViewModel {
         return repository.getLatest();
     }
 
-    public LiveData<List<FireAlarm>> getLastEntry() {return lastFireAlarm;}
+    LiveData<List<FireAlarm>> getLastEntry() {return lastFireAlarm;}
 
-    public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
+    LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
 }

@@ -13,7 +13,6 @@ import android.speech.tts.TextToSpeech;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -40,7 +39,7 @@ public class HalytysFragment extends Fragment {
     private TextView kiireellisyys;
     private TextToSpeech t1;
     private int palautaMediaVol, tekstiPuheeksiVol;
-    private boolean palautaMediaVolBoolean = false;
+    private boolean palautaMediaVolBoolean = false, previousAlarmOHTO = false, asemataulu;
     private SharedPreferences preferences;
     private Chronometer chronometer;
     private boolean chronoInUse;
@@ -54,12 +53,14 @@ public class HalytysFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Context ctx = getActivity();
         if(ctx != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.edit().putBoolean("HalytysOpen", true).commit();
+        asemataulu = preferences.getBoolean("asemataulu", false);
 
         chronoInUse = preferences.getBoolean("AlarmCounter", false);
         if(chronoInUse) {
@@ -71,7 +72,11 @@ public class HalytysFragment extends Fragment {
     }
 
     public interface Listener {
-
+        void loadOHTOAnswer();
+        void changeLayout();
+        void changeLayoutBack();
+        void loadhalytysButtonsFragment();
+        void loadAsematauluButtons();
     }
 
     @Override
@@ -107,6 +112,18 @@ public class HalytysFragment extends Fragment {
 
                         fireAlarmViewModel.setAddress(currentAlarm.getOsoite());
                         fireAlarmViewModel.setAlarmingNumber(currentAlarm.getOptionalField2());
+                        if(currentAlarm.getTunnus().equals("OHTO Hälytys")) {
+                            mCallback.loadOHTOAnswer();
+                            mCallback.changeLayout();
+                            previousAlarmOHTO = true;
+                        } else if(previousAlarmOHTO){
+                            if(asemataulu) {
+                                mCallback.loadAsematauluButtons();
+                            } else {
+                                mCallback.loadhalytysButtonsFragment();
+                            }
+                            mCallback.changeLayoutBack();
+                        }
 
                         if(chronoInUse) {
                             chronometerStartTimeString = currentAlarm.getTimeStamp();
