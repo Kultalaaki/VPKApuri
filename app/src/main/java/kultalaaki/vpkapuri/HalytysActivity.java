@@ -15,8 +15,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.AutoTransition;
-import androidx.transition.TransitionManager;
 
 import android.os.Bundle;
 import android.provider.MediaStore;

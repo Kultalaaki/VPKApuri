@@ -26,8 +26,6 @@ public class AnswerOHTOFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private FireAlarmViewModel fireAlarmViewModel;
-
     public AnswerOHTOFragment() {
         // Required empty public constructor
     }
@@ -37,7 +35,7 @@ public class AnswerOHTOFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Context ctx = getActivity();
         if(ctx != null) {
-            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            FireAlarmViewModel fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
             fireAlarmViewModel.getAlarmingNumber().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
                 @Override
                 public void onChanged(CharSequence charSequence) {

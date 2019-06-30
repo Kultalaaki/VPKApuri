@@ -102,6 +102,7 @@ public class ResponderFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 mViewModel.delete(adapter.getResponderAt(viewHolder.getAdapterPosition()));
+                smokes = 0;
                 Toast.makeText(getActivity(), "Lähtijä poistettu listalta!", Toast.LENGTH_LONG).show();
             }
         }).attachToRecyclerView(mRecyclerView);
@@ -136,9 +137,7 @@ public class ResponderFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        /**
-         AutoFitGridLayoutManager that auto fits the cells by the column width defined.
-         **/
+
         int orientation = getResources().getConfiguration().orientation;
         if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // In landscape

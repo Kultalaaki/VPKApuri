@@ -17,7 +17,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -25,9 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.List;
 
 
 /**
@@ -54,8 +51,6 @@ public class AsematauluButtonsFragment extends Fragment {
     private String osoiteFromDB;
 
     private OnFragmentInteractionListener mListener;
-
-    private FireAlarmViewModel fireAlarmViewModel;
 
     public AsematauluButtonsFragment() {
         // Required empty public constructor
@@ -98,6 +93,7 @@ public class AsematauluButtonsFragment extends Fragment {
         kameraKortti = view.findViewById(R.id.cameraCard);
         responderKortti = view.findViewById(R.id.responderCard);
         manpowerCard = view.findViewById(R.id.manpowerCard);
+        manpowerCard.setVisibility(View.INVISIBLE);
         osoite = view.findViewById(R.id.osoiteteksti);
     }
 
@@ -106,7 +102,7 @@ public class AsematauluButtonsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Context ctx = getActivity();
         if(ctx != null) {
-            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            FireAlarmViewModel fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
             fireAlarmViewModel.getAddress().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
                 @Override
                 public void onChanged(CharSequence charSequence) {
@@ -170,13 +166,13 @@ public class AsematauluButtonsFragment extends Fragment {
             }
         });
 
-        manpowerCard.setOnClickListener(new View.OnClickListener() {
+        /*manpowerCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.loadManpowerFragment();
                 Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 
     @Override
@@ -255,6 +251,6 @@ public class AsematauluButtonsFragment extends Fragment {
         // TODO: Update argument type and name
         void openCamera();
         void loadResponderFragment();
-        void loadManpowerFragment();
+        //void loadManpowerFragment();
     }
 }
