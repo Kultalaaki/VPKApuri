@@ -42,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
@@ -310,6 +311,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         if (leader) {
                             lead = "Y";
                         }
+
                         Responder responder = new Responder(name, vacancyNumber, message, lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
                         repository.insert(responder);
 

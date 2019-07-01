@@ -32,6 +32,9 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
                 totalSpace = getHeight() - getPaddingTop() - getPaddingBottom();
             }
             int spanCount = Math.max(1, totalSpace / columnWidth);
+            if(spanCount >= 3) {
+                spanCount = 2;
+            }
             setSpanCount(spanCount);
             columnWidthChanged = false;
         }

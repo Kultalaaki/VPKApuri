@@ -63,11 +63,41 @@ public class HalytysActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadhalytysFragment();
+        if (asemataulu) {
+            loadAsematauluButtons();
+            if (findViewById(R.id.responder_view) != null) {
+                loadResponderFragment();
+            }
+        } else {
+            loadhalytysButtonsFragment();
+        }
+        getParameters(action, type);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack();
+    }
+
     public void changeLayout() {
-        constraintSet = new ConstraintSet();
-        //constraintSet.clone(constraintLayout);
-        constraintSet.load(this, R.layout.halytys_activity_ohto);
-        constraintSet.applyTo(constraintLayout);
+        if(findViewById(R.id.responder_view) == null) {
+            constraintSet = new ConstraintSet();
+            //constraintSet.clone(constraintLayout);
+            constraintSet.load(this, R.layout.halytys_activity_ohto);
+            constraintSet.applyTo(constraintLayout);
+        }
     }
 
     public void changeLayoutBack() {
@@ -104,28 +134,7 @@ public class HalytysActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        loadhalytysFragment();
-        if (asemataulu) {
-            // TODO: Asemataulu käytössä
-            loadAsematauluButtons();
-            if (findViewById(R.id.responder_view) != null) {
-                loadResponderFragment();
-            }
-        } else {
-            loadhalytysButtonsFragment();
-        }
-        getParameters(action, type);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 
     public void loadAsematauluButtons() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
@@ -170,7 +179,7 @@ public class HalytysActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.HalytysYlaosa, halytysFragment, "halytysFragment").commit();
     }
 
-    public void loadManpowerFragment() {
+    /*public void loadManpowerFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ManpowerFragment manpowerFragment = new ManpowerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -181,7 +190,7 @@ public class HalytysActivity extends AppCompatActivity
         } else {
             fragmentTransaction.replace(R.id.HalytysYlaosa, manpowerFragment, "manpowerFragment").commit();
         }
-    }
+    }*/
 
     public void loadhalytysButtonsFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();

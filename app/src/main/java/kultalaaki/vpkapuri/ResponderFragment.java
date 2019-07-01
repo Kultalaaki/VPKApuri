@@ -58,12 +58,8 @@ public class ResponderFragment extends Fragment {
         final ResponderAdapter adapter = new ResponderAdapter();
         mRecyclerView.setAdapter(adapter);
 
-        // Basic GridLayoutManager
-        /*GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(manager);*/
-        LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
         mViewModel = ViewModelProviders.of(this).get(ResponderViewModel.class);
-        mViewModel.getAllResponders().observe(lifecycleOwner, new Observer<List<Responder>>() {
+        mViewModel.getAllResponders().observe(getViewLifecycleOwner(), new Observer<List<Responder>>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(@Nullable List<Responder> responders) {
@@ -79,6 +75,7 @@ public class ResponderFragment extends Fragment {
                         }
                         combinedComers.setText("Yht: " + combined);
                         smokeDivers.setText("Savu: " + smokes);
+                        smokes = 0;
                     } else {
                         combinedComers.setText("Yht: 0");
                         smokeDivers.setText("Savu: 0");
@@ -102,7 +99,6 @@ public class ResponderFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 mViewModel.delete(adapter.getResponderAt(viewHolder.getAdapterPosition()));
-                smokes = 0;
                 Toast.makeText(getActivity(), "Lähtijä poistettu listalta!", Toast.LENGTH_LONG).show();
             }
         }).attachToRecyclerView(mRecyclerView);
@@ -141,7 +137,7 @@ public class ResponderFragment extends Fragment {
         int orientation = getResources().getConfiguration().orientation;
         if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // In landscape
-            AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 500);
+            AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 400);
             mRecyclerView.setLayoutManager(layoutManager);
         } else {
             // In portrait

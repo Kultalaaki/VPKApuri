@@ -82,9 +82,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
         sharedPreferences.edit().putBoolean("HalytysOpen", false).apply();
 
-        if(!asemataulu) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+
         setContentView(R.layout.etusivusidepanel);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -271,6 +269,14 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!asemataulu) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     @Override
