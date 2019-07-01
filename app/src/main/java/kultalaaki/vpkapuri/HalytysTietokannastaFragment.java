@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
@@ -92,7 +93,7 @@ public class HalytysTietokannastaFragment extends Fragment {
     public void onStart() {
         super.onStart();
         fireAlarmViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             tunnus = getArguments().getString("tunnus");
             osoite = getArguments().getString("osoite");
             viesti = getArguments().getString("viesti");
@@ -116,7 +117,7 @@ public class HalytysTietokannastaFragment extends Fragment {
             kommenttiteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KOMMENTTI)));
         }*/
 
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
 
@@ -128,7 +129,7 @@ public class HalytysTietokannastaFragment extends Fragment {
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 //mapIntent.setPackage("com.google.android.apps.maps");
                 Context context = getActivity();
-                if(context != null) {
+                if (context != null) {
                     if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                         startActivity(mapIntent);
                     }
@@ -199,7 +200,7 @@ public class HalytysTietokannastaFragment extends Fragment {
                         db.deleteRow(paikka);
                         */
                         dialogInterface.dismiss();
-                        if(getActivity() != null) {
+                        if (getActivity() != null) {
                             getActivity().onBackPressed();
                         }
                     }
@@ -227,10 +228,10 @@ public class HalytysTietokannastaFragment extends Fragment {
                         mFireAlarm.setTimeStamp(aikaLeima);
 
                         fireAlarmViewModel.update(mFireAlarm);
-
+                        Toast.makeText(getActivity(), "Tallennettu.", Toast.LENGTH_SHORT).show();
                         kommenttiteksti.setCursorVisible(false);
 
-                        if(getActivity() != null) {
+                        if (getActivity() != null) {
                             getActivity().onBackPressed();
                         }
                         //boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);

@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = FireAlarm.class, version = 3)
+@Database(entities = FireAlarm.class, version = 4)
 public abstract class FireAlarmDatabase extends RoomDatabase {
 
     private static FireAlarmDatabase instance;

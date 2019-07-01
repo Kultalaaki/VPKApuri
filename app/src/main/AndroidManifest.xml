@@ -121,7 +121,7 @@
                 android:resource="@xml/widget_info" />
         </receiver>
         <receiver
-            android:name=".halypuhelu2"
+            android:name=".PhonecallBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.READ_PHONE_STATE">

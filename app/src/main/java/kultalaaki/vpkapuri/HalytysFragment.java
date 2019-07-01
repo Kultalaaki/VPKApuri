@@ -138,34 +138,6 @@ public class HalytysFragment extends Fragment {
                 }
             });
         }
-
-        /*FireAlarmViewModel mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
-
-        mViewModel.getLastEntry().observe(this, new Observer<List<FireAlarm>>() {
-            @Override
-            public void onChanged(List<FireAlarm> fireAlarms) {
-                if(!fireAlarms.isEmpty()) {
-                    FireAlarm currentAlarm = fireAlarms.get(0);
-                    halytyksenviesti.setText(currentAlarm.getViesti());
-                    halytyksentunnus.setText(currentAlarm.getTunnus());
-                    kiireellisyys.setText(currentAlarm.getLuokka());
-                    String newAddress = currentAlarm.getOsoite();
-                    mCallback.updateAddress(newAddress);
-                    if(currentAlarm.getTunnus().equals("OHTO Hälytys")) {
-                        mCallback.loadOHTOAnswer(currentAlarm.getOptionalField2());
-                    }
-                    if(chronoInUse) {
-                        chronometerStartTimeString = currentAlarm.getTimeStamp();
-                        chronometer.setVisibility(View.VISIBLE);
-                        startChronometer();
-                    } else {
-                        chronometer.setVisibility(View.INVISIBLE);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
-                }
-            }
-        });*/
     }
 
     @Override

@@ -30,9 +30,8 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
-
         PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
-        if(powerManager != null) {
+        if (powerManager != null) {
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     "VPKApuri::HälytysServiceTaustalla");
         }
@@ -49,7 +48,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 StringBuilder content = new StringBuilder();
                 final Object[] pdus = (Object[]) myBundle.get("pdus");
                 int pituus = 0;
-                if(pdus != null) {
+                if (pdus != null) {
                     pituus = pdus.length;
                 }
 
@@ -71,29 +70,13 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
                 aika = System.currentTimeMillis();
                 Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-                // Todo poistettu numeroiden formatointi vanha käytöstä tästä alta ja testataan ongelmatapausten kanssa
-                //senderNum = PhoneNumberUtils.formatNumber(senderNum);
-                /*if (senderNum.charAt(0) == '0') {
-                    senderNum = "+358" + senderNum.substring(1);
-                }*/
-                //message += "\n" + Aika;
-
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    senderNum = PhoneNumberUtils.formatNumber(senderNum, Locale.getDefault().getCountry());
-                } else {
-                    senderNum = PhoneNumberUtils.formatNumber(senderNum); //Deprecated method
-                }*/
-
-
-
-                //Toast.makeText(context, "Aseta numero näin: " + senderNum, Toast.LENGTH_LONG).show();
 
                 Intent startService = new Intent(context.getApplicationContext(), IsItAlarmService.class);
                 startService.putExtra("message", message);
                 startService.putExtra("halytysaani", "false");
                 startService.putExtra("number", senderNum);
                 startService.putExtra("timestamp", Aika);
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.getApplicationContext().startForegroundService(startService);
                 } else {
                     context.getApplicationContext().startService(startService);
@@ -109,7 +92,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(wakeLock.isHeld()) {
+                    if (wakeLock.isHeld()) {
                         wakeLock.release();
                     }
                 }
