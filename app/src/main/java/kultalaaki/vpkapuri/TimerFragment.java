@@ -3,11 +3,9 @@ package kultalaaki.vpkapuri;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
-
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

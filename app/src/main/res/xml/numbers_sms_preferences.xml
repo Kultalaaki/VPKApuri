@@ -42,7 +42,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto1"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -51,7 +51,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto2"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -60,7 +60,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto3"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -69,7 +69,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto4"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -78,7 +78,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto5"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -87,7 +87,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto6"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -96,7 +96,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto7"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -105,7 +105,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto8"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -114,7 +114,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto9"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -123,7 +123,7 @@
             <EditTextPreference
                 android:capitalize="words"
                 android:defaultValue="@string/pref_default_display_number"
-                android:inputType="phone"
+                android:inputType="text"
                 android:key="halyvastaanotto10"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
@@ -343,14 +343,24 @@
         android:key="pref_key_numerot">
         <SwitchPreference
             android:key="Erica"
-            android:title="Osoitteentunnistus ERICA"
+            android:title="Osoitteentunnistus"
             android:defaultValue="true"
-            android:summary="ERICA järjestelmän lähettämistä viesteistä osoitteen tunnistaminen. Käynnistä sovellus uudestaan jotta muutos tulee voimaan." />
+            android:summary="Osoite tunnistetaan hätäkeskuksen hälytysviesteistä. Ota osoitteentunnistus pois päältä jos sovellus tulee vain VaPePa käyttöön. Käynnistä sovellus uudestaan jotta muutos tulee voimaan." />
         <SwitchPreference
             android:key="autoAukaisu"
             android:title="Automaattinen aukaisu"
             android:defaultValue="false"
             android:summary="Hälytys sivu aukeaa 3 sekunnin viiveellä jotta hälytys keretään tallentamaan ja osoite hakemaan valmiiksi. Hälytys hiljennetään hiljennä hälytys näppäimestä. Ei mahdollisuutta hiljentää lukitusnäytöltä."/>
+        <SwitchPreference
+            android:key="AlarmCounter"
+            android:title="Hälytyskello"
+            android:defaultValue="false"
+            android:summary="Näyttää hälytys sivulla ajan mikä on kulunut hälytyksestä." />
+        <EditTextPreference
+            android:title="Hälytyskellon aika"
+            android:key="AlarmCounterTime"
+            android:defaultValue="20"
+            android:summary="Aseta aika minuutteina." />
 
     </PreferenceCategory>
 

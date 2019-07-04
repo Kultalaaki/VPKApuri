@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Kultala Aki on 23.1.2018 9:14
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 23.1.2018 9:14
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="pref_key_viestiaani"
+        android:title="Ääniasetukset">
+        <Preference
+            android:selectable="false"
+            android:summary="Hälytysäänen valinta on myös puheluilla tuleviin hälytyksiin. Hälytysäänen kesto on vähintään 10 sekuntia." />
+        <Preference
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:key="DoNotDisturb"
+            android:summary="Ilman Do Not Disturb lupaa sovellus ei voi säädellä äänikanavia hälytyksen tullessa.
+            Tämän avulla vaimennetaan soittoääni/viestiääni jotta sovelluksesta asetettu hälytysääni pääsee soimaan. ILMAN TÄTÄ LUPAA SOVELLUS EI PYSTY HÄLYTTÄMÄÄN."
+            android:title="Hälytysäänen muuttaminen: Do Not Disturb" />
+        <kultalaaki.vpkapuri.ExtraRingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:key="ringtone"
+            android:summary="@string/ringtoneSummary"
+            android:title="@string/pref_title_ringtone"
+            auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+            auto:extraRingtones="@array/extraRingtones"
+            auto:ringtoneType="all"
+            auto:showDefault="false"
+            auto:showSilent="false" />
+        <EditTextPreference
+            android:defaultValue="60"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:inputType="number"
+            android:key="stopTime"
+            android:maxLength="5"
+            android:summary="Laita aika sekunteina. Äänen kesto on vähintään aina 10 sekuntia."
+            android:title="Hälytysäänen kesto sekunteissa" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_voimakkuus"
+        android:title="Hälytysäänen voimakkuus ja värinä">
+        <kultalaaki.vpkapuri.SeekBarPreference
+            android:defaultValue="50"
+            android:dialogMessage="@string/settings_dialog_message"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:key="SEEKBAR_VALUE"
+            android:max="100"
+            android:summary="@string/settings_summary"
+            android:text="@string/settings_unit"
+            android:title="@string/settings_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="varina"
+            android:summary="Käytetäänkö hälytyksen tullessa värinää."
+            android:title="Värinä" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="aanetVaiEi"
+            android:summary="Laita tämä päälle jos haluat että hälytykset eivät tule äänettömän läpi."
+            android:title="Äänettömän läpi" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="puhelu"
+            android:summary="Laita tämä päälle jos haluat käyttää sovelluksen ääniasetuksia myös puhelu hälytyksille. Muista myös Do Not Disturb asetus."
+            android:title="Puhelu hälytys" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_teksti_puheeksi"
+        android:title="Teksti puheeksi">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="koneluku"
+            android:summary="Hälytysviesti puhutaan automaattisesti kun hälytys sivu aukaistaan ilmoituksen kautta tai kun hiljennetään jos automaattinen aukaisu käytössä."
+            android:title="Teksti puheeksi" />
+        <kultalaaki.vpkapuri.SeekBarPreference
+            android:defaultValue="50"
+            android:dialogMessage="Teksti puheeksi äänenvoimakkuus"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:key="tekstiPuheeksiVol"
+            android:max="100"
+            android:summary="Teksti puheeksi äänenvoimakkuus"
+            android:text="@string/settings_unit"
+            android:title="Teksti puheeksi voimakkuus" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="extraSettings"
+        android:title="Lisää ääniasetuksia">
+        <PreferenceScreen
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:persistent="false"
+            android:summary="Lisää äänien asetuksia."
+            android:title="Lisäasetukset">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="OHTO"
+                android:summary="OHTO Hälytyksille oma hälytysääni."
+                android:title="OHTO" />
+            <kultalaaki.vpkapuri.ExtraRingtonePreference
+                android:defaultValue="content://settings/system/notification_sound"
+                android:dependency="OHTO"
+                android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+                android:key="ringtoneOHTO"
+                android:summary="@string/ringtoneSummary"
+                android:title="@string/pref_title_ringtone"
+                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+                auto:extraRingtones="@array/extraRingtones"
+                auto:ringtoneType="all"
+                auto:showDefault="false"
+                auto:showSilent="false" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="Ensivaste"
+                android:summary="Ensivaste hälytyksille oma hälytysääni."
+                android:title="Ensivaste" />
+            <kultalaaki.vpkapuri.ExtraRingtonePreference
+                android:defaultValue="content://settings/system/notification_sound"
+                android:dependency="Ensivaste"
+                android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+                android:key="ringtoneEnsivaste"
+                android:summary="@string/ringtoneSummary"
+                android:title="@string/pref_title_ringtone"
+                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+                auto:extraRingtones="@array/extraRingtones"
+                auto:ringtoneType="all"
+                auto:showDefault="false"
+                auto:showSilent="false" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="Puhelu"
+                android:summary="Puhelu hälytyksille oma hälytysääni."
+                android:title="Puhelu" />
+            <kultalaaki.vpkapuri.ExtraRingtonePreference
+                android:defaultValue="content://settings/system/notification_sound"
+                android:dependency="Puhelu"
+                android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+                android:key="ringtonePuhelu"
+                android:summary="@string/ringtoneSummary"
+                android:title="@string/pref_title_ringtone"
+                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+                auto:extraRingtones="@array/extraRingtones"
+                auto:ringtoneType="all"
+                auto:showDefault="false"
+                auto:showSilent="false" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -5,9 +5,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +20,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 
 
 /**
@@ -33,13 +34,26 @@ public class HalytysTietokannastaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+    private static String id;
+    private static String tunnus;
+    private static String luokka;
+    private static String viesti;
+    private static String osoite;
+    private static String kommentti;
+    private static String vastaus;
+    private static String timeStamp;
+    private static String optionalField2;
+    private static String optionalField3;
+    private static String optionalField4;
+    private static String optionalField5;
 
     // TODO: Rename and change types of parameters
-    private String primaryKey;
-    DBHelper db;
-    CardView save, delete, showOnMap;
-    TextView tunnus, luokka, viesti, kommentti;
-    EditText tunnusteksti, luokkateksti, viestiteksti, kommenttiteksti;
+    private CardView save, delete, showOnMap;
+    private TextView textViewTunnus, textViewLuokka, textViewViesti, textViewKommentti, textViewAika;
+    private EditText tunnusteksti, kiireellisyys, osoiteteksti, viestiteksti, kommenttiteksti, aikaleima;
+
+    private FireAlarmViewModel fireAlarmViewModel;
+    private static FireAlarm mFireAlarm;
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,10 +62,22 @@ public class HalytysTietokannastaFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static HalytysTietokannastaFragment newInstance(String param1) {
+    public static HalytysTietokannastaFragment newInstance(FireAlarm fireAlarm) {
+        mFireAlarm = fireAlarm;
         HalytysTietokannastaFragment fragment = new HalytysTietokannastaFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putInt("id", fireAlarm.getId());
+        args.putString("tunnus", fireAlarm.getTunnus());
+        args.putString("luokka", fireAlarm.getLuokka());
+        args.putString("viesti", fireAlarm.getViesti());
+        args.putString("osoite", fireAlarm.getOsoite());
+        args.putString("kommentti", fireAlarm.getKommentti());
+        args.putString("vastaus", fireAlarm.getVastaus());
+        args.putString("timeStamp", fireAlarm.getTimeStamp());
+        args.putString("optionalField2", fireAlarm.getOptionalField2());
+        args.putString("optionalField3", fireAlarm.getOptionalField3());
+        args.putString("optionalField4", fireAlarm.getOptionalField4());
+        args.putString("optionalField5", fireAlarm.getOptionalField5());
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,34 +85,51 @@ public class HalytysTietokannastaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             primaryKey = getArguments().getString(ARG_PARAM1);
-        }
+        }*/
     }
 
     public void onStart() {
         super.onStart();
-        Cursor cursor = db.halyID(primaryKey);
+        fireAlarmViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        if (getArguments() != null) {
+            tunnus = getArguments().getString("tunnus");
+            osoite = getArguments().getString("osoite");
+            viesti = getArguments().getString("viesti");
+            luokka = getArguments().getString("luokka");
+            kommentti = getArguments().getString("kommentti");
+            timeStamp = getArguments().getString("timeStamp");
+            tunnusteksti.setText(tunnus);
+            osoiteteksti.setText(osoite);
+            kiireellisyys.setText(luokka);
+            viestiteksti.setText(viesti);
+            aikaleima.setText(timeStamp);
+            kommenttiteksti.setText(kommentti);
+            //Toast.makeText(getActivity(), "Tunnus: " + tunnus, Toast.LENGTH_LONG).show();
+        }
+
+        /*Cursor cursor = db.halyID(primaryKey);
         if(cursor != null) {
             tunnusteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.TUNNUS)));
             luokkateksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.LUOKKA)));
             viestiteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.VIESTI)));
             kommenttiteksti.setText(cursor.getString(cursor.getColumnIndex(DBHelper.KOMMENTTI)));
-        }
+        }*/
 
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
 
         showOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String osoite = luokkateksti.getText().toString();
+                String osoite = osoiteteksti.getText().toString();
                 Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoite);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 //mapIntent.setPackage("com.google.android.apps.maps");
                 Context context = getActivity();
-                if(context != null) {
+                if (context != null) {
                     if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                         startActivity(mapIntent);
                     }
@@ -114,14 +157,16 @@ public class HalytysTietokannastaFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        db = new DBHelper(getActivity());
-        tunnus = view.findViewById(R.id.tunnus);
+        textViewTunnus = view.findViewById(R.id.tunnus);
         tunnusteksti = view.findViewById(R.id.tunnusteksti);
-        luokka = view.findViewById(R.id.luokka);
-        luokkateksti = view.findViewById(R.id.luokkateksti);
-        viesti = view.findViewById(R.id.viesti);
+        textViewLuokka = view.findViewById(R.id.luokka);
+        osoiteteksti = view.findViewById(R.id.luokkateksti);
+        textViewViesti = view.findViewById(R.id.viesti);
         viestiteksti = view.findViewById(R.id.viestiteksti);
-        kommentti = view.findViewById(R.id.kommentti);
+        kiireellisyys = view.findViewById(R.id.kiireellisyys);
+        textViewKommentti = view.findViewById(R.id.kommentti);
+        textViewAika = view.findViewById(R.id.aika);
+        aikaleima = view.findViewById(R.id.aikaLeima);
         kommenttiteksti = view.findViewById(R.id.kommenttiteksti);
         kommenttiteksti.setCursorVisible(false);
         save = view.findViewById(R.id.cardTallenna);
@@ -150,11 +195,12 @@ public class HalytysTietokannastaFragment extends Fragment {
 
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Poista hälytys tietokannasta ja palaa arkiston etusivulle ja hae päivitety tietokanta esiin.
-                        int paikka = Integer.parseInt(primaryKey);
+                        fireAlarmViewModel.delete(mFireAlarm);
+                        /*int paikka = Integer.parseInt(primaryKey);
                         db.deleteRow(paikka);
-
+                        */
                         dialogInterface.dismiss();
-                        if(getActivity() != null) {
+                        if (getActivity() != null) {
                             getActivity().onBackPressed();
                         }
                     }
@@ -162,17 +208,34 @@ public class HalytysTietokannastaFragment extends Fragment {
         builder.create().show();
     }
 
-    public void lisaaKommentti() {
+    private void lisaaKommentti() {
         save.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String kommentti = kommenttiteksti.getText().toString();
-                        String tunnus = tunnusteksti.getText().toString();
-                        String luokka = luokkateksti.getText().toString();
+                        String kommentti = kommenttiteksti.getText().toString().trim();
+                        String tunnus = tunnusteksti.getText().toString().trim();
+                        String osoite = osoiteteksti.getText().toString().trim();
                         String viesti = viestiteksti.getText().toString();
-                        boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);
-                        if(lisattyKommentti){
+                        String luokka = kiireellisyys.getText().toString().trim();
+                        String aikaLeima = aikaleima.getText().toString();
+
+                        mFireAlarm.setViesti(viesti);
+                        mFireAlarm.setTunnus(tunnus);
+                        mFireAlarm.setOsoite(osoite);
+                        mFireAlarm.setLuokka(luokka);
+                        mFireAlarm.setKommentti(kommentti);
+                        mFireAlarm.setTimeStamp(aikaLeima);
+
+                        fireAlarmViewModel.update(mFireAlarm);
+                        Toast.makeText(getActivity(), "Tallennettu.", Toast.LENGTH_SHORT).show();
+                        kommenttiteksti.setCursorVisible(false);
+
+                        if (getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
+                        //boolean lisattyKommentti = db.lisaaKommentti(primaryKey, tunnus, luokka, viesti, kommentti);
+                        /*if(lisattyKommentti){
                             Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
                             kommenttiteksti.setCursorVisible(false);
                             if(getActivity() != null) {
@@ -180,7 +243,7 @@ public class HalytysTietokannastaFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Tallennus epäonnistui", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
                     }
                 }
         );
@@ -202,7 +265,7 @@ public class HalytysTietokannastaFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
     }
 }

@@ -1,19 +1,22 @@
 package kultalaaki.vpkapuri;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
-import androidx.fragment.app.Fragment;
+import java.util.List;
 
 
 /**
@@ -30,9 +33,8 @@ public class ArkistoFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    DBHelper db;
-    ListView showAlarms;
-    Context ctx;
+    private RecyclerView mRecyclerView;
+    private FireAlarmViewModel mViewModel;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,14 +75,51 @@ public class ArkistoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        ctx = getActivity();
-        db = new DBHelper(ctx);
-        showAlarms = view.findViewById(R.id.listViewHalyt);
+        //ctx = getActivity();
+        //db = new DBHelper(ctx);
+        mRecyclerView = view.findViewById(R.id.listview_alarms);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final FireAlarmAdapter adapter = new FireAlarmAdapter();
+        mRecyclerView.setAdapter(adapter);
+
+        mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
+        mViewModel.getAllFireAlarms().observe(this, new Observer<List<FireAlarm>>() {
+            @Override
+            public void onChanged(List<FireAlarm> fireAlarms) {
+                adapter.submitList(fireAlarms);
+            }
+        });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                mViewModel.delete(adapter.getFireAlarmAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(getActivity(), "Hälytys poistettu arkistosta!", Toast.LENGTH_LONG).show();
+            }
+        }).attachToRecyclerView(mRecyclerView);
+
+        adapter.setOnItemClickListener(new FireAlarmAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(FireAlarm fireAlarm) {
+                mListener.loadHalytysTietokannastaFragment(fireAlarm);
+            }
+        });
     }
 
     public void onStart() {
         super.onStart();
-        populateListView();
+        //populateListView();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -119,29 +158,6 @@ public class ArkistoFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void loadHalytysTietokannastaFragment(String primarykey);
-    }
-
-    private void populateListView() {
-        if(ctx != null) {
-            Cursor cursor = db.getAllRows();
-            String[] fromFieldNames = new String[] {DBHelper.COL_1, DBHelper.VIESTI, DBHelper.TUNNUS};
-            final int[] toViewIDs = new int[] {R.id.sija, R.id.viesti, R.id.tunnus};
-            SimpleCursorAdapter myCursorAdapter;
-            myCursorAdapter = new SimpleCursorAdapter(ctx, R.layout.item_layout, cursor, fromFieldNames, toViewIDs, 0);
-            //ListView myList = (ListView) findViewById(R.id.listViewHalyt);
-            showAlarms.setAdapter(myCursorAdapter);
-            showAlarms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // When clicked perform some action...
-                    //TODO
-                    Log.e("TAG", "tulee " + DBHelper.COL_1);
-                    TextView textView = view.findViewById(R.id.sija);
-                    String primaryKey = textView.getText().toString();
-                    mListener.loadHalytysTietokannastaFragment(primaryKey);
-                }
-            });
-        }
+        void loadHalytysTietokannastaFragment(FireAlarm fireAlarm);
     }
 }

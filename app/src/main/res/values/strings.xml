@@ -22,13 +22,81 @@
     </string>
 
     <!--Mitä uutta-->
-    <string name="whatsnew">
+    <string name="onlyNewest">
         UUSIN VERSIO!\n\n
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
+        <u><b>Versio 3.5</b></u>\n\n
+        Asemataulu yhdistetty samaan sovellukseen:\n
+        - Asemataulu ominaisuutta voidaan käyttää puhelimella tai tabletilla\n
+        - Lähtijöiden ominaisuuksia lisätty\n
+        - Lähtijät listan ulkoasu muutettu\n
+        - Lähtijöitä voi poistaa listalta pyyhkäisemällä\n
+        - Asemataulu hälytys sivulla kameran pikakäynnistys\n
+        - Lähtijät listan yläpuolelle lasketaan ilmoittautuneiden lukumäärä ja savusukeltajat valmiiksi\n
+        Hälytys sivu:\n
+        - Päivittyy jos tulee uusi hälytys kun sivu on auki\n
+        - Hälytyskello, kytketään asetuksista. Aika mikä on kulunut hälytyksen tulosta. Pysäytysaika asetetaan asetuksissa\n
+        VaPePa toimintoja lisätty:\n
+        - Osoitteentunnistuksen voi kytkeä pois päältä jos sovellus tulee vain OHTO hälytys käyttöön.\n
+        - Jos sovellusta käytetään VPK sekä OHTO hälytyksiin. OHTO hälytysnumeron eteen tulee laittaa iso O-kirjain esim. O0401234567\n
+        - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet\n
+        Taustalla toimivan hälytyksien tunnistuksen parannuksia:\n
+        - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen.
+        Hälytysten liittäminen tapahtuu vain jos edellisestä hälytyksestä on alle 30 minuuttia.\n
+        - Jos edellinen hälytys on OHTO hälytys tai puhelu hälytys, hälytys tulee arkistoon uutena hälytyksenä\n
+        Arkiston muutoksia\n
+        - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
+        - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
+        Ääniasetuksia lisätty\n
+        - OHTO hälytyksille oma hälytysääni\n
+        - Ensivaste hälytyksille oma hälytysääni\n
+        - Puhelu hälytyksille oma hälytysääni\n
+        + Muita pieniä korjauksia ja parannuksia.
+    </string>
+    <!--Näytetään vain muutosloki sivulla-->
+    <string name="whatsnew">
+        UUSIN VERSIO!\n\n
+
+        <u><b>Versio 3.5</b></u>\n\n
+        Asemataulu yhdistetty samaan sovellukseen:\n
+        - Asemataulu ominaisuutta voidaan käyttää puhelimella tai tabletilla\n
+        - Lähtijöiden ominaisuuksia lisätty\n
+        - Lähtijät listan ulkoasu muutettu\n
+        - Lähtijöitä voi poistaa listalta pyyhkäisemällä\n
+        - Asemataulu hälytys sivulla kameran pikakäynnistys\n
+        - Lähtijät listan yläpuolelle lasketaan ilmoittautuneiden lukumäärä ja savusukeltajat valmiiksi\n
+        Hälytys sivu:\n
+        - Päivittyy jos tulee uusi hälytys kun sivu on auki\n
+        - Hälytyskello, kytketään asetuksista. Aika mikä on kulunut hälytyksen tulosta. Pysäytysaika asetetaan asetuksissa\n
+        VaPePa toimintoja lisätty:\n
+        - Osoitteentunnistuksen voi kytkeä pois päältä jos sovellus tulee vain OHTO hälytys käyttöön.\n
+        - Jos sovellusta käytetään VPK sekä OHTO hälytyksiin. OHTO hälytysnumeron eteen tulee laittaa iso O-kirjain esim. O0401234567\n
+        - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet\n
+        Taustalla toimivan hälytyksien tunnistuksen parannuksia:\n
+        - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen.
+        Hälytysten liittäminen tapahtuu vain jos edellisestä hälytyksestä on alle 30 minuuttia.\n
+        - Jos edellinen hälytys on OHTO hälytys tai puhelu hälytys, hälytys tulee arkistoon uutena hälytyksenä\n
+        Arkiston muutoksia\n
+        - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
+        - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
+        Ääniasetuksia lisätty\n
+        - OHTO hälytyksille oma hälytysääni\n
+        - Ensivaste hälytyksille oma hälytysääni\n
+        - Puhelu hälytyksille oma hälytysääni\n
+        + Muita pieniä korjauksia ja parannuksia.\n\n
+
+        <u><b>Versio 3.4</b></u>\n\n
+        Asemataulu yhdistetty samaan sovellukseen.\n
+        Taustalla toimivan hälytyksien tunnistuksen parannuksia.\n
+        Arkiston muutoksia\n
+        - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
+        - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
+
         <u><b>Versio 3.3</b></u>\n\n
         Ajastin käyttöönotettu.\n
+        Hälytystunnuksiin korjauksia.\n
         Sisäisiä korjauksia ja parannuksia.\n\n
 
         <u><b>Versio 3.23</b></u>\n\n
@@ -211,10 +279,7 @@
     </string>
     <string name="ohjeetHalytys" tools:ignore="Typos">
         \n\n
-        Ensimmäistä kertaa hälytys sivulle mentäessä sovellus kysyy lupaa viestien lukemiseen ja lähettämiseen (Android 6.0).
-        Aikaisemmat Android versiot kysyvät luvat jo asennusvaiheessa.\n\n
-
-        Lupa soittamiseen kysytään ensimmäistä kertaa hälytys sivulle mentäessä.
+        Lupa soittamiseen ja viestien lähettämiseen/ lukemiseen asetetaan sovelluksen asetukset Luvat &amp; käyttöönotto valikosta.
         Ilman näitä lupia sovelluksen soita lähtöilmoitus ja värikkäät sms napit eivät toimi. Soita lähtöilmoitus painike soittaa heti puhelinnumeroon joka asetetaan
         asetuksissa soittotaulun numero kohtaan.
         Tällä painikkeella soitat nopeasti oman asemasi hälytyslähtijöiden tauluun jos asemallanne on sellainen. Painikkeet <font color="#00FF00">VIHREÄ</font>, <font color="#FFFF00">KELTAINEN</font>
@@ -223,14 +288,19 @@
         Tämän asetuksen alapuolella voi muokata viestien tekstit haluamakseen tai jos on sms viestejä vastaanottava
         järjestelmä niin asettakaa tekstit sen mukaan.\n\n
 
-        Sivulla on kaksi eri tekstikenttää. Ylempi on hälytyksen tunnusta ja tekstiselvennystä varten. Alemmassa on saapunut hälytysviesti kokonaisuudessaan.
-        Nämä kentät täyttyvät aina arkistossa uusimpana olevalla hälytyksellä.\n\n
+        Hälytys sivun kentät täyttyvät aina arkistossa uusimpana olevalla hälytyksellä.\n\n
 
         <u>KARTTAPALVELUN VAIHTAMINEN</u>:\n\n
 
         Karttasovelluksen vaihto onnistuu puhelimen asetuksista: Asetukset -> Sovellukset -> Maps -> Aseta oletukseksi -> POISTA OLETUKSET.\n
         Tämän jälkeen VPK Apurista kun avaat osoitetta, kysyy puhelin mitä sovellusta haluat käyttää jos on muita karttasovelluksia asennettuna.\n
         Tämä valinta jää silloin oletukseksi eikä muilla kerroilla enää kysytä mitä karttasovellusta käytetään.\n\n
+
+        <u>OHTO Hälytys</u>:\n\n
+
+        Jos sovellusta käytetään sekä VPK että Vapepa hälytyksiin, OHTO hälytyksien numeron eteen laitetaan iso O-kirjain.\n
+        Näin sovellus tietää kytkeä osoitteentunnistuksen pois sekä valita oikean hälytysäänen jos OHTO hälytyksille halutaan käyttää eri hälytysääntä.\n
+        Hälytyksiin vastaaminen onnistuu suoraan hälytys sivulta ja vastausnumero on sama kuin mistä hälytys tuli. Numeron voi myös vaihtaa ennen viestin lähettämistä.\n
 
         <u>PUHELUT</u>:\n\n
 
@@ -247,13 +317,13 @@
         kontaktille.\n\n
 
         Hälytysnumeroille on tilaa kymmenen (10) kpl joista kaikki toimivat
-        myöskin puheluilla tulevien hälytysten vastaanottamiseen.
-        Kaikki numerot tulee asettaa maatunnuksen kanssa (+358401234567), tunnistus ei toimi ellei
-        numerot ole oikein. Numerokentät voi myös jättää
-        asettamatta jos ei tarvitse kaikkia kohtia.\n\n
+        myöskin puheluilla tulevien hälytysten vastaanottamiseen.\n
+        OHTO hälytyksien numeron eteen laitetaan iso O-kirjain.\n
+        Numerokentät voi myös jättää asettamatta jos ei tarvitse kaikkia kohtia.\n\n
 
         <b>Ääniasetukset</b> sivulla voit valita hälytysäänen joka soi
-        hälytyksen tullessa, kesto, äänenvoimakkuus, värinä ja puheluilla tuleville hälytyksille ääniasetukset.\n\n
+        hälytyksen tullessa, kesto, äänenvoimakkuus, värinä ja puheluilla tuleville hälytyksille ääniasetukset.\n
+        OHTO, ensivaste ja puhelu hälytyksille voi lisäasetuksissa valita myös oman hälytysäänen.\n\n
 
         <b>Luvat &amp; käyttöönotto</b> sivulla on oikotiet akun optimointiasetuksiin ja sovelluksen tiedot sivulle.\n
         Sovelluksen tiedot sivulla pääset muuttamaan ilmoitusasetuksia ja sovelluksen käyttämiä lupia.\n\n
@@ -271,7 +341,7 @@
 
         <u>WIDGET</u>:\n\n
 
-        Puhelimen kotinäytölle voi nyt lisätä sovelluksen mukana tulevan widgetin eli "pienoisohjelman" jolla voi kytkeä hälytykset äänettömälle, yötilalle (vain widget) tai normaalille.
+        Puhelimen kotinäytölle voi nyt lisätä sovelluksen mukana tulevan widgetin eli "pienoisohjelman" jolla voi kytkeä hälytykset äänettömälle, yötilalle tai normaalille.
         Yötilan ollessa käytössä äänenvoimakkuus rajoitetaan pienimmälle mahdolliselle tasolle.\n\n
     </string>
     <string name="ohjeetWhatsapp" tools:ignore="Typos">
@@ -289,7 +359,7 @@
 
         Vanhoja hälytyksiä painamalla pääset uudelle sivulle jossa voit kirjoittaa oman muistiinpanon hälytyksen yhteyteen. Voit myöskin muuttaa muitakin kohtia tarpeen mukaan.\n\n
 
-        Arkistoon tallennettuja hälytysten tekstejä voi muokata haluamakseen ja tallentaa ne painamalla tallenna painiketta. Voit myös poistaa hälytyksiä arkistosta.\n\n
+        Arkistoon tallennettuja hälytysten tekstejä voi muokata haluamakseen ja tallentaa ne. Voit myös poistaa hälytyksiä arkistosta.\n\n
 
         Arkisto on myös mahdollista varmuuskopioida .db tiedostoon joka tallentuu puhelimen muistiin. Tämän tiedoston voi siirtää tietokoneelle jossa sen saa auki
         MS Excel ohjelmalla tai mahdollisesti muulla ohjelmalla joka tukee .db tiedostoja.\n\n
@@ -304,7 +374,7 @@
 
         Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa hälytykseen lähtemistä ja lisätä tilannetietoisuutta
         näyttämällä tekstiselvennys hälytysluokalle.
-        Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
+        Palautetta voit laittaa sähköpostiin: info@vpkapuri.fi tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
     </string>
 
     <!-- Example General settings -->
@@ -432,7 +502,8 @@
     - Soita ja hallinnoi puheluita lupaa tarvitaan hälytys sivun soita painikkeen toimintaan ja jos hälytykset tulevat puheluilla.\n
     - Mediatiedostojen käyttämistä tarvitaan hälytysäänen asettamista varten.\n
     - Tekstiviestien lähettäminen ja vastaanottaminen tarvitaan sms viesteillä tuleviin hälytyksiin ja sms pikaviestien lähettämiseen.</string>
-    <string name="testihalytysErica">TESTIHÄLYTYS; 411; C; 11:57:59_05.01.2019; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
+    <string name="testihalytysEricaEtuosa">TESTIHÄLYTYS; 411; C;</string>
+    <string name="testihalytysEricaTakaosa">; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
     <string name="alkusanat">Alkusanat</string>
     <string name="h_lytys">Hälytys</string>
     <string name="asetukset">Asetukset</string>
@@ -476,4 +547,14 @@
     <string name="poistaAjastin">Poista ajastin</string>
     <string name="nime_ajastin">Nimeä ajastin</string>
     <string name="lis_ajastin">Lisää ajastin</string>
+    <string name="kiireellisyysluokka">Kiireellisyysluokka</string>
+    <string name="aikaleima">Aikaleima</string>
+    <string name="aika">Aika</string>
+    <string name="kamera">KAMERA</string>
+    <string name="l_htij_t">LÄHTIJÄT</string>
+    <string name="vahvuudet">VAHVUUDET</string>
+    <string name="kirjoita_vastaus">Kirjoita vastaus</string>
+    <string name="h_lytt_v_numero">Hälyttävä numero</string>
+    <string name="h_lytysvieti">Hälytysviesti</string>
+    <string name="l_het">Lähetä</string>
 </resources>

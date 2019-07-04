@@ -15,14 +15,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,28 +28,25 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
+
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.RemoteViews;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -59,8 +54,8 @@ import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Date;
 
 
 public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener,
@@ -72,22 +67,23 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     private DrawerLayout mDrawerLayout;
     String[] osoite;
     String aihe;
-    DBHelper db;
     DBTimer dbTimer;
-    SharedPreferences aaneton, sharedPreferences;
-    boolean ericaEtusivu, analytics;
+    SharedPreferences sharedPreferences;
+    boolean ericaEtusivu, analytics, asemataulu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
-    private static final int MY_NOTIFICATION_ID = 15245;
+    SoundControls soundControls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.etusivusidepanel);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        asemataulu = sharedPreferences.getBoolean("asemataulu", false);
+        analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
+        sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
+        sharedPreferences.edit().putBoolean("HalytysOpen", false).apply();
 
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
-        analytics = pref_general.getBoolean("analyticsEnabled", false);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
+
+        setContentView(R.layout.etusivusidepanel);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,6 +93,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             actionbar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_36dp);
         }
 
+        soundControls = new SoundControls();
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         // Obtain the FirebaseAnalytics instance.
@@ -105,7 +103,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Fabric.with(this, new Crashlytics());
         }
 
-
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -125,8 +123,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                                 return true;
                             case R.id.hiljenna_halyt:
                                 //hiljennaHalytykset();
-                                aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-                                if(aaneton.getInt("aaneton_profiili", -1) == 1) {
+                                if(sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
                                     showMessage("Hälytysten hiljennys", "Haluatko varmasti hiljentää hälytykset?");
                                 } else {
                                     hiljennaHalytykset();
@@ -162,7 +159,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         osoite = new String [1];
         osoite[0] = "info@vpkapuri.fi";
         aihe = "VPK Apuri palaute";
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         if(sharedPreferences.contains("termsShown")) {
             loadEtusivuFragment();
         } else {
@@ -179,7 +176,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void loadArkistoFragment() {
-        Crashlytics.getInstance().crash(); // Force a crash
+        //Crashlytics.getInstance().crash(); // Force a crash
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArkistoFragment arkistoFragment = new ArkistoFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -192,7 +189,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         OhjeetFragment ohjeetFragment = new OhjeetFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, ohjeetFragment, "ohjeetFragment").commit();
+        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, ohjeetFragment, "ohjeetFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, ohjeetFragment, "ohjeetFragment").commit();
+        }
+
     }
 
     public void loadEtusivuFragment() {
@@ -231,12 +233,17 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         fragmentTransaction.replace(R.id.etusivuContainer, tallennaArkistoonFragment, "tallennaArkistoonFragment").commit();
     }
 
-    public void loadHalytysTietokannastaFragment(String primaryKey) {
+    public void loadHalytysTietokannastaFragment(FireAlarm fireAlarm) {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        HalytysTietokannastaFragment halytysTietokannastaFragment = HalytysTietokannastaFragment.newInstance(primaryKey);
+        HalytysTietokannastaFragment halytysTietokannastaFragment = HalytysTietokannastaFragment.newInstance(fireAlarm);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+        }
+
     }
 
     public void openSetTimerNewInstance(String primaryKey) {
@@ -262,6 +269,14 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!asemataulu) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     @Override
@@ -328,6 +343,8 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             ilmChannel.setDescription("Tämä ilmoituskanava ilmoittaa kun sovelluksesta on hälytykset hiljennetty");
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
+            ilmChannel.setSound(null, null);
+            ilmChannel.enableVibration(false);
             NotificationManager notificationManager = (NotificationManager) getSystemService(
                     NOTIFICATION_SERVICE);
             if (notificationManager != null) {
@@ -364,17 +381,20 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     public void startTestaaHalytys() {
 
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(this);
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
-
+        ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
         if(ericaEtusivu) {
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
                 public void run() {
+                    long aika = System.currentTimeMillis();
+                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
+                    String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    halyaaniService.putExtra("message", getString(R.string.testihalytysErica));
+                    String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
+                    halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");
+                    halyaaniService.putExtra("timestamp", Aika);
                     getApplicationContext().startService(halyaaniService);
                 }
             }, 5000);
@@ -382,10 +402,14 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    long aika = System.currentTimeMillis();
+                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
                     Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    halyaaniService.putExtra("message", getString(R.string.testihalytys));
+                    String alarmMessage = "TESTIHÄLYTYS; Operaatio nro 220/Etsintä/Kankaanpää/12.10.18:30. Kuittaus: 220 ok/ei/pm hh:mm";
+                    halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
                     halyaaniService.putExtra("halytysaani", "false");
+                    halyaaniService.putExtra("timestamp", Aika);
                     getApplicationContext().startService(halyaaniService);
                 }
             }, 5000);
@@ -397,9 +421,11 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         ChangelogFragment changelogFragment = new ChangelogFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
-        /*Intent intentChangelog = new Intent(EtusivuActivity.this, ChangelogActivity.class);
-        startActivity(intentChangelog);*/
+        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, changelogFragment, "changelogFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
+        }
     }
 
     public void startLahetaPalaute (){
@@ -414,46 +440,13 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     @SuppressLint("ApplySharedPref")
     public void hiljennaHalytykset() {
-        aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-        if (aaneton.getInt("aaneton_profiili", -1) == 1) {
+
+        if (sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
             //hiljenna haly
-            //HILJENNA_HALY = 2;
-            aaneton.edit().putInt("aaneton_profiili", 2).commit();
-            RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
-            text.setTextViewText(R.id.teksti, "Äänetön");
-            Toast.makeText(getApplicationContext(),"Äänetön tila käytössä.", Toast.LENGTH_SHORT).show();
-
-            ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
-
-            Intent hiljennys = new Intent(EtusivuActivity.this, EtusivuActivity.class);
-            PendingIntent hiljennetty = PendingIntent.getActivity(EtusivuActivity.this, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
-            manager.updateAppWidget(thisWidget, text);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(EtusivuActivity.this, "HILJENNYS")
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("VPK Apuri")
-                    .setContentText("Hälytykset on hiljennetty.")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setCategory(NotificationCompat.CATEGORY_ALARM)
-                    .setContentIntent(hiljennetty)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setOngoing(true)
-                    .setAutoCancel(false);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
-            notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
+            soundControls.setSilent(this);
         } else {
             //äänet päälle
-            //HILJENNA_HALY = 1;
-            aaneton.edit().putInt("aaneton_profiili", 1).commit();
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(EtusivuActivity.this);
-            notificationManager.cancel(MY_NOTIFICATION_ID);
-            RemoteViews text = new RemoteViews(getPackageName(), R.layout.widget_layout);
-            text.setTextViewText(R.id.teksti, "Normaali");
-            Toast.makeText(getApplicationContext(),"Äänet kytketty.", Toast.LENGTH_SHORT).show();
-
-            ComponentName thisWidget = new ComponentName(EtusivuActivity.this,MyWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(EtusivuActivity.this);
-            manager.updateAppWidget(thisWidget, text);
+            soundControls.setNormal(this);
         }
     }
 
@@ -523,18 +516,10 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        tietokantaVarmuuskopio();
+                        //tietokantaVarmuuskopio();
+                        tietokantaBackUp();
                     }
                 });
-        builder.create().show();
-    }
-
-    private void showMessageOKCancelAjastin() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
-                .setTitle("Ajastin")
-                .setMessage("Tämä ominaisuus on vielä työn alla.")
-                .setNegativeButton("OK", null);
         builder.create().show();
     }
 
@@ -581,32 +566,34 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
         builder.create().show();
     }
 
-    public void tietokantaVarmuuskopio() {
-        File sd = Environment.getExternalStorageDirectory();
-        File data = Environment.getDataDirectory();
-        FileChannel source;
-        FileChannel destination;
-        String currentDBPath = "/data/" + "kultalaaki.vpkapuri/databases/halytyksetArkisto.db";
-        String backupDBPath = "Hälytykset VPK Apuri";
-        File currentDB = new File(data, currentDBPath);
-        File backupDB = new File(sd, backupDBPath);
+    public void tietokantaBackUp() {
         try {
-            source = new FileInputStream(currentDB).getChannel();
-            destination = new FileOutputStream(backupDB).getChannel();
-            destination.transferFrom(source, 0, source.size());
-            source.close();
-            destination.close();
-            Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
-        } catch(IOException e) {
+            File sd = Environment.getExternalStorageDirectory();
+
+            if(sd.canWrite()) {
+                String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
+                String backUpPath = "Hälytykset_VPK_Apuri";
+                File currentDB = new File(currentDBPath);
+                File backUpDP = new File(sd, backUpPath);
+
+                if(currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backUpDP).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+                Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void tietokantaTyhjennys () {
-        db = new DBHelper(getApplicationContext());
-        if (db.tyhjennaTietokanta()) {
-            Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
-        }
+        FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+        fireAlarmRepository.deleteAllFireAlarms();
+        Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
     }
 
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
@@ -643,20 +630,24 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 // Kokeillaan versionCode == getLongVersionCode()
                 final int versionCode = BuildConfig.VERSION_CODE;
                 if (versionCode != lastVersionCode) {
-                    aaneton = getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
-                    if (aaneton.getBoolean("firstrun", true)) {
-                        aaneton.edit().putInt("aaneton_profiili", 1).commit();
-                        aaneton.edit().putBoolean("firstrun", false).commit();
+
+                    if (prefs.getBoolean("firstrun", true)) {
+                        prefs.edit().putInt("aaneton_profiili", 1).commit();
+                        prefs.edit().putBoolean("firstrun", false).commit();
                     }
-                    db = new DBHelper(getApplicationContext());
-                    db.insertData("915C", "Ei osoitetta", "Uusi asennus tai sovellus on päivitetty. Tervetuloa käyttämään palokuntalaisille suunniteltua hälytys sovellusta. " +
-                            "Ohjeet sivulta saat tietoa asetuksista.", "");
+                    // App updated, add alarm to database
+                    FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                    FireAlarm fireAlarm = new FireAlarm("999", "C", "Uusi asennus tai sovellus on päivitetty.", "Ei osoitetta", "", "",
+                            "", "", "", "", "");
+                    fireAlarmRepository.insert(fireAlarm);
+
+                    // Delete app cache to prevent unnecessary mistakes.
                     deleteCache(getApplicationContext());
                     Log.i(LOG_TAG, "versionCode " + versionCode + "is different from the last known version " + lastVersionCode);
 
                     final String title = mActivity.getString(R.string.app_name) + " v" + packageInfo.versionName;
 
-                    final String message = mActivity.getString(R.string.whatsnew);
+                    final String message = mActivity.getString(R.string.onlyNewest);
 
                     // Show the News since last version
                     AlertDialog.Builder builder = new AlertDialog.Builder(mActivity)

@@ -25,6 +25,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     public static String ACTION_WIDGET_REFRESH = "ActionReceiverRefresh";
     SharedPreferences aaneton;
     private static final int MY_NOTIFICATION_ID = 15245;
+    private SoundControls soundControls = new SoundControls();
 
     @Override
     public void onUpdate(final Context context, AppWidgetManager appWidgetManager,
@@ -50,7 +51,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
             if (intent.getAction().equals(ACTION_WIDGET_REFRESH)) {
 
                 if (aaneton.getInt("aaneton_profiili", -1) == 3) {
-                    aaneton.edit().putInt("aaneton_profiili", 1).commit();
+                    soundControls.setNormal(context);
+                    /*aaneton.edit().putInt("aaneton_profiili", 1).commit();
                     //Toast.makeText(context, "Kytketty äänet päälle", Toast.LENGTH_LONG).show();
                     RemoteViews texta = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
                     texta.setTextViewText(R.id.teksti, "Normaali");
@@ -60,9 +62,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
                     ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
                     AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                    manager.updateAppWidget(thisWidget, texta);
+                    manager.updateAppWidget(thisWidget, texta);*/
                 } else if (aaneton.getInt("aaneton_profiili", -1) == 1){
-                    aaneton.edit().putInt("aaneton_profiili", 2).commit();
+                    soundControls.setSilent(context);
+                    /*aaneton.edit().putInt("aaneton_profiili", 2).commit();
                     //Toast.makeText(context, "Kytketty äänetön tila", Toast.LENGTH_LONG).show();
                     RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
                     text.setTextViewText(R.id.teksti, "Äänetön");
@@ -84,9 +87,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
                     ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
                     AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                    manager.updateAppWidget(thisWidget, text);
+                    manager.updateAppWidget(thisWidget, text);*/
                 } else {
-                    aaneton.edit().putInt("aaneton_profiili", 3).commit();
+                    soundControls.setNightMode(context);
+                    /*aaneton.edit().putInt("aaneton_profiili", 3).commit();
                     //Toast.makeText(context, "Kytketty äänetön tila", Toast.LENGTH_LONG).show();
                     RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
                     text.setTextViewText(R.id.teksti, "Yötila");
@@ -108,7 +112,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
                     ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
                     AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                    manager.updateAppWidget(thisWidget, text);
+                    manager.updateAppWidget(thisWidget, text);*/
                 }
             } else {
                 //Toast.makeText(context, "Käynnistys", Toast.LENGTH_LONG).show();

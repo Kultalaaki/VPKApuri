@@ -26,6 +26,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="false"
@@ -36,6 +39,17 @@
         android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="kultalaaki.vpkapuri"
+            android:exported="false"
+            android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+        </provider>
+
         <receiver
             android:name=".BootReadyReceiver"
             android:enabled="true"
@@ -59,8 +73,8 @@
 
         <activity
             android:name=".HalytysActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".EtusivuActivity"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -80,9 +94,9 @@
 
         <activity
             android:name=".SettingsActivity"
+            android:parentActivityName=".EtusivuActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_activity_settings" />
 
         <receiver
             android:name=".SmsBroadcastReceiver"
@@ -107,7 +121,7 @@
                 android:resource="@xml/widget_info" />
         </receiver>
         <receiver
-            android:name=".halypuhelu2"
+            android:name=".PhonecallBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.READ_PHONE_STATE">
@@ -120,8 +134,7 @@
 
         <activity
             android:name=".EtusivuActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.preference.PreferenceManager;
 
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ public class EtusivuFragment extends Fragment {
 
     CardView halytys, carkisto, ohjeet, csettings;
     boolean ericaEtusivu, analytics;
+
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private OnFragmentInteractionListener mListener;
@@ -37,18 +37,18 @@ public class EtusivuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        ericaEtusivu = pref_general.getBoolean("Erica", false);
-        analytics = pref_general.getBoolean("analyticsEnabled", false);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
+        if(getActivity() != null) {
+            SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            ericaEtusivu = pref_general.getBoolean("Erica", false);
+            analytics = pref_general.getBoolean("analyticsEnabled", false);
 
-        // Obtain the FirebaseAnalytics instance.
-        if (getActivity() != null) {
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-        }
 
-        if(analytics) {
-            Fabric.with(getActivity(), new Crashlytics());
+            mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
+
+            if(analytics) {
+                Fabric.with(getActivity(), new Crashlytics());
+            }
         }
     }
 

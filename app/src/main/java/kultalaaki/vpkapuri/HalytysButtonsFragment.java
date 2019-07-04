@@ -1,6 +1,7 @@
 package kultalaaki.vpkapuri;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,17 +9,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
@@ -27,19 +30,33 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 
 public class HalytysButtonsFragment extends Fragment {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 3;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 4;
-    CardView call, fiveMin, tenMin, tenMinplus, hiljenna, openMap;
-    boolean five, ten, autoAukaisu, koneluku, tenplus = false, stopAlarm = false, SmsGreenVisible, SmsYellowVisible, SmsRedVisible, CallButtonVisible;
-    static DBHelper db;
-    TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
-    String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
+    private CardView call, fiveMin, tenMin, tenMinplus, hiljenna, openMap;
+    private boolean five;
+    private boolean ten;
+    private boolean koneluku;
+    private boolean tenplus = false;
+    private boolean stopAlarm = false;
+    private boolean SmsGreenVisible;
+    private boolean SmsYellowVisible;
+    private boolean SmsRedVisible;
+    private boolean CallButtonVisible;
+    private boolean showHiljennaButton;
+    private String osoiteFromDB;
+    private SharedPreferences pref_general;
+    private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
+    private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
     Intent intent;
 
-    Listener mCallback;
+    private Listener mCallback;
+
+    private FireAlarmViewModel fireAlarmViewModel;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
@@ -53,6 +70,7 @@ public class HalytysButtonsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setResources();
+
     }
 
     /*@Override
@@ -67,6 +85,23 @@ public class HalytysButtonsFragment extends Fragment {
                     + " must implement Listener");
         }
     }*/
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Context ctx = getActivity();
+        if(ctx != null) {
+            LifecycleOwner lf = getViewLifecycleOwner();
+            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            fireAlarmViewModel.getAddress().observe(lf, new Observer<CharSequence>() {
+                @Override
+                public void onChanged(CharSequence charSequence) {
+                    osoiteFromDB = charSequence.toString();
+                    osoite.setText(charSequence);
+                }
+            });
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -87,18 +122,26 @@ public class HalytysButtonsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        setOnClickListeners();
-        setTexts();
     }
 
-    public void setTexts() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        setOnClickListeners();
+        setTexts();
+        if(showHiljennaButton) {
+            autoAukaisu();
+        }
+    }
+
+    private void setTexts() {
         if(CallButtonVisible) {
             callNumber.setText(soittonumero);
         } else {
             call.setVisibility(View.GONE);
         }
 
-        osoite.setText(osoite());
+        osoite.setText(osoiteFromDB);
 
         if(SmsGreenVisible) {
             sms5Otsikko.setText(fivemintxtotsikko);
@@ -125,12 +168,12 @@ public class HalytysButtonsFragment extends Fragment {
         }
     }
 
-    public void setTextHiljennaPuhe() {
+    void setTextHiljennaPuhe() {
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_puhe);
     }
 
-    public void autoAukaisu() {
+    void autoAukaisu() {
         stopAlarm = true;
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_halytys);
@@ -151,7 +194,7 @@ public class HalytysButtonsFragment extends Fragment {
         });
     }
 
-    public void autoAukaisuHiljennaPuhe() {
+    private void autoAukaisuHiljennaPuhe() {
         mCallback.autoAukaisuPuhu();
         hiljennys.setText(R.string.hiljenna_puhe);
         hiljenna.setOnClickListener(new View.OnClickListener() {
@@ -161,19 +204,6 @@ public class HalytysButtonsFragment extends Fragment {
                 hiljenna.setVisibility(View.GONE);
             }
         });
-    }
-
-    public String osoite(){
-        try {
-            db = new DBHelper(getActivity());
-            Cursor c = db.haeViimeisinLisays();
-            if(c != null) {
-                return c.getString(c.getColumnIndex(DBHelper.LUOKKA));
-            }
-            return "";
-        } catch (Exception e) {
-            return "";
-        }
     }
 
     @Override
@@ -205,8 +235,9 @@ public class HalytysButtonsFragment extends Fragment {
         hiljennys = view.findViewById(R.id.hiljennys);
     }
 
-    void setResources() {
-        SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    private void setResources() {
+        pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        showHiljennaButton = pref_general.getBoolean("showHiljenna", false);
         soittonumero = pref_general.getString("example_text", null);
         smsnumero = pref_general.getString("sms_numero", null);
         smsnumero10 = pref_general.getString("sms_numero10", null);
@@ -218,37 +249,18 @@ public class HalytysButtonsFragment extends Fragment {
         tenplusmintxtotsikko = pref_general.getString("tenplusmintextotsikko", null);
         tenplusmintxt = pref_general.getString("tenplusmintxt", null);
         koneluku = pref_general.getBoolean("koneluku", false);
-        autoAukaisu = pref_general.getBoolean("autoAukaisu", false);
         SmsGreenVisible = pref_general.getBoolean("SmsGreenVisible", true);
         SmsYellowVisible = pref_general.getBoolean("SmsYellowVisible", true);
         SmsRedVisible = pref_general.getBoolean("SmsRedVisible", true);
         CallButtonVisible = pref_general.getBoolean("CallButtonVisible", true);
-        db = new DBHelper(getActivity());
     }
 
-    void setOnClickListeners() {
+    private void setOnClickListeners() {
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + soittonumero));
                 startActivity(callIntent);
-                // todo testataan ilman lupia soittaa intentin avulla
-                /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    pyydaLuvatCallPhone();
-                } else {
-                    Context context = getActivity();
-                    if(context != null) {
-                        try {
-                            ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE);
-                            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + soittonumero));
-                            startActivity(callIntent);
-                        }catch(Exception e) {
-                            Toast.makeText(context,"Puhelu ei onnistunut. Tarkista sovelluksen lupa soittaa ja asetettu numero.",
-                                    Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    }
-                }*/
             }
         });
 
@@ -284,7 +296,6 @@ public class HalytysButtonsFragment extends Fragment {
                         }
                     }
                 }
-
             }
         });
 
@@ -355,20 +366,10 @@ public class HalytysButtonsFragment extends Fragment {
             }
         });
 
-        Cursor c = db.haeViimeisinLisays();
-        //openMap.setText(c.getString(c.getColumnIndex(DBHelper.LUOKKA)));
-        String osoitee = "";
-        try {
-            osoitee = c.getString(c.getColumnIndex(DBHelper.LUOKKA));
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), "Arkisto on tyhjä.", Toast.LENGTH_LONG).show();
-        }
-        final String osoite = osoitee;
-
         openMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoite);
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoiteFromDB);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 //mapIntent.setPackage("com.google.android.apps.maps");
                 Context context = getActivity();
@@ -390,52 +391,12 @@ public class HalytysButtonsFragment extends Fragment {
         });
     }
 
-    /*public void pyydaLuvatCallPhone() {
-        Context context = getActivity();
-        if(context != null) {
-            if (ContextCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.CALL_PHONE)
-                    != PackageManager.PERMISSION_GRANTED) {
+    void updateAddress(String updatedAddress) {
+        osoiteFromDB = updatedAddress;
+        osoite.setText(updatedAddress);
+    }
 
-                // Pitäisikö näyttää selite?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.CALL_PHONE)) {
-
-                    // Näytä selite, älä blokkaa threadia.
-                    showMessageOKCancel(
-                            new DialogInterface.OnClickListener() {
-                                @TargetApi(Build.VERSION_CODES.M)
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    requestPermissions(new String[] {Manifest.permission.CALL_PHONE},
-                                            MY_PERMISSIONS_REQUEST_CALL_PHONE);
-                                }
-                            });
-                } else {
-
-                    // Selitettä ei tarvita.
-
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.CALL_PHONE},
-                            MY_PERMISSIONS_REQUEST_CALL_PHONE);
-                }
-            } else {
-                // soita
-                try {
-                    ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
-                    Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + soittonumero));
-                    startActivity(callIntent);
-                }catch(Exception e) {
-                    Toast.makeText(getActivity(),"Puhelu ei onnistunut. Tarkista sovelluksen lupa soittaa ja asetettu numero.",
-                            Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            }
-        }
-    }*/
-
-    public void pyydaLuvatSms() {
+    private void pyydaLuvatSms() {
         Context ctx = getActivity();
         if(ctx != null) {
             if (ContextCompat.checkSelfPermission(ctx,
@@ -445,22 +406,18 @@ public class HalytysButtonsFragment extends Fragment {
                 // Pitäisikö näyttää selite?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                         Manifest.permission.SEND_SMS)) {
-
                     // Näytä selite, älä blokkaa threadia.
                     showMessageOKCancelSms(
                             new DialogInterface.OnClickListener() {
                                 @TargetApi(Build.VERSION_CODES.M)
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
                                     requestPermissions(new String[] {Manifest.permission.SEND_SMS},
                                             MY_PERMISSIONS_REQUEST_SEND_SMS);
                                 }
                             });
                 } else {
-
                     // Selitettä ei tarvita.
-
                     ActivityCompat.requestPermissions(getActivity(),
                             new String[]{Manifest.permission.SEND_SMS},
                             MY_PERMISSIONS_REQUEST_SEND_SMS);
@@ -508,21 +465,6 @@ public class HalytysButtonsFragment extends Fragment {
                 }
                 return;
             }
-            /*case MY_PERMISSIONS_REQUEST_RECEIVE_SMS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // lupa on
-                    haeUusinHalyTietokannasta();
-                } else {
-                    // ei lupaa
-                    new AlertDialog.Builder(aktiivinenHaly.this)
-                            .setMessage("Sovelluksella ei ole lupaa vastaanottaa viestejä. Et saa hälytyksiä ilman lupaa.")
-                            .setNegativeButton("Peruuta", null)
-                            .create()
-                            .show();
-                }
-                return;
-            }*/
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -546,10 +488,9 @@ public class HalytysButtonsFragment extends Fragment {
         }
     }
 
-    public void btnfive() {
+    private void btnfive() {
         // Alle 5min ilmoitus
         try {
-            //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
             Toast.makeText(getActivity(),"Alle 5min ilmoitus lähetetty. (" + fivemintxt + ")", Toast.LENGTH_LONG).show();
@@ -561,10 +502,9 @@ public class HalytysButtonsFragment extends Fragment {
         five = false;
     }
 
-    public void btnten() {
+    private void btnten() {
         // Alle 10min ilmoitus
         try {
-            //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
             Toast.makeText(getActivity(),"Alle 10min ilmoitus lähetetty. (" + tenmintxt + ")", Toast.LENGTH_LONG).show();
@@ -576,10 +516,9 @@ public class HalytysButtonsFragment extends Fragment {
         ten = false;
     }
 
-    public void btntenplus() {
+    private void btntenplus() {
         // Yli 10min ilmoitus
         try {
-            //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
             Toast.makeText(getActivity(),"Yli 10min ilmoitus lähetetty. (" + tenplusmintxt + ")", Toast.LENGTH_LONG).show();
@@ -591,15 +530,6 @@ public class HalytysButtonsFragment extends Fragment {
         tenplus = false;
     }
 
-    /*private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(getActivity())
-                .setMessage("Et voi käyttää soita nappia jos et anna lupaa.")
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Peruuta", null)
-                .create()
-                .show();
-    }*/
-
     private void showMessageOKCancelSms(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(getActivity())
                 .setMessage("Sovelluksella ei ole lupaa lähettää viestejä. Et voi lähettää pikaviestiä ennen kuin lupa on myönnetty.")
@@ -609,13 +539,15 @@ public class HalytysButtonsFragment extends Fragment {
                 .show();
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         Context ctx = getActivity();
         if(stopAlarm && ctx != null) {
             Intent stopAlarm = new Intent(ctx, IsItAlarmService.class);
             ctx.stopService(stopAlarm);
         }
+        pref_general.edit().putBoolean("showHiljenna", false).commit();
     }
 }

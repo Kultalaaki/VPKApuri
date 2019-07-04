@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep class androidx.core.app.CoreComponentFactory { *; }
