@@ -25,12 +25,12 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HalytysTietokannastaFragment.OnFragmentInteractionListener} interface
+ * {@link ArchivedAlarmFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HalytysTietokannastaFragment#newInstance} factory method to
+ * Use the {@link ArchivedAlarmFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HalytysTietokannastaFragment extends Fragment {
+public class ArchivedAlarmFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -57,14 +57,14 @@ public class HalytysTietokannastaFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public HalytysTietokannastaFragment() {
+    public ArchivedAlarmFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static HalytysTietokannastaFragment newInstance(FireAlarm fireAlarm) {
+    public static ArchivedAlarmFragment newInstance(FireAlarm fireAlarm) {
         mFireAlarm = fireAlarm;
-        HalytysTietokannastaFragment fragment = new HalytysTietokannastaFragment();
+        ArchivedAlarmFragment fragment = new ArchivedAlarmFragment();
         Bundle args = new Bundle();
         args.putInt("id", fireAlarm.getId());
         args.putString("tunnus", fireAlarm.getTunnus());

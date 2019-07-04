@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!--EtusivuActivity-->
+    <!--FrontpageActivity-->
     <string name="action_halytys">HÄLYTYS</string>
     <string name="action_arkisto">ARKISTO</string>
     <string name="action_ohjeet">OHJEET</string>
@@ -27,33 +27,11 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
-        <u><b>Versio 3.5</b></u>\n\n
-        Asemataulu yhdistetty samaan sovellukseen:\n
-        - Asemataulu ominaisuutta voidaan käyttää puhelimella tai tabletilla\n
-        - Lähtijöiden ominaisuuksia lisätty\n
-        - Lähtijät listan ulkoasu muutettu\n
-        - Lähtijöitä voi poistaa listalta pyyhkäisemällä\n
-        - Asemataulu hälytys sivulla kameran pikakäynnistys\n
-        - Lähtijät listan yläpuolelle lasketaan ilmoittautuneiden lukumäärä ja savusukeltajat valmiiksi\n
-        Hälytys sivu:\n
-        - Päivittyy jos tulee uusi hälytys kun sivu on auki\n
-        - Hälytyskello, kytketään asetuksista. Aika mikä on kulunut hälytyksen tulosta. Pysäytysaika asetetaan asetuksissa\n
-        VaPePa toimintoja lisätty:\n
-        - Osoitteentunnistuksen voi kytkeä pois päältä jos sovellus tulee vain OHTO hälytys käyttöön.\n
-        - Jos sovellusta käytetään VPK sekä OHTO hälytyksiin. OHTO hälytysnumeron eteen tulee laittaa iso O-kirjain esim. O0401234567\n
-        - OHTO hälytyksiin vastaaminen hälytys sivulta. Katso ohjeet\n
-        Taustalla toimivan hälytyksien tunnistuksen parannuksia:\n
-        - Jos hälytysnumerosta tulee viesti joka ei sisällä osoitetta, tunnusta ja kiireellisyysluokkaa, se liitetään edelliseen hälytykseen.
-        Hälytysten liittäminen tapahtuu vain jos edellisestä hälytyksestä on alle 30 minuuttia.\n
-        - Jos edellinen hälytys on OHTO hälytys tai puhelu hälytys, hälytys tulee arkistoon uutena hälytyksenä\n
-        Arkiston muutoksia\n
-        - Arkiston viestejä voi poistaa nyt pyyhkäisemällä\n
-        - Lisää kenttiä lisätty arkistoon mm. aikaleima ja kiireellisyysluokka (haetaan viesteistä automaattisesti)\n
-        Ääniasetuksia lisätty\n
-        - OHTO hälytyksille oma hälytysääni\n
-        - Ensivaste hälytyksille oma hälytysääni\n
-        - Puhelu hälytyksille oma hälytysääni\n
-        + Muita pieniä korjauksia ja parannuksia.
+        <u><b>Versio 3.5.1</b></u>\n\n
+        Asemataulu:\n
+        - Ääniasetuksien lisäasetuksista voi kytkeä hälytysäänen päälle.\n\n
+
+        Widgetin jumittaminen yötilalle/  äänettömälle korjattu.
     </string>
     <!--Näytetään vain muutosloki sivulla-->
     <string name="whatsnew">

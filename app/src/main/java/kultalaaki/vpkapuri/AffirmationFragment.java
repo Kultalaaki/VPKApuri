@@ -22,10 +22,10 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link KayttoehdotFragment#newInstance} factory method to
+ * Use the {@link AffirmationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KayttoehdotFragment extends Fragment {
+public class AffirmationFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,14 +35,14 @@ public class KayttoehdotFragment extends Fragment {
     Button Ok;
     SharedPreferences sharedPreferences;
 
-    KayttoehdotFragment.Listener mCallback;
+    AffirmationFragment.Listener mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
-        /** Called when a button is clicked in KayttoehdotFragment */
+        /** Called when a button is clicked in AffirmationFragment */
         void loadEtusivuFromFragment();
     }
-    public KayttoehdotFragment() {
+    public AffirmationFragment() {
         // Required empty public constructor
     }
 
@@ -52,11 +52,11 @@ public class KayttoehdotFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment KayttoehdotFragment.
+     * @return A new instance of fragment AffirmationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static KayttoehdotFragment newInstance(String param1, String param2) {
-        KayttoehdotFragment fragment = new KayttoehdotFragment();
+    public static AffirmationFragment newInstance(String param1, String param2) {
+        AffirmationFragment fragment = new AffirmationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -192,10 +192,10 @@ public class KayttoehdotFragment extends Fragment {
         sharedPreferences.edit().putBoolean("termsShown", true).commit();
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), EtusivuActivity.class);
+            Intent intent = new Intent(getActivity(), FrontpageActivity.class);
             startActivity(intent, options.toBundle());
         } else {
-            Intent intent = new Intent(getActivity(), EtusivuActivity.class);
+            Intent intent = new Intent(getActivity(), FrontpageActivity.class);
             startActivity(intent);
         }*/
         mCallback.loadEtusivuFromFragment();
@@ -205,7 +205,7 @@ public class KayttoehdotFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (KayttoehdotFragment.Listener) context;
+            mCallback = (AffirmationFragment.Listener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement Listener");

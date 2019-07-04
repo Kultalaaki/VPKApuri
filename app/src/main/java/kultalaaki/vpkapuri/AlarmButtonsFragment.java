@@ -33,7 +33,7 @@ import android.widget.Toast;
 import java.util.List;
 
 
-public class HalytysButtonsFragment extends Fragment {
+public class AlarmButtonsFragment extends Fragment {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 3;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 4;
@@ -60,7 +60,7 @@ public class HalytysButtonsFragment extends Fragment {
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
-        /** Called when a button is clicked in HalytysButtonsFragment */
+        /** Called when a button is clicked in AlarmButtonsFragment */
         void hiljenna();
         void autoAukaisuPuhu();
         void avaaWebSivu(String url);

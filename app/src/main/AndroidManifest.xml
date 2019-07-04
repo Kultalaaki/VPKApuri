@@ -72,8 +72,8 @@
             android:value="007dd4b848f896a9127bfeb574670d75461a0ed2" />
 
         <activity
-            android:name=".HalytysActivity"
-            android:parentActivityName=".EtusivuActivity"
+            android:name=".AlarmActivity"
+            android:parentActivityName=".FrontpageActivity"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -89,12 +89,12 @@
             android:exported="false" />
 
         <receiver
-            android:name=".stopHalyaaniService"
+            android:name=".StopIsItAlarmService"
             android:exported="false" />
 
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".EtusivuActivity"
+            android:parentActivityName=".FrontpageActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_settings" />
 
@@ -133,7 +133,7 @@
         </receiver>
 
         <activity
-            android:name=".EtusivuActivity"
+            android:name=".FrontpageActivity"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

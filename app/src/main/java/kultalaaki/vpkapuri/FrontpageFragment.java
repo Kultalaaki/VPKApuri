@@ -21,7 +21,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import io.fabric.sdk.android.Fabric;
 
 
-public class EtusivuFragment extends Fragment {
+public class FrontpageFragment extends Fragment {
 
     CardView halytys, carkisto, ohjeet, csettings;
     boolean ericaEtusivu, analytics;
@@ -30,7 +30,7 @@ public class EtusivuFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public EtusivuFragment() {
+    public FrontpageFragment() {
         // Required empty public constructor
     }
 
@@ -136,10 +136,10 @@ public class EtusivuFragment extends Fragment {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), HalytysActivity.class);
+            Intent intent = new Intent(getActivity(), AlarmActivity.class);
             startActivity(intent, options.toBundle());
         } else {
-            Intent intent = new Intent(getActivity(), HalytysActivity.class);
+            Intent intent = new Intent(getActivity(), AlarmActivity.class);
             startActivity(intent);
         }
     }

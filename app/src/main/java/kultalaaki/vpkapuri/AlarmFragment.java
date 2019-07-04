@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class HalytysFragment extends Fragment {
+public class AlarmFragment extends Fragment {
 
     private EditText halytyksenviesti;
     private TextView halytyksentunnus;

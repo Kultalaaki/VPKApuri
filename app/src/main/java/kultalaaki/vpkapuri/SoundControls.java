@@ -1,7 +1,6 @@
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -33,7 +32,7 @@ class SoundControls {
         ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
 
-        Intent hiljennys = new Intent(context, EtusivuActivity.class);
+        Intent hiljennys = new Intent(context, FrontpageActivity.class);
         PendingIntent hiljennetty = PendingIntent.getActivity(context, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
         manager.updateAppWidget(thisWidget, text);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "HILJENNYS")
@@ -59,7 +58,7 @@ class SoundControls {
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Yötila");
 
-        Intent hiljennys = new Intent(context, EtusivuActivity.class);
+        Intent hiljennys = new Intent(context, FrontpageActivity.class);
         PendingIntent hiljennetty = PendingIntent.getActivity(context, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "HILJENNYS")
                 .setSmallIcon(R.mipmap.ic_launcher)

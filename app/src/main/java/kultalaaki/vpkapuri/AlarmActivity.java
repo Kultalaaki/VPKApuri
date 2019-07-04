@@ -28,8 +28,8 @@ import java.util.Locale;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
-public class HalytysActivity extends AppCompatActivity
-        implements HalytysButtonsFragment.Listener, AsematauluButtonsFragment.OnFragmentInteractionListener, HalytysFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener {
+public class AlarmActivity extends AppCompatActivity
+        implements AlarmButtonsFragment.Listener, StationboardButtonsFragment.OnFragmentInteractionListener, AlarmFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -108,19 +108,19 @@ public class HalytysActivity extends AppCompatActivity
     }
 
     public void hiljenna() {
-        HalytysFragment halytysFragment = (HalytysFragment)
-                getSupportFragmentManager().findFragmentByTag("halytysFragment");
-        if (halytysFragment != null) {
-            halytysFragment.lopetaPuhe();
+        AlarmFragment alarmFragment = (AlarmFragment)
+                getSupportFragmentManager().findFragmentByTag("alarmFragment");
+        if (alarmFragment != null) {
+            alarmFragment.lopetaPuhe();
         }
     }
 
     public void autoAukaisuPuhu() {
-        HalytysFragment halytysFragment = (HalytysFragment)
-                getSupportFragmentManager().findFragmentByTag("halytysFragment");
-        //Log.i("HalytysActivity", halytysFragment.toString());
-        if (halytysFragment != null) {
-            halytysFragment.txtToSpeech();
+        AlarmFragment alarmFragment = (AlarmFragment)
+                getSupportFragmentManager().findFragmentByTag("alarmFragment");
+        //Log.i("AlarmActivity", alarmFragment.toString());
+        if (alarmFragment != null) {
+            alarmFragment.txtToSpeech();
         }
     }
 
@@ -138,10 +138,10 @@ public class HalytysActivity extends AppCompatActivity
 
     public void loadAsematauluButtons() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        AsematauluButtonsFragment asematauluButtonsFragment = new AsematauluButtonsFragment();
+        StationboardButtonsFragment stationboardButtonsFragment = new StationboardButtonsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_up, R.animator.slide_out_up);
-        fragmentTransaction.add(R.id.HalytysAlaosa, asematauluButtonsFragment, "asematauluButtonsFragment").commit();
+        fragmentTransaction.add(R.id.HalytysAlaosa, stationboardButtonsFragment, "stationboardButtonsFragment").commit();
     }
 
     public void loadOHTOAnswer() {
@@ -172,11 +172,11 @@ public class HalytysActivity extends AppCompatActivity
 
     public void loadhalytysFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        HalytysFragment halytysFragment = new HalytysFragment();
+        AlarmFragment alarmFragment = new AlarmFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_down);
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.add(R.id.HalytysYlaosa, halytysFragment, "halytysFragment").commit();
+        fragmentTransaction.add(R.id.HalytysYlaosa, alarmFragment, "alarmFragment").commit();
     }
 
     /*public void loadManpowerFragment() {
@@ -194,26 +194,26 @@ public class HalytysActivity extends AppCompatActivity
 
     public void loadhalytysButtonsFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        HalytysButtonsFragment halytysButtonsFragment = new HalytysButtonsFragment();
+        AlarmButtonsFragment alarmButtonsFragment = new AlarmButtonsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_up, R.animator.slide_out_up);
-        fragmentTransaction.add(R.id.HalytysAlaosa, halytysButtonsFragment, "halytysButtonsFragment").commit();
+        fragmentTransaction.add(R.id.HalytysAlaosa, alarmButtonsFragment, "alarmButtonsFragment").commit();
     }
 
     public void waitForFragment() {
         Handler handler1 = new Handler();
         handler1.postDelayed(new Runnable() {
             public void run() {
-                HalytysFragment halytysFragment = (HalytysFragment)
-                        getSupportFragmentManager().findFragmentByTag("halytysFragment");
-                //Log.i("HalytysActivity", halytysFragment.toString());
-                if (halytysFragment != null) {
-                    halytysFragment.txtToSpeech();
+                AlarmFragment alarmFragment = (AlarmFragment)
+                        getSupportFragmentManager().findFragmentByTag("alarmFragment");
+                //Log.i("AlarmActivity", alarmFragment.toString());
+                if (alarmFragment != null) {
+                    alarmFragment.txtToSpeech();
                 }
-                HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
-                        getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
-                if (halytysButtonsFragment != null) {
-                    halytysButtonsFragment.setTextHiljennaPuhe();
+                AlarmButtonsFragment alarmButtonsFragment = (AlarmButtonsFragment)
+                        getSupportFragmentManager().findFragmentByTag("alarmButtonsFragment");
+                if (alarmButtonsFragment != null) {
+                    alarmButtonsFragment.setTextHiljennaPuhe();
                 }
             }
         }, 1000);
@@ -225,10 +225,10 @@ public class HalytysActivity extends AppCompatActivity
         Handler handler2 = new Handler();
         handler2.postDelayed(new Runnable() {
             public void run() {
-                HalytysButtonsFragment halytysButtonsFragment = (HalytysButtonsFragment)
-                        getSupportFragmentManager().findFragmentByTag("halytysButtonsFragment");
-                if (halytysButtonsFragment != null) {
-                    halytysButtonsFragment.autoAukaisu();
+                AlarmButtonsFragment alarmButtonsFragment = (AlarmButtonsFragment)
+                        getSupportFragmentManager().findFragmentByTag("alarmButtonsFragment");
+                if (alarmButtonsFragment != null) {
+                    alarmButtonsFragment.autoAukaisu();
                 }
             }
         }, 1000);
@@ -241,8 +241,8 @@ public class HalytysActivity extends AppCompatActivity
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                Intent stopAlarm = new Intent(HalytysActivity.this, IsItAlarmService.class);
-                HalytysActivity.this.stopService(stopAlarm);
+                Intent stopAlarm = new Intent(AlarmActivity.this, IsItAlarmService.class);
+                AlarmActivity.this.stopService(stopAlarm);
                 if (koneluku && !autoAukaisu) {
                     waitForFragment();
                 }
@@ -254,7 +254,7 @@ public class HalytysActivity extends AppCompatActivity
     }
 
     /**
-     * AsematauluButtonsFragment methods below this
+     * StationboardButtonsFragment methods below this
      *
      * <--Methods to take picture and add it to gallery-->
      * openCamera

@@ -15,12 +15,12 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OhjeetFragment.OnFragmentInteractionListener} interface
+ * {@link GuidelineFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link OhjeetFragment#newInstance} factory method to
+ * Use the {@link GuidelineFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OhjeetFragment extends Fragment {
+public class GuidelineFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,7 +35,7 @@ public class OhjeetFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public OhjeetFragment() {
+    public GuidelineFragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +45,11 @@ public class OhjeetFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OhjeetFragment.
+     * @return A new instance of fragment GuidelineFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OhjeetFragment newInstance(String param1, String param2) {
-        OhjeetFragment fragment = new OhjeetFragment();
+    public static GuidelineFragment newInstance(String param1, String param2) {
+        GuidelineFragment fragment = new GuidelineFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

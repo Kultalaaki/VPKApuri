@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             String stringValue = value.toString();
 
             if (preference instanceof ListPreference) {
-                // For list sound_preferences, look up the correct display value in
+                // For list pref_sounds, look up the correct display value in
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
@@ -67,7 +67,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 : null);
 
             } else if (preference instanceof RingtonePreference) {
-                // For ringtone sound_preferences, look up the correct display value
+                // For ringtone pref_sounds, look up the correct display value
                 // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
                     // Empty values correspond to 'silent' (no ringtone).
@@ -89,7 +89,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
 
             } else {
-                // For all other sound_preferences, set the summary to the value's
+                // For all other pref_sounds, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);
             }
@@ -176,7 +176,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * This fragment shows general sound_preferences only. It is used when the
+     * This fragment shows general pref_sounds only. It is used when the
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -186,11 +186,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.numbers_sms_preferences);
+            addPreferencesFromResource(R.xml.pref_numbers_sms);
 
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone sound_preferences
+            // Bind the summaries of EditText/List/Dialog/Ringtone pref_sounds
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
@@ -260,7 +260,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * This fragment shows notification sound_preferences only. It is used when the
+     * This fragment shows notification pref_sounds only. It is used when the
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -273,7 +273,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             //addPreferencesFromResource(R.xml.pref_notification);
-            addPreferencesFromResource(R.xml.sound_preferences);
+            addPreferencesFromResource(R.xml.pref_sounds);
 
             //Do Not Disturb allowed if menu doesn't open
             Preference pref = getPreferenceManager().findPreference("DoNotDisturb");
@@ -305,7 +305,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone sound_preferences
+            // Bind the summaries of EditText/List/Dialog/Ringtone pref_sounds
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
@@ -340,7 +340,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * This fragment shows data and sync sound_preferences only. It is used when the
+     * This fragment shows data and sync pref_sounds only. It is used when the
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -354,7 +354,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.permission_preferences);
+            addPreferencesFromResource(R.xml.pref_permission);
 
             //Battery optimization
             Preference prefi = getPreferenceManager().findPreference("batteryOptimization");
@@ -473,7 +473,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone sound_preferences
+            // Bind the summaries of EditText/List/Dialog/Ringtone pref_sounds
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
@@ -557,7 +557,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone sound_preferences
+            // Bind the summaries of EditText/List/Dialog/Ringtone pref_sounds
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.

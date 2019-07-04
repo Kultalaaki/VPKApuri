@@ -8,23 +8,20 @@
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
     public static String ACTION_WIDGET_REFRESH = "ActionReceiverRefresh";
-    SharedPreferences aaneton;
-    private static final int MY_NOTIFICATION_ID = 15245;
+    SharedPreferences sharedPreferences;
     private SoundControls soundControls = new SoundControls();
 
     @Override
@@ -45,77 +42,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @SuppressLint("ApplySharedPref")
     public void onReceive(Context context, Intent intent) {
 
-        aaneton = context.getSharedPreferences("kultalaaki.vpkapuri.aaneton", Activity.MODE_PRIVATE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         if(intent.getAction() != null) {
             if (intent.getAction().equals(ACTION_WIDGET_REFRESH)) {
 
-                if (aaneton.getInt("aaneton_profiili", -1) == 3) {
+                if (sharedPreferences.getInt("aaneton_profiili", -1) == 3) {
                     soundControls.setNormal(context);
-                    /*aaneton.edit().putInt("aaneton_profiili", 1).commit();
-                    //Toast.makeText(context, "Kytketty äänet päälle", Toast.LENGTH_LONG).show();
-                    RemoteViews texta = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-                    texta.setTextViewText(R.id.teksti, "Normaali");
-
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-                    notificationManager.cancel(MY_NOTIFICATION_ID);
-
-                    ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
-                    AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                    manager.updateAppWidget(thisWidget, texta);*/
-                } else if (aaneton.getInt("aaneton_profiili", -1) == 1){
+                } else if (sharedPreferences.getInt("aaneton_profiili", -1) == 1){
                     soundControls.setSilent(context);
-                    /*aaneton.edit().putInt("aaneton_profiili", 2).commit();
-                    //Toast.makeText(context, "Kytketty äänetön tila", Toast.LENGTH_LONG).show();
-                    RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-                    text.setTextViewText(R.id.teksti, "Äänetön");
-
-                    Intent hiljennys = new Intent(context, EtusivuActivity.class);
-                    PendingIntent hiljennetty = PendingIntent.getActivity(context, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "HILJENNYS")
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("VPK Apuri")
-                            .setContentText("Hälytykset on hiljennetty.")
-                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-                            .setCategory(NotificationCompat.CATEGORY_ALARM)
-                            .setContentIntent(hiljennetty)
-                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                            .setOngoing(true)
-                            .setAutoCancel(false);
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-                    notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
-
-                    ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
-                    AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                    manager.updateAppWidget(thisWidget, text);*/
                 } else {
                     soundControls.setNightMode(context);
-                    /*aaneton.edit().putInt("aaneton_profiili", 3).commit();
-                    //Toast.makeText(context, "Kytketty äänetön tila", Toast.LENGTH_LONG).show();
-                    RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-                    text.setTextViewText(R.id.teksti, "Yötila");
-
-                    Intent hiljennys = new Intent(context, EtusivuActivity.class);
-                    PendingIntent hiljennetty = PendingIntent.getActivity(context, 0, hiljennys, PendingIntent.FLAG_CANCEL_CURRENT);
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "HILJENNYS")
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("VPK Apuri")
-                            .setContentText("Yötila. Hälytysten äänenvoimakkuus rajoitettu 10%.")
-                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-                            .setCategory(NotificationCompat.CATEGORY_ALARM)
-                            .setContentIntent(hiljennetty)
-                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                            .setOngoing(true)
-                            .setAutoCancel(false);
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-                    notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
-
-                    ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
-                    AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                    manager.updateAppWidget(thisWidget, text);*/
                 }
             } else {
-                //Toast.makeText(context, "Käynnistys", Toast.LENGTH_LONG).show();
                 super.onReceive(context, intent);
             }
         }

@@ -130,23 +130,30 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         OHTOAlarm(message, timestamp, numero);
                     }
 
-                    if(!sharedPreferences.getBoolean("HalytysOpen", false)) {
-                        Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
-                        openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        IsItAlarmService.this.startActivity(openHalytysActivity);
-                        stopSelf(startId);
-                        /*Handler handler = new Handler(Looper.getMainLooper());
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent openHalytysActivity = new Intent(IsItAlarmService.this, HalytysActivity.class);
-                                openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                IsItAlarmService.this.startActivity(openHalytysActivity);
-                                stopSelf(startId);
-                            }
-                        }, 3000);*/
+                    if(sharedPreferences.getBoolean("stationboard_sounds", false)) {
+                        alarmSound(startId);
+                        if(autoAukaisu) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                                    halyAuki.setAction(Intent.ACTION_SEND);
+                                    halyAuki.setType("automaattinen");
+                                    halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(halyAuki);
+                                }
+                            }, 3000);
+                        } else {
+                            createNotification(message);
+                        }
+                    } else {
+                        if(!sharedPreferences.getBoolean("HalytysOpen", false)) {
+                            Intent openHalytysActivity = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                            openHalytysActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            IsItAlarmService.this.startActivity(openHalytysActivity);
+                            stopSelf(startId);
+                        }
                     }
-
                 } else {
                     // Test who is coming and save to database..
                     whoIsComing(numero, message);
@@ -170,7 +177,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            Intent halyAuki = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                            Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
                             halyAuki.setAction(Intent.ACTION_SEND);
                             halyAuki.setType("automaattinen");
                             halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -198,7 +205,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            Intent halyAuki = new Intent(IsItAlarmService.this, HalytysActivity.class);
+                            Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
                             halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             halyAuki.setAction(Intent.ACTION_SEND);
                             halyAuki.setType("automaattinen");
@@ -718,7 +725,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void createNotification(String viesti) {
-        Intent intentsms = new Intent(getApplicationContext(), HalytysActivity.class);
+        Intent intentsms = new Intent(getApplicationContext(), AlarmActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -727,7 +734,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
+        Intent stopAlarm = new Intent(this, StopIsItAlarmService.class);
         PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
@@ -749,7 +756,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void createNotificationPuhelu(String viesti) {
-        Intent intentsms = new Intent(IsItAlarmService.this, HalytysActivity.class);
+        Intent intentsms = new Intent(IsItAlarmService.this, AlarmActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -758,7 +765,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        //Intent stopAlarm = new Intent(this, stopHalyaaniService.class);
+        //Intent stopAlarm = new Intent(this, StopIsItAlarmService.class);
         //PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")

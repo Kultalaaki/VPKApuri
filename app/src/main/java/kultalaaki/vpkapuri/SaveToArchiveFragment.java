@@ -15,14 +15,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class TallennaArkistoonFragment extends Fragment {
+public class SaveToArchiveFragment extends Fragment {
 
     private EditText tunnusteksti, luokkateksti, viestiteksti;
     private CardView tallenna;
 
     private OnFragmentInteractionListener mListener;
 
-    public TallennaArkistoonFragment() {
+    public SaveToArchiveFragment() {
         // Required empty public constructor
     }
 
@@ -69,7 +69,7 @@ public class TallennaArkistoonFragment extends Fragment {
                         Toast.makeText(getActivity(), "Tallennettu.", Toast.LENGTH_LONG).show();
                         mListener.loadEtusivuClearingBackstack();
                         if (getActivity() != null) {
-                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(EtusivuActivity.INPUT_METHOD_SERVICE);
+                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(FrontpageActivity.INPUT_METHOD_SERVICE);
                             if (imm != null) {
                                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                             }

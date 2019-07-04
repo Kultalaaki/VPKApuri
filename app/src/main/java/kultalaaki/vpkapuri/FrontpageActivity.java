@@ -58,9 +58,9 @@ import java.nio.channels.FileChannel;
 import java.util.Date;
 
 
-public class EtusivuActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, KayttoehdotFragment.Listener, EtusivuFragment.OnFragmentInteractionListener,
-                                ArkistoFragment.OnFragmentInteractionListener, OhjeetFragment.OnFragmentInteractionListener, TallennaArkistoonFragment.OnFragmentInteractionListener,
-                                HalytysTietokannastaFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener,
+public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
+                                ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener,
+                                ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener,
                                 TimePickerDialog.OnTimeSetListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -169,79 +169,79 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     public void loadLegalFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        KayttoehdotFragment kayttoehdotFragment = new KayttoehdotFragment();
+        AffirmationFragment affirmationFragment = new AffirmationFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.add(R.id.etusivuContainer, kayttoehdotFragment, "etusivuLegal").commit();
+        fragmentTransaction.add(R.id.etusivuContainer, affirmationFragment, "etusivuLegal").commit();
     }
 
     public void loadArkistoFragment() {
         //Crashlytics.getInstance().crash(); // Force a crash
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ArkistoFragment arkistoFragment = new ArkistoFragment();
+        ArchiveFragment archiveFragment = new ArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, arkistoFragment, "arkistoFragment").commit();
+        fragmentTransaction.replace(R.id.etusivuContainer, archiveFragment, "archiveFragment").commit();
     }
 
     public void loadOhjeetFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        OhjeetFragment ohjeetFragment = new OhjeetFragment();
+        GuidelineFragment guidelineFragment = new GuidelineFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
         if(findViewById(R.id.etusivuContainerLandScape) != null) {
-            fragmentTransaction.replace(R.id.etusivuContainerLandScape, ohjeetFragment, "ohjeetFragment").commit();
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, guidelineFragment, "guidelineFragment").commit();
         } else {
-            fragmentTransaction.replace(R.id.etusivuContainer, ohjeetFragment, "ohjeetFragment").commit();
+            fragmentTransaction.replace(R.id.etusivuContainer, guidelineFragment, "guidelineFragment").commit();
         }
 
     }
 
     public void loadEtusivuFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        EtusivuFragment etusivuFragment = new EtusivuFragment();
+        FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.add(R.id.etusivuContainer, etusivuFragment, "etusivuNavigation").commit();
+        fragmentTransaction.add(R.id.etusivuContainer, frontpageFragment, "etusivuNavigation").commit();
     }
 
     public void loadEtusivuClearingBackstack() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        EtusivuFragment etusivuFragment = new EtusivuFragment();
+        FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.replace(R.id.etusivuContainer, etusivuFragment, "etusivuNavigation").commit();
+        fragmentTransaction.replace(R.id.etusivuContainer, frontpageFragment, "etusivuNavigation").commit();
     }
 
     public void loadEtusivuFromFragment() {
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        EtusivuFragment etusivuFragment = new EtusivuFragment();
+        FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.replace(R.id.etusivuContainer, etusivuFragment, "etusivuNavigation");
+        fragmentTransaction.replace(R.id.etusivuContainer, frontpageFragment, "etusivuNavigation");
         //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
     public void loadTallennaArkistoonFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        TallennaArkistoonFragment tallennaArkistoonFragment = new TallennaArkistoonFragment();
+        SaveToArchiveFragment saveToArchiveFragment = new SaveToArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, tallennaArkistoonFragment, "tallennaArkistoonFragment").commit();
+        fragmentTransaction.replace(R.id.etusivuContainer, saveToArchiveFragment, "saveToArchiveFragment").commit();
     }
 
     public void loadHalytysTietokannastaFragment(FireAlarm fireAlarm) {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        HalytysTietokannastaFragment halytysTietokannastaFragment = HalytysTietokannastaFragment.newInstance(fireAlarm);
+        ArchivedAlarmFragment archivedAlarmFragment = ArchivedAlarmFragment.newInstance(fireAlarm);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
         if(findViewById(R.id.etusivuContainerLandScape) != null) {
-            fragmentTransaction.replace(R.id.etusivuContainerLandScape, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, archivedAlarmFragment, "archivedAlarmFragment").commit();
         } else {
-            fragmentTransaction.replace(R.id.etusivuContainer, halytysTietokannastaFragment, "halytysTietokannastaFragment").commit();
+            fragmentTransaction.replace(R.id.etusivuContainer, archivedAlarmFragment, "archivedAlarmFragment").commit();
         }
 
     }
@@ -451,12 +451,12 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void pyydaLuvatTiedostotKirjoita() {
-        if (ContextCompat.checkSelfPermission(EtusivuActivity.this,
+        if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(EtusivuActivity.this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(FrontpageActivity.this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
@@ -475,7 +475,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
                 // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions(EtusivuActivity.this,
+                ActivityCompat.requestPermissions(FrontpageActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
@@ -497,7 +497,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
                 showMessageOKCanceltietokanta();
             } else {
                 // ei lupaa
-                new AlertDialog.Builder(EtusivuActivity.this)
+                new AlertDialog.Builder(FrontpageActivity.this)
                         .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tallentaa tietokantaa ilman lupaa.")
                         .setNegativeButton("Peruuta", null)
                         .create()
@@ -508,7 +508,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     private void showMessageOKCanceltietokanta() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle("Varmuuskopiointi!")
                 .setMessage("Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri. " +
                         "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.")
@@ -525,7 +525,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
 
     private void showMessageOKCanceltietokantaTyhjennys() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle("Tyhjennä arkisto!")
                 .setMessage("Arkistossa olevat hälytykset poistetaan. Oletko varma että haluat poistaa hälytykset?")
                 .setNegativeButton("Peruuta", null)
@@ -539,7 +539,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void showMessageOKCancelTestaaHaly(String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle("Testaa hälytys")
                 .setMessage(message)
                 .setNegativeButton("Peruuta", null)
@@ -553,7 +553,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     public void showMessage(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(EtusivuActivity.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle(title)
                 .setMessage(message)
                 .setNegativeButton("Peruuta", null)
@@ -597,7 +597,7 @@ public class EtusivuActivity extends AppCompatActivity implements ActivityCompat
     }
 
     private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(EtusivuActivity.this)
+        new AlertDialog.Builder(FrontpageActivity.this)
                 .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Peruuta", null)
