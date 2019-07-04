@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class AlarmFragment extends Fragment {
 
-    private EditText halytyksenviesti;
+    private TextView halytyksenviesti;
     private TextView halytyksentunnus;
     private TextView kiireellisyys;
     private TextToSpeech t1;
@@ -92,7 +92,12 @@ public class AlarmFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.halytys_fragment, parent, false);
+        if(preferences.getBoolean("clear_theme", false)) {
+            return inflater.inflate(R.layout.alarm_fragment_clear, parent, false);
+        } else {
+            return inflater.inflate(R.layout.halytys_fragment, parent, false);
+        }
+
     }
 
     @Override

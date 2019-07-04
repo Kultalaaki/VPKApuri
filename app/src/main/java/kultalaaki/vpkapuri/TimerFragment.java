@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 public class TimerFragment extends Fragment {
 
-    Button addTimer;
-    ListView listViewTimers;
-    DBTimer dbTimer;
-    Context ctx;
+    private Button addTimer;
+    private ListView listViewTimers;
+    private DBTimer dbTimer;
+    private Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,19 +75,13 @@ public class TimerFragment extends Fragment {
         mListener = null;
     }
 
-    public void clickListeners() {
+    private void clickListeners() {
         addTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.openSetTimer();
             }
         });
-        /*deleteTimers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMessageClearTimers();
-            }
-        });*/
     }
 
     private void getTimers() {

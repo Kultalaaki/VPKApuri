@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="Autofill" />
 
-            <EditText
+            <TextView
                 android:id="@+id/halytyksenViesti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

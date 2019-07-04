@@ -23,10 +23,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class FrontpageFragment extends Fragment {
 
-    CardView halytys, carkisto, ohjeet, csettings;
-    boolean ericaEtusivu, analytics;
-
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private CardView halytys, carkisto, ohjeet, csettings;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,10 +36,10 @@ public class FrontpageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getActivity() != null) {
             SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            ericaEtusivu = pref_general.getBoolean("Erica", false);
-            analytics = pref_general.getBoolean("analyticsEnabled", false);
 
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+            boolean analytics = pref_general.getBoolean("analyticsEnabled", false);
+
+            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
             mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
@@ -73,28 +70,42 @@ public class FrontpageFragment extends Fragment {
         halytys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                avaaHaly();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+                    Intent intent = new Intent(getActivity(), AlarmActivity.class);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    Intent intent = new Intent(getActivity(), AlarmActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
         carkisto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                avaaArkisto();
+                mListener.loadArkistoFragment();
             }
         });
 
         ohjeet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                avaaOhjeet();
+                mListener.loadOhjeetFragment();
             }
         });
 
         csettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                avaaAsetukset();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+                    Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -131,53 +142,4 @@ public class FrontpageFragment extends Fragment {
         void loadArkistoFragment();
         void loadOhjeetFragment();
     }
-
-    public void avaaHaly () {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), AlarmActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(getActivity(), AlarmActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    public void avaaArkisto () {
-        mListener.loadArkistoFragment();
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), ArkistoActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(getActivity(), ArkistoActivity.class);
-            startActivity(intent);
-        }*/
-    }
-
-    public void avaaOhjeet () {
-        mListener.loadOhjeetFragment();
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), OhjeitaActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(getActivity(), OhjeitaActivity.class);
-            startActivity(intent);
-        }*/
-    }
-
-    public void avaaAsetukset () {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(intent);
-        }
-    }
-
-
 }

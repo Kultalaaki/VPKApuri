@@ -53,4 +53,15 @@
             android:title="Käyttöehdot"
             android:summary="Avautuu selaimeen jossa näytetään sovelluksen käyttöehdot."/>
     </PreferenceCategory>
+    <PreferenceScreen
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+        android:persistent="false"
+        android:summary="Valitse teema."
+        android:title="Ulkoasu">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="clear_theme"
+            android:summary="Selkeämpi ulkoasu hälytys sivulle"
+            android:title="Selkeä" />
+    </PreferenceScreen>
 </PreferenceScreen>
