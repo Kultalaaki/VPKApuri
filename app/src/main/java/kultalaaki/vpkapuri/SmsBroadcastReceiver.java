@@ -1,8 +1,7 @@
 /*
- * Created by Kultala Aki on 9.9.2017 9:28
- * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 30.1.2017 19:35
+ * Created by Kultala Aki on 7.7.2019 12:26
+ * Copyright (c) 2019. All rights reserved.
+ * Last modified 4.7.2019 16:13
  */
 
 package kultalaaki.vpkapuri;

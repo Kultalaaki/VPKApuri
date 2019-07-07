@@ -1,8 +1,7 @@
 /*
- * Created by Kultala Aki on 29.4.2018 18:30
- * Copyright (c) 2018. All rights reserved.
- *
- * Last modified 29.4.2018 18:30
+ * Created by Kultala Aki on 7.7.2019 12:26
+ * Copyright (c) 2019. All rights reserved.
+ * Last modified 7.7.2019 12:26
  */
 
 package kultalaaki.vpkapuri;
@@ -276,6 +275,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
+    /**
+     * Check incoming message and who sent it. If sender number matches number that is set in setting,
+     * take all other information about that person and add to database Responder.
+     * Database will be shown in ResponderFragment recyclerview.
+     * @param numero sender number
+     * @param message sent message
+     */
     private void whoIsComing(String numero, String message) {
         ResponderRepository repository = new ResponderRepository(getApplication());
         numero = numberFormat(numero);
@@ -428,7 +434,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
     }
 
-    private void addressLookUp(String viesti, String timeStamp, String number) {
+    void addressLookUp(String viesti, String timeStamp, String number) {
 
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
 

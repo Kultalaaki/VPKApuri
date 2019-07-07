@@ -1,3 +1,9 @@
+/*
+ * Created by Kultala Aki on 7.7.2019 12:26
+ * Copyright (c) 2019. All rights reserved.
+ * Last modified 7.7.2019 12:18
+ */
+
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
@@ -262,7 +268,6 @@ public class AlarmActivity extends AppCompatActivity
      * galleryAddPic
      * onActivityResult
      */
-
     public void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent

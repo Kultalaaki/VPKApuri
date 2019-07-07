@@ -1,3 +1,9 @@
+<!--
+  ~ Created by Kultala Aki on 7.7.2019 12:26
+  ~ Copyright (c) 2019. All rights reserved.
+  ~ Last modified 4.7.2019 17:18
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--FrontpageActivity-->
     <string name="action_halytys">HÄLYTYS</string>
@@ -535,4 +541,5 @@
     <string name="h_lytt_v_numero">Hälyttävä numero</string>
     <string name="h_lytysvieti">Hälytysviesti</string>
     <string name="l_het">Lähetä</string>
+    <string name="tyhjenn_lista">Tyhjennä lista</string>
 </resources>

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 7.7.2019 12:26
+  ~ Copyright (c) 2019. All rights reserved.
+  ~ Last modified 7.7.2019 12:26
+  -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/constraint_layout_halytys_fragment"
     xmlns:tools="http://schemas.android.com/tools"
@@ -56,7 +62,6 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:hint="@string/t_h_n_tulee_tunnus"
                 android:inputType="none"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
@@ -76,7 +81,6 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:hint="@string/h_lytysviestin_kentt"
                 android:inputType="none"
                 android:textSize="16sp"
                 android:textColor="#ffffff"

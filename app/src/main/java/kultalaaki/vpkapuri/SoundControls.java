@@ -1,3 +1,9 @@
+/*
+ * Created by Kultala Aki on 7.7.2019 12:50
+ * Copyright (c) 2019. All rights reserved.
+ * Last modified 7.7.2019 12:50
+ */
+
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
@@ -20,6 +26,12 @@ class SoundControls {
 
     private SharedPreferences sharedPreferences;
 
+    /**
+     * SoundControls setSilent() sets sound to silent for alarm messages and alarm phonecalls only.
+     * When setSilent() is called, notification will be set indicating user that alarms are silent.
+     * Also toast message is displayed.
+     * @param context application context
+     */
     @SuppressLint("ApplySharedPref")
     void setSilent(Context context) {
         // set silent mode
@@ -49,6 +61,12 @@ class SoundControls {
         notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
     }
 
+    /**
+     * SoundControls setNightMode() sets sound to 10% volume for alarm messages and alarm phonecalls only.
+     * When setNightMode() is called, notification will be set indicating user that alarms are 10% volume.
+     * Also toast message is displayed.
+     * @param context application context
+     */
     @SuppressLint("ApplySharedPref")
     void setNightMode(Context context) {
         // set night mode
@@ -78,6 +96,12 @@ class SoundControls {
         manager.updateAppWidget(thisWidget, text);
     }
 
+    /**
+     * SoundControls setNormal() sets sound to app setting volume for alarm messages and alarm phonecalls only.
+     * When setNormal() is called, other notifications with MY_NOTIFICATION_ID are cancelled.
+     * Also toast message is displayed.
+     * @param context application context
+     */
     @SuppressLint("ApplySharedPref")
     void setNormal(Context context) {
         // set normal mode

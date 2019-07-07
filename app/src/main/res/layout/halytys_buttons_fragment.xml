@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 7.7.2019 12:26
+  ~ Copyright (c) 2019. All rights reserved.
+  ~ Last modified 4.7.2019 16:14
+  -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryColor"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/primaryLightColor">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonDividerHorizontal"
@@ -36,16 +42,16 @@
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/secondaryColor"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/secondaryColor"
         app:layout_constraintBottom_toTopOf="@+id/buttonDividerHorizontal"
         app:layout_constraintEnd_toStartOf="@+id/buttonDividerVertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="?android:attr/buttonBarStyle"
@@ -60,18 +66,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:contentDescription="@string/iconcall"
                 android:background="@drawable/ic_phone_white_36dp"
+                android:contentDescription="@string/iconcall"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/soita"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/soita"
                 android:lines="1"
+                android:text="@string/soita"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iconCall"
@@ -98,20 +105,22 @@
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/greenCard"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/greenCard"
         app:layout_constraintBottom_toTopOf="@+id/buttonDividerHorizontal"
         app:layout_constraintEnd_toStartOf="@+id/buttonDividerVertical2"
         app:layout_constraintStart_toStartOf="@+id/buttonDividerVertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/sms5Otsikko"
                 android:layout_width="wrap_content"
@@ -170,21 +179,22 @@
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/yellowCard"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/yellowCard"
         app:layout_constraintBottom_toTopOf="@+id/buttonDividerHorizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/buttonDividerVertical2"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/sms10Otsikko"
                 android:layout_width="wrap_content"
@@ -242,41 +252,43 @@
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/secondaryColor"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/secondaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonDividerVertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonDividerHorizontal"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="@+id/buttonDividerHorizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primaryDarkColor"
-            android:layout_margin="1dp">
+            android:layout_margin="1dp"
+            android:background="@color/primaryDarkColor">
+
             <ImageView
                 android:id="@+id/iconAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:contentDescription="@string/iconAddress"
                 android:background="@drawable/ic_location_city_white_36dp"
+                android:contentDescription="@string/iconAddress"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/osoite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/osoiten"
                 android:lines="1"
+                android:text="@string/osoiten"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iconAddress"
@@ -307,23 +319,23 @@
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/secondaryColor"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonDividerVertical2"
         app:layout_constraintStart_toStartOf="@+id/buttonDividerVertical"
-        app:layout_constraintTop_toTopOf="@+id/buttonDividerHorizontal"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="@+id/buttonDividerHorizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primaryDarkColor"
-            android:layout_margin="1dp">
+            android:layout_margin="1dp"
+            android:background="@color/primaryDarkColor">
 
             <TextView
                 android:id="@+id/hiljennys"
@@ -351,21 +363,22 @@
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/redCard"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/buttonDividerVertical2"
-        app:layout_constraintTop_toTopOf="@+id/buttonDividerHorizontal"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="@+id/buttonDividerHorizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/sms11Otsikko"
                 android:layout_width="wrap_content"

@@ -1,3 +1,9 @@
+/*
+ * Created by Kultala Aki on 7.7.2019 12:26
+ * Copyright (c) 2019. All rights reserved.
+ * Last modified 28.5.2019 18:34
+ */
+
 package kultalaaki.vpkapuri;
 
 import android.content.ContentValues;

@@ -1,3 +1,9 @@
+/*
+ * Created by Kultala Aki on 7.7.2019 12:26
+ * Copyright (c) 2019. All rights reserved.
+ * Last modified 7.2.2019 23:03
+ */
+
 package kultalaaki.vpkapuri;
 
 import android.app.AlertDialog;

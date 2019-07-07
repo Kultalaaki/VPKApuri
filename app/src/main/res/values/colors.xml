@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Kultala Aki on 7.7.2019 12:26
+  ~ Copyright (c) 2019. All rights reserved.
+  ~ Last modified 5.7.2019 17:34
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="accent_material_light_1">#0704d3</color>
     <color name="background_material_light" tools:override="true">#121212</color>
@@ -23,7 +29,7 @@
     <!--New colors theme-->
     <color name="primaryColor">#121212</color>
 
-    <color name="primaryLightColor">#383838</color>
+    <color name="primaryLightColor">#242424</color>
 
     <color name="primaryDarkColor">#000000</color>
 
