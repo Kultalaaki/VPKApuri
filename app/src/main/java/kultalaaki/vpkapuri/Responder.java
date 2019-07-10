@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 7.7.2019 12:26
+ * Created by Kultala Aki on 10.7.2019 23:01
  * Copyright (c) 2019. All rights reserved.
- * Last modified 4.7.2019 16:13
+ * Last modified 8.7.2019 22:01
  */
 
 package kultalaaki.vpkapuri;
@@ -103,4 +103,6 @@ public class Responder {
     public String getAttributeOptional5() {
         return attributeOptional5;
     }
+
+    public void setMessage(String message) { this.message = message; }
 }

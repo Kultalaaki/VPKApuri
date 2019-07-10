@@ -1,16 +1,19 @@
 /*
- * Created by Kultala Aki on 7.7.2019 12:26
+ * Created by Kultala Aki on 10.7.2019 23:01
  * Copyright (c) 2019. All rights reserved.
- * Last modified 4.7.2019 16:13
+ * Last modified 10.7.2019 23:01
  */
 
 package kultalaaki.vpkapuri;
 
 import android.app.Application;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResponderViewModel extends AndroidViewModel {

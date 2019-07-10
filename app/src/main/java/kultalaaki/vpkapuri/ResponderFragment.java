@@ -1,12 +1,11 @@
 /*
- * Created by Kultala Aki on 7.7.2019 12:26
+ * Created by Kultala Aki on 10.7.2019 23:01
  * Copyright (c) 2019. All rights reserved.
- * Last modified 4.7.2019 16:13
+ * Last modified 10.7.2019 22:36
  */
 
 package kultalaaki.vpkapuri;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -14,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,7 +29,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ResponderFragment extends Fragment {
 
@@ -38,6 +41,9 @@ public class ResponderFragment extends Fragment {
     private CardView cardViewDeleteResponders;
     private TextView combinedComers, smokeDivers;
     private int deleteCounter = 0, combined = 0, smokes = 0;
+    private Map<String, Responder> responderHolderMap = new HashMap<>();
+    //private ArrayList<Responder> responderList = new ArrayList<>();
+    private ArrayList<String> responderNumbersHolder = new ArrayList<>();
 
     public static ResponderFragment newInstance() {
         return new ResponderFragment();
@@ -70,12 +76,40 @@ public class ResponderFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Responder> responders) {
                 // TODO: update RecyclerView
-                if(responders != null) {
-                    if(!responders.isEmpty()) {
+                if (responders != null) {
+                    if (!responders.isEmpty()) {
                         combined = responders.size();
-                        for(Responder responder : responders) {
+                        /*
+                        * Go through all responders
+                        * Find duplicate responders based on number
+                        * Show only last message per person
+                        *
+                        * Calculate all responders and smoke divers.
+                        * */
+                        for (Responder responder : responders) {
+                            if(responderNumbersHolder.contains(responder.getAttributeOptional2())) {
+                                // Contains same number. Get responder from Map and update the message.
+                                Responder updater = responderHolderMap.get(responder.getAttributeOptional2());
+                                if (updater != null) {
+                                    // Order is this because ViewModel returns responders in descending list
+                                    responder.setMessage(updater.getMessage());
+
+                                    // Remove from list if person cancels
+                                    if (updater.getMessage().trim().equals("Peruutus")) {
+                                        mViewModel.delete(responder);
+                                    } else {
+                                        mViewModel.update(responder);
+                                    }
+
+                                    mViewModel.delete(updater);
+                                }
+                            } else {
+                                responderNumbersHolder.add(responder.getAttributeOptional2());
+                                responderHolderMap.put(responder.getAttributeOptional2(), responder);
+                            }
+
                             String smokeDiver = responder.getAttributeSmoke();
-                            if(smokeDiver.equals("S")) {
+                            if (smokeDiver.equals("S")) {
                                 smokes++;
                             }
                         }
@@ -90,7 +124,10 @@ public class ResponderFragment extends Fragment {
                     combinedComers.setText("Yht: 0");
                     smokeDivers.setText("Savu: 0");
                 }
+
                 adapter.submitList(responders);
+                responderHolderMap.clear();
+                responderNumbersHolder.clear();
             }
         });
 
@@ -116,7 +153,7 @@ public class ResponderFragment extends Fragment {
         cardViewDeleteResponders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(deleteCounter < 1) {
+                if (deleteCounter < 1) {
                     Toast.makeText(getActivity(), "Paina uudestaan tyhjentääksesi lähtijät lista!", Toast.LENGTH_LONG).show();
                     deleteCounter++;
                 } else {
@@ -141,7 +178,7 @@ public class ResponderFragment extends Fragment {
         super.onResume();
 
         int orientation = getResources().getConfiguration().orientation;
-        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // In landscape
             AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 400);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -161,7 +198,7 @@ public class ResponderFragment extends Fragment {
             // In landscape
             AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 500);
             mRecyclerView.setLayoutManager(layoutManager);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             // In portrait
             AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 800);
             mRecyclerView.setLayoutManager(layoutManager);

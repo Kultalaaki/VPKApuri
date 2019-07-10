@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 7.7.2019 12:26
+ * Created by Kultala Aki on 10.7.2019 23:01
  * Copyright (c) 2019. All rights reserved.
- * Last modified 4.7.2019 18:38
+ * Last modified 10.7.2019 20:15
  */
 
 apply plugin: 'com.android.application'
@@ -39,7 +39,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.0'  // Google Services plugin
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath 'io.fabric.tools:gradle:1.28.1'
     }
 }

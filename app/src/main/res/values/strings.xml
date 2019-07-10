@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 7.7.2019 12:26
+  ~ Created by Kultala Aki on 10.7.2019 23:01
   ~ Copyright (c) 2019. All rights reserved.
-  ~ Last modified 4.7.2019 17:18
+  ~ Last modified 10.7.2019 23:00
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -35,7 +35,10 @@
 
         <u><b>Versio 3.5.1</b></u>\n\n
         Asemataulu:\n
-        - Ääniasetuksien lisäasetuksista voi kytkeä hälytysäänen päälle.\n\n
+        - Ääniasetuksien lisäasetuksista voi kytkeä hälytysäänen päälle.\n
+        - Jäsenien ilmoittautumista korjattu. Saman jäsenen lähettämä uusi viesti päivittää edellisen ilmoituksen viestikentän.\n
+        - Jos lähettää vahingossa ilmoittautumisen eikä pääse lähtemään, voi ilmoituksen perua lähettämällä viestin: Peruutus\n
+        - Ohjeet asemataulun osalta lisätty ohjeet sivulle HÄLYTYS otsikon alle.\n\n
 
         Widgetin jumittaminen yötilalle/  äänettömälle korjattu.
     </string>
@@ -262,6 +265,20 @@
         julkisuuslain piiriin.</b>\n\n
     </string>
     <string name="ohjeetHalytys" tools:ignore="Typos">
+        \n\n
+        <u>ASEMATAULU</u>:\n\n
+
+        Asemataulu toiminto kytketään asetuksista päälle. Jäsenet ja heidän ominaisuudet kirjataan sovelluksen asetuksissa.
+        Kun henkilö on asetettu asetuksissa voi hän ilmoittautua hälytyksiin tekstiviestillä.\n
+        Sovellus ei aseta rajoituksia viestin sisällölle. Selkeyden vuoksi kannattaa kuitenkin käyttää mahdollisimman lyhyitä viestejä esim.
+        5 min. tai 10 min. riippuen oman palokunnan käytännöistä.\n
+        Oman ilmoittautumisen voi päivittää lähettämällä uuden viestin.\n
+        Ilmoittautumisen voi myös perua lähettämällä viestin: Peruutus\n\n
+
+        Asemataulu toiminnossa on myös kameran pikakäynnistys hälytys sivulla. Kameralla voi ottaa nopeasti tilannepaikalle tullessa "tuulilasinäkymän", jos
+        tällainen käytäntö on käytössä.\n
+        Kun asemataulu on käytössä ei hälytykset vakiona toista hälytysääntä, hälytysäänen saa kumminkin käyttöön ääniasetuksien lisäasetuksien puolelta.
+        Asemataulu sovelluksen automaattinen aukaisu ei ole käytössä jos hälytysääni on käytössä, sovelluksen hälytysääni hiljennetään ilmoituksesta.
         \n\n
         Lupa soittamiseen ja viestien lähettämiseen/ lukemiseen asetetaan sovelluksen asetukset Luvat &amp; käyttöönotto valikosta.
         Ilman näitä lupia sovelluksen soita lähtöilmoitus ja värikkäät sms napit eivät toimi. Soita lähtöilmoitus painike soittaa heti puhelinnumeroon joka asetetaan
