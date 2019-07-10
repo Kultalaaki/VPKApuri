@@ -36,12 +36,12 @@ public class AffirmationFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    CheckBox approveAnalytics, tietosuoja, kayttoehdot;
-    TextView tietosuojaLink, kayttoehdotLink;
-    Button Ok;
-    SharedPreferences sharedPreferences;
+    private CheckBox approveAnalytics, tietosuoja, kayttoehdot;
+    private TextView tietosuojaLink, kayttoehdotLink;
+    private Button Ok;
+    private SharedPreferences sharedPreferences;
 
-    AffirmationFragment.Listener mCallback;
+    private AffirmationFragment.Listener mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
@@ -81,7 +81,7 @@ public class AffirmationFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_kayttoehdot, container, false);
@@ -105,12 +105,12 @@ public class AffirmationFragment extends Fragment {
         checkUserConsentsAndApprovalOfThings();
     }
 
-    void setLinks() {
+    private void setLinks() {
         tietosuojaLink.setMovementMethod(LinkMovementMethod.getInstance());
         kayttoehdotLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    void setCheckedStates() {
+    private void setCheckedStates() {
         if(sharedPreferences.getBoolean("analyticsEnabled", false)) {
             approveAnalytics.setChecked(true);
         } else {
@@ -128,7 +128,7 @@ public class AffirmationFragment extends Fragment {
         }
     }
 
-    void checkUserConsentsAndApprovalOfThings() {
+    private void checkUserConsentsAndApprovalOfThings() {
         Ok.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ApplySharedPref")
             @Override
@@ -140,11 +140,11 @@ public class AffirmationFragment extends Fragment {
                 } else if (sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) &&
                         !sharedPreferences.getBoolean("analyticsEnabled", false)) {
                     // show dialog and ask analytics again, if denied let user in anyway
-                    showMessage("Huomautus!","Et  antanut lupaa analytiikka tietojen keräämiseen. Tämä auttaa sovelluksen kehittämisessä. Paina Ok jos haluat jatkaa ilman tietojen keräämistä.");
+                    showMessage();
                 } else if(!sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) ||
                         sharedPreferences.getBoolean("kayttoehdot", false) && !sharedPreferences.getBoolean("tietosuoja", false)) {
                     // inform user that terms&conditions and privacy policy must be accepted to use this app
-                    showMessage2("Huomautus", "Tietosuoja ja käyttöehdot täytyy hyväksyä että voit jatkaa sovelluksen käyttöä.");
+                    showMessage2();
                 }
 
             }
@@ -194,7 +194,7 @@ public class AffirmationFragment extends Fragment {
     }
 
     @SuppressLint("ApplySharedPref")
-    void letIn() {
+    private void letIn() {
         sharedPreferences.edit().putBoolean("termsShown", true).commit();
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
@@ -218,10 +218,10 @@ public class AffirmationFragment extends Fragment {
         }
     }
 
-    public void showMessage(String title, String message){
+    private void showMessage(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
+                .setTitle("Huomautus!")
+                .setMessage("Et  antanut lupaa analytiikka tietojen keräämiseen. Tämä auttaa sovelluksen kehittämisessä. Paina Ok jos haluat jatkaa ilman tietojen keräämistä.")
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
@@ -232,10 +232,10 @@ public class AffirmationFragment extends Fragment {
         builder.create().show();
     }
 
-    public void showMessage2(String title, String message){
+    private void showMessage2(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
+                .setTitle("Huomautus")
+                .setMessage("Tietosuoja ja käyttöehdot täytyy hyväksyä että voit jatkaa sovelluksen käyttöä.")
                 .setPositiveButton("Ok", null);
         builder.create().show();
     }

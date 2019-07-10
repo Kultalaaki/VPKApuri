@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.ResponderHolder> {
 
-    public ResponderAdapter() {
+    ResponderAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -66,7 +66,7 @@ public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.Re
         return responders.size();
     }*/
 
-    public Responder getResponderAt(int position) {
+    Responder getResponderAt(int position) {
         return getItem(position);
     }
 
@@ -89,7 +89,7 @@ public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.Re
         private TextView textViewAttributeOptional4;
         private TextView textViewAttributeOptional5;
 
-        public ResponderHolder(@NonNull View itemView) {
+        ResponderHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.text_view_name);
             textViewVacancyNumber = itemView.findViewById(R.id.text_view_attribute_vacancy);

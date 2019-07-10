@@ -16,7 +16,7 @@ public class ResponderRepository {
     private ResponderDao responderDao;
     private LiveData<List<Responder>> allResponders;
 
-    public ResponderRepository(Application application) {
+    ResponderRepository(Application application) {
         ResponderDatabase database = ResponderDatabase.getInstance(application);
         responderDao = database.responderDao();
         allResponders = responderDao.getAllResponders();
@@ -34,11 +34,11 @@ public class ResponderRepository {
         new DeleteResponderAsyncTask(responderDao).execute(responder);
     }
 
-    public void deleteAllResponders() {
+    void deleteAllResponders() {
         new DeleteAllResponderAsyncTask(responderDao).execute();
     }
 
-    public LiveData<List<Responder>> getAllResponders() {
+    LiveData<List<Responder>> getAllResponders() {
         return allResponders;
     }
 

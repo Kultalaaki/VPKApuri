@@ -26,23 +26,17 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
-import androidx.lifecycle.LiveData;
-
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.widget.Toast;
-
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
@@ -298,7 +292,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
                     if (numeroFromSettings.equals(numero)) {
-                        // TODO: numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
+                        // numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
                         Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
                         String name = sharedPreferences.getString("nimi" + i, null);
                         boolean driversLicense = sharedPreferences.getBoolean("kortti" + i, false);
@@ -329,10 +323,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         }
 
                         Responder responder = new Responder(name, vacancyNumber, message, lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
-                        // TODO: Before adding person to database, check if person already exists there
                         repository.insert(responder);
 
-                        Toast.makeText(this, name + " ilmoittautui hälytykseen.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, name + " lähetti ilmoituksen.", Toast.LENGTH_SHORT).show();
 
                         break;
                     }
@@ -598,7 +591,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
 
         } else if (sanatYksinaan.get(0).equals("PÄIVITYS")) {
-            // TODO: päivitysviesti, hae tiedot ja päivitä viesti
+            // päivitysviesti, hae tiedot ja päivitä viesti
             FireAlarm fireAlarmLastEntry = fireAlarmRepository.getLatest();
 
             if (fireAlarmLastEntry != null) {

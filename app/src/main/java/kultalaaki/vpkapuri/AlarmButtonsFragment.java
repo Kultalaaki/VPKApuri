@@ -36,8 +36,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 
 public class AlarmButtonsFragment extends Fragment {
 
@@ -61,8 +59,6 @@ public class AlarmButtonsFragment extends Fragment {
     Intent intent;
 
     private Listener mCallback;
-
-    private FireAlarmViewModel fireAlarmViewModel;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
@@ -98,7 +94,7 @@ public class AlarmButtonsFragment extends Fragment {
         Context ctx = getActivity();
         if(ctx != null) {
             LifecycleOwner lf = getViewLifecycleOwner();
-            fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
+            FireAlarmViewModel fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
             fireAlarmViewModel.getAddress().observe(lf, new Observer<CharSequence>() {
                 @Override
                 public void onChanged(CharSequence charSequence) {
@@ -395,11 +391,6 @@ public class AlarmButtonsFragment extends Fragment {
                 hiljenna.setVisibility(View.GONE);
             }
         });
-    }
-
-    void updateAddress(String updatedAddress) {
-        osoiteFromDB = updatedAddress;
-        osoite.setText(updatedAddress);
     }
 
     private void pyydaLuvatSms() {

@@ -11,9 +11,6 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResponderViewModel extends AndroidViewModel {
@@ -38,11 +35,11 @@ public class ResponderViewModel extends AndroidViewModel {
         repository.delete(responder);
     }
 
-    public void deleteAll() {
+    void deleteAll() {
         repository.deleteAllResponders();
     }
 
-    public LiveData<List<Responder>> getAllResponders() {
+    LiveData<List<Responder>> getAllResponders() {
         return allResponders;
     }
 }
