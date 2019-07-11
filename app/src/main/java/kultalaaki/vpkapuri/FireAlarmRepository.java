@@ -8,7 +8,6 @@ package kultalaaki.vpkapuri;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Handler;
 
 import androidx.lifecycle.LiveData;
 
@@ -17,11 +16,9 @@ import java.util.List;
 public class FireAlarmRepository {
     private FireAlarmDao fireAlarmDao;
     private LiveData<List<FireAlarm>> allFireAlarms;
-    private FireAlarm fireAlarm;
     private LiveData<List<FireAlarm>> fireAlarmLastEntry;
-    private boolean sendResult = false;
 
-    public FireAlarmRepository(Application application) {
+    FireAlarmRepository(Application application) {
         FireAlarmDatabase database = FireAlarmDatabase.getInstance(application);
         fireAlarmDao = database.fireAlarmsDao();
         allFireAlarms = fireAlarmDao.getAllFireAlarms();
@@ -40,17 +37,17 @@ public class FireAlarmRepository {
         new DeleteFireAlarmAsyncTask(fireAlarmDao).execute(fireAlarm);
     }
 
-    public FireAlarm getLatest() {
-        return fireAlarm = fireAlarmDao.latest();
+    FireAlarm getLatest() {
+        return fireAlarmDao.latest();
     }
 
-    public void deleteAllFireAlarms() {
+    void deleteAllFireAlarms() {
         new DeleteAllFireAlarmAsyncTask(fireAlarmDao).execute();
     }
 
-    public LiveData<List<FireAlarm>> getLastEntry() {return fireAlarmLastEntry;}
+    LiveData<List<FireAlarm>> getLastEntry() {return fireAlarmLastEntry;}
 
-    public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
+    LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
 
     private static class InsertFireAlarmAsyncTask extends AsyncTask<FireAlarm, Void, Void> {
         private FireAlarmDao fireAlarmDao;

@@ -31,8 +31,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ResponderFragment extends Fragment {
 
@@ -80,39 +82,52 @@ public class ResponderFragment extends Fragment {
                     if (!responders.isEmpty()) {
                         combined = responders.size();
                         /*
-                        * Go through all responders
-                        * Find duplicate responders based on number
-                        * Show only last message per person
-                        *
-                        * Calculate all responders and smoke divers.
-                        * */
+                         * Go through all responders
+                         * Find duplicate responders based on number
+                         * Show only last message per person
+                         *
+                         * Calculate all responders and smoke divers.
+                         * */
                         for (Responder responder : responders) {
-                            if(responderNumbersHolder.contains(responder.getAttributeOptional2())) {
+                            //responderNumbersHolder.add(responder.getAttributeOptional2());
+                            //responderHolderMap.put(responder.getAttributeOptional2(), responder);
+                            /*if (responderNumbersHolder.contains(responder.getAttributeOptional2())) {
                                 // Contains same number. Get responder from Map and update the message.
                                 Responder updater = responderHolderMap.get(responder.getAttributeOptional2());
                                 if (updater != null) {
                                     // Order is this because ViewModel returns responders in descending list
+                                    // Current responder number is equal to responder in responderHolderMap
                                     responder.setMessage(updater.getMessage());
-
                                     // Remove from list if person cancels
                                     if (updater.getMessage().trim().equals("Peruutus")) {
                                         mViewModel.delete(responder);
                                     } else {
                                         mViewModel.update(responder);
                                     }
-
-                                    mViewModel.delete(updater);
+                                    //mViewModel.delete(updater);
+                                    //responderNumbersHolder.remove(responder.getAttributeOptional2());
+                                    responderHolderMap.clear();
+                                    responderNumbersHolder.clear();
                                 }
                             } else {
                                 responderNumbersHolder.add(responder.getAttributeOptional2());
                                 responderHolderMap.put(responder.getAttributeOptional2(), responder);
-                            }
+                            }*/
 
                             String smokeDiver = responder.getAttributeSmoke();
                             if (smokeDiver.equals("S")) {
                                 smokes++;
                             }
                         }
+                        /*Set<String> set = new LinkedHashSet<>();
+                        set.addAll(responderNumbersHolder);
+                        responderNumbersHolder.clear();
+                        responderNumbersHolder.addAll(set);
+                        for (String str : responderNumbersHolder) {
+                            if(responderHolderMap.containsKey(str)) {
+
+                            }
+                        }*/
                         combinedComers.setText("Yht: " + combined);
                         smokeDivers.setText("Savu: " + smokes);
                         smokes = 0;

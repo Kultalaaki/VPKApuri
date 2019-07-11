@@ -253,6 +253,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     // this is OHTO alarm number, save to arraylist for later use.
                     OHTOnumbers.add(number);
                     saveToOHTO = true;
+                    Log.e("åosdfk", "åoawk");
                 }
                 number = PhoneNumberUtils.formatNumber(number);
                 if (number != null) {
@@ -653,13 +654,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             Date dateNew = dateFormat.parse(newTime);
             long oldAlarmTime = dateOld.getTime();
             long newAlarmTime = dateNew.getTime();
-            if (newAlarmTime - oldAlarmTime <= (60000 * 30)) {
-                long difference = newAlarmTime - oldAlarmTime;
-                Log.e("TAG", "Time difference: " + difference);
-                return true;
-            } else {
-                return false;
-            }
+            //long difference = newAlarmTime - oldAlarmTime;
+            //Log.e("TAG", "Time difference: " + difference);
+            return newAlarmTime - oldAlarmTime <= (60000 * 30);
         } catch (ParseException e) {
             e.printStackTrace();
         }
