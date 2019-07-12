@@ -27,8 +27,7 @@ public class Responder {
     private String attributeSmoke;
     private String attributeChemical;
     private String attributeOptionall;
-    @ColumnInfo(name = "number")
-    public String attributeOptional2;
+    private String attributeOptional2;
     private String attributeOptional3;
     private String attributeOptional4;
     private String attributeOptional5;
@@ -61,7 +60,7 @@ public class Responder {
         return name;
     }
 
-    public String getVacancyNumber() {
+    String getVacancyNumber() {
         return vacancyNumber;
     }
 
@@ -69,43 +68,43 @@ public class Responder {
         return message;
     }
 
-    public String getAttributeOptionall() {
+    String getAttributeOptionall() {
         return attributeOptionall;
     }
 
-    public String getAttributeLeader() {
+    String getAttributeLeader() {
         return attributeLeader;
     }
 
-    public String getAttributeDriverLicense() {
+    String getAttributeDriverLicense() {
         return attributeDriverLicense;
     }
 
-    public String getAttributeSmoke() {
+    String getAttributeSmoke() {
         return attributeSmoke;
     }
 
-    public String getAttributeChemical() {
+    String getAttributeChemical() {
         return attributeChemical;
     }
 
-    public String getAttributeOptional1() {
+    String getAttributeOptional1() {
         return attributeOptionall;
     }
 
-    public String getAttributeOptional2() {
+    String getAttributeOptional2() {
         return attributeOptional2;
     }
 
-    public String getAttributeOptional3() {
+    String getAttributeOptional3() {
         return attributeOptional3;
     }
 
-    public String getAttributeOptional4() {
+    String getAttributeOptional4() {
         return attributeOptional4;
     }
 
-    public String getAttributeOptional5() {
+    String getAttributeOptional5() {
         return attributeOptional5;
     }
 

@@ -11,7 +11,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = Responder.class, version = 3, exportSchema = false)
+@Database(entities = Responder.class, version = 4, exportSchema = false)
 public abstract class ResponderDatabase extends RoomDatabase {
 
     private static ResponderDatabase instance;
