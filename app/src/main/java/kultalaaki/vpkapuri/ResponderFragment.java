@@ -29,12 +29,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class ResponderFragment extends Fragment {
 
@@ -43,10 +38,6 @@ public class ResponderFragment extends Fragment {
     private CardView cardViewDeleteResponders;
     private TextView combinedComers, smokeDivers;
     private int deleteCounter = 0, combined = 0, smokes = 0;
-    private Map<String, Responder> responderHolderMap = new HashMap<>();
-    private ArrayList<String> responderNumbersHolder = new ArrayList<>();
-    private ArrayList<String> responderNumbersHolderReverted = new ArrayList<>();
-    private ArrayList<String> responderNumbersHolderDuplicatesRemoved = new ArrayList<>();
 
 
     public static ResponderFragment newInstance() {
@@ -109,12 +100,7 @@ public class ResponderFragment extends Fragment {
                     combinedComers.setText("Yht: 0");
                     smokeDivers.setText("Savu: 0");
                 }
-
                 adapter.submitList(responders);
-                responderHolderMap.clear();
-                responderNumbersHolder.clear();
-                responderNumbersHolderReverted.clear();
-                responderNumbersHolderDuplicatesRemoved.clear();
             }
         });
 

@@ -15,14 +15,14 @@ public class FireAlarm {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String tunnus;
-    private String luokka;
-    private String viesti;
-    private String osoite;
-    private String kommentti;
-    private String vastaus;
-    private String timeStamp;
-    private String optionalField2;
+    private String tunnus; // 401, 402, 403 etc.
+    private String luokka; // A, B, C, D
+    private String viesti; // message
+    private String osoite; // address
+    private String kommentti; // Comment, added from archive if user writes something
+    private String vastaus; // What is answered to this alarm message. Not in use yet.
+    private String timeStamp; // Self explanatory
+    private String optionalField2; // Stores phone number
     private String optionalField3;
     private String optionalField4;
     private String optionalField5;
