@@ -6,16 +6,20 @@
 
 package kultalaaki.vpkapuri;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "responder_table")
+@Entity(tableName = "responder_table", indices = {@Index(value = {"name"},
+        unique = true)})
 public class Responder {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String name;
+    @ColumnInfo(name = "name")
+    public String name;
     private String vacancyNumber;
     private String message;
     private String attributeLeader;
@@ -23,7 +27,8 @@ public class Responder {
     private String attributeSmoke;
     private String attributeChemical;
     private String attributeOptionall;
-    private String attributeOptional2;
+    @ColumnInfo(name = "number")
+    public String attributeOptional2;
     private String attributeOptional3;
     private String attributeOptional4;
     private String attributeOptional5;

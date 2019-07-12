@@ -30,7 +30,6 @@ public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.Re
         @Override
         public boolean areContentsTheSame(@NonNull Responder responder, @NonNull Responder t1) {
             return responder.getName().equals(t1.getName()) &&
-                    responder.getVacancyNumber().equals(t1.getVacancyNumber()) &&
                     responder.getMessage().equals(t1.getMessage());
         }
     };

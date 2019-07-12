@@ -44,8 +44,10 @@ public class ResponderFragment extends Fragment {
     private TextView combinedComers, smokeDivers;
     private int deleteCounter = 0, combined = 0, smokes = 0;
     private Map<String, Responder> responderHolderMap = new HashMap<>();
-    //private ArrayList<Responder> responderList = new ArrayList<>();
     private ArrayList<String> responderNumbersHolder = new ArrayList<>();
+    private ArrayList<String> responderNumbersHolderReverted = new ArrayList<>();
+    private ArrayList<String> responderNumbersHolderDuplicatesRemoved = new ArrayList<>();
+
 
     public static ResponderFragment newInstance() {
         return new ResponderFragment();
@@ -83,51 +85,19 @@ public class ResponderFragment extends Fragment {
                         combined = responders.size();
                         /*
                          * Go through all responders
-                         * Find duplicate responders based on number
-                         * Show only last message per person
+                         * Remove responder if message is "Peruutus"
                          *
                          * Calculate all responders and smoke divers.
                          * */
                         for (Responder responder : responders) {
-                            //responderNumbersHolder.add(responder.getAttributeOptional2());
-                            //responderHolderMap.put(responder.getAttributeOptional2(), responder);
-                            /*if (responderNumbersHolder.contains(responder.getAttributeOptional2())) {
-                                // Contains same number. Get responder from Map and update the message.
-                                Responder updater = responderHolderMap.get(responder.getAttributeOptional2());
-                                if (updater != null) {
-                                    // Order is this because ViewModel returns responders in descending list
-                                    // Current responder number is equal to responder in responderHolderMap
-                                    responder.setMessage(updater.getMessage());
-                                    // Remove from list if person cancels
-                                    if (updater.getMessage().trim().equals("Peruutus")) {
-                                        mViewModel.delete(responder);
-                                    } else {
-                                        mViewModel.update(responder);
-                                    }
-                                    //mViewModel.delete(updater);
-                                    //responderNumbersHolder.remove(responder.getAttributeOptional2());
-                                    responderHolderMap.clear();
-                                    responderNumbersHolder.clear();
-                                }
-                            } else {
-                                responderNumbersHolder.add(responder.getAttributeOptional2());
-                                responderHolderMap.put(responder.getAttributeOptional2(), responder);
-                            }*/
-
-                            String smokeDiver = responder.getAttributeSmoke();
-                            if (smokeDiver.equals("S")) {
+                            if (responder.getAttributeSmoke().equals("S")) {
                                 smokes++;
                             }
-                        }
-                        /*Set<String> set = new LinkedHashSet<>();
-                        set.addAll(responderNumbersHolder);
-                        responderNumbersHolder.clear();
-                        responderNumbersHolder.addAll(set);
-                        for (String str : responderNumbersHolder) {
-                            if(responderHolderMap.containsKey(str)) {
-
+                            if (responder.getMessage().equals("Peruutus")) {
+                                mViewModel.delete(responder);
                             }
-                        }*/
+                        }
+
                         combinedComers.setText("Yht: " + combined);
                         smokeDivers.setText("Savu: " + smokes);
                         smokes = 0;
@@ -143,6 +113,8 @@ public class ResponderFragment extends Fragment {
                 adapter.submitList(responders);
                 responderHolderMap.clear();
                 responderNumbersHolder.clear();
+                responderNumbersHolderReverted.clear();
+                responderNumbersHolderDuplicatesRemoved.clear();
             }
         });
 
