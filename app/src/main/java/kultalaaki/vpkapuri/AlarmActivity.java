@@ -63,7 +63,7 @@ public class AlarmActivity extends AppCompatActivity
         action = intent.getAction();
         type = intent.getType();
         koneluku = preferences.getBoolean("koneluku", false);
-        autoAukaisu = preferences.getBoolean("autoAukaisu", false);
+        autoAukaisu = preferences.getBoolean("automaticOpen", false);
 
         constraintLayout = findViewById(R.id.activity_halytys);
 

@@ -26,12 +26,15 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
+
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,9 +51,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     Vibrator viber;
     static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>(), OHTOnumbers = new ArrayList<>();
     SharedPreferences sharedPreferences;
-    private static final int MY_HALY_NOTIFICATION_ID = 264981;
-    int aanenVoimakkuus, volume, aanetonser, palautaAani, palautaStreamAlarm;
-    boolean tarina, autoAukaisu, aanetVaiEi, puhelu, pitaaPalauttaa = false, OHTO = false, ensivaste = false, alarmIsEnsivaste = false, puheluAani = false;
+    private static final int MY_ALARM_NOTIFICATION_ID = 264981;
+    int soundVolume, volume, soundMode, revertSound, revertStreamAlarmVolume;
+    boolean tarina, automaticOpen, throughSilentMode, puhelu, pitaaPalauttaa = false, OHTO = false, ensivaste = false, alarmIsEnsivaste = false, puheluAani = false;
     String puheluHaly = "false";
     static boolean erica;
     static boolean asemataulu;
@@ -100,8 +103,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            autoAukaisu = sharedPreferences.getBoolean("autoAukaisu", false);
-            String numero = intent.getStringExtra("number");
+            automaticOpen = sharedPreferences.getBoolean("automaticOpen", false);
+            String number = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             String timestamp = intent.getStringExtra("timestamp");
 
@@ -114,21 +117,21 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
             if (asemataulu) {
                 // Test if it is alarm message. If not alarm, test is it person attending alarm.
-                if (isItAlarmSMS(numero, message)) {
+                if (isItAlarmSMS(number, message)) {
 
                     if (erica) {
                         lisaaHalyTunnukset();
                         lisaaKunnatErica();
-                        addressLookUp(message, timestamp, numero);
+                        addressLookUp(message, timestamp, number);
                     } else {
                         // OHTO alarm
-                        OHTOAlarm(message, timestamp, numero);
+                        OHTOAlarm(message, timestamp, number);
                     }
 
                     if (sharedPreferences.getBoolean("stationboard_sounds", false)) {
                         alarmSound(startId);
                         createNotification(message);
-                        /*if (autoAukaisu) {
+                        /*if (automaticOpen) {
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 public void run() {
@@ -152,24 +155,24 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     }
                 } else {
                     // Test who is coming and save to database..
-                    whoIsComing(numero, message);
+                    whoIsComing(number, message);
                     stopSelf(startId);
                 }
-            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("false")) {
+            } else if (isItAlarmSMS(number, message) && puheluHaly.equals("false")) {
 
 
                 if (erica) {
                     lisaaHalyTunnukset();
                     lisaaKunnatErica();
-                    addressLookUp(message, timestamp, numero);
+                    addressLookUp(message, timestamp, number);
                 } else {
                     // OHTO alarm
-                    OHTOAlarm(message, timestamp, numero);
+                    OHTOAlarm(message, timestamp, number);
                 }
 
                 alarmSound(startId);
 
-                if (autoAukaisu) {
+                if (automaticOpen) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -183,7 +186,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 } else {
                     createNotification(message);
                 }
-            } else if (isItAlarmSMS(numero, message) && puheluHaly.equals("true")) {
+            } else if (isItAlarmSMS(number, message) && puheluHaly.equals("true")) {
                 puhelu = sharedPreferences.getBoolean("puhelu", false);
                 if (puhelu) {
                     puheluAani = sharedPreferences.getBoolean("Puhelu", false);
@@ -197,7 +200,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 fireAlarmRepository.insert(fireAlarm);
 
-                if (autoAukaisu) {
+                if (automaticOpen) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -278,23 +281,20 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
      * take all other information about that person and add to database Responder.
      * Database will be shown in ResponderFragment recyclerview.
      *
-     * @param numero  sender number
+     * @param number  sender number
      * @param message sent message
      */
-    private void whoIsComing(String numero, String message) {
+    private void whoIsComing(String number, String message) {
         ResponderRepository repository = new ResponderRepository(getApplication());
-        numero = numberFormat(numero);
+        number = numberFormat(number);
 
-        if (!numero.equals("99987654321")) {
-            for (int i = 1; i <= 40; i++) {
-                String numeroFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
-                Log.e("TAG", "Numero: " + numeroFromSettings + i);
-                numeroFromSettings = numberFormat(numeroFromSettings);
+        if (!number.equals("99987654321")) {
+            for (int i = 1; i <= 50; i++) {
+                String numberFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
+                numberFromSettings = numberFormat(numberFromSettings);
 
-                if (numeroFromSettings != null && !numeroFromSettings.isEmpty()) {
-                    if (numeroFromSettings.equals(numero)) {
-                        // numero löydetty asetetuista jäsenistä. Koosta henkilö ja tallenna tietokantaan
-                        Log.e("TAG", "Numero tunnistettu. Koostetaan henkilö. NumeroFromSettings: " + numeroFromSettings + ". Message: " + message);
+                if (numberFromSettings != null && !numberFromSettings.isEmpty()) {
+                    if (numberFromSettings.equals(number)) {
                         String name = sharedPreferences.getString("nimi" + i, null);
                         boolean driversLicense = sharedPreferences.getBoolean("kortti" + i, false);
                         boolean smoke = sharedPreferences.getBoolean("savusukeltaja" + i, false);
@@ -712,8 +712,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {
-            audioManager.setStreamVolume(AudioManager.STREAM_RING, palautaAani, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, palautaStreamAlarm, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_RING, revertSound, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, revertStreamAlarmVolume, 0);
         }
         if (wakeLock != null) {
             try {
@@ -753,7 +753,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(IsItAlarmService.this);
-        notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
+        notificationManager.notify(MY_ALARM_NOTIFICATION_ID, mBuilder.build());
     }
 
     public void createNotificationPuhelu(String viesti) {
@@ -783,7 +783,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(IsItAlarmService.this);
-        notificationManager.notify(MY_HALY_NOTIFICATION_ID, mBuilder.build());
+        notificationManager.notify(MY_ALARM_NOTIFICATION_ID, mBuilder.build());
     }
 
     public void alarmSound(int startId) {
@@ -798,7 +798,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             alarms = sharedPreferences.getString("ringtonePuhelu", null);
         }
 
-        aanetonser = sharedPreferences.getInt("aaneton_profiili", -1);
+        soundMode = sharedPreferences.getInt("aaneton_profiili", -1);
         if (alarms != null) {
             Uri uri = Uri.parse(alarms);
             //Toast.makeText(aktiivinenHaly.this, " " + uri, Toast.LENGTH_LONG).show();
@@ -815,31 +815,31 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             mMediaPlayer.setDataSource(context, alert);
             final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             tarina = sharedPreferences.getBoolean("varina", true);
-            aanetVaiEi = sharedPreferences.getBoolean("aanetVaiEi", false);
-            aanenVoimakkuus = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
+            throughSilentMode = sharedPreferences.getBoolean("throughSilentMode", false);
+            soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
             int checkVolume = -1;
 
             if (audioManager != null) {
                 checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-                palautaStreamAlarm = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-                palautaAani = checkVolume;
+                revertStreamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+                revertSound = checkVolume;
 
                 audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
                 pitaaPalauttaa = true;
             }
 
-            if (aanetonser == 2) {
+            if (soundMode == 2) {
                 if (tarina) {
                     vibrateSilent();
                 }
-            } else if (aanetonser == 3) {
+            } else if (soundMode == 3) {
                 //Yötila
-                if (aanetVaiEi && checkVolume == 0) {
+                if (throughSilentMode && checkVolume == 0) {
                     // ei saa tulla äänettömän läpi
                     return;
                 }
-                aanenVoimakkuus = 10;
-                volume = saadaAani(aanenVoimakkuus);
+                soundVolume = 10;
+                volume = saadaAani(soundVolume);
                 if (audioManager != null) {
                     audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
                     mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -853,13 +853,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
             } else {
                 // Normaali
-                if (aanetVaiEi && checkVolume == 0) {
+                if (throughSilentMode && checkVolume == 0) {
                     // ei saa tulla äänettömän läpi
                     return;
                 }
-                aanenVoimakkuus = 50;
-                aanenVoimakkuus = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
-                volume = saadaAani(aanenVoimakkuus);
+                soundVolume = 50;
+                soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
+                volume = saadaAani(soundVolume);
                 if (audioManager != null) {
                     audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
                     mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -941,7 +941,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 player.start();
             }
         };
-
         music.start();
         mediaplayerRunning = true;
     }

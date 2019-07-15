@@ -3693,4 +3693,925 @@
                 android:selectAllOnFocus="true" />
         </PreferenceCategory>
     </PreferenceScreen>
+
+    <PreferenceScreen
+        android:title="Jäsen 41"
+        android:dependency="asemataulu"
+        android:key="nimi41"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 41"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi41"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero41"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero41"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti41"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja41"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja41"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja41"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_41"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_41"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_41"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_41"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_41"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 42"
+        android:dependency="asemataulu"
+        android:key="nimi42"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 42"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi42"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero42"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero42"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti42"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja42"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja42"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja42"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_42"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_42"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_42"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_42"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_42"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 43"
+        android:dependency="asemataulu"
+        android:key="nimi43"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 43"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi43"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero43"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero43"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti43"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja43"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja43"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja43"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_43"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_43"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_43"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_43"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_43"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 44"
+        android:dependency="asemataulu"
+        android:key="nimi44"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 44"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi44"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero44"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero44"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti44"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja44"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja44"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja44"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_44"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_44"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_44"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_44"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_44"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 45"
+        android:dependency="asemataulu"
+        android:key="nimi45"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 45"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi45"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero45"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero45"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti45"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja45"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja45"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja45"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_45"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_45"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_45"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_45"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_45"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 46"
+        android:dependency="asemataulu"
+        android:key="nimi46"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 46"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi46"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero46"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero46"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti46"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja46"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja46"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja46"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_46"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_46"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_46"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_46"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_46"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 47"
+        android:dependency="asemataulu"
+        android:key="nimi47"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 47"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi47"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero47"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero47"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti47"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja47"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja47"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja47"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_47"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_47"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_47"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_47"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_47"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 48"
+        android:dependency="asemataulu"
+        android:key="nimi48"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 48"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi48"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero48"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero48"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti48"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja48"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja48"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja48"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_48"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_48"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_48"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_48"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_48"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 49"
+        android:dependency="asemataulu"
+        android:key="nimi49"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 49"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi49"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero49"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero49"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti49"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja49"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja49"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja49"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_49"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_49"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_49"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_49"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_49"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Jäsen 50"
+        android:dependency="asemataulu"
+        android:key="nimi50"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+        <PreferenceCategory
+            android:title="Jäsen 50"
+            android:key="pref_key_jasennumero"
+            android:summary="Aseta puhelinnumero muodossa +358 40 1234567">
+            <Preference
+                android:summary="Jäsenen ominaisuudet näkyvät hälytys sivun ilmoittautuneiden listassa. Viisi alinta ominaisuutta on vapaita tekstikenttiä joihin voi kirjoittaa mitä haluaa." />
+            <EditTextPreference
+                android:capitalize="words"
+                android:defaultValue="Martti Martikainen"
+                android:inputType="textCapWords"
+                android:key="nimi50"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Nimi" />
+            <EditTextPreference
+                android:capitalize="words"
+                android:inputType="number"
+                android:key="vakanssinumero50"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Vakanssinumero" />
+            <EditTextPreference
+                android:inputType="phone"
+                android:key="puhelinnumero50"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Puhelinnumero" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kortti50"
+                android:summary="Päälle jos on C-kortillinen"
+                android:title="C-Ajokortti" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="savusukeltaja50"
+                android:summary="Päälle jos on savusukeltaja"
+                android:title="Savusukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="kemikaalisukeltaja50"
+                android:summary="Päälle jos on kemikaalisukeltaja"
+                android:title="Kemikaalisukeltaja" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="yksikonjohtaja50"
+                android:summary="Päälle jos on yksikönjohtaja"
+                android:title="Yksikönjohtaja" />
+            <EditTextPreference
+                android:key="optional1_50"
+                android:title="Ominaisuus 1"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional2_50"
+                android:title="Ominaisuus 2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional3_50"
+                android:title="Ominaisuus 3"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional4_50"
+                android:title="Ominaisuus 4"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+            <EditTextPreference
+                android:key="optional5_50"
+                android:title="Ominaisuus 5"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 </PreferenceScreen>

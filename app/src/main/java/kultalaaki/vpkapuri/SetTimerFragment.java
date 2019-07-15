@@ -45,19 +45,19 @@ public class SetTimerFragment extends Fragment {
 
     private String mParam1;
 
-    DBTimer dbTimer;
-    TextView hourSelector, minuteSelector, hourSelector2, minuteSelector2;
+    private DBTimer dbTimer;
+    private TextView hourSelector, minuteSelector, hourSelector2, minuteSelector2;
     EditText name;
-    Switch stateSelector;
-    Button monday, tuesday, wednesday, thursday, friday, saturday, sunday, cancel, save;
-    boolean bMonday = false, bTuesday = false, bWednesday = false, bThursday = false, bFriday = false, bSaturday = false, bSunday = false, startOrStopSelector, selectoryo = false;
-    String ma, ti, ke, to, pe, la, su, startTime, stopTime, state, timerName;
+    private Switch stateSelector;
+    private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday, cancel, save;
+    private boolean bMonday = false, bTuesday = false, bWednesday = false, bThursday = false, bFriday = false, bSaturday = false, bSunday = false, startOrStopSelector, selectoryo = false;
+    private String ma, ti, ke, to, pe, la, su, startTime, stopTime, state, timerName;
 
     private AlarmManager alarmMgrStart;
     private PendingIntent alarmIntentStart;
     private AlarmManager alarmMgrStop;
     private PendingIntent alarmIntentStop;
-    Context ctx;
+    private Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
@@ -94,7 +94,7 @@ public class SetTimerFragment extends Fragment {
         }
     }
 
-    void populateTimer(String primaryKey) {
+    private void populateTimer(String primaryKey) {
         Cursor cursor = dbTimer.timerID(primaryKey);
         if(cursor != null) {
             timerName = cursor.getString(cursor.getColumnIndex(DBTimer.NAME));
@@ -134,7 +134,7 @@ public class SetTimerFragment extends Fragment {
         }
     }
 
-    public void setOnClickListeners() {
+    private void setOnClickListeners() {
         monday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,7 +312,7 @@ public class SetTimerFragment extends Fragment {
         });
     }
 
-    void saveAndQuit() {
+    private void saveAndQuit() {
         dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
         if(getActivity() != null) {
             setAlarms(mParam1, startTime, stopTime);
@@ -329,7 +329,7 @@ public class SetTimerFragment extends Fragment {
         builder.create().show();
     }
 
-    public void stateSelectorState() {
+    private void stateSelectorState() {
         stateSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -373,7 +373,7 @@ public class SetTimerFragment extends Fragment {
         minuteSelector2 = view.findViewById(R.id.minuteSelector2);
     }
 
-    public void setTimerTimes(int hour, int minute) {
+    void setTimerTimes(int hour, int minute) {
         String min = String.valueOf(minute);
         String hou = String.valueOf(hour);
         if(startOrStopSelector) {
@@ -424,7 +424,7 @@ public class SetTimerFragment extends Fragment {
         //void updateListview();
     }
 
-    void saveTimerToDBs() {
+    private void saveTimerToDBs() {
         String ma="", ti="", ke="", to="", pe="", la="", su="", selector, timerName, startTime, stopTime;
         if(bMonday){ma="Ma";}if(bTuesday){ti="Ti";}if(bWednesday){ke="Ke";}if(bThursday){to="To";}if(bFriday){pe="Pe";}if(bSaturday){la="La";}if(bSunday){su="Su";}
         if(selectoryo){ selector = "Yötila"; } else { selector = "Äänetön"; }
@@ -449,7 +449,7 @@ public class SetTimerFragment extends Fragment {
     *   RequestCode is key + Hour + Minute, this way start and stop intents differ and we can cancel the timer.
     *   Setting time based on user input
     */
-    boolean setAlarms(String key, String startTime, String stopTime) {
+    private boolean setAlarms(String key, String startTime, String stopTime) {
 
         if(ctx != null) {
 
@@ -514,7 +514,7 @@ public class SetTimerFragment extends Fragment {
         return false;
     }
 
-    void deleteAlarms(String key) {
+    private void deleteAlarms(String key) {
         // cancel starting PendingIntent.
         String startHour = startTime.substring(0,2);
         String startMinute = startTime.substring(3,5);

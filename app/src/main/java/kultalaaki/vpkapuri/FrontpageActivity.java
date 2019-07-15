@@ -72,6 +72,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     SoundControls soundControls;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
         sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
         sharedPreferences.edit().putBoolean("HalytysOpen", false).apply();
-
 
         setContentView(R.layout.etusivusidepanel);
 
@@ -242,7 +242,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         } else {
             fragmentTransaction.replace(R.id.etusivuContainer, archivedAlarmFragment, "archivedAlarmFragment").commit();
         }
-
     }
 
     public void openSetTimerNewInstance(String primaryKey) {
@@ -318,7 +317,55 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /*private void sendNotification(int id, Context context) {
+        //SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+        Intent intent = new Intent(context, FrontpageActivity.class);
+        intent.putExtra("openFromNotification", id);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light_normal)
+                .setContentTitle("Todolist Reminder!")
+                .setContentText("task")
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(pendingIntent);
+        if (vibratio) {
+            Log.e("TAG", "Vibration value: " + vibratio);
+            builder.setVibrate(new long[]{0, 4000, 4000, 4000, 4000});
+        }
+        if (soun) {
+            Log.e("TAG", "Sound value: " + soun);
+            builder.setSound(alarmSound);
+        }
+        builder.setOnlyAlertOnce(true);
+        //Notification notification = builder.build();
+        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+        manager.notify(1,builder.build());
+    }*/
+
     public void createChannels() {
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            NotificationChannel channel1 = new NotificationChannel(CHANNEL_1_ID, "channel 1", NotificationManager.IMPORTANCE_HIGH);
+            channel1.setDescription("This is Channel 1");
+            channel1.enableVibration(vibratio);
+            if(soun) {
+                channel1.setSound(alarmSound, null);
+            }
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if(manager != null) {
+                manager.createNotificationChannel(channel1);
+            }
+        }*/
+
         //Ilmoituskanava hälytyksille
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel

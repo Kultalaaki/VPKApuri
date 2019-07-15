@@ -926,6 +926,96 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("optional3_40"));
             bindPreferenceSummaryToValue(findPreference("optional4_40"));
             bindPreferenceSummaryToValue(findPreference("optional5_40"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi41"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero41"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero41"));
+            bindPreferenceSummaryToValue(findPreference("optional1_41"));
+            bindPreferenceSummaryToValue(findPreference("optional2_41"));
+            bindPreferenceSummaryToValue(findPreference("optional3_41"));
+            bindPreferenceSummaryToValue(findPreference("optional4_41"));
+            bindPreferenceSummaryToValue(findPreference("optional5_41"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi42"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero42"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero42"));
+            bindPreferenceSummaryToValue(findPreference("optional1_42"));
+            bindPreferenceSummaryToValue(findPreference("optional2_42"));
+            bindPreferenceSummaryToValue(findPreference("optional3_42"));
+            bindPreferenceSummaryToValue(findPreference("optional4_42"));
+            bindPreferenceSummaryToValue(findPreference("optional5_42"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi43"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero43"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero43"));
+            bindPreferenceSummaryToValue(findPreference("optional1_43"));
+            bindPreferenceSummaryToValue(findPreference("optional2_43"));
+            bindPreferenceSummaryToValue(findPreference("optional3_43"));
+            bindPreferenceSummaryToValue(findPreference("optional4_43"));
+            bindPreferenceSummaryToValue(findPreference("optional5_43"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi44"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero44"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero44"));
+            bindPreferenceSummaryToValue(findPreference("optional1_44"));
+            bindPreferenceSummaryToValue(findPreference("optional2_44"));
+            bindPreferenceSummaryToValue(findPreference("optional3_44"));
+            bindPreferenceSummaryToValue(findPreference("optional4_44"));
+            bindPreferenceSummaryToValue(findPreference("optional5_44"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi45"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero45"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero45"));
+            bindPreferenceSummaryToValue(findPreference("optional1_45"));
+            bindPreferenceSummaryToValue(findPreference("optional2_45"));
+            bindPreferenceSummaryToValue(findPreference("optional3_45"));
+            bindPreferenceSummaryToValue(findPreference("optional4_45"));
+            bindPreferenceSummaryToValue(findPreference("optional5_45"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi46"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero46"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero46"));
+            bindPreferenceSummaryToValue(findPreference("optional1_46"));
+            bindPreferenceSummaryToValue(findPreference("optional2_46"));
+            bindPreferenceSummaryToValue(findPreference("optional3_46"));
+            bindPreferenceSummaryToValue(findPreference("optional4_46"));
+            bindPreferenceSummaryToValue(findPreference("optional5_46"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi47"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero47"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero47"));
+            bindPreferenceSummaryToValue(findPreference("optional1_47"));
+            bindPreferenceSummaryToValue(findPreference("optional2_47"));
+            bindPreferenceSummaryToValue(findPreference("optional3_47"));
+            bindPreferenceSummaryToValue(findPreference("optional4_47"));
+            bindPreferenceSummaryToValue(findPreference("optional5_47"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi48"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero48"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero48"));
+            bindPreferenceSummaryToValue(findPreference("optional1_48"));
+            bindPreferenceSummaryToValue(findPreference("optional2_48"));
+            bindPreferenceSummaryToValue(findPreference("optional3_48"));
+            bindPreferenceSummaryToValue(findPreference("optional4_48"));
+            bindPreferenceSummaryToValue(findPreference("optional5_48"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi49"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero49"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero49"));
+            bindPreferenceSummaryToValue(findPreference("optional1_49"));
+            bindPreferenceSummaryToValue(findPreference("optional2_49"));
+            bindPreferenceSummaryToValue(findPreference("optional3_49"));
+            bindPreferenceSummaryToValue(findPreference("optional4_49"));
+            bindPreferenceSummaryToValue(findPreference("optional5_49"));
+
+            bindPreferenceSummaryToValue(findPreference("nimi50"));
+            bindPreferenceSummaryToValue(findPreference("vakanssinumero50"));
+            bindPreferenceSummaryToValue(findPreference("puhelinnumero50"));
+            bindPreferenceSummaryToValue(findPreference("optional1_50"));
+            bindPreferenceSummaryToValue(findPreference("optional2_50"));
+            bindPreferenceSummaryToValue(findPreference("optional3_50"));
+            bindPreferenceSummaryToValue(findPreference("optional4_50"));
+            bindPreferenceSummaryToValue(findPreference("optional5_50"));
         }
 
 

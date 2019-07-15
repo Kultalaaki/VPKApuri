@@ -33,18 +33,33 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
-        <u><b>Versio 3.5.1</b></u>\n\n
+        <u><b>Versio 3.6</b></u>\n\n
         Asemataulu:\n
+        - Jäsenien määrä nostettu 40 -> 50.\n
         - Ääniasetuksien lisäasetuksista voi kytkeä hälytysäänen päälle.\n
         - Jäsenien ilmoittautumista korjattu. Saman jäsenen lähettämä uusi viesti päivittää edellisen ilmoituksen viestikentän.\n
         - Jos lähettää vahingossa ilmoittautumisen eikä pääse lähtemään, voi ilmoituksen perua lähettämällä viestin: Peruutus\n
         - Ohjeet asemataulun osalta lisätty ohjeet sivulle HÄLYTYS otsikon alle.\n\n
+
+        Hälytys sivun ulkoasua muutettu hieman selkeämmäksi.\n\n
 
         Widgetin jumittaminen yötilalle/  äänettömälle korjattu.
     </string>
     <!--Näytetään vain muutosloki sivulla-->
     <string name="whatsnew">
         UUSIN VERSIO!\n\n
+
+        <u><b>Versio 3.6</b></u>\n\n
+        Asemataulu:\n
+        - Jäsenien määrä nostettu 40 -> 50.\n
+        - Ääniasetuksien lisäasetuksista voi kytkeä hälytysäänen päälle.\n
+        - Jäsenien ilmoittautumista korjattu. Saman jäsenen lähettämä uusi viesti päivittää edellisen ilmoituksen viestikentän.\n
+        - Jos lähettää vahingossa ilmoittautumisen eikä pääse lähtemään, voi ilmoituksen perua lähettämällä viestin: Peruutus\n
+        - Ohjeet asemataulun osalta lisätty ohjeet sivulle HÄLYTYS otsikon alle.\n\n
+
+        Hälytys sivun ulkoasua muutettu hieman selkeämmäksi.\n\n
+
+        Widgetin jumittaminen yötilalle/  äänettömälle korjattu.\n\n
 
         <u><b>Versio 3.5</b></u>\n\n
         Asemataulu yhdistetty samaan sovellukseen:\n
@@ -280,6 +295,8 @@
         Kun asemataulu on käytössä ei hälytykset vakiona toista hälytysääntä, hälytysäänen saa kumminkin käyttöön ääniasetuksien lisäasetuksien puolelta.
         Asemataulu sovelluksen automaattinen aukaisu ei ole käytössä jos hälytysääni on käytössä, sovelluksen hälytysääni hiljennetään ilmoituksesta.
         \n\n
+
+        <u>APURI</u>:\n\n
         Lupa soittamiseen ja viestien lähettämiseen/ lukemiseen asetetaan sovelluksen asetukset Luvat &amp; käyttöönotto valikosta.
         Ilman näitä lupia sovelluksen soita lähtöilmoitus ja värikkäät sms napit eivät toimi. Soita lähtöilmoitus painike soittaa heti puhelinnumeroon joka asetetaan
         asetuksissa soittotaulun numero kohtaan.

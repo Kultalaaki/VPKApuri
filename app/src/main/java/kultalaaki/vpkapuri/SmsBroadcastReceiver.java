@@ -80,7 +80,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 } else {
                     context.getApplicationContext().startService(startService);
                 }
-
             }
         } catch (Exception e) {
             Log.e("SmsReceiver", "Exception smsReceiver " + e);
