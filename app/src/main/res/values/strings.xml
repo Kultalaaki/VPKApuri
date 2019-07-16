@@ -318,7 +318,7 @@
 
         Jos sovellusta käytetään sekä VPK että Vapepa hälytyksiin, OHTO hälytyksien numeron eteen laitetaan iso O-kirjain.\n
         Näin sovellus tietää kytkeä osoitteentunnistuksen pois sekä valita oikean hälytysäänen jos OHTO hälytyksille halutaan käyttää eri hälytysääntä.\n
-        Hälytyksiin vastaaminen onnistuu suoraan hälytys sivulta ja vastausnumero on sama kuin mistä hälytys tuli. Numeron voi myös vaihtaa ennen viestin lähettämistä.\n
+        Hälytyksiin vastaaminen onnistuu suoraan hälytys sivulta ja vastausnumero on sama kuin mistä hälytys tuli. Numeron voi myös vaihtaa ennen viestin lähettämistä.\n\n
 
         <u>PUHELUT</u>:\n\n
 

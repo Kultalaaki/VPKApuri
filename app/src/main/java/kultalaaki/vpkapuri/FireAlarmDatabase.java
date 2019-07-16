@@ -8,9 +8,12 @@ package kultalaaki.vpkapuri;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(entities = FireAlarm.class, version = 5, exportSchema = false)
 public abstract class FireAlarmDatabase extends RoomDatabase {
@@ -19,17 +22,24 @@ public abstract class FireAlarmDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "VPK_Apuri_Halytykset";
 
-    public abstract FireAlarmDao fireAlarmsDao();
+    abstract FireAlarmDao fireAlarmsDao();
 
     public static synchronized FireAlarmDatabase getInstance(Context context) {
         if(instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     FireAlarmDatabase.class, DATABASE_NAME)
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_4_5)
                     .allowMainThreadQueries()
                     .setJournalMode(JournalMode.TRUNCATE)
                     .build();
         }
         return instance;
     }
+
+    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
 }
