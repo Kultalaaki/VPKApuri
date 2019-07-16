@@ -28,7 +28,7 @@ public abstract class FireAlarmDatabase extends RoomDatabase {
         if(instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     FireAlarmDatabase.class, DATABASE_NAME)
-                    .addMigrations(MIGRATION_4_5)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_3_5, MIGRATION_2_5, MIGRATION_1_5)
                     .allowMainThreadQueries()
                     .setJournalMode(JournalMode.TRUNCATE)
                     .build();
@@ -37,6 +37,27 @@ public abstract class FireAlarmDatabase extends RoomDatabase {
     }
 
     private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
+
+    private static final Migration MIGRATION_3_5 = new Migration(3, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
+
+    private static final Migration MIGRATION_2_5 = new Migration(2, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
+
+    private static final Migration MIGRATION_1_5 = new Migration(1, 5) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             // Since we didn't alter the table, there's nothing else to do here.

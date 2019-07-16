@@ -353,7 +353,7 @@
             android:defaultValue="true"
             android:summary="Osoite tunnistetaan hätäkeskuksen hälytysviesteistä. Ota osoitteentunnistus pois päältä jos sovellus tulee vain VaPePa käyttöön. Käynnistä sovellus uudestaan jotta muutos tulee voimaan." />
         <SwitchPreference
-            android:key="autoAukaisu"
+            android:key="automaticOpen"
             android:title="Automaattinen aukaisu"
             android:defaultValue="false"
             android:summary="Hälytys sivu aukeaa 3 sekunnin viiveellä jotta hälytys keretään tallentamaan ja osoite hakemaan valmiiksi. Hälytys hiljennetään hiljennä hälytys näppäimestä. Ei mahdollisuutta hiljentää lukitusnäytöltä."/>
