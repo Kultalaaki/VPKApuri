@@ -59,7 +59,7 @@
             android:title="Värinä" />
         <SwitchPreference
             android:defaultValue="false"
-            android:key="aanetVaiEi"
+            android:key="throughSilentMode"
             android:summary="Laita tämä päälle jos haluat että hälytykset eivät tule äänettömän läpi."
             android:title="Äänettömän läpi" />
         <SwitchPreference
