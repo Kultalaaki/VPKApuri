@@ -31,7 +31,7 @@
             android:key="analyticsEnabled"
             android:title="Analytiikkatietojen kerääminen"
             android:defaultValue="false"
-            android:summary="Ota pois päältä jos et halua osallistua tietojen keräämiseen sovelluksen parantamiseksi. Muutos tulee voimaan kun sovellus käynnistetään uudelleen."/>
+            android:summary="Ota pois päältä jos et halua osallistua tietojen keräämiseen sovelluksen parantamiseksi. Muutos tulee voimaan kun sovellus suljetaan kokonaan ja käynnistetään uudelleen."/>
         <Preference
             android:key="facebook"
             android:title="VPK Apuri facebook sivu"
