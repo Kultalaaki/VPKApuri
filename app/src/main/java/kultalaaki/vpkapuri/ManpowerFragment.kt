@@ -6,6 +6,7 @@
 
 package kultalaaki.vpkapuri
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -51,10 +52,10 @@ class ManpowerFragment : Fragment() {
 
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
         if (context is OnFragmentInteractionListener) {
-            mListener = context
+            mListener = context as OnFragmentInteractionListener
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }

@@ -10,14 +10,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 105
-        versionName "3.6"
+        targetSdkVersion 29
+        versionCode 105 // Update just before pushing update
+        versionName "3.6" // Update just before pushing update
     }
     buildTypes {
         release {
@@ -38,7 +38,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.0'  // Google Services plugin
+        classpath 'com.google.gms:google-services:4.3.3'  // Google Services plugin
         classpath 'com.android.tools.build:gradle:3.4.2'
         classpath 'io.fabric.tools:gradle:1.28.1'
     }
@@ -54,27 +54,27 @@ dependencies {
     /*def lifecycle_version = "1.1.1"
     def room_version = "1.1.1"*/
 
-    implementation 'androidx.media:media:1.0.1'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.media:media:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.preference:preference:1.1.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Lifecycle components
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     // Room Components
-    implementation 'androidx.room:room-runtime:2.1.0'
-    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+    implementation 'androidx.room:room-runtime:2.2.3'
+    annotationProcessor 'androidx.room:room-compiler:2.2.3'
 
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
@@ -82,8 +82,8 @@ dependencies {
     api('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
-    implementation "androidx.core:core-ktx:1.0.2"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

@@ -31,6 +31,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 
+import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -172,7 +173,22 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 alarmSound(startId);
 
-                if (automaticOpen) {
+                if (automaticOpen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if (Settings.canDrawOverlays(getApplicationContext())) {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                                halyAuki.setAction(Intent.ACTION_SEND);
+                                halyAuki.setType("automaattinen");
+                                halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(halyAuki);
+                            }
+                        }, 3000);
+                    } else {
+                        createNotification(message);
+                    }
+                } else if (automaticOpen) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -186,6 +202,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 } else {
                     createNotification(message);
                 }
+
             } else if (isItAlarmSMS(number, message) && puheluHaly.equals("true")) {
                 puhelu = sharedPreferences.getBoolean("puhelu", false);
                 if (puhelu) {
@@ -200,7 +217,23 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 fireAlarmRepository.insert(fireAlarm);
 
-                if (automaticOpen) {
+                if (automaticOpen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if(Settings.canDrawOverlays(getApplicationContext())) {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                                halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                halyAuki.setAction(Intent.ACTION_SEND);
+                                halyAuki.setType("automaattinen");
+                                startActivity(halyAuki);
+                            }
+                        }, 3000);
+                    } else {
+                        createNotificationPuhelu("Hälytys tuli puheluna");
+                    }
+
+                } else if(automaticOpen){
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -652,7 +685,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         try {
             Date dateOld = dateFormat.parse(oldTime);
             Date dateNew = dateFormat.parse(newTime);
+            assert dateOld != null;
             long oldAlarmTime = dateOld.getTime();
+            assert dateNew != null;
             long newAlarmTime = dateNew.getTime();
             //long difference = newAlarmTime - oldAlarmTime;
             //Log.e("TAG", "Time difference: " + difference);
@@ -1618,663 +1653,3 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
 }
-
-/*private static class haeOsoite extends AsyncTask<String, Void, String[]> {
-
-        private boolean rajaapoisvuosiluvut(String vuosiluku) {
-            return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
-        }
-
-        @Override
-        protected String[] doInBackground(String... strings) {
-
-            String osoite = "";
-            String osoite1 = "";
-            String osoite2 = "";
-            String osoite3 = "";
-            String[] palautus = new String[5];
-            int pituus = strings[0].length();
-            final String valmisOsoite;
-            int kuntaSijainti = 0;
-            int halytunnusSijainti = 0;
-            int listaPaikka = 0;
-            ArrayList<String> viestinSanat = new ArrayList<>();
-            ArrayList<String> osoitteet = new ArrayList<>();
-            StringBuilder halyOsoite = new StringBuilder();
-            StringBuilder viestiTeksti = new StringBuilder();
-            String sana;
-            String halytysLuokka;
-            char merkki;
-            boolean loytyi = false;
-
-            for (int o = 0; o <= pituus - 1; o++) {
-                viestiTeksti.append(strings[0].charAt(o));
-            }
-            // Erotellaan viestistä sanat perustuen tiettyihin merkkeihin ja lisätään sanat listaan
-            for (int i = 0; i <= pituus - 1; i++) {
-                merkki = strings[0].charAt(i);
-                // Katko sanat regex:in mukaan
-                if (Character.toString(merkki).matches("[.,/:; \\r\\n]")) {
-                    sana = halyOsoite.toString();
-                    if (sana.length() > 1 || sana.matches("[0-9]")) {
-                        String sanaLower = sana.toLowerCase();
-                        switch (sanaLower) {
-                            case "koski":
-                                sana = "koski tl";
-                                break;
-                            case "pedersören":
-                                sana = "pedersören kunta";
-                                break;
-                            case "pohjois-lapin":
-                                sana = "pohjois-lapin seutukunta";
-                                break;
-                            case "karkkil":
-                                sana = "karkkila";
-                                break;
-                        }
-                        viestinSanat.add(sana);
-                    }
-                    halyOsoite.delete(0, halyOsoite.length());
-                } else {
-                    halyOsoite.append(strings[0].charAt(i));
-                }
-            }
-            String kommentti = "";
-            // Etsitään mikä sana listassa on kunta
-            try {
-                for (String valmisSana : viestinSanat) {
-                    String kirjPieneksi = valmisSana.toLowerCase();
-                    if (kunnat.contains(kirjPieneksi)) {
-                        kuntaSijainti = viestinSanat.indexOf(valmisSana);
-                        break;
-                    }
-                }
-                // Etsitään listalta hälytunnus ja luokka. Tee tähän alapuolelle.
-                for (String valmisSana : viestinSanat) {
-                    if (valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
-                        //String osaSana = valmisSana.substring(0,3);
-                        if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.substring(0, 3).equals("H35")) {
-                            if (valmisSana.substring(0, 3).equals("H35")) {
-                                valmisSana = "H351";
-                                halytunnusSijainti = viestinSanat.indexOf(valmisSana);
-                                listaPaikka = halytunnukset.indexOf("H351");
-                                loytyi = true;
-                                break;
-                            }
-                            halytunnusSijainti = viestinSanat.indexOf(valmisSana);
-                            listaPaikka = halytunnukset.indexOf(valmisSana.substring(0, 3));
-                            loytyi = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (kuntaSijainti != 0) {
-                    if (viestinSanat.size() >= kuntaSijainti + 1) {
-                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                                " " + viestinSanat.get(kuntaSijainti + 1));
-                        osoite = osoitteet.get(0);
-                    }
-                    if (viestinSanat.size() >= kuntaSijainti + 2) {
-                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                                " " + viestinSanat.get(kuntaSijainti + 1) +
-                                " " + viestinSanat.get(kuntaSijainti + 2));
-                        osoite1 = osoitteet.get(1);
-                    }
-                    if (viestinSanat.size() >= kuntaSijainti + 3) {
-                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                                " " + viestinSanat.get(kuntaSijainti + 1) +
-                                " " + viestinSanat.get(kuntaSijainti + 2) +
-                                " " + viestinSanat.get(kuntaSijainti + 3));
-                        osoite2 = osoitteet.get(2);
-                    }
-                    if (viestinSanat.size() >= kuntaSijainti + 4) {
-                        osoitteet.add(viestinSanat.get(kuntaSijainti) +
-                                " " + viestinSanat.get(kuntaSijainti + 1) +
-                                " " + viestinSanat.get(kuntaSijainti + 2) +
-                                " " + viestinSanat.get(kuntaSijainti + 3) +
-                                " " + viestinSanat.get(kuntaSijainti + 4));
-                        osoite3 = osoitteet.get(3);
-                    }
-                }
-
-                if (osoite.matches((".*[0-9].*"))) {
-                    valmisOsoite = osoite;
-                } else if (osoite1.matches((".*[0-9].*"))) {
-                    valmisOsoite = osoite1;
-                } else if (osoite2.matches((".*[0-9].*"))) {
-                    valmisOsoite = osoite2;
-                } else if (osoite3.matches((".*[0-9].*"))) {
-                    valmisOsoite = osoite3;
-                } else {
-                    valmisOsoite = osoite;
-                }
-
-                if (loytyi) {
-                    halytysLuokka = halytekstit.get(listaPaikka);
-                } else {
-                    halytysLuokka = "Ei löytynyt listalta";
-                }
-                //palautus = new String[5];
-                palautus[0] = valmisOsoite;
-                palautus[1] = viestinSanat.get(halytunnusSijainti);
-                palautus[3] = halytysLuokka;
-
-            } catch (ArrayIndexOutOfBoundsException e) {
-                kommentti = "Tapahtui virhe haettaessa listalta oikeaa tunnusta tai kuntaa. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
-                palautus[1] = "Tapahtui virhe.";
-                palautus[3] = "Katso arkistosta hälytyksen kommentti.";
-            } catch (Exception e) {
-                kommentti = "Tuntematon virhe esti osoitteen löytämisen viestistä. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
-                palautus[1] = "Tapahtui virhe.";
-                palautus[3] = "Katso arkistosta hälytyksen kommentti.";
-            }
-
-            palautus[2] = viestiTeksti.toString();
-            palautus[4] = kommentti;
-            osoitteet.clear();
-            viestinSanat.clear();
-            return palautus;
-        }
-
-        protected void onPostExecute(String[] result) {
-            //db.insertData(result[1] + " " + result[3], result[0], result[2], result[4]);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-    }*/
-
-    /*private static class haeOsoiteErica extends AsyncTask<String, Void, String[]> {
-
-        private boolean rajaapoisvuosiluvut(String vuosiluku) {
-            return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
-        }
-
-        @Override
-        protected String[] doInBackground(String... strings) {
-
-            String osoite = "";
-            String[] palautus = new String[5];
-            int pituus = strings[0].length();
-            int halytunnusSijainti = 0;
-            int listaPaikka = 0;
-            ArrayList<String> viestinSanat = new ArrayList<>();
-            ArrayList<String> sanatYksinaan = new ArrayList<>();
-            StringBuilder viestinLauseet = new StringBuilder();
-            StringBuilder viestiTeksti = new StringBuilder();
-            StringBuilder sanatYksitellen = new StringBuilder();
-            String sana;
-            String sanaYksin;
-            String halytysLuokka;
-            String kiireellisyysLuokka;
-            char merkki;
-            boolean loytyi = false;
-
-            for (int o = 0; o <= pituus - 1; o++) {
-                viestiTeksti.append(strings[0].charAt(o));
-            }
-
-            // Katkotaan viesti sanoihin
-            for (int i = 0; i <= pituus - 1; i++) {
-                merkki = strings[0].charAt(i);
-                // Katko sanat regex:in mukaan
-                if (Character.toString(merkki).matches("[.,/:; ]")) {
-                    sanaYksin = sanatYksitellen.toString();
-                    if (sanaYksin.length() >= 1 || sanaYksin.matches("[0-9]")) {
-                        sanatYksinaan.add(sanaYksin);
-                    }
-                    sanatYksitellen.delete(0, sanatYksitellen.length());
-                } else {
-                    sanatYksitellen.append(strings[0].charAt(i));
-                }
-            }
-
-            // Katkotaan viesti osiin puolipilkkujen mukaan
-            for (int i = 0; i <= pituus - 1; i++) {
-                merkki = strings[0].charAt(i);
-                // Katko sanat regex:in mukaan
-                if (Character.toString(merkki).matches("[;]")) {
-                    sana = viestinLauseet.toString();
-                    if (sana.length() > 1 || sana.matches("[0-9]")) {
-                        viestinSanat.add(sana);
-                    }
-                    viestinLauseet.delete(0, viestinLauseet.length());
-                } else {
-                    viestinLauseet.append(strings[0].charAt(i));
-                }
-            }
-
-            String kommentti = "";
-            // Etsitään mikä lause sisältää kunnan
-            try {
-                outer:
-                for (String valmisSana : viestinSanat) {
-                    //String pieni = valmisSana.toLowerCase();
-                    for (String kunta : kunnat) {
-                        if (valmisSana.contains(kunta)) {
-                            osoite = valmisSana;
-                            break outer;
-                        }
-                    }
-                }
-
-                // Kiireellisyysluokan kirjaimen etsiminen
-                for (String luokkaKirjain : viestinSanat) {
-                    if (luokkaKirjain.equals("A") || luokkaKirjain.equals("B") || luokkaKirjain.equals("C") || luokkaKirjain.equals("D")) {
-                        kiireellisyysLuokka = luokkaKirjain;
-                        break;
-                    }
-                }
-
-                // Etsitään listalta hälytunnus ja luokka. Tee tähän alapuolelle.
-                for (String valmisSana : sanatYksinaan) {
-                    if (valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
-                        //String osaSana = valmisSana.substring(0,3);
-                        if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.substring(0, 3).equals("H35")) {
-
-                            if (valmisSana.substring(0, 3).equals("H35")) {
-                                valmisSana = "H351";
-                                halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
-                                listaPaikka = halytunnukset.indexOf("H351");
-                                loytyi = true;
-                                break;
-                            }
-                            halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
-                            listaPaikka = halytunnukset.indexOf(valmisSana.substring(0, 3));
-                            loytyi = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (loytyi) {
-                    halytysLuokka = halytekstit.get(listaPaikka);
-                } else {
-                    halytysLuokka = "Ei löytynyt listalta";
-                }
-
-                palautus[0] = osoite;
-                palautus[1] = sanatYksinaan.get(halytunnusSijainti);
-                palautus[3] = halytysLuokka;
-
-            } catch (ArrayIndexOutOfBoundsException e) {
-                kommentti = "Tapahtui virhe haettaessa listalta oikeaa tunnusta tai kuntaa. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
-                palautus[1] = "Tapahtui virhe.";
-                palautus[3] = "Katso arkistosta hälytyksen kommentti.";
-            } catch (Exception e) {
-                kommentti = "Tuntematon virhe esti osoitteen löytämisen viestistä. Lähetä palautetta kehittäjälle ongelman ratkaisemiseksi.";
-                palautus[1] = "Tapahtui virhe.";
-                palautus[3] = "Katso arkistosta hälytyksen kommentti.";
-            }
-
-            palautus[2] = viestiTeksti.toString();
-            palautus[4] = kommentti;
-            viestinSanat.clear();
-            sanatYksinaan.clear();
-            return palautus;
-        }
-
-        protected void onPostExecute(String[] result) {
-            db.insertData(result[1] + " " + result[3], result[0], result[2], result[4]);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-    }*/
-
-    /*public void lisaaKunnat() {
-        //ArrayList<String> kunnat = new ArrayList<>();
-        kunnat.add("akaa");
-        kunnat.add("alajärvi");
-        kunnat.add("alavieska");
-        kunnat.add("alavus");
-        kunnat.add("asikkala");
-        kunnat.add("askola");
-        kunnat.add("aura");
-        kunnat.add("brändö");
-        kunnat.add("eckerö");
-        kunnat.add("enonkoski");
-
-        kunnat.add("enontekiö");
-        kunnat.add("espoo");
-        kunnat.add("eura");
-        kunnat.add("eurajoki");
-        kunnat.add("evijärvi");
-        kunnat.add("finström");
-        kunnat.add("forssa");
-        kunnat.add("föglö");
-        kunnat.add("geta");
-        kunnat.add("haapajärvi");
-
-        kunnat.add("haapavesi");
-        kunnat.add("hailuoto");
-        kunnat.add("halsua");
-        kunnat.add("hamina");
-        kunnat.add("hammarland");
-        kunnat.add("hankasalmi");
-        kunnat.add("hanko");
-        kunnat.add("harjavalta");
-        kunnat.add("hartola");
-        kunnat.add("hattula");
-
-        kunnat.add("hausjärvi");
-        kunnat.add("heinola");
-        kunnat.add("heinävesi");
-        kunnat.add("helsinki");
-        kunnat.add("hirvensalmi");
-        kunnat.add("hollola");
-        kunnat.add("honkajoki");
-        kunnat.add("huittinen");
-        kunnat.add("humppila");
-        kunnat.add("hyrynsalmi");
-
-        kunnat.add("hyvinkää");
-        kunnat.add("hämeenkyrö");
-        kunnat.add("hämeenlinna");
-        kunnat.add("ii");
-        kunnat.add("iisalmi");
-        kunnat.add("iitti");
-        kunnat.add("ikaalinen");
-        kunnat.add("ilmajoki");
-        kunnat.add("ilomantsi");
-        kunnat.add("imatra");
-
-        kunnat.add("inari");
-        kunnat.add("pohjois-lapin seutukunta");
-        kunnat.add("pedersöre");
-        kunnat.add("inkoo");
-        kunnat.add("isojoki");
-        kunnat.add("isokyrö");
-        kunnat.add("janakkala");
-        kunnat.add("joensuu");
-        kunnat.add("jokioinen");
-        kunnat.add("jomala");
-        kunnat.add("joroinen");
-
-        kunnat.add("joutsa");
-        kunnat.add("juuka");
-        kunnat.add("juupajoki");
-        kunnat.add("juva");
-        kunnat.add("jyväskylä");
-        kunnat.add("jämijärvi");
-        kunnat.add("jämsä");
-        kunnat.add("järvenpää");
-        kunnat.add("kaarina");
-        kunnat.add("kaavi");
-
-        kunnat.add("kajaani");
-        kunnat.add("kalajoki");
-        kunnat.add("kangasala");
-        kunnat.add("kangasniemi");
-        kunnat.add("kankaanpää");
-        kunnat.add("kannonkoski");
-        kunnat.add("kannus");
-        kunnat.add("karijoki");
-        kunnat.add("karkkila");
-        kunnat.add("karstula");
-
-        kunnat.add("karvia");
-        kunnat.add("kaskinen");
-        kunnat.add("kauhajoki");
-        kunnat.add("kauhava");
-        kunnat.add("kauniainen");
-        kunnat.add("kaustinen");
-        kunnat.add("keitele");
-        kunnat.add("kemi");
-        kunnat.add("kemijärvi");
-        kunnat.add("keminmaa");
-
-        kunnat.add("kemiönsaari");
-        kunnat.add("kempele");
-        kunnat.add("kerava");
-        kunnat.add("keuruu");
-        kunnat.add("kihniö");
-        kunnat.add("kinnula");
-        kunnat.add("kirkkonummi");
-        kunnat.add("kitee");
-        kunnat.add("kittilä");
-        kunnat.add("kiuruvesi");
-
-        kunnat.add("kivijärvi");
-        kunnat.add("kokemäki");
-        kunnat.add("kokkola");
-        kunnat.add("kolari");
-        kunnat.add("konnevesi");
-        kunnat.add("kontiolahti");
-        kunnat.add("korsnäs");
-        kunnat.add("koski tl");
-        kunnat.add("kotka");
-        kunnat.add("kouvola");
-
-        kunnat.add("kristiinankaupunki");
-        kunnat.add("kruunupyy");
-        kunnat.add("kuhmo");
-        kunnat.add("kuhmoinen");
-        kunnat.add("kumlinge");
-        kunnat.add("kuopio");
-        kunnat.add("kuortane");
-        kunnat.add("kurikka");
-        kunnat.add("kustavi");
-        kunnat.add("kuusamo");
-
-        kunnat.add("kyyjärvi");
-        kunnat.add("kärkölä");
-        kunnat.add("kärsämäki");
-        kunnat.add("kökar");
-        kunnat.add("lahti");
-        kunnat.add("laihia");
-        kunnat.add("laitila");
-        kunnat.add("lapinjärvi");
-        kunnat.add("lapinlahti");
-        kunnat.add("lappajärvi");
-
-        kunnat.add("lappeenranta");
-        kunnat.add("lapua");
-        kunnat.add("laukaa");
-        kunnat.add("lemi");
-        kunnat.add("lemland");
-        kunnat.add("lempäälä");
-        kunnat.add("leppävirta");
-        kunnat.add("lestijärvi");
-        kunnat.add("lieksa");
-        kunnat.add("lieto");
-
-        kunnat.add("liminka");
-        kunnat.add("liperi");
-        kunnat.add("lohja");
-        kunnat.add("loimaa");
-        kunnat.add("loppi");
-        kunnat.add("loviisa");
-        kunnat.add("luhanka");
-        kunnat.add("lumijoki");
-        kunnat.add("lumparland");
-        kunnat.add("luoto");
-
-        kunnat.add("luumäki");
-        kunnat.add("maalahti");
-        kunnat.add("maarianhamina");
-        kunnat.add("marttila");
-        kunnat.add("masku");
-        kunnat.add("merijärvi");
-        kunnat.add("merikarvia");
-        kunnat.add("miehikkälä");
-        kunnat.add("mikkeli");
-        kunnat.add("muhos");
-
-        kunnat.add("multia");
-        kunnat.add("muonio");
-        kunnat.add("mustasaari");
-        kunnat.add("muurame");
-        kunnat.add("mynämäki");
-        kunnat.add("myrskylä");
-        kunnat.add("mäntsälä");
-        kunnat.add("mänttä-vilppula");
-        kunnat.add("mänttä");
-        kunnat.add("vilppula");
-        kunnat.add("mäntyharju");
-        kunnat.add("naantali");
-
-        kunnat.add("nakkila");
-        kunnat.add("nivala");
-        kunnat.add("nokia");
-        kunnat.add("nousiainen");
-        kunnat.add("nurmes");
-        kunnat.add("nurmijärvi");
-        kunnat.add("närpiö");
-        kunnat.add("orimattila");
-        kunnat.add("oripää");
-        kunnat.add("orivesi");
-
-        kunnat.add("oulainen");
-        kunnat.add("oulu");
-        kunnat.add("outokumpu");
-        kunnat.add("padasjoki");
-        kunnat.add("paimio");
-        kunnat.add("paltamo");
-        kunnat.add("parainen");
-        kunnat.add("parikkala");
-        kunnat.add("parkano");
-        kunnat.add("pedersören kunta");
-        kunnat.add("pedersöre");
-
-        kunnat.add("pelkosenniemi");
-        kunnat.add("pello");
-        kunnat.add("perho");
-        kunnat.add("pertunmaa");
-        kunnat.add("petäjävesi");
-        kunnat.add("pieksämäki");
-        kunnat.add("pielavesi");
-        kunnat.add("pietarsaari");
-        kunnat.add("pihtipudas");
-        kunnat.add("pirkkala");
-
-        kunnat.add("polvijärvi");
-        kunnat.add("pomarkku");
-        kunnat.add("pori");
-        kunnat.add("pornainen");
-        kunnat.add("porvoo");
-        kunnat.add("posio");
-        kunnat.add("pudasjärvi");
-        kunnat.add("pukkila");
-        kunnat.add("punkalaidun");
-        kunnat.add("puolanka");
-
-        kunnat.add("puumala");
-        kunnat.add("pyhtää");
-        kunnat.add("pyhäjoki");
-        kunnat.add("pyhäjärvi");
-        kunnat.add("pyhäntä");
-        kunnat.add("pyhäranta");
-        kunnat.add("pälkäne");
-        kunnat.add("pöytyä");
-        kunnat.add("raahe");
-        kunnat.add("raasepori");
-
-        kunnat.add("raisio");
-        kunnat.add("rantasalmi");
-        kunnat.add("ranua");
-        kunnat.add("rauma");
-        kunnat.add("rautalampi");
-        kunnat.add("rautavaara");
-        kunnat.add("rautjärvi");
-        kunnat.add("reisjärvi");
-        kunnat.add("riihimäki");
-        kunnat.add("ristijärvi");
-
-        kunnat.add("rovaniemi");
-        kunnat.add("ruokolahti");
-        kunnat.add("ruovesi");
-        kunnat.add("rusko");
-        kunnat.add("rääkkylä");
-        kunnat.add("saarijärvi");
-        kunnat.add("salla");
-        kunnat.add("salo");
-        kunnat.add("saltvik");
-        kunnat.add("sastamala");
-
-        kunnat.add("sauvo");
-        kunnat.add("savitaipale");
-        kunnat.add("savonlinna");
-        kunnat.add("savukoski");
-        kunnat.add("seinäjoki");
-        kunnat.add("sievi");
-        kunnat.add("siikainen");
-        kunnat.add("siikajoki");
-        kunnat.add("siikalatva");
-        kunnat.add("siilinjärvi");
-
-        kunnat.add("simo");
-        kunnat.add("sipoo");
-        kunnat.add("siuntio");
-        kunnat.add("sodankylä");
-        kunnat.add("soini");
-        kunnat.add("somero");
-        kunnat.add("sonkajärvi");
-        kunnat.add("sotkamo");
-        kunnat.add("sottunga");
-        kunnat.add("sulkava");
-
-        kunnat.add("sund");
-        kunnat.add("suomussalmi");
-        kunnat.add("suonenjoki");
-        kunnat.add("sysmä");
-        kunnat.add("säkylä");
-        kunnat.add("taipalsaari");
-        kunnat.add("taivalkoski");
-        kunnat.add("taivassalo");
-        kunnat.add("tammela");
-        kunnat.add("tampere");
-
-        kunnat.add("tervo");
-        kunnat.add("tervola");
-        kunnat.add("teuva");
-        kunnat.add("tohmajärvi");
-        kunnat.add("toholampi");
-        kunnat.add("toivakka");
-        kunnat.add("tornio");
-        kunnat.add("turku");
-        kunnat.add("tuusniemi");
-        kunnat.add("tuusula");
-
-        kunnat.add("tyrnävä");
-        kunnat.add("ulvila");
-        kunnat.add("urjala");
-        kunnat.add("utajärvi");
-        kunnat.add("utsjoki");
-        kunnat.add("uurainen");
-        kunnat.add("uusikaarlepyy");
-        kunnat.add("uusikaupunki");
-        kunnat.add("vaala");
-        kunnat.add("vaasa");
-
-        kunnat.add("valkeakoski");
-        kunnat.add("valtimo");
-        kunnat.add("vantaa");
-        kunnat.add("varkaus");
-        kunnat.add("vehmaa");
-        kunnat.add("vesanto");
-        kunnat.add("vesilahti");
-        kunnat.add("veteli");
-        kunnat.add("vieremä");
-        kunnat.add("vihti");
-
-        kunnat.add("viitasaari");
-        kunnat.add("vimpeli");
-        kunnat.add("virolahti");
-        kunnat.add("virrat");
-        kunnat.add("vårdö");
-        kunnat.add("vöyri");
-        kunnat.add("ylitornio");
-        kunnat.add("ylivieska");
-        kunnat.add("ylöjärvi");
-        kunnat.add("ypäjä");
-
-        kunnat.add("ähtäri");
-        kunnat.add("äänekoski");
-        //Toast.makeText(aktiivinenHaly.this, "Kuntia listassa " + kunnat.size() + ".",Toast.LENGTH_LONG).show();
-    }*/

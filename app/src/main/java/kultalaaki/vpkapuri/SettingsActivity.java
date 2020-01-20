@@ -379,6 +379,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 });
             }
 
+            //Opening app from background
+            Preference prefOpenWindow = getPreferenceManager().findPreference("windowOperation");
+            if(prefOpenWindow != null) {
+                prefOpenWindow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                            startActivity(intent);
+                            return true;
+                        }
+
+                        return false;
+                    }
+                });
+            }
+
             Preference prefTietosuoja = getPreferenceManager().findPreference("tietosuoja");
             if(prefTietosuoja != null) {
                 prefTietosuoja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

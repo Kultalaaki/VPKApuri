@@ -16,6 +16,10 @@
             android:title="Akun optimointi"
             android:summary="Tarkista että akkua ei optimoida tämän sovelluksen osalta. Huom. puhelinvalmistajalla voi olla vielä omat virransäästöasetukset jossain toisessa valikossa." />
         <Preference
+            android:key="windowOperation"
+            android:title="Automaattisen aukaisun lupa"
+            android:summary="Android 10 ja uudemmat tarvitsevat tämän luvan jos käyttää sovelluksen automaattista aukaisua." />
+        <Preference
             android:key="luvatApuri"
             android:title="Sovelluksen tiedot"
             android:summary="Tästä pääset sovelluksen tiedot sivulle. Tarkista sovelluksen käyttämät luvat ja ilmoitusasetukset." />
