@@ -16,8 +16,8 @@ android {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 105 // Update just before pushing update
-        versionName "3.6" // Update just before pushing update
+        versionCode 106 // Update just before pushing update 105 is live
+        versionName "3.61" // Update just before pushing update 3.6 is live
     }
     buildTypes {
         release {

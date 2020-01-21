@@ -35,6 +35,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -385,7 +386,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 prefOpenWindow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                             startActivity(intent);
                             return true;
@@ -394,6 +395,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         return false;
                     }
                 });
+            } else {
+                Activity activity = getActivity();
+                Toast.makeText(activity, "Tämä asetus on vain Android 10 ja uudemmille.", Toast.LENGTH_SHORT).show();
             }
 
             Preference prefTietosuoja = getPreferenceManager().findPreference("tietosuoja");
