@@ -156,7 +156,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         });
 
         osoite = new String [1];
-        osoite[0] = "info@vpkapuri.fi";
+        osoite[0] = "kultalaaki@gmail.com";
         aihe = "VPK Apuri palaute";
 
         if(sharedPreferences.contains("termsShown")) {
