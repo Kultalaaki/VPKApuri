@@ -1,5 +1,19 @@
 # VPKApuri
-VPK Apuri. 
+
+Yleisimmin vika sovelluksen toimimattomuuteen löytyy puhelimen virransäästön asetuksista. Monet puhelinvalmistajat lisäävät virransäästöä sulkemalla taustalla toimivia sovelluksia ja näin saadaan puhelimien akut kestämään pidempään. Tämä kuitenkin aiheuttaa tämänkaltaisille sovelluksille ongelmia, sovelluksen toiminta perustuu täysin taustalla tapahtuvaan viestien havaitsemiseen. Sovelluksen kehittäjänä olen tehnyt mahdollisuuksieni mukaan mahdollisimman helpoksi näiden poiskytkemisen laittamalla sovelluksen asetuksiin muutaman pikalinkin näihin asetuksiin. Valmistajien keksiessä koko ajan lisää keinoja säästää virtaa ja eri valmistajien eri metodien takia minulla ei ole mahdollisuutta pysyä koko ajan näissä mukana. Tässä alla muutama asetus mitkä voivat löytyä puhelimesta riippuen valmistajasta.
+
+1. Asetukset -> sovellukset -> lisäasetukset -> akun optimointi ei käytössä -> VPK Apuri -> salli
+
+2. Asetukset -> sovellukset -> VPK Apuri -> ilmoitukset -> "salli ilmoitukset" ja "prioriteettinäyttö" päälle
+
+3. Asetukset -> akku -> sulje, kun näyttö lukitaan -> VPK Apuri -> aseta tilaksi "älä sulje"
+
+Muitakin mahdollisia asetuksia voi löytyä. Oman puhelimen asetuksiin kannattaakin perehtyä huolella ja ajan kanssa.
+
+
+
+VPK APURI
+
 This software is made for finnish volunteer firefighters.
 Using this software to any other purpose is not supported or intended.
 
@@ -11,7 +25,9 @@ derivative versions. The app itself, and all the trade marks, copyright, databas
 property rights related to it, still belong to Kultala Aki.</p> <p class="wow fadeInUp" data-wow-delay="0.2s">Kultala Aki is committed to ensuring that the app is as useful and efficient as possible. For
 that reason, we reserve the right to make changes to the app or to charge for its services, at any time
 and for any reason. We will never charge you for the app or its services without making it very clear
-to you exactly what you’re paying for.</p> <p class="wow fadeInUp" data-wow-delay="0.2s">The [VPK Apuri] app stores and processes personal data that you have provided to us, in order to provide
+to you exactly what you’re paying for. 
+
+The [VPK Apuri] app stores and processes personal data that you have provided to us, in order to provide
 my Service. It’s your responsibility to keep your phone and access to the app secure. We therefore
 recommend that you do not jailbreak or root your phone, which is the process of removing software restrictions
 and limitations imposed by the official operating system of your device. It could make your phone vulnerable
