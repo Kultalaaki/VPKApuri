@@ -47,8 +47,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,11 +62,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 TimePickerDialog.OnTimeSetListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseCrashlytics mFirebaseCrashlytics;
     private DrawerLayout mDrawerLayout;
     String[] osoite;
     String aihe;
     DBTimer dbTimer;
-    SharedPreferences sharedPreferences;
+    SharedPreferences preferences;
     boolean ericaEtusivu, analytics, asemataulu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     SoundControls soundControls;
@@ -76,11 +76,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        asemataulu = sharedPreferences.getBoolean("asemataulu", false);
-        analytics = sharedPreferences.getBoolean("analyticsEnabled", false);
-        sharedPreferences.edit().putBoolean("showHiljenna", false).apply();
-        sharedPreferences.edit().putBoolean("HalytysOpen", false).apply();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        asemataulu = preferences.getBoolean("asemataulu", false);
+        analytics = preferences.getBoolean("analyticsEnabled", false);
+        preferences.edit().putBoolean("showHiljenna", false).apply();
+        preferences.edit().putBoolean("HalytysOpen", false).apply();
 
         setContentView(R.layout.etusivusidepanel);
 
@@ -96,12 +96,10 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        // Obtain the FirebaseAnalytics instance.
+        // Setting Firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        if(analytics) {
-            Fabric.with(this, new Crashlytics());
-        }
-
+        mFirebaseCrashlytics = FirebaseCrashlytics.getInstance();
+        mFirebaseCrashlytics.setCrashlyticsCollectionEnabled(analytics);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -122,7 +120,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 return true;
                             case R.id.hiljenna_halyt:
                                 //hiljennaHalytykset();
-                                if(sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
+                                if(preferences.getInt("aaneton_profiili", -1) == 1) {
                                     showMessage("Hälytysten hiljennys", "Haluatko varmasti hiljentää hälytykset?");
                                 } else {
                                     hiljennaHalytykset();
@@ -159,7 +157,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         osoite[0] = "kultalaaki@gmail.com";
         aihe = "VPK Apuri palaute";
 
-        if(sharedPreferences.contains("termsShown")) {
+        if(preferences.contains("termsShown")) {
             loadEtusivuFragment();
         } else {
             loadLegalFragment();
@@ -176,6 +174,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     public void loadArkistoFragment() {
         //Crashlytics.getInstance().crash(); // Force a crash
+        //mFirebaseCrashlytics.log("Crashlytics reporting from start arkisto fragment!");
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchiveFragment archiveFragment = new ArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -427,7 +426,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     public void startTestaaHalytys() {
 
-        ericaEtusivu = sharedPreferences.getBoolean("Erica", true);
+        ericaEtusivu = preferences.getBoolean("Erica", true);
         if(ericaEtusivu) {
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
@@ -487,7 +486,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     @SuppressLint("ApplySharedPref")
     public void hiljennaHalytykset() {
 
-        if (sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
+        if (preferences.getInt("aaneton_profiili", -1) == 1) {
             //hiljenna haly
             soundControls.setSilent(this);
         } else {

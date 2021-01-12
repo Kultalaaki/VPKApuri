@@ -30,6 +30,15 @@
             auto:ringtoneType="all"
             auto:showDefault="false"
             auto:showSilent="false" />
+        <kultalaaki.vpkapuri.SeekBarPreference
+            android:defaultValue="50"
+            android:dialogMessage="@string/settings_dialog_message"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:key="SEEKBAR_VALUE"
+            android:max="100"
+            android:summary="@string/settings_summary"
+            android:text="@string/settings_unit"
+            android:title="@string/settings_title" />
         <EditTextPreference
             android:defaultValue="60"
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
@@ -43,20 +52,23 @@
     <PreferenceCategory
         android:key="pref_key_voimakkuus"
         android:title="Hälytysäänen voimakkuus ja värinä">
-        <kultalaaki.vpkapuri.SeekBarPreference
-            android:defaultValue="50"
-            android:dialogMessage="@string/settings_dialog_message"
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
-            android:key="SEEKBAR_VALUE"
-            android:max="100"
-            android:summary="@string/settings_summary"
-            android:text="@string/settings_unit"
-            android:title="@string/settings_title" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="varina"
             android:summary="Käytetäänkö hälytyksen tullessa värinää."
             android:title="Värinä" />
+        <ListPreference
+            android:key="vibrate_pattern"
+            android:dependency="varina"
+            android:title="Värinäkuvio"
+            android:summary="Valitse värinäkuvio eri vaihtoehdoista"
+            android:entries="@array/vibrate"
+            android:entryValues="@array/vibratePatterns" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_muut"
+        android:title="Muut asetukset">
         <SwitchPreference
             android:defaultValue="false"
             android:key="throughSilentMode"

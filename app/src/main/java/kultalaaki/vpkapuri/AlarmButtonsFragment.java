@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
+import java.util.Objects;
 
 
 public class AlarmButtonsFragment extends Fragment {
@@ -270,14 +274,17 @@ public class AlarmButtonsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (smsnumero != null && smsnumero.equals("whatsapp")) {
-                    Intent whatsapptxt = new Intent();
+                    sendTextToWhatsapp(fivemintxt);
+                    /*Intent whatsapptxt = new Intent();
                     whatsapptxt.setAction(Intent.ACTION_SEND);
                     whatsapptxt.putExtra(Intent.EXTRA_TEXT, fivemintxt);
                     whatsapptxt.setType("text/plain");
                     whatsapptxt.setPackage("com.whatsapp");
-                    startActivity(whatsapptxt);
+                    startActivity(whatsapptxt);*/
                 } else if(smsnumero != null && smsnumero.contains("www") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     mCallback.avaaWebSivu(smsnumero);
+                } else if(smsnumero != null && smsnumero.equals("valitse")) {
+                    sendTextWithOtherMessageApp(fivemintxt);
                 } else {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         five = true;
@@ -305,12 +312,15 @@ public class AlarmButtonsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (smsnumero10 != null && smsnumero10.equals("whatsapp")) {
-                    Intent whatsapptxt = new Intent();
+                    sendTextToWhatsapp(tenmintxt);
+                    /*Intent whatsapptxt = new Intent();
                     whatsapptxt.setAction(Intent.ACTION_SEND);
                     whatsapptxt.putExtra(Intent.EXTRA_TEXT, tenmintxt);
                     whatsapptxt.setType("text/plain");
                     whatsapptxt.setPackage("com.whatsapp");
-                    startActivity(whatsapptxt);
+                    startActivity(whatsapptxt);*/
+                } else if(smsnumero != null && smsnumero.equals("valitse")) {
+                    sendTextWithOtherMessageApp(tenmintxt);
                 } else {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         ten = true;
@@ -338,12 +348,15 @@ public class AlarmButtonsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (smsnumero11 != null && smsnumero11.equals("whatsapp")) {
-                    Intent whatsapptxt = new Intent();
+                    sendTextToWhatsapp(tenplusmintxt);
+                    /*Intent whatsapptxt = new Intent();
                     whatsapptxt.setAction(Intent.ACTION_SEND);
                     whatsapptxt.putExtra(Intent.EXTRA_TEXT, tenplusmintxt);
                     whatsapptxt.setType("text/plain");
                     whatsapptxt.setPackage("com.whatsapp");
-                    startActivity(whatsapptxt);
+                    startActivity(whatsapptxt);*/
+                } else if(smsnumero != null && smsnumero.equals("valitse")) {
+                    sendTextWithOtherMessageApp(tenplusmintxt);
                 } else {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         tenplus = true;
@@ -380,7 +393,6 @@ public class AlarmButtonsFragment extends Fragment {
                         startActivity(mapIntent);
                     }
                 }
-
             }
         });
 
@@ -391,6 +403,32 @@ public class AlarmButtonsFragment extends Fragment {
                 hiljenna.setVisibility(View.GONE);
             }
         });
+    }
+
+    // Todo what package to use??
+    private void sendTextWithOtherMessageApp(String textToSend) {
+        Intent signalMessage = new Intent(Intent.ACTION_SEND);
+        signalMessage.putExtra(Intent.EXTRA_TEXT, textToSend);
+        signalMessage.setType("text/plain");
+        //Intent chooser = Intent.createChooser(signalMessage, textToSend);
+        PackageManager packageManager = requireActivity().getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(signalMessage, PackageManager.MATCH_DEFAULT_ONLY);
+        boolean isIntentSafe = activities.size() > 0;
+        if (isIntentSafe) {
+            startActivity(signalMessage);
+        }
+        /*if (signalMessage.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivity(signalMessage);
+        }*/
+    }
+
+    private void sendTextToWhatsapp(String textToSend) {
+        Intent whatsapptxt = new Intent();
+        whatsapptxt.setAction(Intent.ACTION_SEND);
+        whatsapptxt.putExtra(Intent.EXTRA_TEXT, textToSend);
+        whatsapptxt.setType("text/plain");
+        whatsapptxt.setPackage("com.whatsapp");
+        startActivity(whatsapptxt);
     }
 
     private void pyydaLuvatSms() {

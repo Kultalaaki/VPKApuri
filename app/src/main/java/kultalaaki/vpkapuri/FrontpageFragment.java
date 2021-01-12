@@ -21,10 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import io.fabric.sdk.android.Fabric;
 
 
 public class FrontpageFragment extends Fragment {
@@ -49,9 +46,9 @@ public class FrontpageFragment extends Fragment {
 
             mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
-            if(analytics) {
+            /*if(analytics) {
                 Fabric.with(getActivity(), new Crashlytics());
-            }
+            }*/
         }
     }
 

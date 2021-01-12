@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VPKApuri(Phone).iml" filepath="$PROJECT_DIR$/VPKApuri(Phone).iml" group="VPKApuri(Phone)" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="VPKApuri(Phone)/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VPKApuri(Java&amp;Kotlin).iml" filepath="$PROJECT_DIR$/.idea/modules/VPKApuri(Java&amp;Kotlin).iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/VPKApuri(Java&amp;Kotlin).app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/VPKApuri(Java&amp;Kotlin).app.iml" />
     </modules>
   </component>
 </project>

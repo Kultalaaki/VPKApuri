@@ -35,7 +35,7 @@
 
         <u><b>Versio 3.7</b></u>\n\n
         Android 10 korjaus:\n
-        Automaattisen aikaisu ei toimi ilman taustalta toimivan aukaisun lupaa. Luvan voi antaa asetuksista Akun optimointi asetuksen alapuolelta.
+        Automaattinen aikaisu ei toimi ilman taustalta toimivan aukaisun lupaa. Luvan voi antaa asetuksista Akun optimointi asetuksen alapuolelta.\n\n
 
         <u><b>Versio 3.6</b></u>\n\n
         Asemataulu:\n
@@ -52,6 +52,10 @@
     <!--Näytetään vain muutosloki sivulla-->
     <string name="whatsnew">
         UUSIN VERSIO!\n\n
+
+        <u><b>Versio 3.7</b></u>\n\n
+        Android 10 korjaus:\n
+        Automaattinen aikaisu ei toimi ilman taustalta toimivan aukaisun lupaa. Luvan voi antaa asetuksista Akun optimointi asetuksen alapuolelta.\n\n
 
         <u><b>Versio 3.6</b></u>\n\n
         Asemataulu:\n
@@ -580,4 +584,21 @@
     <string name="h_lytysvieti">Hälytysviesti</string>
     <string name="l_het">Lähetä</string>
     <string name="tyhjenn_lista">Tyhjennä lista</string>
+    <string name="alarm">HÄLYTYS</string>
+
+    <!--Vibrate patterns-->
+    <string-array name="vibrate">
+        <item>Pulse</item>
+        <item>Hurry</item>
+        <item>Slow</item>
+        <item>ADHD</item>
+        <item>Maniac</item>
+    </string-array>
+    <string-array name="vibratePatterns">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

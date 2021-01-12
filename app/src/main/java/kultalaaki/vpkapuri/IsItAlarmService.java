@@ -28,7 +28,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 
 import android.provider.Settings;
@@ -78,7 +77,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         context = this;
         //Log.e("IsItAlarmService", "onCreate");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeGround(TAG);
+            startForegroundNotification(TAG);
         }
     }
 
@@ -100,7 +99,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
             previousStartId = startId;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeGround(TAG);
+                startForegroundNotification(TAG);
             }
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -126,12 +125,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         addressLookUp(message, timestamp, number);
                     } else {
                         // OHTO alarm
-                        OHTOAlarm(message, timestamp, number);
+                        saveOhtoAlarmToDatabase(message, timestamp, number);
                     }
 
                     if (sharedPreferences.getBoolean("stationboard_sounds", false)) {
-                        alarmSound(startId);
-                        createNotification(message);
+                        selectAlarmSound(startId);
+                        notificationAlarmMessage(message);
                         /*if (automaticOpen) {
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -168,10 +167,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     addressLookUp(message, timestamp, number);
                 } else {
                     // OHTO alarm
-                    OHTOAlarm(message, timestamp, number);
+                    saveOhtoAlarmToDatabase(message, timestamp, number);
                 }
 
-                alarmSound(startId);
+                selectAlarmSound(startId);
 
                 if (automaticOpen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (Settings.canDrawOverlays(getApplicationContext())) {
@@ -186,7 +185,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                             }
                         }, 3000);
                     } else {
-                        createNotification(message);
+                        notificationAlarmMessage(message);
                     }
                 } else if (automaticOpen) {
                     Handler handler = new Handler();
@@ -200,14 +199,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         }
                     }, 3000);
                 } else {
-                    createNotification(message);
+                    notificationAlarmMessage(message);
                 }
 
             } else if (isItAlarmSMS(number, message) && puheluHaly.equals("true")) {
                 puhelu = sharedPreferences.getBoolean("puhelu", false);
                 if (puhelu) {
                     puheluAani = sharedPreferences.getBoolean("Puhelu", false);
-                    alarmSound(startId);
+                    selectAlarmSound(startId);
                 }
                 //db = new DBHelper(getApplicationContext());
                 //db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
@@ -230,7 +229,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                             }
                         }, 3000);
                     } else {
-                        createNotificationPuhelu("Hälytys tuli puheluna");
+                        notificationAlarmPhonecall("Hälytys tuli puheluna");
                     }
 
                 } else if(automaticOpen){
@@ -245,7 +244,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         }
                     }, 3000);
                 } else {
-                    createNotificationPuhelu("Hälytys tuli puheluna");
+                    notificationAlarmPhonecall("Hälytys tuli puheluna");
                 }
             } else {
                 //Log.e("IsItAlarmService", "onStartCommand stopSelf + startId: " + startId);
@@ -262,7 +261,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         boolean saveToOHTO = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (number != null && !number.isEmpty()) {
-                if (number.substring(0, 1).equals("O")) {
+                if (number.startsWith("O")) {
                     number = number.substring(1);
                     // this is OHTO alarm number, save to arraylist for later use.
                     saveToOHTO = true;
@@ -284,7 +283,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             return "99987654321";
         } else {
             if (number != null && !number.isEmpty()) {
-                if (number.substring(0, 1).equals("O")) {
+                if (number.startsWith("O")) {
                     number = number.substring(1);
                     // this is OHTO alarm number, save to arraylist for later use.
                     OHTOnumbers.add(number);
@@ -452,6 +451,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     for (String avainsana : sanat) {
                         if (avainsana.equals(avainsana1) || avainsana.equals(avainsana2) || avainsana.equals(avainsana3) || avainsana.equals(avainsana4) || avainsana.equals(avainsana5)) {
                             avainsanaTasmaa = true;
+                            break;
                         }
                     }
                     sanat.clear();
@@ -466,13 +466,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return (vuosiluku.length() < 4 || !vuosiluku.equals("2018")) && !vuosiluku.equals("2019") && !vuosiluku.equals("2020") && !vuosiluku.equals("2021") && !vuosiluku.equals("2022");
     }
 
-    void addressLookUp(String viesti, String timeStamp, String number) {
+    void addressLookUp(String message, String timeStamp, String number) {
 
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
 
         String osoite = "";
         //String[] palautus = new String[5];
-        int length = viesti.length();
+        int length = message.length();
         //int pituus = strings[0].length();
         int halytunnusSijainti = 0;
         int listaPaikka = 0;
@@ -491,13 +491,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         boolean osoitet = false;
 
         for (int o = 0; o <= length - 1; o++) {
-            viestiTeksti.append(viesti.charAt(o));
+            viestiTeksti.append(message.charAt(o));
         }
 
-        // Katkotaan viesti sanoihin
+        // Chop message to words
         for (int i = 0; i <= length - 1; i++) {
-            merkki = viesti.charAt(i);
-            // Katko sanat regex:in mukaan
+            merkki = message.charAt(i);
+            // Break words according regex
             if (Character.toString(merkki).matches("[.,/:; ]")) {
                 sanaYksin = sanatYksitellen.toString();
                 if (sanaYksin.length() >= 1 || sanaYksin.matches("[0-9]")) {
@@ -505,13 +505,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
                 sanatYksitellen.delete(0, sanatYksitellen.length());
             } else {
-                sanatYksitellen.append(viesti.charAt(i));
+                sanatYksitellen.append(message.charAt(i));
             }
         }
 
-        // Katkotaan viesti osiin puolipilkkujen mukaan
+        // Break message sentences
         for (int i = 0; i <= length - 1; i++) {
-            merkki = viesti.charAt(i);
+            merkki = message.charAt(i);
             // Katko sanat regex:in mukaan
             if (Character.toString(merkki).matches("[;]")) {
                 sana = viestinLauseet.toString();
@@ -520,7 +520,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
                 viestinLauseet.delete(0, viestinLauseet.length());
             } else {
-                viestinLauseet.append(viesti.charAt(i));
+                viestinLauseet.append(message.charAt(i));
             }
         }
 
@@ -552,9 +552,9 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             for (String valmisSana : sanatYksinaan) {
                 if (valmisSana.length() >= 3 && rajaapoisvuosiluvut(valmisSana)) {
                     //String osaSana = valmisSana.substring(0,3);
-                    if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.substring(0, 3).equals("H35")) {
+                    if (halytunnukset.contains(valmisSana.substring(0, 3)) || valmisSana.startsWith("H35")) {
 
-                        if (valmisSana.substring(0, 3).equals("H35")) {
+                        if (valmisSana.startsWith("H35")) {
                             valmisSana = "H351";
                             halytunnusSijainti = sanatYksinaan.indexOf(valmisSana);
                             listaPaikka = halytunnukset.indexOf("H351");
@@ -598,7 +598,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             if (fireAlarmLastEntry != null) {
                 if (fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
                     // Last alarm was OHTO or phonecall alarm. Make new alarm.
-                    FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                    FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                             osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
@@ -607,31 +607,31 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     if (calculateTimeDifference(fireAlarmLastEntry.getTimeStamp(), timeStamp)) {
                         String addMessage = fireAlarmLastEntry.getViesti();
                         addMessage += "\n" +
-                                "\n" + viesti;
+                                "\n" + message;
                         fireAlarmLastEntry.setViesti(addMessage);
                         fireAlarmRepository.update(fireAlarmLastEntry);
                     } else {
-                        FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                        FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                                 osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                         fireAlarmRepository.insert(fireAlarm);
                     }
                 }
             } else {
-                FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                         osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                 fireAlarmRepository.insert(fireAlarm);
             }
 
         } else if (sanatYksinaan.get(0).equals("PÄIVITYS")) {
-            // päivitysviesti, hae tiedot ja päivitä viesti
+            // päivitysviesti, hae tiedot ja päivitä message
             FireAlarm fireAlarmLastEntry = fireAlarmRepository.getLatest();
 
             if (fireAlarmLastEntry != null) {
                 if (fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
                     // Last alarm was OHTO or phonecall alarm. Make new alarm.
-                    FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                    FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                             osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
@@ -640,7 +640,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     if (calculateTimeDifference(fireAlarmLastEntry.getTimeStamp(), timeStamp)) {
                         String LastEntryViesti = fireAlarmLastEntry.getViesti();
                         LastEntryViesti += "\n" +
-                                "\n" + viesti;
+                                "\n" + message;
                         if (kiire) {
                             fireAlarmLastEntry.setLuokka(kiireellisyysLuokka.trim());
                         }
@@ -654,7 +654,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         fireAlarmRepository.update(fireAlarmLastEntry);
                     } else {
                         // Time difference over 30 minutes. Make new alarm.
-                        FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                        FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                                 osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                         fireAlarmRepository.insert(fireAlarm);
@@ -664,13 +664,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             } else {
                 // Last fireAlarm was empty, make new alarm.
-                FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+                FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                         osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
 
                 fireAlarmRepository.insert(fireAlarm);
             }
         } else {
-            FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), viesti,
+            FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                     osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
             fireAlarmRepository.insert(fireAlarm);
@@ -698,7 +698,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         return false;
     }
 
-    private void OHTOAlarm(String message, String timestamp, String number) {
+    private void saveOhtoAlarmToDatabase(String message, String timestamp, String number) {
         number = numberFormat(number);
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         FireAlarm fireAlarm = new FireAlarm("OHTO Hälytys", "", message,
@@ -707,27 +707,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         fireAlarmRepository.insert(fireAlarm);
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
-    public void startForeGround(String viesti) {
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {}
-        Notification.Builder builder = new Notification.Builder(this, "ACTIVE SERVICE")
-                .setContentTitle("VPK Apuri")
-                .setContentText(viesti)
-                .setAutoCancel(true);
 
-        Notification notification = builder.build();
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("ACTIVE SERVICE", "ACTIVE SERVICE", NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("VPK Apuri käynnissä.");
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-
-        startForeground(15, notification);
-    }
 
     @Override
     public void onDestroy() {
@@ -760,7 +740,32 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
-    public void createNotification(String viesti) {
+    @TargetApi(Build.VERSION_CODES.O)
+    public void startForegroundNotification(String message) {
+        Notification.Builder builder = new Notification.Builder(this, "ACTIVE SERVICE")
+                .setContentTitle("VPK Apuri")
+                .setContentText(message)
+                .setAutoCancel(true);
+
+        Notification notification = builder.build();
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("ACTIVE SERVICE", "ACTIVE SERVICE", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("VPK Apuri käynnissä.");
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+        startForeground(15, notification);
+    }
+
+    /**
+     * Creates notification that displays message in notification.
+     * Replaces foreground notification. Without foreground notification android shuts down service.
+     */
+    public void notificationAlarmMessage(String message) {
         Intent intentsms = new Intent(getApplicationContext(), AlarmActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
@@ -768,30 +773,40 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(intentsms);
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent stopAlarm = new Intent(this, StopIsItAlarmService.class);
         PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("HÄLYTYS")
-                .setContentText(viesti)
+                .setContentTitle(getString(R.string.alarm))
+                .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntentWithBackStack)
                 .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
-                //.setFullScreenIntent(pendingIntent, true) // AndroidQ fullScreenIntent testing. Launches immediately and stops alarmsounds.
-                //.setOngoing(true)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(IsItAlarmService.this);
-        notificationManager.notify(MY_ALARM_NOTIFICATION_ID, mBuilder.build());
+        Notification notification = mBuilder.build();
+        startForeground(MY_ALARM_NOTIFICATION_ID, notification);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            try {
+                notificationManager.cancel(15);
+            } catch (Exception e) {
+                Log.i("IsItAlarmService", "There was not notification to cancel.");
+            }
+        }
     }
 
-    public void createNotificationPuhelu(String viesti) {
+    /**
+     * Creates notification that displays message in notification.
+     * Replaces foreground notification. Without foreground notification android shuts down service.
+     */
+    public void notificationAlarmPhonecall(String message) {
         Intent intentsms = new Intent(IsItAlarmService.this, AlarmActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
@@ -799,15 +814,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(intentsms);
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        //PendingIntent pendingIntent = PendingIntent.getActivity(IsItAlarmService.this, 0, intentsms, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        //Intent stopAlarm = new Intent(this, StopIsItAlarmService.class);
-        //PendingIntent stop = PendingIntent.getBroadcast(this,(int) System.currentTimeMillis(), stopAlarm,PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("HÄLYTYS")
-                .setContentText(viesti)
+                .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntentWithBackStack)
@@ -817,11 +828,20 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 //.setOngoing(true)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(IsItAlarmService.this);
-        notificationManager.notify(MY_ALARM_NOTIFICATION_ID, mBuilder.build());
+        Notification notification = mBuilder.build();
+        startForeground(MY_ALARM_NOTIFICATION_ID, notification);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            try {
+                notificationManager.cancel(15);
+            } catch (Exception e) {
+                Log.i("IsItAlarmService", "There was not notification to cancel.");
+            }
+        }
     }
 
-    public void alarmSound(int startId) {
+    public void selectAlarmSound(int startId) {
 
         String alarms = sharedPreferences.getString("ringtone", null);
 
@@ -874,7 +894,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     return;
                 }
                 soundVolume = 10;
-                volume = saadaAani(soundVolume);
+                volume = adjustVolume(soundVolume);
                 if (audioManager != null) {
                     audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
                     mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -883,7 +903,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     mMediaPlayer.setLooping(true);
                     mMediaPlayer.prepareAsync();
                     if (tarina) {
-                        vibrate();
+                        selectVibratePattern();
                     }
                 }
             } else {
@@ -894,7 +914,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
                 soundVolume = 50;
                 soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
-                volume = saadaAani(soundVolume);
+                volume = adjustVolume(soundVolume);
                 if (audioManager != null) {
                     audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, 0);
                     mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -903,7 +923,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     mMediaPlayer.setLooping(true);
                     mMediaPlayer.prepareAsync();
                     if (tarina) {
-                        vibrate();
+                        selectVibratePattern();
                     }
                 }
             }
@@ -940,33 +960,33 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         Log.i(TAG, "Muisti alhainen");
     }
 
-    public int saadaAani(int voima) {
+    public int adjustVolume(int volume) {
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null) {
-            volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-            double aani = (double) volume / 100 * voima;
-            volume = (int) aani;
+            this.volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+            double aani = (double) this.volume / 100 * volume;
+            this.volume = (int) aani;
         }
 
-        if (volume == 0) {
+        if (this.volume == 0) {
             return 1;
-        } else if (volume == 1) {
+        } else if (this.volume == 1) {
             return 1;
-        } else if (volume == 2) {
+        } else if (this.volume == 2) {
             return 2;
-        } else if (volume == 3) {
+        } else if (this.volume == 3) {
             return 3;
-        } else if (volume == 4) {
+        } else if (this.volume == 4) {
             return 4;
-        } else if (volume == 5) {
+        } else if (this.volume == 5) {
             return 5;
-        } else if (volume == 6) {
+        } else if (this.volume == 6) {
             return 6;
-        } else if (volume == 7) {
+        } else if (this.volume == 7) {
             return 7;
         }
 
-        return volume;
+        return this.volume;
     }
 
     public void onPrepared(final MediaPlayer player) {
@@ -980,7 +1000,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         mediaplayerRunning = true;
     }
 
-    public void vibrate() {
+    public void selectVibratePattern() {
         if (Build.VERSION.SDK_INT >= 21) {
             viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             if (viber != null && viber.hasVibrator()) {

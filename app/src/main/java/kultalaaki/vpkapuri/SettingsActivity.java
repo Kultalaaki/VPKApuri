@@ -23,6 +23,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -319,6 +321,26 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
             bindPreferenceSummaryToValue(findPreference("ringtone"));
             bindPreferenceSummaryToValue(findPreference("stopTime"));
+            bindPreferenceSummaryToValue(findPreference("vibrate_pattern"));
+
+
+        }
+
+        public long[] genVibratorPattern( float intensity, long duration )
+        {
+            float dutyCycle = Math.abs( ( intensity * 2.0f ) - 1.0f );
+            long hWidth = (long) ( dutyCycle * ( duration - 1 ) ) + 1;
+            long lWidth = dutyCycle == 1.0f ? 0 : 1;
+
+            int pulseCount = (int) ( 2.0f * ( (float) duration / (float) ( hWidth + lWidth ) ) );
+            long[] pattern = new long[ pulseCount ];
+
+            for( int i = 0; i < pulseCount; i++ )
+            {
+                pattern[i] = intensity < 0.5f ? ( i % 2 == 0 ? hWidth : lWidth ) : ( i % 2 == 0 ? lWidth : hWidth );
+            }
+
+            return pattern;
         }
 
         @Override
@@ -327,6 +349,76 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // Set seekbar summary :
             //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
             //int rad = sharedPreferences.getInt("SEEKBAR_VALUE", 50);
+            if(key.equals("vibrate_pattern")) {
+                // Todo take vibration pattern value and vibrate pattern 2 times so user can decide
+                ListPreference vibratePattern = (ListPreference) findPreference("vibrate_pattern");
+                if(vibratePattern != null) {
+                    //CharSequence vibrateText = vibratePattern.getEntry();
+                    String vibrateValue = vibratePattern.getValue();
+                    if(Integer.parseInt(vibrateValue) == 0) {
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            Vibrator viber;
+                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            if (viber != null && viber.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                    long[] pattern = new long[]{0, 100, 20, 200, 300, 100, 20, 200, 300};
+                                    long[] pattern2 = genVibratorPattern(0.5f, 2000);
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern2, -1));
+                                } else {
+                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    viber.vibrate(pattern, -1);
+                                }
+                            }
+                        }
+                    } else if (Integer.parseInt(vibrateValue) == 1) {
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            Vibrator viber;
+                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            if (viber != null && viber.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                    long[] pattern = new long[]{50, 100, 50, 100, 50, 100, 50, 100};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                                } else {
+                                    long[] pattern = new long[]{50, 100, 50, 100, 50, 100, 50, 100};
+                                    viber.vibrate(pattern, -1);
+                                }
+                            }
+                        }
+                    } else if(Integer.parseInt(vibrateValue) == 2) {
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            Vibrator viber;
+                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            if (viber != null && viber.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                                } else {
+                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    viber.vibrate(pattern, -1);
+                                }
+                            }
+                        }
+                    } else if(Integer.parseInt(vibrateValue) == 3) {
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            Vibrator viber;
+                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            if (viber != null && viber.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= 26) {
+                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                                } else {
+                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    viber.vibrate(pattern, -1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             Activity activity = getActivity();
             if(activity != null) {
                 int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt("SEEKBAR_VALUE", 50);
