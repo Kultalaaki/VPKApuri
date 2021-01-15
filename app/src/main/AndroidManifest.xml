@@ -77,9 +77,6 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="007dd4b848f896a9127bfeb574670d75461a0ed2" />
 
         <activity
             android:name=".AlarmActivity"
