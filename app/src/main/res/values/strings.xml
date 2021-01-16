@@ -591,8 +591,8 @@
         <item>Pulse</item>
         <item>Hurry</item>
         <item>Slow</item>
-        <item>ADHD</item>
-        <item>Maniac</item>
+        <item>SOS</item>
+        <item>VIRVE</item>
     </string-array>
     <string-array name="vibratePatterns">
         <item>0</item>

@@ -343,6 +343,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return pattern;
         }
 
+
+
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
@@ -350,7 +352,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
             //int rad = sharedPreferences.getInt("SEEKBAR_VALUE", 50);
             if(key.equals("vibrate_pattern")) {
-                // Todo take vibration pattern value and vibrate pattern 2 times so user can decide
+
                 ListPreference vibratePattern = (ListPreference) findPreference("vibrate_pattern");
                 if(vibratePattern != null) {
                     //CharSequence vibrateText = vibratePattern.getEntry();
@@ -362,15 +364,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             if (viber != null && viber.hasVibrator()) {
                                 if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-
                                     // Pulse vibration
                                     long[] pattern = new long[]{0, 80, 80, 150, 1670};
                                     int[] amplitude = new int[]{0, 50, 10, 255, 0};
-                                    long[] pattern2 = genVibratorPattern(0.5f, 2000);
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, 0));
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
                                 } else {
-                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
-                                    viber.vibrate(pattern, -1);
+                                    long[] pattern = new long[]{0, 80, 80, 150, 1670};
+                                    viber.vibrate(pattern, 0);
                                 }
                             }
                         }
@@ -381,8 +381,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             if (viber != null && viber.hasVibrator()) {
                                 if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
+                                    // Hurry vibration
                                     long[] pattern = new long[]{50, 100, 50, 100, 50, 100, 50, 100};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                                    int[] amplitude = new int[]{0, 255, 100, 255, 0, 255, 100, 255};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
                                 } else {
                                     long[] pattern = new long[]{50, 100, 50, 100, 50, 100, 50, 100};
                                     viber.vibrate(pattern, -1);
@@ -396,10 +398,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             if (viber != null && viber.hasVibrator()) {
                                 if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                                    // Slow vibration
+                                    long[] pattern = new long[]{0, 800, 800, 800, 800, 800, 800};
+                                    int[] amplitude = new int[]{0, 50, 200, 50, 200, 50, 200};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
                                 } else {
-                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    long[] pattern = new long[]{0, 800, 800, 800, 800, 800, 800};
                                     viber.vibrate(pattern, -1);
                                 }
                             }
@@ -411,10 +415,29 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             if (viber != null && viber.hasVibrator()) {
                                 if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                                    // SOS vibration
+                                    long[] pattern = new long[]{0, 100, 50, 100, 50, 100, 300, 200, 50, 200, 50, 200, 300, 100, 50, 100, 50, 100, 1500};
+                                    int[] amplitude = new int[]{0, 150, 0, 150, 0, 150, 0, 200, 0, 200, 0, 200, 0, 150, 0, 150, 0, 150, 0};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
                                 } else {
-                                    long[] pattern = new long[]{0, 2000, 200, 2000, 200, 2000, 200, 2000};
+                                    long[] pattern = new long[]{0, 100, 50, 100, 50, 100, 300, 200, 50, 200, 50, 200, 300, 100, 50, 100, 50, 100, 1500};
+                                    viber.vibrate(pattern, -1);
+                                }
+                            }
+                        }
+                    } else if(Integer.parseInt(vibrateValue) == 4) {
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            Vibrator viber;
+                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            if (viber != null && viber.hasVibrator()) {
+                                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
+                                    // VIRVE vibration
+                                    long[] pattern = new long[]{0, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300};
+                                    int[] amplitude = new int[]{0, 150, 0, 150, 0, 255, 0, 255, 0, 180, 0, 180, 0, 100, 0, 100, 0};
+                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
+                                } else {
+                                    long[] pattern = new long[]{0, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300};
                                     viber.vibrate(pattern, -1);
                                 }
                             }
