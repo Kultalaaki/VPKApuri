@@ -60,6 +60,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     private boolean ringermodeSilent = false, ringermodeVibrate = false, ringermodeNormal = false;
     int streamRingVolume, streamMusicVolume, streamSystemVolume, streamDTMFVolume, streamNotificationVolume, streamAlarmVolume;
 
+    private AudioManager audioManager;
+
     PowerManager powerManager;
     PowerManager.WakeLock wakeLock;
 
@@ -109,6 +111,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String number = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             String timestamp = intent.getStringExtra("timestamp");
+
+            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
             puheluHaly = intent.getStringExtra("halytysaani");
             // if erica is false, it's OHTO alarm.
@@ -727,14 +731,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         halytekstit.clear();
         OHTOnumbers.clear();
 
-        final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        //final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {
             audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_DTMF, streamDTMFVolume, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, streamSystemVolume, 0);
+            // audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
+            // audioManager.setStreamVolume(AudioManager.STREAM_DTMF, streamDTMFVolume, 0);
+            // audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, streamSystemVolume, 0);
             if(ringermodeNormal) {
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 ringermodeNormal = false;
@@ -889,7 +893,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
 
             //int streamRingVolume, streamMusicVolume, streamSystemVolume, streamDTMFVolume, streamNotificationVolume;
-            final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            //final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             if (audioManager != null) {
                 streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
                 streamMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -902,7 +906,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     case AudioManager.RINGER_MODE_SILENT:
                         ringermodeSilent = true;
                         // Revert back to silent after alarm
-                    break;
+                        break;
                     case AudioManager.RINGER_MODE_VIBRATE:
                         // Revert back to vibrate after alarm
                         ringermodeVibrate = true;
@@ -912,16 +916,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         ringermodeNormal = true;
                         break;
                 }
-
-                audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
-                audioManager.setStreamVolume(AudioManager.STREAM_DTMF, 0, 0);
-                audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
-
-                // revertStreamRingVolume = streamRingVolume;
-
-
                 pitaaPalauttaa = true;
             }
 
@@ -1017,7 +1011,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public int adjustVolume(int volume) {
-        final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        //final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null) {
             this.volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
             double aani = (double) this.volume / 100 * volume;
@@ -1046,6 +1040,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void onPrepared(final MediaPlayer player) {
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+        // audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
+        // audioManager.setStreamVolume(AudioManager.STREAM_DTMF, 0, 0);
+        // audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
+
         Thread music = new Thread() {
             @Override
             public void run() {
