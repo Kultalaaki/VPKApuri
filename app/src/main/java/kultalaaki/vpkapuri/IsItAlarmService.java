@@ -885,7 +885,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             if (soundMode == 2) {
                 if (tarina) {
-                    vibrateSilent();
+                    //vibrateSilent();
+                    selectVibratePattern();
                 }
             } else if (soundMode == 3) {
                 //Yötila
