@@ -59,6 +59,7 @@
             android:title="Värinä" />
         <ListPreference
             android:key="vibrate_pattern"
+            android:defaultValue="0"
             android:dependency="varina"
             android:title="Värinäkuvio"
             android:summary="Valitse värinäkuvio eri vaihtoehdoista"

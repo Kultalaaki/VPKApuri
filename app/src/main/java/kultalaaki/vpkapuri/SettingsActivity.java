@@ -356,90 +356,34 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 ListPreference vibratePattern = (ListPreference) findPreference("vibrate_pattern");
                 if(vibratePattern != null) {
                     //CharSequence vibrateText = vibratePattern.getEntry();
-                    String vibrateValue = vibratePattern.getValue();
-                    if(Integer.parseInt(vibrateValue) == 0) {
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            Vibrator viber;
-                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                            if (viber != null && viber.hasVibrator()) {
-                                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    // Pulse vibration
-                                    long[] pattern = new long[]{0, 80, 80, 150, 1670};
-                                    int[] amplitude = new int[]{0, 50, 10, 255, 0};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
-                                } else {
-                                    long[] pattern = new long[]{0, 80, 80, 150, 1670};
-                                    viber.vibrate(pattern, 0);
-                                }
-                            }
-                        }
-                    } else if (Integer.parseInt(vibrateValue) == 1) {
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            Vibrator viber;
-                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                            if (viber != null && viber.hasVibrator()) {
-                                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    // Hurry vibration
-                                    long[] pattern = new long[]{50, 100, 50, 100, 50, 100, 50, 100};
-                                    int[] amplitude = new int[]{0, 255, 100, 255, 0, 255, 100, 255};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
-                                } else {
-                                    long[] pattern = new long[]{50, 100, 50, 100, 50, 100, 50, 100};
-                                    viber.vibrate(pattern, -1);
-                                }
-                            }
-                        }
-                    } else if(Integer.parseInt(vibrateValue) == 2) {
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            Vibrator viber;
-                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                            if (viber != null && viber.hasVibrator()) {
-                                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    // Slow vibration
-                                    long[] pattern = new long[]{0, 800, 800, 800, 800, 800, 800};
-                                    int[] amplitude = new int[]{0, 50, 200, 50, 200, 50, 200};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
-                                } else {
-                                    long[] pattern = new long[]{0, 800, 800, 800, 800, 800, 800};
-                                    viber.vibrate(pattern, -1);
-                                }
-                            }
-                        }
-                    } else if(Integer.parseInt(vibrateValue) == 3) {
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            Vibrator viber;
-                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                            if (viber != null && viber.hasVibrator()) {
-                                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    // SOS vibration
-                                    long[] pattern = new long[]{0, 100, 50, 100, 50, 100, 300, 200, 50, 200, 50, 200, 300, 100, 50, 100, 50, 100, 1500};
-                                    int[] amplitude = new int[]{0, 150, 0, 150, 0, 150, 0, 200, 0, 200, 0, 200, 0, 150, 0, 150, 0, 150, 0};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
-                                } else {
-                                    long[] pattern = new long[]{0, 100, 50, 100, 50, 100, 300, 200, 50, 200, 50, 200, 300, 100, 50, 100, 50, 100, 1500};
-                                    viber.vibrate(pattern, -1);
-                                }
-                            }
-                        }
-                    } else if(Integer.parseInt(vibrateValue) == 4) {
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            Vibrator viber;
-                            //viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                            if (viber != null && viber.hasVibrator()) {
-                                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                    // VIRVE vibration
-                                    long[] pattern = new long[]{0, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300};
-                                    int[] amplitude = new int[]{0, 150, 0, 150, 0, 255, 0, 255, 0, 180, 0, 180, 0, 100, 0, 100, 0};
-                                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
-                                } else {
-                                    long[] pattern = new long[]{0, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300, 100, 50, 100, 300};
-                                    viber.vibrate(pattern, -1);
-                                }
+                    //String vibrateValue = vibratePattern.getValue();
+                    int vibrateValue = Integer.parseInt(vibratePattern.getValue());
+                    long[] pattern = new long[]{};
+                    int[] amplitude = new int[]{};
+                    Vibrator viber;
+                    viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                    if(vibrateValue == 0) {
+                        pattern = FrontpageActivity.PULSE_PATTERN;
+                        amplitude = FrontpageActivity.PULSE_AMPLITUDE;
+                    } else if (vibrateValue == 1) {
+                        pattern = FrontpageActivity.HURRY_PATTERN;
+                        amplitude = FrontpageActivity.HURRY_AMPLITUDE;
+                    } else if(vibrateValue == 2) {
+                        pattern = FrontpageActivity.SLOW_PATTERN;
+                        amplitude = FrontpageActivity.SLOW_AMPLITUDE;
+                    } else if(vibrateValue == 3) {
+                        pattern = FrontpageActivity.SOS_PATTERN;
+                        amplitude = FrontpageActivity.SOS_AMPLITUDE;
+                    } else if(vibrateValue == 4) {
+                        pattern = FrontpageActivity.VIRVE_PATTERN;
+                        amplitude = FrontpageActivity.VIRVE_AMPLITUDE;
+                    }
+                    if(Build.VERSION.SDK_INT >= 21) {
+                        if(viber != null && viber.hasVibrator()) {
+                            if(Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
+                                viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
+                            } else {
+                                viber.vibrate(pattern, -1);
                             }
                         }
                     }
