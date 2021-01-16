@@ -786,7 +786,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setContentIntent(pendingIntentWithBackStack)
                 .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setDeleteIntent(stop)
+                //.setDeleteIntent(stop)
                 .setAutoCancel(true);
 
         Notification notification = mBuilder.build();
