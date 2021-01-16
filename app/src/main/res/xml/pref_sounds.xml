@@ -77,6 +77,11 @@
             android:title="Äänettömän läpi" />
         <SwitchPreference
             android:defaultValue="false"
+            android:key="throughVibrateMode"
+            android:summary="Laita tämä päälle jos haluat että hälytykset eivät tule värinätilan läpi."
+            android:title="Värinätilan läpi" />
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="puhelu"
             android:summary="Laita tämä päälle jos haluat käyttää sovelluksen ääniasetuksia myös puhelu hälytyksille. Muista myös Do Not Disturb asetus."
             android:title="Puhelu hälytys" />

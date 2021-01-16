@@ -52,11 +52,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>(), OHTOnumbers = new ArrayList<>();
     SharedPreferences sharedPreferences;
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
-    int soundVolume, volume, soundMode, revertSound, revertStreamAlarmVolume;
-    boolean tarina, automaticOpen, throughSilentMode, puhelu, pitaaPalauttaa = false, OHTO = false, ensivaste = false, alarmIsEnsivaste = false, puheluAani = false;
+    int soundVolume, volume, soundMode;
+    boolean isVibrateOn, automaticOpen, throughSilentMode, throughVibrateMode, puhelu, pitaaPalauttaa = false, OHTO = false, ensivaste = false, alarmIsEnsivaste = false, puheluAani = false;
     String puheluHaly = "false";
     static boolean erica;
     static boolean asemataulu;
+    private boolean ringermodeSilent = false, ringermodeVibrate = false, ringermodeNormal = false;
+    int streamRingVolume, streamMusicVolume, streamSystemVolume, streamDTMFVolume, streamNotificationVolume, streamAlarmVolume;
 
     PowerManager powerManager;
     PowerManager.WakeLock wakeLock;
@@ -727,8 +729,22 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {
-            audioManager.setStreamVolume(AudioManager.STREAM_RING, revertSound, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, revertStreamAlarmVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_DTMF, streamDTMFVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, streamSystemVolume, 0);
+            if(ringermodeNormal) {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                ringermodeNormal = false;
+            } else if(ringermodeVibrate) {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                ringermodeVibrate = false;
+            } else if(ringermodeSilent) {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                ringermodeSilent = false;
+            }
         }
         if (wakeLock != null) {
             try {
@@ -843,55 +859,91 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     public void selectAlarmSound(int startId) {
 
-        String alarms = sharedPreferences.getString("ringtone", null);
+        String ringtone = sharedPreferences.getString("ringtone", null);
 
         if (OHTO && !erica) {
-            alarms = sharedPreferences.getString("ringtoneOHTO", null);
+            ringtone = sharedPreferences.getString("ringtoneOHTO", null);
         } else if (alarmIsEnsivaste) {
-            alarms = sharedPreferences.getString("ringtoneEnsivaste", null);
+            ringtone = sharedPreferences.getString("ringtoneEnsivaste", null);
         } else if (puheluAani) {
-            alarms = sharedPreferences.getString("ringtonePuhelu", null);
+            ringtone = sharedPreferences.getString("ringtonePuhelu", null);
         }
 
         soundMode = sharedPreferences.getInt("aaneton_profiili", -1);
-        if (alarms != null) {
-            Uri uri = Uri.parse(alarms);
-            //Toast.makeText(aktiivinenHaly.this, " " + uri, Toast.LENGTH_LONG).show();
-            playSound2(IsItAlarmService.this, uri, startId);
+        if (ringtone != null) {
+            Uri uri = Uri.parse(ringtone);
+            checkParametersBeforePlayingAlarmsound(IsItAlarmService.this, uri, startId);
         } else {
             Uri uri = Uri.parse("android.resource://kultalaaki.vpkapuri/" + R.raw.virve);
-            playSound2(IsItAlarmService.this, uri, startId);
+            checkParametersBeforePlayingAlarmsound(IsItAlarmService.this, uri, startId);
         }
     }
 
-    private void playSound2(Context context, Uri alert, int startId) {
+    private void checkParametersBeforePlayingAlarmsound(Context context, Uri alert, int startId) {
         mMediaPlayer = new MediaPlayer();
         try {
             mMediaPlayer.setDataSource(context, alert);
-            final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            tarina = sharedPreferences.getBoolean("varina", true);
+            isVibrateOn = sharedPreferences.getBoolean("varina", true);
             throughSilentMode = sharedPreferences.getBoolean("throughSilentMode", false);
+            throughVibrateMode = sharedPreferences.getBoolean("throughVibrateMode", false);
             soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
-            int checkVolume = -1;
 
+            //int streamRingVolume, streamMusicVolume, streamSystemVolume, streamDTMFVolume, streamNotificationVolume;
+            final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             if (audioManager != null) {
-                checkVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-                revertStreamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-                revertSound = checkVolume;
+                streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+                streamMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                streamSystemVolume = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
+                streamDTMFVolume = audioManager.getStreamVolume(AudioManager.STREAM_DTMF);
+                streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
+                streamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+
+                switch (audioManager.getRingerMode()) {
+                    case AudioManager.RINGER_MODE_SILENT:
+                        ringermodeSilent = true;
+                        // Revert back to silent after alarm
+                    break;
+                    case AudioManager.RINGER_MODE_VIBRATE:
+                        // Revert back to vibrate after alarm
+                        ringermodeVibrate = true;
+                        break;
+                    case AudioManager.RINGER_MODE_NORMAL:
+                        // Revert back to normal after alarm
+                        ringermodeNormal = true;
+                        break;
+                }
 
                 audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
+                audioManager.setStreamVolume(AudioManager.STREAM_DTMF, 0, 0);
+                audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
+
+                // revertStreamRingVolume = streamRingVolume;
+
+
                 pitaaPalauttaa = true;
             }
 
             if (soundMode == 2) {
-                if (tarina) {
-                    //vibrateSilent();
-                    selectVibratePattern();
+                // Äänetön tila
+                if (throughSilentMode && ringermodeSilent) {
+                    // ei saa tulla äänettömän läpi
+                    return;
+                } else if(throughVibrateMode && ringermodeVibrate) {
+                    // ei saa tulla äänettömän läpi
+                    return;
+                }
+                if (isVibrateOn) {
+                    vibrate();
                 }
             } else if (soundMode == 3) {
                 //Yötila
-                if (throughSilentMode && checkVolume == 0) {
+                if (throughSilentMode && ringermodeSilent) {
                     // ei saa tulla äänettömän läpi
+                    return;
+                } else if(throughVibrateMode && ringermodeVibrate) {
+                    // ei saa tulla värinätilan läpi
                     return;
                 }
                 soundVolume = 10;
@@ -903,14 +955,17 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     mMediaPlayer.setOnPreparedListener(this);
                     mMediaPlayer.setLooping(true);
                     mMediaPlayer.prepareAsync();
-                    if (tarina) {
-                        selectVibratePattern();
+                    if (isVibrateOn) {
+                        vibrate();
                     }
                 }
             } else {
                 // Normaali
-                if (throughSilentMode && checkVolume == 0) {
+                if (throughSilentMode && ringermodeSilent) {
                     // ei saa tulla äänettömän läpi
+                    return;
+                } else if(throughVibrateMode && ringermodeVibrate) {
+                    // ei saa tulla värinätilan läpi
                     return;
                 }
                 soundVolume = 50;
@@ -923,8 +978,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     mMediaPlayer.setOnPreparedListener(this);
                     mMediaPlayer.setLooping(true);
                     mMediaPlayer.prepareAsync();
-                    if (tarina) {
-                        selectVibratePattern();
+                    if (isVibrateOn) {
+                        vibrate();
                     }
                 }
             }
@@ -1001,28 +1056,23 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         mediaplayerRunning = true;
     }
 
-    public void selectVibratePattern() {
+    public void vibrate() {
         int vibratePatternValue = Integer.parseInt(sharedPreferences.getString("vibrate_pattern", null));
         long[] pattern = new long[]{};
         int[] amplitude = new int[]{};
         if(vibratePatternValue == 0) {
-            // Pulse pattern
             pattern = FrontpageActivity.PULSE_PATTERN;
             amplitude = FrontpageActivity.PULSE_AMPLITUDE;
         } else if(vibratePatternValue == 1) {
-            // Hurry pattern
             pattern = FrontpageActivity.HURRY_PATTERN;
             amplitude = FrontpageActivity.HURRY_AMPLITUDE;
         } else if(vibratePatternValue == 2) {
-            // Slow pattern
             pattern = FrontpageActivity.SLOW_PATTERN;
             amplitude = FrontpageActivity.SLOW_AMPLITUDE;
         } else if(vibratePatternValue == 3) {
-            // SOS pattern
             pattern = FrontpageActivity.SOS_PATTERN;
             amplitude = FrontpageActivity.SOS_AMPLITUDE;
         } else if(vibratePatternValue == 4) {
-            // VIRVE pattern
             pattern = FrontpageActivity.VIRVE_PATTERN;
             amplitude = FrontpageActivity.VIRVE_AMPLITUDE;
         }
@@ -1033,7 +1083,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
                     viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, 0));
                 } else {
-                    viber.vibrate(pattern, 5);
+                    viber.vibrate(pattern, 0);
                 }
             }
         }
