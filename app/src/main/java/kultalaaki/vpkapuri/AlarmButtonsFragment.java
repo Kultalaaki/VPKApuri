@@ -319,7 +319,7 @@ public class AlarmButtonsFragment extends Fragment {
                     whatsapptxt.setType("text/plain");
                     whatsapptxt.setPackage("com.whatsapp");
                     startActivity(whatsapptxt);*/
-                } else if(smsnumero != null && smsnumero.equals("valitse")) {
+                } else if(smsnumero10 != null && smsnumero10.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenmintxt);
                 } else {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -355,7 +355,7 @@ public class AlarmButtonsFragment extends Fragment {
                     whatsapptxt.setType("text/plain");
                     whatsapptxt.setPackage("com.whatsapp");
                     startActivity(whatsapptxt);*/
-                } else if(smsnumero != null && smsnumero.equals("valitse")) {
+                } else if(smsnumero11 != null && smsnumero11.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenplusmintxt);
                 } else {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
