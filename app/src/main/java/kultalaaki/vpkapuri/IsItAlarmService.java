@@ -1061,20 +1061,20 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         long[] pattern = new long[]{};
         int[] amplitude = new int[]{};
         if(vibratePatternValue == 0) {
-            pattern = FrontpageActivity.PULSE_PATTERN;
-            amplitude = FrontpageActivity.PULSE_AMPLITUDE;
+            pattern = Constants.PULSE_PATTERN;
+            amplitude = Constants.PULSE_AMPLITUDE;
         } else if(vibratePatternValue == 1) {
-            pattern = FrontpageActivity.HURRY_PATTERN;
-            amplitude = FrontpageActivity.HURRY_AMPLITUDE;
+            pattern = Constants.HURRY_PATTERN;
+            amplitude = Constants.HURRY_AMPLITUDE;
         } else if(vibratePatternValue == 2) {
-            pattern = FrontpageActivity.SLOW_PATTERN;
-            amplitude = FrontpageActivity.SLOW_AMPLITUDE;
+            pattern = Constants.SLOW_PATTERN;
+            amplitude = Constants.SLOW_AMPLITUDE;
         } else if(vibratePatternValue == 3) {
-            pattern = FrontpageActivity.SOS_PATTERN;
-            amplitude = FrontpageActivity.SOS_AMPLITUDE;
+            pattern = Constants.SOS_PATTERN;
+            amplitude = Constants.SOS_AMPLITUDE;
         } else if(vibratePatternValue == 4) {
-            pattern = FrontpageActivity.VIRVE_PATTERN;
-            amplitude = FrontpageActivity.VIRVE_AMPLITUDE;
+            pattern = Constants.VIRVE_PATTERN;
+            amplitude = Constants.VIRVE_AMPLITUDE;
         }
 
         if (Build.VERSION.SDK_INT >= 21) {
