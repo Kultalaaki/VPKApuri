@@ -585,6 +585,7 @@
     <string name="l_het">Lähetä</string>
     <string name="tyhjenn_lista">Tyhjennä lista</string>
     <string name="alarm">HÄLYTYS</string>
+    <string name="tokeva">TOKEVA</string>
 
     <!--Vibrate patterns-->
     <string-array name="vibrate">

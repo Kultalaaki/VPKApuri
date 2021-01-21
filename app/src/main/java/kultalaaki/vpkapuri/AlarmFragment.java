@@ -50,6 +50,7 @@ public class AlarmFragment extends Fragment {
     private Chronometer chronometer;
     private boolean chronoInUse;
     private String alarmCounterTime, chronometerStartTimeString;
+    private AudioManager audioManager;
 
     private Listener mCallback;
 
@@ -75,6 +76,7 @@ public class AlarmFragment extends Fragment {
                 alarmCounterTime = "20";
             }
         }
+        audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
     }
 
     public interface Listener {
@@ -90,7 +92,7 @@ public class AlarmFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mCallback = (Listener) context;
@@ -221,17 +223,16 @@ public class AlarmFragment extends Fragment {
     private void txtToSpeechVolume() {
         Context ctx = getActivity();
         if (ctx != null) {
-            AudioManager ad = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
-            if (ad != null) {
-                palautaMediaVol = ad.getStreamVolume(AudioManager.STREAM_MUSIC);
+            if (audioManager != null) {
+                palautaMediaVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 palautaMediaVolBoolean = true;
-                ad.setStreamVolume(AudioManager.STREAM_MUSIC, 4, 0);
+                // audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 4, 0);
                 // teksti puheeksi äänenvoimakkuus
                 try {
                     SharedPreferences prefe_general = PreferenceManager.getDefaultSharedPreferences(ctx);
                     tekstiPuheeksiVol = prefe_general.getInt("tekstiPuheeksiVol", -1);
                     tekstiPuheeksiVol = saadaAani(tekstiPuheeksiVol);
-                    ad.setStreamVolume(AudioManager.STREAM_MUSIC, tekstiPuheeksiVol, 0);
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, tekstiPuheeksiVol, 0);
                     puhu();
                 } catch (Exception e) {
                     Log.i("VPK Apuri", "Teksti puheeksi äänenvoimakkuuden lukeminen asetuksista epäonnistui.");
@@ -243,7 +244,7 @@ public class AlarmFragment extends Fragment {
     private int saadaAani(int voima) {
         Context ctx = getActivity();
         if (ctx != null) {
-            final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
+            //final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
             if (audioManager != null) {
                 tekstiPuheeksiVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
                 double aani = (double) tekstiPuheeksiVol / 100 * voima;
@@ -293,9 +294,7 @@ public class AlarmFragment extends Fragment {
     void lopetaPuhe() {
         Context ctx = getActivity();
         if (ctx != null) {
-            AudioManager ad = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
-            if (ad != null) {
-                ad.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+            if (audioManager != null) {
                 if (t1 != null) {
                     t1.stop();
                     t1.shutdown();
@@ -325,11 +324,11 @@ public class AlarmFragment extends Fragment {
         if (palautaMediaVolBoolean) {
             Context ctx = getActivity();
             if (ctx != null) {
-                AudioManager ad = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
-                if (ad != null) {
-                    ad.setStreamVolume(AudioManager.STREAM_MUSIC, palautaMediaVol, 0);
+                if (audioManager != null) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, palautaMediaVol, 0);
                 }
             }
+            palautaMediaVolBoolean = false;
         }
         preferences.edit().putBoolean("HalytysOpen", false).commit();
     }

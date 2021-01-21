@@ -99,7 +99,7 @@ public class StationboardButtonsFragment extends Fragment {
         kameraKortti = view.findViewById(R.id.cameraCard);
         responderKortti = view.findViewById(R.id.responderCard);
         manpowerCard = view.findViewById(R.id.manpowerCard);
-        manpowerCard.setVisibility(View.INVISIBLE);
+        //manpowerCard.setVisibility(View.INVISIBLE);
         osoite = view.findViewById(R.id.osoiteteksti);
     }
 
@@ -172,13 +172,16 @@ public class StationboardButtonsFragment extends Fragment {
             }
         });
 
-        /*manpowerCard.setOnClickListener(new View.OnClickListener() {
+        manpowerCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.loadManpowerFragment();
-                Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
+                //mListener.loadManpowerFragment();
+                //Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
+                Intent tokeva = new Intent(Intent.ACTION_VIEW);
+                tokeva.setData(Uri.parse("https://tokeva.fi/#/tervetuloa"));
+                startActivity(tokeva);
             }
-        });*/
+        });
     }
 
     @Override

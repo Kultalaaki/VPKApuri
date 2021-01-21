@@ -168,7 +168,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_computer_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/snap/android-studio/99/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/table_chart/baseline_table_chart_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -179,8 +179,8 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_asemataulu" />
-                            <entry key="sourceFile" value="C:\Users\kulta" />
+                            <entry key="outputName" value="ic_tokeva" />
+                            <entry key="sourceFile" value="$USER_HOME$/C:\Users\kulta" />
                           </map>
                         </option>
                       </PersistentState>
