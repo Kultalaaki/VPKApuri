@@ -745,7 +745,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 ringermodeSilent = false;
             }
 
-            audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
+            // audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
@@ -934,7 +934,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     // ei saa tulla äänettömän läpi
                     return;
                 } else if(throughVibrateMode && ringermodeVibrate) {
-                    // ei saa tulla äänettömän läpi
+                    // ei saa tulla värinän läpi
                     return;
                 }
                 if (isVibrateOn) {
