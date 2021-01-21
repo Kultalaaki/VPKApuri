@@ -736,6 +736,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             if(ringermodeNormal) {
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
+                audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
                 ringermodeNormal = false;
             } else if(ringermodeVibrate) {
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
@@ -748,7 +750,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             // audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
 
             pitaaPalauttaa = false;
         }
@@ -897,9 +898,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             //int streamRingVolume, streamMusicVolume, streamSystemVolume, streamDTMFVolume, streamNotificationVolume;
             //final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             if (audioManager != null) {
-                streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+
                 streamMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
                 streamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
 
                 switch (audioManager.getRingerMode()) {
@@ -913,6 +913,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         break;
                     case AudioManager.RINGER_MODE_NORMAL:
                         // Revert back to normal after alarm
+                        streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+                        streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
                         ringermodeNormal = true;
                         break;
                 }
