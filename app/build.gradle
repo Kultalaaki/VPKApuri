@@ -18,7 +18,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         multiDexEnabled true
-        versionCode 114 // Update just before pushing update 107 is live
+        versionCode 107 // Update just before pushing update 107 is live
         versionName "3.71" // Update just before pushing update 3.7 is live
     }
     buildTypes {

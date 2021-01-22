@@ -1,37 +1,29 @@
 <!--
-  ~ Created by Kultala Aki on 10.7.2019 23:01
-  ~ Copyright (c) 2019. All rights reserved.
-  ~ Last modified 10.7.2019 23:00
+  ~ Created by Kultala Aki on 1/23/21 9:19 AM
+  ~ Copyright (c) 2021. All rights reserved.
+  ~ Last modified 1/23/21 9:08 AM
   -->
-
+<!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!--FrontpageActivity-->
-    <string name="action_halytys">HÄLYTYS</string>
-    <string name="action_arkisto">ARKISTO</string>
-    <string name="action_ohjeet">OHJEET</string>
-    <string name="action_asetukset">ASETUKSET</string>
-    <string name="second">Osoitehaku</string>
-    <string name="soita_lahto">Lähtöilmoitus</string>
-    <string name="allefive">Alle 5</string>
-    <string name="alleten">Alle 10</string>
-    <string name="plusten">Yli 10</string>
-    <string name="etsiarkistosta">Etsi arkistosta</string>
-    <string name="etsitunnuksella">Etsi tunnuksella</string>
-    <string name="etsiosoitteella">Etsi osoitteella</string>
-    <string name="etsitekstista">Etsi tekstista</string>
-    <string name="etsi">Etsi</string>
-    <string name="naytakaikki">Näytä kaikki</string>
-    <string name="tarkista_asetukset">Tarkista asetukset</string>
-    <string name="tarkistaAsetukset">Tarkista asetukset!\n\n
-        Täältä näet onko sovelluksella kaikki tarvittavat luvat.\n
-        Täältä näet myös onko kaikki asetukset oikein laitettu.\n
-    </string>
 
     <!--Mitä uutta-->
     <string name="onlyNewest">
         UUSIN VERSIO!\n\n
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
+
+        <u><b>Versio ???</b></u>\n\n
+
+        Asemataulu käytössä Tokevan pikakäynnistys lisätty, aukeaa nettiselaimeen.\n\n
+
+        Pikailmoitusten vastausvaihtoehtoihin lisätty mahdollisuus lähettää valitsemallaan sovelluksella ilmoittautumisviestit.\n
+        Korjattu: äänienhallinta hälytyksen tullessa saattoi jättää sovelluksen äänettömälle tai värinälle riippuen missä tilassa puhelin oli ennen hälytystä.\n
+        Ääniasetuksiin lisätty värinäkuviot:\n
+        - Pulse\n
+        - Hurry\n
+        - PiiPaa\n
+        - SOS\n
+        - VIRVE\n\n
 
         <u><b>Versio 3.7</b></u>\n\n
         Android 10 korjaus:\n
@@ -372,6 +364,14 @@
     </string>
     <string name="ohjeetWhatsapp" tools:ignore="Typos">
         \n\n
+
+        Sms ilmoitusnumero kohtaan asetuksissa voi kirjoittaa "valitse" jolloin pikaviesti painikkeista hälytyssivulla voit lähettää ilmoittautumisesi valitsemasi sovelluksen kautta.
+        Ensimmäisellä kerralla puhelin kysyy mitä sovellusta käytetään toiminnon suorittamiseen, valitse sovellus ja valitse käytetäänkö kerran vai aina. Jos tätä valintaa haluaa
+        vaihtaa niin pitää mennä puhelimen sovellus asetuksiin ja poistaa oletukset VPK Apurin kohdalta.
+        Painikkeiden tekstit asetetaan myöskin asetuksissa niille varattuihin kohtiin. Nämä tekstit tulevat automaattisesti valitsemasi sovelluksen puolelle.
+        Kun olet painanut <font color="#00FF00">SMS VIHREÄ</font>, <font color="#FFFF00">SMS KELTAINEN</font> tai <font color="#FF0000">SMS PUNAINEN</font>
+        painiketta, aukeaa valitsemasi sovellus josta pitää vielä valita yhteystieto/ryhmä jolle jaetaan.\n\n
+
         Sms ilmoitusnumero kohtaan asetuksissa voi kirjoittaa "whatsapp" jolloin pikaviesti painikkeista hälytyssivulla voit lähettää ilmoittautumisesi whatsapp:n kautta.
         Painikkeiden tekstit asetetaan myöskin asetuksissa niille varattuihin kohtiin. Nämä tekstit tulevat automaattisesti whatsapp:n puolelle.
         Kun olet painanut <font color="#00FF00">SMS VIHREÄ</font>, <font color="#FFFF00">SMS KELTAINEN</font> tai <font color="#FF0000">SMS PUNAINEN</font>
@@ -401,6 +401,28 @@
         Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa hälytykseen lähtemistä ja lisätä tilannetietoisuutta
         näyttämällä tekstiselvennys hälytysluokalle.
         Palautetta voit laittaa sähköpostiin: info@vpkapuri.fi tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
+    </string>
+
+    <!--FrontpageActivity-->
+    <string name="action_halytys">HÄLYTYS</string>
+    <string name="action_arkisto">ARKISTO</string>
+    <string name="action_ohjeet">OHJEET</string>
+    <string name="action_asetukset">ASETUKSET</string>
+    <string name="second">Osoitehaku</string>
+    <string name="soita_lahto">Lähtöilmoitus</string>
+    <string name="allefive">Alle 5</string>
+    <string name="alleten">Alle 10</string>
+    <string name="plusten">Yli 10</string>
+    <string name="etsiarkistosta">Etsi arkistosta</string>
+    <string name="etsitunnuksella">Etsi tunnuksella</string>
+    <string name="etsiosoitteella">Etsi osoitteella</string>
+    <string name="etsitekstista">Etsi tekstista</string>
+    <string name="etsi">Etsi</string>
+    <string name="naytakaikki">Näytä kaikki</string>
+    <string name="tarkista_asetukset">Tarkista asetukset</string>
+    <string name="tarkistaAsetukset">Tarkista asetukset!\n\n
+        Täältä näet onko sovelluksella kaikki tarvittavat luvat.\n
+        Täältä näet myös onko kaikki asetukset oikein laitettu.\n
     </string>
 
     <!-- Example General settings -->
@@ -534,7 +556,7 @@
     <string name="h_lytys">Hälytys</string>
     <string name="asetukset">Asetukset</string>
     <string name="arkisto">Arkisto</string>
-    <string name="whatsapp">Whatsapp</string>
+    <string name="whatsapp">Pikailmoitus</string>
     <string name="yleist">Yleistä</string>
     <string name="hiljenna_halytys">HILJENNÄ HÄLYTYS</string>
     <string name="hiljenna_puhe">HILJENNÄ PUHE</string>
@@ -560,7 +582,6 @@
     <string name="ajastimen_nimi">Ajastimen nimi</string>
     <string name="_00">00</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tietosuojaLink"><a href="https://github.com/Kultalaaki/VPKApuri">Tietosuoja</a></string>
     <string name="k_ytt_ehdotLink"><a href="https://github.com/Kultalaaki/VPKApuri">Käyttöehdot</a></string>
@@ -591,7 +612,7 @@
     <string-array name="vibrate">
         <item>Pulse</item>
         <item>Hurry</item>
-        <item>Slow</item>
+        <item>PiiPaa</item>
         <item>SOS</item>
         <item>VIRVE</item>
     </string-array>

@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 10.7.2019 23:00
+ * Created by Kultala Aki on 1/23/21 9:19 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 1/23/21 9:19 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -734,15 +734,24 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         //final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {
 
-            if(ringermodeNormal) {
+            if (ringermodeNormal) {
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
                 audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
                 ringermodeNormal = false;
+            } else if (ringermodeVibrate) {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                ringermodeVibrate = false;
+            } else if (ringermodeSilent) {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                ringermodeSilent = false;
             }
 
+            // audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
-            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
+
+            Log.i("Sounds", "ARing:" + streamRingVolume + " ANotif:" + streamNotificationVolume + " AMusic:" + streamMusicVolume + " AAlarm:" + streamAlarmVolume);
 
             pitaaPalauttaa = false;
         }
@@ -754,6 +763,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
 
         }
+        Log.i("Sounds", "Destroyed");
+
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -892,17 +903,34 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 streamMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 streamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-                streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
 
-                // Set phone to silent, store volumes that need to be set back after alarm
-                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                    streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-                    ringermodeNormal = true;
+
+                switch (audioManager.getRingerMode()) {
+                    case AudioManager.RINGER_MODE_SILENT:
+                        ringermodeSilent = true;
+                        //
+                        break;
+                    case AudioManager.RINGER_MODE_VIBRATE:
+                        //
+                        ringermodeVibrate = true;
+                        break;
+                    case AudioManager.RINGER_MODE_NORMAL:
+                        // Set phone to silent, store volumes that need to be set back after alarm
+                        streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
+                        streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+
+                        audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
+                        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                        ringermodeNormal = true;
+                        break;
                 }
 
+
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
+                Log.i("Sounds", "BRing:" + streamRingVolume + " BNotif:" + streamNotificationVolume + " BMusic:" + streamMusicVolume + " BAlarm:" + streamAlarmVolume);
+                // audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
+                // audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
+                // audioManager.setStreamVolume(AudioManager.STREAM_DTMF, 0, 0);
 
                 pitaaPalauttaa = true;
             }
