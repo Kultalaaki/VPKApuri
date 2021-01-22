@@ -736,20 +736,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             if(ringermodeNormal) {
                 audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
                 audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
                 ringermodeNormal = false;
-            } else if(ringermodeVibrate) {
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-                ringermodeVibrate = false;
-            } else if(ringermodeSilent) {
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                ringermodeSilent = false;
             }
 
-            // audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
+            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, streamNotificationVolume, 0);
 
             pitaaPalauttaa = false;
         }
@@ -895,36 +888,20 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             throughVibrateMode = sharedPreferences.getBoolean("throughVibrateMode", false);
             soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
 
-            //int streamRingVolume, streamMusicVolume, streamSystemVolume, streamDTMFVolume, streamNotificationVolume;
-            //final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             if (audioManager != null) {
 
                 streamMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 streamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+                streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
 
-                switch (audioManager.getRingerMode()) {
-                    case AudioManager.RINGER_MODE_SILENT:
-                        ringermodeSilent = true;
-                        // Revert back to silent after alarm
-                        break;
-                    case AudioManager.RINGER_MODE_VIBRATE:
-                        // Revert back to vibrate after alarm
-                        ringermodeVibrate = true;
-                        break;
-                    case AudioManager.RINGER_MODE_NORMAL:
-                        // Revert back to normal after alarm
-                        streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-                        streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
-                        ringermodeNormal = true;
-                        break;
+                // Set phone to silent, store volumes that need to be set back after alarm
+                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                    streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+                    ringermodeNormal = true;
                 }
 
-                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-
-                // audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                // audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
-                // audioManager.setStreamVolume(AudioManager.STREAM_DTMF, 0, 0);
                 audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
 
                 pitaaPalauttaa = true;
@@ -1063,7 +1040,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
     public void vibrate() {
-        int vibratePatternValue = Integer.parseInt(sharedPreferences.getString("vibrate_pattern", null));
+        String vibrateValue = sharedPreferences.getString("vibrate_pattern", null);
+        int vibratePatternValue = 0;
+        if(vibrateValue != null) {
+            vibratePatternValue = Integer.parseInt(vibrateValue);
+        }
+
         long[] pattern = new long[]{};
         int[] amplitude = new int[]{};
         if(vibratePatternValue == 0) {
