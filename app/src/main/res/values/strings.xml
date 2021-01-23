@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 1/23/21 9:19 AM
+  ~ Created by Kultala Aki on 1/23/21 9:41 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/23/21 9:08 AM
+  ~ Last modified 1/23/21 9:25 AM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -24,6 +24,8 @@
         - PiiPaa\n
         - SOS\n
         - VIRVE\n\n
+
+        + muita pieniä korjauksia\n\n
 
         <u><b>Versio 3.7</b></u>\n\n
         Android 10 korjaus:\n

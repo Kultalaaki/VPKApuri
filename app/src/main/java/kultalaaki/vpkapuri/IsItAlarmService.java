@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/23/21 9:19 AM
+ * Created by Kultala Aki on 1/23/21 9:41 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/23/21 9:19 AM
+ * Last modified 1/23/21 9:39 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -731,7 +731,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         halytekstit.clear();
         OHTOnumbers.clear();
 
-        //final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null && pitaaPalauttaa) {
 
             if (ringermodeNormal) {
@@ -747,11 +746,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 ringermodeSilent = false;
             }
 
-            // audioManager.setStreamVolume(AudioManager.STREAM_RING, streamRingVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_ALARM, streamAlarmVolume, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicVolume, 0);
-
-            Log.i("Sounds", "ARing:" + streamRingVolume + " ANotif:" + streamNotificationVolume + " AMusic:" + streamMusicVolume + " AAlarm:" + streamAlarmVolume);
 
             pitaaPalauttaa = false;
         }
@@ -925,12 +921,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         break;
                 }
 
-
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                Log.i("Sounds", "BRing:" + streamRingVolume + " BNotif:" + streamNotificationVolume + " BMusic:" + streamMusicVolume + " BAlarm:" + streamAlarmVolume);
-                // audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
-                // audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
-                // audioManager.setStreamVolume(AudioManager.STREAM_DTMF, 0, 0);
 
                 pitaaPalauttaa = true;
             }
