@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/24/21 11:07 AM
+ * Created by Kultala Aki on 1/24/21 2:07 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/24/21 11:04 AM
+ * Last modified 1/24/21 1:14 PM
  */
 
 apply plugin: 'com.android.application'
@@ -74,7 +74,7 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
-    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-analytics:18.0.1'
     //implementation 'com.google.firebase:firebase-core:18.0.0'
     //implementation 'com.google.firebase:firebase-messaging:21.0.1'
 

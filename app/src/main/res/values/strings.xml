@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 1/24/21 12:40 PM
+  ~ Created by Kultala Aki on 1/24/21 1:08 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/24/21 12:40 PM
+  ~ Last modified 1/24/21 1:07 PM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -409,7 +409,7 @@
 
         Tämä sovellus on kehityksen alla ja käyttäjiltä otetaan vastaan palautetta. Sovelluksen tarkoitus on nopeuttaa hälytykseen lähtemistä ja lisätä tilannetietoisuutta
         näyttämällä tekstiselvennys hälytysluokalle.
-        Palautetta voit laittaa sähköpostiin: info@vpkapuri.fi tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
+        Palautetta voit laittaa sähköpostiin: kultalaaki@gmail.com tai voit laittaa palautetta myös facebookin kautta www.facebook.com/VPKApuri/.\n\n
     </string>
 
     <!--FrontpageActivity-->
