@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 1/23/21 9:41 AM
+  ~ Created by Kultala Aki on 1/24/21 11:07 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/23/21 9:25 AM
+  ~ Last modified 1/24/21 11:06 AM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -12,7 +12,7 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
-        <u><b>Versio ???</b></u>\n\n
+        <u><b>Versio 3.8</b></u>\n\n
 
         Asemataulu käytössä Tokevan pikakäynnistys lisätty, aukeaa nettiselaimeen.\n\n
 
@@ -30,22 +30,25 @@
         <u><b>Versio 3.7</b></u>\n\n
         Android 10 korjaus:\n
         Automaattinen aikaisu ei toimi ilman taustalta toimivan aukaisun lupaa. Luvan voi antaa asetuksista Akun optimointi asetuksen alapuolelta.\n\n
-
-        <u><b>Versio 3.6</b></u>\n\n
-        Asemataulu:\n
-        - Jäsenien määrä nostettu 40 -> 50.\n
-        - Ääniasetuksien lisäasetuksista voi kytkeä hälytysäänen päälle.\n
-        - Jäsenien ilmoittautumista korjattu. Saman jäsenen lähettämä uusi viesti päivittää edellisen ilmoituksen viestikentän.\n
-        - Jos lähettää vahingossa ilmoittautumisen eikä pääse lähtemään, voi ilmoituksen perua lähettämällä viestin: Peruutus\n
-        - Ohjeet asemataulun osalta lisätty ohjeet sivulle HÄLYTYS otsikon alle.\n\n
-
-        Hälytys sivun ulkoasua muutettu hieman selkeämmäksi.\n\n
-
-        Widgetin jumittaminen yötilalle/  äänettömälle korjattu.
     </string>
     <!--Näytetään vain muutosloki sivulla-->
     <string name="whatsnew">
         UUSIN VERSIO!\n\n
+
+        <u><b>Versio 3.8</b></u>\n\n
+
+        Asemataulu käytössä Tokevan pikakäynnistys lisätty, aukeaa nettiselaimeen.\n\n
+
+        Pikailmoitusten vastausvaihtoehtoihin lisätty mahdollisuus lähettää valitsemallaan sovelluksella ilmoittautumisviestit.\n
+        Korjattu: äänienhallinta hälytyksen tullessa saattoi jättää sovelluksen äänettömälle tai värinälle riippuen missä tilassa puhelin oli ennen hälytystä.\n
+        Ääniasetuksiin lisätty värinäkuviot:\n
+        - Pulse\n
+        - Hurry\n
+        - PiiPaa\n
+        - SOS\n
+        - VIRVE\n\n
+
+        + muita pieniä korjauksia\n\n
 
         <u><b>Versio 3.7</b></u>\n\n
         Android 10 korjaus:\n
