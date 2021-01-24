@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 1/24/21 11:03 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 1/24/21 11:03 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -297,8 +297,7 @@ public class AlarmActivity extends AppCompatActivity
         String timeStamp = new SimpleDateFormat("dd.MM.yyyy_H:mm:ss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
 
-        File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        //File storageApuri = getExternalFilesDir("VPK Apuri");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -324,7 +323,6 @@ public class AlarmActivity extends AppCompatActivity
 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //setPic();
             galleryAddPic();
         }
     }

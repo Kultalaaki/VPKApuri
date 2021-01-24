@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 10.7.2019 23:01
-  ~ Copyright (c) 2019. All rights reserved.
-  ~ Last modified 7.7.2019 12:26
+  ~ Created by Kultala Aki on 1/24/21 11:03 AM
+  ~ Copyright (c) 2021. All rights reserved.
+  ~ Last modified 1/24/21 11:03 AM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,8 +34,15 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="false"

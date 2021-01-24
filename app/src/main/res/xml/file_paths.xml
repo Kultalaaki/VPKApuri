@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 10.7.2019 23:01
-  ~ Copyright (c) 2019. All rights reserved.
-  ~ Last modified 7.7.2019 12:26
+  ~ Created by Kultala Aki on 1/24/21 11:03 AM
+  ~ Copyright (c) 2021. All rights reserved.
+  ~ Last modified 1/24/21 11:03 AM
   -->
 
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="Pictures" />
+    <external-path
+        name="my_images"
+        path="Pictures" />
 </paths>
