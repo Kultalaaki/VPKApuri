@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 1/24/21 11:07 AM
+  ~ Created by Kultala Aki on 1/24/21 11:20 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/24/21 11:06 AM
+  ~ Last modified 1/24/21 11:15 AM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -16,8 +16,10 @@
 
         Asemataulu käytössä Tokevan pikakäynnistys lisätty, aukeaa nettiselaimeen.\n\n
 
-        Pikailmoitusten vastausvaihtoehtoihin lisätty mahdollisuus lähettää valitsemallaan sovelluksella ilmoittautumisviestit.\n
-        Korjattu: äänienhallinta hälytyksen tullessa saattoi jättää sovelluksen äänettömälle tai värinälle riippuen missä tilassa puhelin oli ennen hälytystä.\n
+        Pikailmoitusten vastausvaihtoehtoihin lisätty mahdollisuus lähettää valitsemallaan sovelluksella ilmoittautumisviestit.\n\n
+
+        Korjattu: äänienhallinta hälytyksen tullessa saattoi jättää sovelluksen äänettömälle tai värinälle riippuen missä tilassa puhelin oli ennen hälytystä.\n\n
+
         Ääniasetuksiin lisätty värinäkuviot:\n
         - Pulse\n
         - Hurry\n
