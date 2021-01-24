@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/24/21 11:03 AM
+ * Created by Kultala Aki on 1/24/21 12:36 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/24/21 11:03 AM
+ * Last modified 1/24/21 12:36 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -27,12 +27,12 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class AlarmActivity extends AppCompatActivity
         implements AlarmButtonsFragment.Listener, StationboardButtonsFragment.OnFragmentInteractionListener, AlarmFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener {
@@ -315,7 +315,22 @@ public class AlarmActivity extends AppCompatActivity
         File f = new File(currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
+        if (mediaScanIntent.resolveActivity(getPackageManager()) != null) {
+            this.sendBroadcast(mediaScanIntent);
+        } else {
+            notifyMediaStoreScanner(f);
+        }
+    }
+
+    public final void notifyMediaStoreScanner(final File file) {
+        try {
+            MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),
+                    file.getAbsolutePath(), file.getName(), null);
+            getApplicationContext().sendBroadcast(new Intent(
+                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
