@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 1/24/21 1:08 PM
+  ~ Created by Kultala Aki on 1/25/21 7:34 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/24/21 1:07 PM
+  ~ Last modified 1/25/21 7:32 PM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -11,6 +11,13 @@
         UUSIN VERSIO!\n\n
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
+
+        <u><b>Versio 3.81\n\n</b></u>
+
+        Android 11 korjaus:\n\n
+
+        Karttapainikkeen avautuminen korjattu.\n
+        Tallennustilan lupa pyydetään ennen kuin asetukset sivulle pääsee.\n
 
         <u><b>Versio 3.8</b></u>\n\n
 

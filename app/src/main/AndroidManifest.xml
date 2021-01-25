@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 1/24/21 11:03 AM
+  ~ Created by Kultala Aki on 1/25/21 7:34 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/24/21 11:03 AM
+  ~ Last modified 1/25/21 7:34 PM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,6 +41,9 @@
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
         </intent>
     </queries>
 
