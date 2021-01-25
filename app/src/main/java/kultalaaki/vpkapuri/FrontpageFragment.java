@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 1/25/21 7:34 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 1/25/21 7:34 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -101,14 +101,16 @@ public class FrontpageFragment extends Fragment {
         csettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Todo ask permissions and let activity start setting page
+                mListener.pyydaLuvatTiedostotAsetukset();
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
                     Intent intent = new Intent(getActivity(), SettingsActivity.class);
                     startActivity(intent, options.toBundle());
                 } else {
                     Intent intent = new Intent(getActivity(), SettingsActivity.class);
                     startActivity(intent);
-                }
+                }*/
             }
         });
     }
@@ -143,6 +145,9 @@ public class FrontpageFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void loadArkistoFragment();
+
         void loadOhjeetFragment();
+
+        void pyydaLuvatTiedostotAsetukset();
     }
 }
