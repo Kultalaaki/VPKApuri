@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 1/25/21 4:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 1/25/21 4:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -38,7 +38,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Objects;
 
 
 public class AlarmButtonsFragment extends Fragment {
@@ -60,7 +59,6 @@ public class AlarmButtonsFragment extends Fragment {
     private SharedPreferences pref_general;
     private TextView callNumber, sms5Otsikko, sms5Sisalto, sms5Recipient, sms10Otsikko, sms10Sisalto, sms10Recipient, sms11Otsikko, sms11Sisalto, sms11Recipient, osoite, hiljennys;
     private String soittonumero, smsnumero, smsnumero10, smsnumero11, fivemintxtotsikko, fivemintxt, tenmintxtotsikko, tenmintxt, tenplusmintxtotsikko, tenplusmintxt;
-    Intent intent;
 
     private Listener mCallback;
 
@@ -389,9 +387,15 @@ public class AlarmButtonsFragment extends Fragment {
                 //mapIntent.setPackage("com.google.android.apps.maps");
                 Context context = getActivity();
                 if(context != null) {
-                    if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    PackageManager packageManager = context.getPackageManager();
+                    List<ResolveInfo> activities = packageManager.queryIntentActivities(mapIntent,
+                            PackageManager.MATCH_DEFAULT_ONLY);
+                    if (activities.size() > 0) {
                         startActivity(mapIntent);
                     }
+                    /*if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    }*/
                 }
             }
         });
