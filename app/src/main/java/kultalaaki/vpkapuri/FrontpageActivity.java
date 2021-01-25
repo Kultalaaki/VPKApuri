@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 1/25/21 7:34 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 1/25/21 7:34 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -10,6 +10,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -62,7 +63,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 TimePickerDialog.OnTimeSetListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
-    private FirebaseCrashlytics mFirebaseCrashlytics;
     private DrawerLayout mDrawerLayout;
     String[] osoite;
     String aihe;
@@ -70,6 +70,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     SharedPreferences preferences;
     boolean ericaEtusivu, analytics, asemataulu;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS = 3;
     SoundControls soundControls;
 
 
@@ -98,7 +99,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         // Setting Firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseCrashlytics = FirebaseCrashlytics.getInstance();
+        FirebaseCrashlytics mFirebaseCrashlytics = FirebaseCrashlytics.getInstance();
         mFirebaseCrashlytics.setCrashlyticsCollectionEnabled(analytics);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
@@ -182,12 +183,23 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         fragmentTransaction.replace(R.id.etusivuContainer, archiveFragment, "archiveFragment").commit();
     }
 
+    public void loadSettingsFragment() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FrontpageActivity.this);
+            Intent intent = new Intent(FrontpageActivity.this, SettingsActivity.class);
+            startActivity(intent, options.toBundle());
+        } else {
+            Intent intent = new Intent(FrontpageActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }
+    }
+
     public void loadOhjeetFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         GuidelineFragment guidelineFragment = new GuidelineFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+        if (findViewById(R.id.etusivuContainerLandScape) != null) {
             fragmentTransaction.replace(R.id.etusivuContainerLandScape, guidelineFragment, "guidelineFragment").commit();
         } else {
             fragmentTransaction.replace(R.id.etusivuContainer, guidelineFragment, "guidelineFragment").commit();
@@ -495,6 +507,87 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    public void pyydaLuvatTiedostotAsetukset() {
+        if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Second time asking. Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(FrontpageActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                showMessageOKCancelSettings(new DialogInterface.OnClickListener() {
+                    @TargetApi(Build.VERSION_CODES.M)
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
+                    }
+                });
+            } else {
+
+                // First time asking. No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(FrontpageActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
+            }
+        } else {
+            // We have permission
+            loadSettingsFragment();
+        }
+    }
+
+    private void showMessageOKCancelSettings(DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(FrontpageActivity.this)
+                .setMessage("Sovellus tarvitsee luvan laitteen tiedostoihin. Et voi tehdä kaikkia tarvittavia asetuksia ilman tätä lupaa.")
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Peruuta", null)
+                .create()
+                .show();
+    }
+
+    private void askPermissionSettings() {
+        showMessageOKCancel(new DialogInterface.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
+            }
+        });
+    }
+
+    private void showMessageTest() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
+                .setTitle("Asetukset")
+                .setMessage("Sovellus tarvitsee pääsyn laitteen tiedostoihin. Ilman tätä lupaa sovelluksen asetuksia ei voi asettaa.")
+                .setNegativeButton("Peruuta", null)
+                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //tietokantaVarmuuskopio();
+                        askPermissionSettings();
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void showMessageOKCancelAsetukset() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
+                .setTitle("Asetukset")
+                .setMessage("Et ole hyväksynyt sovellukselle lupaa tiedostoihin. Ilman tätä lupaa ääniasetuksia ei voi asettaa. Voit käydä antamassa luvan puhelimen asetuksissa: Asetukset -> Sovellukset -> VPK Apuri")
+                .setNeutralButton("Ok", null);
+        builder.create().show();
+    }
+
     public void pyydaLuvatTiedostotKirjoita() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -523,13 +616,10 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 ActivityCompat.requestPermissions(FrontpageActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
             showMessageOKCanceltietokanta();
+
         }
     }
 
@@ -545,6 +635,19 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 new AlertDialog.Builder(FrontpageActivity.this)
                         .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tallentaa tietokantaa ilman lupaa.")
                         .setNegativeButton("Peruuta", null)
+                        .create()
+                        .show();
+            }
+        } else if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Lupa annettu mene asetuksiin
+                loadSettingsFragment();
+            } else {
+                // ei lupaa. 1. kielto tulee tänne
+                new AlertDialog.Builder(FrontpageActivity.this)
+                        .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tehdä asetuksia ennen kuin lupa on myönnetty. Jos automaattinen luvan kysyminen ei enään tule näkyviin, voit käydä antamassa luvan puhelimen asetuksissa: Asetukset -> Sovellukset -> VPK Apuri")
+                        .setNeutralButton("Ok", null)
                         .create()
                         .show();
             }

@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/24/21 2:07 PM
+ * Created by Kultala Aki on 1/25/21 8:07 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/24/21 1:14 PM
+ * Last modified 1/25/21 8:07 PM
  */
 
 apply plugin: 'com.android.application'
@@ -18,8 +18,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         multiDexEnabled true
-        versionCode 108 // Update just before pushing update 107 is live
-        versionName "3.8" // Update just before pushing update 3.7 is live
+        versionCode 109 // Update just before pushing update 109 is live
+        versionName "3.81" // Update just before pushing update 3.81 is live
     }
     buildTypes {
         release {
