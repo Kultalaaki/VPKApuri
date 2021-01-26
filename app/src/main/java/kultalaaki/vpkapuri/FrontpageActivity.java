@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/26/21 10:29 PM
+ * Created by Kultala Aki on 1/26/21 10:47 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/26/21 10:29 PM
+ * Last modified 1/26/21 10:47 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -512,6 +512,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+
     public void pyydaLuvatTiedostotAsetukset() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -534,9 +535,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     }
                 });
             } else {
-
                 // First time asking. No explanation needed, we can request the permission.
-
                 ActivityCompat.requestPermissions(FrontpageActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
@@ -544,26 +543,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         } else {
             // We have permission
             loadSettingsFragment();
-        }
-    }
-
-    private void showDialogPermission(DialogInterface.OnClickListener okListener) {
-        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            new AlertDialog.Builder(FrontpageActivity.this)
-                    .setView(customLayout)
-                    .setPositiveButton("OK", okListener)
-                    .setNeutralButton("Peruuta", null)
-                    .create()
-                    .show();
-        } else {
-            new AlertDialog.Builder(FrontpageActivity.this)
-                    .setMessage("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa. Tämä lupa tarvitaan hälytysäänen asettamiseksi.\nIlman tätä lupaa sovellus ei voi toimia oikein.\nPääsy asetuksiin on estetty kunnes lupa on myönnetty.")
-                    .setPositiveButton("OK", okListener)
-                    .setNeutralButton("Peruuta", null)
-                    .create()
-                    .show();
         }
     }
 
@@ -638,6 +617,26 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    private void showDialogPermission(DialogInterface.OnClickListener okListener) {
+        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            new AlertDialog.Builder(FrontpageActivity.this)
+                    .setView(customLayout)
+                    .setPositiveButton("OK", okListener)
+                    .setNeutralButton("Peruuta", null)
+                    .create()
+                    .show();
+        } else {
+            new AlertDialog.Builder(FrontpageActivity.this)
+                    .setMessage("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa. Tämä lupa tarvitaan hälytysäänen asettamiseksi.\nIlman tätä lupaa sovellus ei voi toimia oikein.\nPääsy asetuksiin on estetty kunnes lupa on myönnetty.")
+                    .setPositiveButton("OK", okListener)
+                    .setNeutralButton("Peruuta", null)
+                    .create()
+                    .show();
+        }
+    }
+
     private void showMessageOKCanceltietokanta() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
@@ -684,7 +683,16 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         builder.create().show();
     }
 
-    public void showMessage(String title, String message){
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(FrontpageActivity.this)
+                .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Peruuta", null)
+                .create()
+                .show();
+    }
+
+    public void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle(title)
                 .setMessage(message)
@@ -726,15 +734,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.deleteAllFireAlarms();
         Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
-    }
-
-    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(FrontpageActivity.this)
-                .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Peruuta", null)
-                .create()
-                .show();
     }
 
     private class WhatsNewScreen {

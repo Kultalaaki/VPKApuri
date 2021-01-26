@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 1/26/21 6:10 PM
+  ~ Created by Kultala Aki on 1/26/21 10:47 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/26/21 6:10 PM
+  ~ Last modified 1/26/21 10:47 PM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -55,16 +55,17 @@
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        android:requestLegacyExternalStorage="true">
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="kultalaaki.vpkapuri"
             android:exported="false"
             android:grantUriPermissions="true">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths" />
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
 
         <receiver
