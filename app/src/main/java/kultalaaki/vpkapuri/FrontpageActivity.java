@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/26/21 10:47 PM
+ * Created by Kultala Aki on 1/26/21 11:40 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/26/21 10:47 PM
+ * Last modified 1/26/21 11:40 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -25,7 +25,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
@@ -142,7 +141,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                             case R.id.tallennatietokanta:
                                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     //tietokantatxt = true;
-                                    pyydaLuvatTiedostotKirjoita();
+                                    tietokantaBackUp();
+                                    //pyydaLuvatTiedostotKirjoita();
                                 } else {
                                     showMessageOKCanceltietokanta();
                                 }
@@ -159,14 +159,38 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     }
         });
 
-        osoite = new String [1];
+        osoite = new String[1];
         osoite[0] = "kultalaaki@gmail.com";
         aihe = "VPK Apuri palaute";
 
-        if(preferences.contains("termsShown")) {
+        if (preferences.contains("termsShown")) {
             loadEtusivuFragment();
         } else {
             loadLegalFragment();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        createChannels();
+        new WhatsNewScreen(this).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!asemataulu) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -179,8 +203,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadArkistoFragment() {
-        //Crashlytics.getInstance().crash(); // Force a crash
-        //mFirebaseCrashlytics.log("Crashlytics reporting from start arkisto fragment!");
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchiveFragment archiveFragment = new ArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -209,7 +231,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         } else {
             fragmentTransaction.replace(R.id.etusivuContainer, guidelineFragment, "guidelineFragment").commit();
         }
-
     }
 
     public void loadEtusivuFragment() {
@@ -278,30 +299,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        createChannels();
-        new WhatsNewScreen(this).show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!asemataulu) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
     public void startTimerActivity() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         TimerFragment timerFragment = new TimerFragment();
@@ -332,39 +329,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             setTimerFragment.setTimerTimes(hourOfDay, minute);
         }
     }
-
-    /*private void sendNotification(int id, Context context) {
-        //SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
-
-
-        Intent intent = new Intent(context, FrontpageActivity.class);
-        intent.putExtra("openFromNotification", id);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light_normal)
-                .setContentTitle("Todolist Reminder!")
-                .setContentText("task")
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(pendingIntent);
-        if (vibratio) {
-            Log.e("TAG", "Vibration value: " + vibratio);
-            builder.setVibrate(new long[]{0, 4000, 4000, 4000, 4000});
-        }
-        if (soun) {
-            Log.e("TAG", "Sound value: " + soun);
-            builder.setSound(alarmSound);
-        }
-        builder.setOnlyAlertOnce(true);
-        //Notification notification = builder.build();
-        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
-        manager.notify(1,builder.build());
-    }*/
 
     public void createChannels() {
 
@@ -525,7 +489,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                showDialogPermission(new DialogInterface.OnClickListener() {
+                showDialogPermissionStorage(new DialogInterface.OnClickListener() {
                     @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -546,7 +510,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    public void pyydaLuvatTiedostotKirjoita() {
+    /*public void pyydaLuvatTiedostotKirjoita() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -579,7 +543,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             showMessageOKCanceltietokanta();
 
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -617,7 +581,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    private void showDialogPermission(DialogInterface.OnClickListener okListener) {
+    private void showDialogPermissionStorage(DialogInterface.OnClickListener okListener) {
         final View customLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -683,14 +647,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         builder.create().show();
     }
 
-    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
+    /*private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(FrontpageActivity.this)
                 .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Peruuta", null)
                 .create()
                 .show();
-    }
+    }*/
 
     public void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
@@ -708,7 +672,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     public void tietokantaBackUp() {
         try {
-            File sd = Environment.getExternalStorageDirectory();
+            File sd = getApplicationContext().getFilesDir();
 
             if(sd.canWrite()) {
                 String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
