@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/25/21 7:34 PM
+ * Created by Kultala Aki on 1/26/21 10:29 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/25/21 7:34 PM
+ * Last modified 1/26/21 10:29 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,12 +39,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -519,7 +524,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                showMessageOKCancelSettings(new DialogInterface.OnClickListener() {
+                showDialogPermission(new DialogInterface.OnClickListener() {
                     @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -542,50 +547,24 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    private void showMessageOKCancelSettings(DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(FrontpageActivity.this)
-                .setMessage("Sovellus tarvitsee luvan laitteen tiedostoihin. Et voi tehdä kaikkia tarvittavia asetuksia ilman tätä lupaa.")
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Peruuta", null)
-                .create()
-                .show();
-    }
+    private void showDialogPermission(DialogInterface.OnClickListener okListener) {
+        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
 
-    private void askPermissionSettings() {
-        showMessageOKCancel(new DialogInterface.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.M)
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
-            }
-        });
-    }
-
-    private void showMessageTest() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setTitle("Asetukset")
-                .setMessage("Sovellus tarvitsee pääsyn laitteen tiedostoihin. Ilman tätä lupaa sovelluksen asetuksia ei voi asettaa.")
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //tietokantaVarmuuskopio();
-                        askPermissionSettings();
-                    }
-                });
-        builder.create().show();
-    }
-
-    private void showMessageOKCancelAsetukset() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setTitle("Asetukset")
-                .setMessage("Et ole hyväksynyt sovellukselle lupaa tiedostoihin. Ilman tätä lupaa ääniasetuksia ei voi asettaa. Voit käydä antamassa luvan puhelimen asetuksissa: Asetukset -> Sovellukset -> VPK Apuri")
-                .setNeutralButton("Ok", null);
-        builder.create().show();
+        if (Build.VERSION.SDK_INT >= 21) {
+            new AlertDialog.Builder(FrontpageActivity.this)
+                    .setView(customLayout)
+                    .setPositiveButton("OK", okListener)
+                    .setNeutralButton("Peruuta", null)
+                    .create()
+                    .show();
+        } else {
+            new AlertDialog.Builder(FrontpageActivity.this)
+                    .setMessage("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa. Tämä lupa tarvitaan hälytysäänen asettamiseksi.\nIlman tätä lupaa sovellus ei voi toimia oikein.\nPääsy asetuksiin on estetty kunnes lupa on myönnetty.")
+                    .setPositiveButton("OK", okListener)
+                    .setNeutralButton("Peruuta", null)
+                    .create()
+                    .show();
+        }
     }
 
     public void pyydaLuvatTiedostotKirjoita() {
@@ -645,9 +624,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 loadSettingsFragment();
             } else {
                 // ei lupaa. 1. kielto tulee tänne
+                final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+                TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+                TextView reasoning = dialogLayout.findViewById(R.id.textViewReasoning);
+                whatPermission.setText("Et antanut lupaa käyttää laitteellasi olevia kuvia ja mediaa.");
+                reasoning.setText("Pääsy sovelluksen asetuksiin on estetty kunnes annat luvan käyttää laitteellasi olevia kuvia ja mediaa.");
                 new AlertDialog.Builder(FrontpageActivity.this)
-                        .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tehdä asetuksia ennen kuin lupa on myönnetty. Jos automaattinen luvan kysyminen ei enään tule näkyviin, voit käydä antamassa luvan puhelimen asetuksissa: Asetukset -> Sovellukset -> VPK Apuri")
-                        .setNeutralButton("Ok", null)
+                        .setView(dialogLayout)
+                        .setNegativeButton("OK", null)
                         .create()
                         .show();
             }
