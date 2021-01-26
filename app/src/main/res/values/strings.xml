@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 1/25/21 7:34 PM
+  ~ Created by Kultala Aki on 1/26/21 6:06 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/25/21 7:32 PM
+  ~ Last modified 1/26/21 5:41 PM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -17,7 +17,7 @@
         Android 11 korjaus:\n\n
 
         Karttapainikkeen avautuminen korjattu.\n
-        Tallennustilan lupa pyydetään ennen kuin asetukset sivulle pääsee.\n
+        Tallennustilan lupa pyydetään ennen kuin asetukset sivulle pääsee.\n\n
 
         <u><b>Versio 3.8</b></u>\n\n
 
