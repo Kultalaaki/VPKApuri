@@ -168,7 +168,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/snap/android-studio/99/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/table_chart/baseline_table_chart_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/fingerprint/baseline_fingerprint_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -178,9 +178,11 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_tokeva" />
-                            <entry key="sourceFile" value="$USER_HOME$/C:\Users\kulta" />
+                            <entry key="opacityPercent" value="30" />
+                            <entry key="outputName" value="ic_ssas" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../Other resources/ssas.psd" />
                           </map>
                         </option>
                       </PersistentState>

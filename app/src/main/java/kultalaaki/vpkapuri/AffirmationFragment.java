@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/29/21 9:41 PM
+ * Created by Kultala Aki on 1/29/21 10:53 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/29/21 9:41 PM
+ * Last modified 1/29/21 9:59 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -111,21 +111,9 @@ public class AffirmationFragment extends Fragment {
     }
 
     private void setCheckedStates() {
-        if(sharedPreferences.getBoolean("analyticsEnabled", false)) {
-            approveAnalytics.setChecked(true);
-        } else {
-            approveAnalytics.setChecked(false);
-        }
-        if(sharedPreferences.getBoolean("tietosuoja", false)) {
-            tietosuoja.setChecked(true);
-        } else {
-            tietosuoja.setChecked(false);
-        }
-        if(sharedPreferences.getBoolean("kayttoehdot", false)) {
-            kayttoehdot.setChecked(true);
-        } else {
-            kayttoehdot.setChecked(false);
-        }
+        approveAnalytics.setChecked(sharedPreferences.getBoolean("analyticsEnabled", false));
+        tietosuoja.setChecked(sharedPreferences.getBoolean("tietosuoja", false));
+        kayttoehdot.setChecked(sharedPreferences.getBoolean("kayttoehdot", false));
     }
 
     private void checkUserConsentsAndApprovalOfThings() {
@@ -240,7 +228,8 @@ public class AffirmationFragment extends Fragment {
         whatReason.setText("Tämä auttaa sovelluksen kehittämisessä paremmaksi ja toimivammaksi.\n\nPaina OK jos haluat jatkaa ilman tietojen keräämistä.");
         new AlertDialog.Builder(getActivity())
                 .setView(dialogLayout)
-                .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                .setNegativeButton("Peruuta", null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         letIn();
@@ -251,9 +240,15 @@ public class AffirmationFragment extends Fragment {
     }
 
     private void showMessage2() {
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+
+        whatPermission.setText("Huomautus!");
+        whatReason.setText("Tietosuoja ja käyttöehdot täytyy hyväksyä ennen kuin voit jatkaa sovelluksen käyttöä.");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Huomautus")
-                .setMessage("Tietosuoja ja käyttöehdot täytyy hyväksyä että voit jatkaa sovelluksen käyttöä.")
+                .setView(dialogLayout)
                 .setPositiveButton("Ok", null);
         builder.create().show();
     }
