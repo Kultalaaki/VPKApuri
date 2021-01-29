@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 1/29/21 9:41 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 1/29/21 9:41 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -140,7 +140,7 @@ public class AffirmationFragment extends Fragment {
                 } else if (sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) &&
                         !sharedPreferences.getBoolean("analyticsEnabled", false)) {
                     // show dialog and ask analytics again, if denied let user in anyway
-                    showMessage();
+                    showDialog();
                 } else if(!sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) ||
                         sharedPreferences.getBoolean("kayttoehdot", false) && !sharedPreferences.getBoolean("tietosuoja", false)) {
                     // inform user that terms&conditions and privacy policy must be accepted to use this app
@@ -232,7 +232,25 @@ public class AffirmationFragment extends Fragment {
         builder.create().show();
     }
 
-    private void showMessage2(){
+    private void showDialog() {
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        whatPermission.setText("Et  antanut lupaa analytiikka tietojen keräämiseen.");
+        whatReason.setText("Tämä auttaa sovelluksen kehittämisessä paremmaksi ja toimivammaksi.\n\nPaina OK jos haluat jatkaa ilman tietojen keräämistä.");
+        new AlertDialog.Builder(getActivity())
+                .setView(dialogLayout)
+                .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        letIn();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void showMessage2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Huomautus")
                 .setMessage("Tietosuoja ja käyttöehdot täytyy hyväksyä että voit jatkaa sovelluksen käyttöä.")
