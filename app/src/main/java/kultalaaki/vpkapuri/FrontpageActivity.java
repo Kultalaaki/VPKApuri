@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/26/21 11:40 PM
+ * Created by Kultala Aki on 1/29/21 9:41 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/26/21 11:40 PM
+ * Last modified 1/29/21 9:41 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -76,16 +76,19 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS = 3;
     SoundControls soundControls;
+    FragmentManager fragmentManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = preferences.getBoolean("asemataulu", false);
         analytics = preferences.getBoolean("analyticsEnabled", false);
         preferences.edit().putBoolean("showHiljenna", false).apply();
         preferences.edit().putBoolean("HalytysOpen", false).apply();
+        fragmentManager = this.getSupportFragmentManager();
 
         setContentView(R.layout.etusivusidepanel);
 
@@ -141,8 +144,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                             case R.id.tallennatietokanta:
                                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     //tietokantatxt = true;
-                                    tietokantaBackUp();
-                                    //pyydaLuvatTiedostotKirjoita();
+                                    //tietokantaBackUp();
+                                    pyydaLuvatTiedostotKirjoita();
                                 } else {
                                     showMessageOKCanceltietokanta();
                                 }
@@ -195,7 +198,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadLegalFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         AffirmationFragment affirmationFragment = new AffirmationFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -203,7 +206,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadArkistoFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchiveFragment archiveFragment = new ArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -222,7 +225,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadOhjeetFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         GuidelineFragment guidelineFragment = new GuidelineFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -234,7 +237,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadEtusivuFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -242,7 +245,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadEtusivuClearingBackstack() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -252,7 +255,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     public void loadEtusivuFromFragment() {
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -262,7 +265,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadTallennaArkistoonFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         SaveToArchiveFragment saveToArchiveFragment = new SaveToArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -270,7 +273,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadHalytysTietokannastaFragment(FireAlarm fireAlarm) {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchivedAlarmFragment archivedAlarmFragment = ArchivedAlarmFragment.newInstance(fireAlarm);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -282,7 +285,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void openSetTimerNewInstance(String primaryKey) {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = SetTimerFragment.newInstance(primaryKey);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -291,7 +294,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void openSetTimer() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = new SetTimerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -300,7 +303,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void startTimerActivity() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         TimerFragment timerFragment = new TimerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -331,20 +334,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void createChannels() {
-
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            NotificationChannel channel1 = new NotificationChannel(CHANNEL_1_ID, "channel 1", NotificationManager.IMPORTANCE_HIGH);
-            channel1.setDescription("This is Channel 1");
-            channel1.enableVibration(vibratio);
-            if(soun) {
-                channel1.setSound(alarmSound, null);
-            }
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            if(manager != null) {
-                manager.createNotificationChannel(channel1);
-            }
-        }*/
 
         //Ilmoituskanava hälytyksille
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -443,7 +432,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void startChangelog() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ChangelogFragment changelogFragment = new ChangelogFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -510,7 +499,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    /*public void pyydaLuvatTiedostotKirjoita() {
+    public void pyydaLuvatTiedostotKirjoita() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -522,19 +511,17 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                showMessageOKCancel(new DialogInterface.OnClickListener() {
+                showDialogPermissionWriteStorage(new DialogInterface.OnClickListener() {
                     @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                     }
                 });
             } else {
-
                 // No explanation needed, we can request the permission.
-
                 ActivityCompat.requestPermissions(FrontpageActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
@@ -543,7 +530,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             showMessageOKCanceltietokanta();
 
         }
-    }*/
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -554,11 +541,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 showMessageOKCanceltietokanta();
             } else {
                 // ei lupaa
-                new AlertDialog.Builder(FrontpageActivity.this)
-                        .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi tallentaa tietokantaa ilman lupaa.")
-                        .setNegativeButton("Peruuta", null)
-                        .create()
-                        .show();
+                showDialog("Sovelluksella ei ole lupa käyttää laitteen tiedostoja.", "Et voi tallentaa tietokantaa ennen kuin sovelluksella on lupa käyttää laitteen tiedostoja.");
             }
         } else if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS) {
             if (grantResults.length > 0
@@ -567,46 +550,62 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 loadSettingsFragment();
             } else {
                 // ei lupaa. 1. kielto tulee tänne
-                final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-                TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-                TextView reasoning = dialogLayout.findViewById(R.id.textViewReasoning);
-                whatPermission.setText("Et antanut lupaa käyttää laitteellasi olevia kuvia ja mediaa.");
-                reasoning.setText("Pääsy sovelluksen asetuksiin on estetty kunnes annat luvan käyttää laitteellasi olevia kuvia ja mediaa.");
-                new AlertDialog.Builder(FrontpageActivity.this)
-                        .setView(dialogLayout)
-                        .setNegativeButton("OK", null)
-                        .create()
-                        .show();
+                showDialog(
+                        "Et antanut lupaa käyttää laitteellasi olevia kuvia ja mediaa.",
+                        "Pääsy sovelluksen asetuksiin on estetty kunnes annat luvan käyttää laitteellasi olevia kuvia ja mediaa.");
             }
         }
+    }
+
+    private void showDialog(String permission, String reasoning) {
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        whatPermission.setText(permission);
+        whatReason.setText(reasoning);
+        new AlertDialog.Builder(FrontpageActivity.this)
+                .setView(dialogLayout)
+                .setNegativeButton("OK", null)
+                .create()
+                .show();
     }
 
     private void showDialogPermissionStorage(DialogInterface.OnClickListener okListener) {
         final View customLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            new AlertDialog.Builder(FrontpageActivity.this)
-                    .setView(customLayout)
-                    .setPositiveButton("OK", okListener)
-                    .setNeutralButton("Peruuta", null)
-                    .create()
-                    .show();
-        } else {
-            new AlertDialog.Builder(FrontpageActivity.this)
-                    .setMessage("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa. Tämä lupa tarvitaan hälytysäänen asettamiseksi.\nIlman tätä lupaa sovellus ei voi toimia oikein.\nPääsy asetuksiin on estetty kunnes lupa on myönnetty.")
-                    .setPositiveButton("OK", okListener)
-                    .setNeutralButton("Peruuta", null)
-                    .create()
-                    .show();
-        }
+        new AlertDialog.Builder(FrontpageActivity.this)
+                .setView(customLayout)
+                .setPositiveButton("OK", okListener)
+                .setNeutralButton("Peruuta", null)
+                .create()
+                .show();
+
+    }
+
+    private void showDialogPermissionWriteStorage(DialogInterface.OnClickListener okListener) {
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        whatPermission.setText("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.");
+        whatReason.setText("Puhelimen muistiin kirjoittaminen vaatii luvan ennen kuin sovellus voi tehdä tämän toimenpiteen.");
+        new AlertDialog.Builder(FrontpageActivity.this)
+                .setView(dialogLayout)
+                .setPositiveButton("OK", okListener)
+                .setNeutralButton("Peruuta", null)
+                .create()
+                .show();
     }
 
     private void showMessageOKCanceltietokanta() {
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        whatPermission.setText("Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.");
+        whatReason.setText("Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle("Varmuuskopiointi!")
-                .setMessage("Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri. " +
-                        "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.")
+                .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
@@ -620,9 +619,15 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     private void showMessageOKCanceltietokantaTyhjennys() {
 
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+
+        whatPermission.setText("Arkiston tyhjentäminen!");
+        whatReason.setText("Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setTitle("Tyhjennä arkisto!")
-                .setMessage("Arkistossa olevat hälytykset poistetaan. Oletko varma että haluat poistaa hälytykset?")
+                .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
@@ -633,10 +638,15 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         builder.create().show();
     }
 
-    public void showMessageOKCancelTestaaHaly(String message){
+    public void showMessageOKCancelTestaaHaly(String message) {
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+
+        whatPermission.setText("Hälytyksen testaus!\n\nHälytys tulee 5 sekunnin kuluttua OK:n painamisesta.");
+        whatReason.setText("Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä kumminkaan sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.");
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setTitle("Testaa hälytys")
-                .setMessage(message)
+                .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
@@ -657,9 +667,15 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }*/
 
     public void showMessage(String title, String message) {
+
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+
+        whatPermission.setText("Hälytysten hiljennys!");
+        whatReason.setText("Haluatko varmasti hiljentää hälytykset?");
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setTitle(title)
-                .setMessage(message)
+                .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
