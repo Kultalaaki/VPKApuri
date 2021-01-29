@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/29/21 9:41 PM
+ * Created by Kultala Aki on 1/29/21 10:53 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/29/21 9:41 PM
+ * Last modified 1/29/21 10:53 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -123,15 +123,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 //startTallennaArkistoon();
                                 return true;
                             case R.id.testaa_haly:
-                                showMessageOKCancelTestaaHaly("Paina OK jos haluat testata hälytystä (5sek viive ennen kuin hälytys tulee). " +
-                                        "Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta.");
+                                showDialogTestAlarm();
                                 return true;
                             case R.id.hiljenna_halyt:
                                 //hiljennaHalytykset();
                                 if(preferences.getInt("aaneton_profiili", -1) == 1) {
-                                    showMessage("Hälytysten hiljennys", "Haluatko varmasti hiljentää hälytykset?");
+                                    showDialogSilenceAlarms();
                                 } else {
-                                    hiljennaHalytykset();
+                                    setSoundSilent();
                                 }
                                 return true;
                             case R.id.timer:
@@ -147,11 +146,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                     //tietokantaBackUp();
                                     pyydaLuvatTiedostotKirjoita();
                                 } else {
-                                    showMessageOKCanceltietokanta();
+                                    showDialogBackupDatabase();
                                 }
                                 return true;
                             case R.id.tyhjennatietokanta:
-                                showMessageOKCanceltietokantaTyhjennys();
+                                showDialogDeleteDatabase();
                                 return true;
                             case R.id.palautetta:
                                 startLahetaPalaute();
@@ -432,7 +431,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void startChangelog() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ChangelogFragment changelogFragment = new ChangelogFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -454,13 +452,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     @SuppressLint("ApplySharedPref")
-    public void hiljennaHalytykset() {
+    public void setSoundSilent() {
 
         if (preferences.getInt("aaneton_profiili", -1) == 1) {
-            //hiljenna haly
             soundControls.setSilent(this);
         } else {
-            //äänet päälle
             soundControls.setNormal(this);
         }
     }
@@ -527,8 +523,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         } else {
-            showMessageOKCanceltietokanta();
-
+            showDialogBackupDatabase();
         }
     }
 
@@ -538,7 +533,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showMessageOKCanceltietokanta();
+                showDialogBackupDatabase();
             } else {
                 // ei lupaa
                 showDialog("Sovelluksella ei ole lupa käyttää laitteen tiedostoja.", "Et voi tallentaa tietokantaa ennen kuin sovelluksella on lupa käyttää laitteen tiedostoja.");
@@ -596,60 +591,53 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 .show();
     }
 
-    private void showMessageOKCanceltietokanta() {
+    private void showDialogBackupDatabase() {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
         whatPermission.setText("Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.");
         whatReason.setText("Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.");
-
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setTitle("Varmuuskopiointi!")
                 .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //tietokantaVarmuuskopio();
-                        tietokantaBackUp();
+                        backupDatabase();
                     }
                 });
         builder.create().show();
     }
 
-    private void showMessageOKCanceltietokantaTyhjennys() {
+    private void showDialogDeleteDatabase() {
 
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-
         whatPermission.setText("Arkiston tyhjentäminen!");
         whatReason.setText("Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?");
-
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        tietokantaTyhjennys();
+                        deleteDatabase();
                     }
                 });
         builder.create().show();
     }
 
-    public void showMessageOKCancelTestaaHaly(String message) {
+    public void showDialogTestAlarm() {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-
         whatPermission.setText("Hälytyksen testaus!\n\nHälytys tulee 5 sekunnin kuluttua OK:n painamisesta.");
-        whatReason.setText("Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä kumminkaan sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.");
+        whatReason.setText("Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.");
         AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
                 .setView(dialogLayout)
                 .setNegativeButton("Peruuta", null)
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
                     public void onClick(DialogInterface dialogInterface, int i) {
                         startTestaaHalytys();
                     }
@@ -657,16 +645,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         builder.create().show();
     }
 
-    /*private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(FrontpageActivity.this)
-                .setMessage("Sovelluksella ei ole lupaa laitteen tiedostoihin. Et voi asettaa viestiääntä/käyttää arkistoa jos et anna lupaa.")
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Peruuta", null)
-                .create()
-                .show();
-    }*/
-
-    public void showMessage(String title, String message) {
+    public void showDialogSilenceAlarms() {
 
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
@@ -680,23 +659,23 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        hiljennaHalytykset();
+                        setSoundSilent();
                     }
                 });
         builder.create().show();
     }
 
-    public void tietokantaBackUp() {
+    public void backupDatabase() {
         try {
             File sd = getApplicationContext().getFilesDir();
 
-            if(sd.canWrite()) {
+            if (sd.canWrite()) {
                 String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
                 String backUpPath = "Hälytykset_VPK_Apuri";
                 File currentDB = new File(currentDBPath);
                 File backUpDP = new File(sd, backUpPath);
 
-                if(currentDB.exists()) {
+                if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backUpDP).getChannel();
                     dst.transferFrom(src, 0, src.size());
@@ -710,7 +689,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    public void tietokantaTyhjennys () {
+    public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.deleteAllFireAlarms();
         Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();

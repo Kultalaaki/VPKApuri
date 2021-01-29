@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 1/29/21 9:41 PM
+  ~ Created by Kultala Aki on 1/29/21 10:53 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/29/21 9:41 PM
+  ~ Last modified 1/29/21 10:53 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,8 +28,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:text="@string/app_name"
+        android:text="@string/app_name_orange"
         android:textSize="36sp"
+        android:textColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewLogo"
