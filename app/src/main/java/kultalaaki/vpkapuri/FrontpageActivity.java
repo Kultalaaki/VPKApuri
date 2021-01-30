@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/29/21 10:53 PM
+ * Created by Kultala Aki on 1/30/21 11:38 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/29/21 10:53 PM
+ * Last modified 1/30/21 11:38 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -26,6 +26,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
@@ -123,11 +124,13 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 //startTallennaArkistoon();
                                 return true;
                             case R.id.testaa_haly:
-                                showDialogTestAlarm();
+                                // Todo remove comments after testing and find other place for loadTestSettingsFragment()
+                                //showDialogTestAlarm();
+                                loadTestSettingsFragment();
                                 return true;
                             case R.id.hiljenna_halyt:
                                 //hiljennaHalytykset();
-                                if(preferences.getInt("aaneton_profiili", -1) == 1) {
+                                if (preferences.getInt("aaneton_profiili", -1) == 1) {
                                     showDialogSilenceAlarms();
                                 } else {
                                     setSoundSilent();
@@ -194,6 +197,13 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void loadTestSettingsFragment() {
+        TestSettingsFragment testSettingsFragment = new TestSettingsFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.etusivuContainer, testSettingsFragment, "testSettingsFragment").commit();
     }
 
     public void loadLegalFragment() {

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Kultala Aki on 1/30/21 11:38 AM
+  ~ Copyright (c) 2021. All rights reserved.
+  ~ Last modified 1/30/21 11:38 AM
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestSettingsFragment">
+
+    <TextView
+        android:id="@+id/textViewPermissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Sovelluksen luvat"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewSMS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tekstiviestit:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@+id/textViewPermissions"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPermissions" />
+
+    <TextView
+        android:id="@+id/textViewPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Puhelin:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewSMS"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSMS" />
+
+    <TextView
+        android:id="@+id/textViewPhoneLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Puhelulokit:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewPhone"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPhone" />
+
+    <TextView
+        android:id="@+id/textViewStorage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tall.-tila"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewPhoneLog"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPhoneLog" />
+
+    <TextView
+        android:id="@+id/textViewCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Kamera:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewStorage"
+        app:layout_constraintTop_toBottomOf="@+id/textViewStorage" />
+
+    <TextView
+        android:id="@+id/textViewOtherSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Muut asetukset"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCamera" />
+
+    <TextView
+        android:id="@+id/textViewDoNotDisturb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Do Not Disturb:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewOtherSettings"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOtherSettings" />
+
+    <TextView
+        android:id="@+id/textViewShowOnTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Näytä päällimmäisenä:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewDoNotDisturb"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDoNotDisturb" />
+
+    <TextView
+        android:id="@+id/textViewBatteryOpt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Akun optimointi:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewShowOnTop"
+        app:layout_constraintTop_toBottomOf="@+id/textViewShowOnTop" />
+
+    <TextView
+        android:id="@+id/textViewAnalytics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Analytiikkatiedot:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@id/textViewBatteryOpt"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBatteryOpt" />
+
+    <TextView
+        android:id="@+id/SMSOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewSMS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewSMS" />
+
+    <TextView
+        android:id="@+id/phoneOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPhone"
+        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewPhone" />
+
+    <TextView
+        android:id="@+id/callLogOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPhoneLog"
+        app:layout_constraintEnd_toEndOf="@+id/phoneOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewPhoneLog" />
+
+    <TextView
+        android:id="@+id/storageOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewStorage"
+        app:layout_constraintEnd_toEndOf="@+id/callLogOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewStorage" />
+
+    <TextView
+        android:id="@+id/cameraOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCamera"
+        app:layout_constraintEnd_toEndOf="@+id/storageOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewCamera" />
+
+    <TextView
+        android:id="@+id/doNotDisturbOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewDoNotDisturb"
+        app:layout_constraintEnd_toEndOf="@+id/cameraOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewDoNotDisturb" />
+
+    <TextView
+        android:id="@+id/showOnTopOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewShowOnTop"
+        app:layout_constraintEnd_toEndOf="@+id/doNotDisturbOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewShowOnTop" />
+
+    <TextView
+        android:id="@+id/batteryOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewBatteryOpt"
+        app:layout_constraintEnd_toEndOf="@+id/showOnTopOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewBatteryOpt" />
+
+    <TextView
+        android:id="@+id/analyticsOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#C21919"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAnalytics"
+        app:layout_constraintEnd_toEndOf="@+id/batteryOK"
+        app:layout_constraintTop_toTopOf="@+id/textViewAnalytics" />
+</androidx.constraintlayout.widget.ConstraintLayout>
