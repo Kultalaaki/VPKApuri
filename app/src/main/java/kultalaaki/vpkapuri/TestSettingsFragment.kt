@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/30/21 11:38 AM
+ * Created by Kultala Aki on 1/30/21 12:23 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/30/21 11:38 AM
+ * Last modified 1/30/21 12:23 PM
  */
 
 package kultalaaki.vpkapuri
@@ -15,6 +15,8 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,11 +128,10 @@ class TestSettingsFragment : Fragment() {
             batteryOK.setTextColor(Color.parseColor(green))
         }
 
-        val preferences = activity?.getPreferences(Context.MODE_PRIVATE)
-        val analytics = preferences?.getBoolean("analyticsEnabled", false)
-
-        if (analytics != null && analytics) {
-            analyticsOK.setTextColor(Color.parseColor(green))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.canDrawOverlays(activity)) {
+                showOnTopOK.setTextColor(Color.parseColor(green))
+            }
         }
     }
 
