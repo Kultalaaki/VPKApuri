@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 1/30/21 11:38 AM
+  ~ Created by Kultala Aki on 1/30/21 12:23 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/30/21 11:38 AM
+  ~ Last modified 1/30/21 12:23 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -114,16 +114,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewShowOnTop" />
 
     <TextView
-        android:id="@+id/textViewAnalytics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Analytiikkatiedot:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@id/textViewBatteryOpt"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBatteryOpt" />
-
-    <TextView
         android:id="@+id/SMSOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -220,15 +210,4 @@
         app:layout_constraintEnd_toEndOf="@+id/showOnTopOK"
         app:layout_constraintTop_toTopOf="@+id/textViewBatteryOpt" />
 
-    <TextView
-        android:id="@+id/analyticsOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#C21919"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAnalytics"
-        app:layout_constraintEnd_toEndOf="@+id/batteryOK"
-        app:layout_constraintTop_toTopOf="@+id/textViewAnalytics" />
 </androidx.constraintlayout.widget.ConstraintLayout>
