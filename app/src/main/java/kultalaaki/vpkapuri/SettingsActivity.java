@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/7/21 9:48 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/6/21 11:29 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -415,7 +415,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
 
-        private String[] permissionsSms = {Manifest.permission.READ_CALL_LOG, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
+        private String[] permissionsSms = {Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS};
 
         //, Manifest.permission.CALL_PHONE

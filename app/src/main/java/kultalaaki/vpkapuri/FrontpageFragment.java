@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/25/21 7:34 PM
+ * Created by Kultala Aki on 2/7/21 9:48 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/25/21 7:34 PM
+ * Last modified 2/6/21 11:29 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -102,7 +102,7 @@ public class FrontpageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Todo ask permissions and let activity start setting page
-                mListener.pyydaLuvatTiedostotAsetukset();
+                mListener.askPermissionReadExternalStorage();
                 /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
                     Intent intent = new Intent(getActivity(), SettingsActivity.class);
@@ -148,6 +148,6 @@ public class FrontpageFragment extends Fragment {
 
         void loadOhjeetFragment();
 
-        void pyydaLuvatTiedostotAsetukset();
+        void askPermissionReadExternalStorage();
     }
 }

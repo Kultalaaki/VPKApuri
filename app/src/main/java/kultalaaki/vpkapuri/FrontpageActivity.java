@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/30/21 11:38 AM
+ * Created by Kultala Aki on 2/7/21 9:48 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/30/21 11:38 AM
+ * Last modified 2/7/21 9:48 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -26,7 +26,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
@@ -56,16 +55,13 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import java.util.Date;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
                                 ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener,
-                                ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener,
-                                TimePickerDialog.OnTimeSetListener {
+        ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener,
+        TimePickerDialog.OnTimeSetListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
@@ -74,8 +70,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     DBTimer dbTimer;
     SharedPreferences preferences;
     boolean ericaEtusivu, analytics, asemataulu;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS = 3;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS = 3;
+    private static final int CREATE_FILE = 1;
     SoundControls soundControls;
     FragmentManager fragmentManager;
 
@@ -125,35 +121,82 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 return true;
                             case R.id.testaa_haly:
                                 // Todo remove comments after testing and find other place for loadTestSettingsFragment()
-                                //showDialogTestAlarm();
+                                /*showDialog(
+                                        "Hälytyksen testaus! Hälytys tulee 5 sekunnin kuluttua OK:n painamisesta.",
+                                        "Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                testAlarm();
+                                            }
+                                        });*/
                                 loadTestSettingsFragment();
                                 return true;
                             case R.id.hiljenna_halyt:
-                                //hiljennaHalytykset();
                                 if (preferences.getInt("aaneton_profiili", -1) == 1) {
-                                    showDialogSilenceAlarms();
+                                    showDialog(
+                                            "Hälytysten hiljennys!",
+                                            "Haluatko varmasti hiljentää hälytykset?",
+                                            "Peruuta",
+                                            "Kyllä",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    setSoundSilent();
+                                                }
+                                            }
+                                    );
                                 } else {
                                     setSoundSilent();
                                 }
                                 return true;
                             case R.id.timer:
                                 startTimerActivity();
-                                //showMessageOKCancelAjastin();
                                 return true;
                             case R.id.changelog:
                                 startChangelog();
                                 return true;
                             case R.id.tallennatietokanta:
-                                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    //tietokantatxt = true;
-                                    //tietokantaBackUp();
-                                    pyydaLuvatTiedostotKirjoita();
+                                showDialog(
+                                        "Haluatko tallentaa arkistossa olevat hälytykset?",
+                                        "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
+                                        "Peruuta",
+                                        "Kyllä",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                saveFile();
+                                            }
+                                        }
+                                );
+                                //saveFile();
+                                /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    askPermissionWriteExternalStorages();
                                 } else {
-                                    showDialogBackupDatabase();
-                                }
+                                    showDialog(
+                                            "Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.",
+                                            "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    backupDatabase();
+                                                }
+                                            });
+                                }*/
                                 return true;
                             case R.id.tyhjennatietokanta:
-                                showDialogDeleteDatabase();
+                                showDialog(
+                                        "Arkiston tyhjentäminen!",
+                                        "Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?",
+                                        "Peruuta",
+                                        "Kyllä",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                deleteDatabase();
+                                            }
+                                        }
+                                );
                                 return true;
                             case R.id.palautetta:
                                 startLahetaPalaute();
@@ -403,10 +446,10 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         return super.onOptionsItemSelected(item);
     }
 
-    public void startTestaaHalytys() {
+    public void testAlarm() {
 
         ericaEtusivu = preferences.getBoolean("Erica", true);
-        if(ericaEtusivu) {
+        if (ericaEtusivu) {
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
                 public void run() {
@@ -471,33 +514,38 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-
-    public void pyydaLuvatTiedostotAsetukset() {
+    // Todo On devices that run Android 9 (API level 28) or lower, your app must request READ_EXTERNAL_STORAGE permission to access any media file, including the media files that your app created.
+    public void askPermissionReadExternalStorage() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Second time asking. Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(FrontpageActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                showDialogPermissionStorage(new DialogInterface.OnClickListener() {
-                    @TargetApi(Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                showDialog(
+                        "VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.",
+                        "Tämä lupa tarvitaan hälytysäänen asettamiseksi. Ilman tätä lupaa sovellus ei voi asettaa hälytysääntä. Pääsy asetuksiin on estetty kunnes lupa on myönnetty.",
+                        "Peruuta",
+                        "Anna lupa",
+                        new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.M)
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
-                    }
-                });
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
+                            }
+                        });
             } else {
                 // First time asking. No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(FrontpageActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS);
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
             }
         } else {
             // We have permission
@@ -505,7 +553,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    public void pyydaLuvatTiedostotKirjoita() {
+    /*public void askPermissionWriteExternalStorages() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -517,7 +565,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                showDialogPermissionWriteStorage(new DialogInterface.OnClickListener() {
+                showDialog("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.",
+                        "Puhelimen muistiin kirjoittaminen vaatii luvan ennen kuin sovellus voi tehdä tämän toimenpiteen.",
+                        new DialogInterface.OnClickListener() {
                     @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -533,22 +583,39 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         } else {
-            showDialogBackupDatabase();
+            showDialog(
+                    "Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.",
+                    "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            backupDatabase();
+                        }
+                    });
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
+        /*if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showDialogBackupDatabase();
+                showDialog(
+                        "Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.",
+                        "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                backupDatabase();
+                            }
+                        });
             } else {
                 // ei lupaa
                 showDialog("Sovelluksella ei ole lupa käyttää laitteen tiedostoja.", "Et voi tallentaa tietokantaa ennen kuin sovelluksella on lupa käyttää laitteen tiedostoja.");
             }
-        } else if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_SETTINGS) {
+        } else */
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Lupa annettu mene asetuksiin
@@ -557,147 +624,96 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 // ei lupaa. 1. kielto tulee tänne
                 showDialog(
                         "Et antanut lupaa käyttää laitteellasi olevia kuvia ja mediaa.",
-                        "Pääsy sovelluksen asetuksiin on estetty kunnes annat luvan käyttää laitteellasi olevia kuvia ja mediaa.");
+                        "Pääsy sovelluksen asetuksiin on estetty kunnes annat luvan käyttää laitteellasi olevia kuvia ja mediaa.",
+                        "OK");
             }
         }
     }
 
-    private void showDialog(String permission, String reasoning) {
+    public void showDialog(String upperText, String lowerText, String positiveButtonText) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText(permission);
-        whatReason.setText(reasoning);
+        whatPermission.setText(upperText);
+        whatReason.setText(lowerText);
         new AlertDialog.Builder(FrontpageActivity.this)
                 .setView(dialogLayout)
-                .setNegativeButton("OK", null)
+                .setPositiveButton(positiveButtonText, null)
                 .create()
                 .show();
     }
 
-    private void showDialogPermissionStorage(DialogInterface.OnClickListener okListener) {
-        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-
-        new AlertDialog.Builder(FrontpageActivity.this)
-                .setView(customLayout)
-                .setPositiveButton("OK", okListener)
-                .setNeutralButton("Peruuta", null)
-                .create()
-                .show();
-
-    }
-
-    private void showDialogPermissionWriteStorage(DialogInterface.OnClickListener okListener) {
+    private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.");
-        whatReason.setText("Puhelimen muistiin kirjoittaminen vaatii luvan ennen kuin sovellus voi tehdä tämän toimenpiteen.");
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        dialogUpperText.setText(upperText);
+        dialogLowerText.setText(lowerText);
+
         new AlertDialog.Builder(FrontpageActivity.this)
                 .setView(dialogLayout)
-                .setPositiveButton("OK", okListener)
-                .setNeutralButton("Peruuta", null)
+                .setPositiveButton(positiveButtonText, okListener)
+                .setNeutralButton(neutralButtonText, null)
                 .create()
                 .show();
     }
 
-    private void showDialogBackupDatabase() {
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText("Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.");
-        whatReason.setText("Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.");
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setTitle("Varmuuskopiointi!")
-                .setView(dialogLayout)
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //tietokantaVarmuuskopio();
-                        backupDatabase();
-                    }
-                });
-        builder.create().show();
+    /*private void backupDB() {
+        String fileName = "VPK_Apuri_Hälytykset";
+        String currentDB = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
+        try (FileOutputStream fos = getApplicationContext().openFileOutput(fileName, Context.MODE_PRIVATE)) {
+            File currentdb = new File(currentDB);
+            fos.write(currentdb);
+        } catch (Exception e) {
+            Toast.makeText(FrontpageActivity.this, "Tiedoston tallennus ei onnistunut", Toast.LENGTH_LONG).show();
+        }
+    }*/
+
+    private void saveFile() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("VPKApuri/db");
+        intent.putExtra(Intent.EXTRA_TITLE, "HälytyksetVPKApuri.db");
+
+        startActivityForResult(intent, CREATE_FILE);
     }
 
-    private void showDialogDeleteDatabase() {
-
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText("Arkiston tyhjentäminen!");
-        whatReason.setText("Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?");
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setView(dialogLayout)
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteDatabase();
-                    }
-                });
-        builder.create().show();
-    }
-
-    public void showDialogTestAlarm() {
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText("Hälytyksen testaus!\n\nHälytys tulee 5 sekunnin kuluttua OK:n painamisesta.");
-        whatReason.setText("Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.");
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setView(dialogLayout)
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startTestaaHalytys();
-                    }
-                });
-        builder.create().show();
-    }
-
-    public void showDialogSilenceAlarms() {
-
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-
-        whatPermission.setText("Hälytysten hiljennys!");
-        whatReason.setText("Haluatko varmasti hiljentää hälytykset?");
-        AlertDialog.Builder builder = new AlertDialog.Builder(FrontpageActivity.this)
-                .setView(dialogLayout)
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        setSoundSilent();
-                    }
-                });
-        builder.create().show();
-    }
-
-    public void backupDatabase() {
+    /*public void backupDatabase() {
         try {
             File sd = getApplicationContext().getFilesDir();
+            File[] externalStorageVolumes =
+                    ContextCompat.getExternalFilesDirs(getApplicationContext(), null);
+            File primaryExternalStorage = externalStorageVolumes[0];
 
-            if (sd.canWrite()) {
+
+            if (primaryExternalStorage.canWrite()) {
                 String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
+                Log.e("TAG", currentDBPath);
                 String backUpPath = "Hälytykset_VPK_Apuri";
                 File currentDB = new File(currentDBPath);
-                File backUpDP = new File(sd, backUpPath);
+                File backUpDP = new File(primaryExternalStorage, backUpPath);
 
                 if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backUpDP).getChannel();
-                    dst.transferFrom(src, 0, src.size());
+                    dst.transferFrom(src, src.position(), src.size());
+                    long d = src.position();
+                    Log.e("TAG", String.valueOf(d));
                     src.close();
                     dst.close();
+                    Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
+                String[] files = getApplicationContext().fileList();
+
+                for (String file : files) {
+                    Log.e("TAG", file);
+                }
             }
         } catch (Exception e) {
+            Toast.makeText(FrontpageActivity.this, "Tiedoston tallennus ei onnistunut", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
