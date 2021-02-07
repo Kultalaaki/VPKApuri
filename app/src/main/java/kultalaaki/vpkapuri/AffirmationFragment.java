@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/29/21 10:53 PM
+ * Created by Kultala Aki on 2/7/21 9:48 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/29/21 9:59 PM
+ * Last modified 2/6/21 12:26 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -128,11 +128,24 @@ public class AffirmationFragment extends Fragment {
                 } else if (sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) &&
                         !sharedPreferences.getBoolean("analyticsEnabled", false)) {
                     // show dialog and ask analytics again, if denied let user in anyway
-                    showDialog();
+                    showDialog(
+                            "Et  antanut lupaa analytiikka tietojen keräämiseen.",
+                            "Tämä auttaa sovelluksen kehittämisessä paremmaksi ja toimivammaksi.\n\nHaluatko jatkaa ilman tietojen keräämistä?",
+                            "Peruuta",
+                            "Jatka",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    letIn();
+                                }
+                            });
                 } else if(!sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) ||
                         sharedPreferences.getBoolean("kayttoehdot", false) && !sharedPreferences.getBoolean("tietosuoja", false)) {
                     // inform user that terms&conditions and privacy policy must be accepted to use this app
-                    showMessage2();
+                    showDialog(
+                            "Huomautus!",
+                            "Tietosuoja ja käyttöehdot täytyy hyväksyä ennen kuin voit jatkaa sovelluksen käyttöä.",
+                            "OK");
                 }
 
             }
@@ -184,14 +197,6 @@ public class AffirmationFragment extends Fragment {
     @SuppressLint("ApplySharedPref")
     private void letIn() {
         sharedPreferences.edit().putBoolean("termsShown", true).commit();
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), FrontpageActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(getActivity(), FrontpageActivity.class);
-            startActivity(intent);
-        }*/
         mCallback.loadEtusivuFromFragment();
     }
 
@@ -220,37 +225,32 @@ public class AffirmationFragment extends Fragment {
         builder.create().show();
     }
 
-    private void showDialog() {
+    public void showDialog(String upperText, String lowerText, String positiveButtonText) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText("Et  antanut lupaa analytiikka tietojen keräämiseen.");
-        whatReason.setText("Tämä auttaa sovelluksen kehittämisessä paremmaksi ja toimivammaksi.\n\nPaina OK jos haluat jatkaa ilman tietojen keräämistä.");
+        whatPermission.setText(upperText);
+        whatReason.setText(lowerText);
         new AlertDialog.Builder(getActivity())
                 .setView(dialogLayout)
-                .setNegativeButton("Peruuta", null)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        letIn();
-                    }
-                })
+                .setPositiveButton(positiveButtonText, null)
                 .create()
                 .show();
     }
 
-    private void showMessage2() {
+    private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        dialogUpperText.setText(upperText);
+        dialogLowerText.setText(lowerText);
 
-        whatPermission.setText("Huomautus!");
-        whatReason.setText("Tietosuoja ja käyttöehdot täytyy hyväksyä ennen kuin voit jatkaa sovelluksen käyttöä.");
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity())
                 .setView(dialogLayout)
-                .setPositiveButton("Ok", null);
-        builder.create().show();
+                .setPositiveButton(positiveButtonText, okListener)
+                .setNeutralButton(neutralButtonText, null)
+                .create()
+                .show();
     }
 
     public void onPause() {
