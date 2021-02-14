@@ -1,14 +1,13 @@
 /*
- * Created by Kultala Aki on 2/7/21 9:48 AM
+ * Created by Kultala Aki on 2/14/21 9:02 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/7/21 9:48 AM
+ * Last modified 2/14/21 9:02 PM
  */
 
 package kultalaaki.vpkapuri;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -29,7 +28,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -45,8 +43,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -59,19 +61,19 @@ import java.util.Date;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
-                                ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener,
+        ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener,
         ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener,
         TimePickerDialog.OnTimeSetListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS = 3;
+    private static final int CREATE_FILE = 1;
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
-    String[] osoite;
-    String aihe;
+    String[] emailAddress;
+    String emailSubject;
     DBTimer dbTimer;
     SharedPreferences preferences;
     boolean ericaEtusivu, analytics, asemataulu;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS = 3;
-    private static final int CREATE_FILE = 1;
     SoundControls soundControls;
     FragmentManager fragmentManager;
 
@@ -120,16 +122,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 //startTallennaArkistoon();
                                 return true;
                             case R.id.testaa_haly:
-                                // Todo remove comments after testing and find other place for loadTestSettingsFragment()
-                                /*showDialog(
-                                        "Hälytyksen testaus! Hälytys tulee 5 sekunnin kuluttua OK:n painamisesta.",
+                                showDialog(
+                                        "Hälytyksen testaus! Hälytys tulee 5 sekunnin kuluttua.",
                                         "Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                testAlarm();
-                                            }
-                                        });*/
+                                        "Peruuta",
+                                        "Testaa",
+                                        "testAlarm");
+                                return true;
+                            case R.id.check_settings:
                                 loadTestSettingsFragment();
                                 return true;
                             case R.id.hiljenna_halyt:
@@ -139,13 +139,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                             "Haluatko varmasti hiljentää hälytykset?",
                                             "Peruuta",
                                             "Kyllä",
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    setSoundSilent();
-                                                }
-                                            }
-                                    );
+                                            "setSoundSilent");
                                 } else {
                                     setSoundSilent();
                                 }
@@ -162,13 +156,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                         "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
                                         "Peruuta",
                                         "Kyllä",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                saveFile();
-                                            }
-                                        }
-                                );
+                                        "saveDatabase");
                                 //saveFile();
                                 /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     askPermissionWriteExternalStorages();
@@ -190,12 +178,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                         "Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?",
                                         "Peruuta",
                                         "Kyllä",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                deleteDatabase();
-                                            }
-                                        }
+                                        "deleteDatabase"
                                 );
                                 return true;
                             case R.id.palautetta:
@@ -205,11 +188,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
                         return true;
                     }
-        });
+                });
 
-        osoite = new String[1];
-        osoite[0] = "kultalaaki@gmail.com";
-        aihe = "VPK Apuri palaute";
+        emailAddress = new String[1];
+        emailAddress[0] = "kultalaaki@gmail.com";
+        emailSubject = "VPK Apuri palaute";
 
         if (preferences.contains("termsShown")) {
             loadEtusivuFragment();
@@ -324,12 +307,23 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         fragmentTransaction.replace(R.id.etusivuContainer, saveToArchiveFragment, "saveToArchiveFragment").commit();
     }
 
+    public void startChangelog() {
+        ChangelogFragment changelogFragment = new ChangelogFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        if (findViewById(R.id.etusivuContainerLandScape) != null) {
+            fragmentTransaction.replace(R.id.etusivuContainerLandScape, changelogFragment, "changelogFragment").commit();
+        } else {
+            fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
+        }
+    }
+
     public void loadHalytysTietokannastaFragment(FireAlarm fireAlarm) {
         //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchivedAlarmFragment archivedAlarmFragment = ArchivedAlarmFragment.newInstance(fireAlarm);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        if(findViewById(R.id.etusivuContainerLandScape) != null) {
+        if (findViewById(R.id.etusivuContainerLandScape) != null) {
             fragmentTransaction.replace(R.id.etusivuContainerLandScape, archivedAlarmFragment, "archivedAlarmFragment").commit();
         } else {
             fragmentTransaction.replace(R.id.etusivuContainer, archivedAlarmFragment, "archivedAlarmFragment").commit();
@@ -369,7 +363,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         long tallennettu = dbTimer.insertData(name, startTime, stopTime,
                 ma, ti, ke, to, pe, la, su, selector, isiton);
         if(tallennettu != -1) {
-            Toast.makeText(getApplicationContext(), "Tallennettu", Toast.LENGTH_LONG).show();
+            showToast("Ajastin", "Tallennettu.");
+            //Toast.makeText(getApplicationContext(), "Tallennettu", Toast.LENGTH_LONG).show();
             return tallennettu;
         }
         return -1;
@@ -483,22 +478,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    public void startChangelog() {
-        ChangelogFragment changelogFragment = new ChangelogFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        if(findViewById(R.id.etusivuContainerLandScape) != null) {
-            fragmentTransaction.replace(R.id.etusivuContainerLandScape, changelogFragment, "changelogFragment").commit();
-        } else {
-            fragmentTransaction.replace(R.id.etusivuContainer, changelogFragment, "changelogFragment").commit();
-        }
-    }
-
-    public void startLahetaPalaute (){
+    public void startLahetaPalaute () {
         Intent intentemail = new Intent(Intent.ACTION_SENDTO);
         intentemail.setData(Uri.parse("mailto:"));
-        intentemail.putExtra(Intent.EXTRA_EMAIL, osoite);
-        intentemail.putExtra(Intent.EXTRA_SUBJECT, aihe);
+        intentemail.putExtra(Intent.EXTRA_EMAIL, emailAddress);
+        intentemail.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
         if (intentemail.resolveActivity(getPackageManager()) != null) {
             startActivity(intentemail);
         }
@@ -532,15 +516,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         "Tämä lupa tarvitaan hälytysäänen asettamiseksi. Ilman tätä lupaa sovellus ei voi asettaa hälytysääntä. Pääsy asetuksiin on estetty kunnes lupa on myönnetty.",
                         "Peruuta",
                         "Anna lupa",
-                        new DialogInterface.OnClickListener() {
-                            @TargetApi(Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
-                            }
-                        });
+                        "askPermission");
             } else {
                 // First time asking. No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(FrontpageActivity.this,
@@ -631,19 +607,145 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void showDialog(String upperText, String lowerText, String positiveButtonText) {
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        dialog.setView(dialogLayout);
+
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
         whatPermission.setText(upperText);
         whatReason.setText(lowerText);
-        new AlertDialog.Builder(FrontpageActivity.this)
-                .setView(dialogLayout)
-                .setPositiveButton(positiveButtonText, null)
-                .create()
-                .show();
+
+        Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
+        buttonPositive.setText(positiveButtonText);
+
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
-    private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
+    private void showDialog(String upperText, String lowerText, String negativeButtonText, String positiveButtonText, String chooser) {
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        dialog.setView(dialogLayout);
+
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        dialogUpperText.setText(upperText);
+        dialogLowerText.setText(lowerText);
+
+        Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
+        Button buttonNegative = dialogLayout.findViewById(R.id.buttonNegative);
+        buttonPositive.setText(positiveButtonText);
+        buttonNegative.setText(negativeButtonText);
+
+        switch (chooser) {
+            case "testAlarm":
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        testAlarm();
+                        dialog.dismiss();
+                    }
+                });
+                buttonNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case "setSoundSilent":
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setSoundSilent();
+                        dialog.dismiss();
+                    }
+                });
+                buttonNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case "askPermission":
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(FrontpageActivity.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
+                        dialog.dismiss();
+                    }
+                });
+                buttonNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case "saveDatabase":
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        saveFile();
+                        dialog.dismiss();
+                    }
+                });
+                buttonNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case "deleteDatabase":
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteDatabase();
+                        dialog.dismiss();
+                    }
+                });
+                buttonNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+        }
+
+
+        dialog.show();
+    }
+
+    public void showToast(String headText, String toastText) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView head = (TextView) layout.findViewById(R.id.head_text);
+        head.setText(headText);
+        TextView toastMessage = (TextView) layout.findViewById(R.id.toast_text);
+        toastMessage.setText(toastText);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+    }
+
+    /*private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
@@ -656,7 +758,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 .setNeutralButton(neutralButtonText, null)
                 .create()
                 .show();
-    }
+    }*/
 
     /*private void backupDB() {
         String fileName = "VPK_Apuri_Hälytykset";
@@ -718,7 +820,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.deleteAllFireAlarms();
-        Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Arkisto tyhjennetty.", Toast.LENGTH_LONG).show();
+        showToast("Arkisto", "Arkisto tyhjennetty!");
     }
 
     private class WhatsNewScreen {

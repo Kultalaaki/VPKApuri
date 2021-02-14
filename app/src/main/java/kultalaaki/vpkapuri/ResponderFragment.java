@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 10.7.2019 22:36
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -27,11 +27,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 public class ResponderFragment extends Fragment {
+
+    private OnFragmentInteractionListener mListener;
 
     private ResponderViewModel mViewModel;
     private RecyclerView mRecyclerView;
@@ -115,7 +116,8 @@ public class ResponderFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 mViewModel.delete(adapter.getResponderAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(getActivity(), "Lähtijä poistettu listalta!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Lähtijä poistettu listalta!", Toast.LENGTH_LONG).show();
+                mListener.showToast("", "Lähtijä poistettu listalta.");
             }
         }).attachToRecyclerView(mRecyclerView);
     }
@@ -127,12 +129,12 @@ public class ResponderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (deleteCounter < 1) {
-                    Toast.makeText(getActivity(), "Paina uudestaan tyhjentääksesi lähtijät lista!", Toast.LENGTH_LONG).show();
+                    mListener.showToast("Lähtijät.", "Paina uudestaan tyhjentääksesi lista!");
                     deleteCounter++;
                 } else {
                     mViewModel.deleteAll();
                     deleteCounter = 0;
-                    Toast.makeText(getActivity(), "Tyhjennetty!", Toast.LENGTH_LONG).show();
+                    mListener.showToast("Lähtijät.", "Tyhjennetty!");
                 }
             }
         });
@@ -176,5 +178,10 @@ public class ResponderFragment extends Fragment {
             AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getActivity(), 800);
             mRecyclerView.setLayoutManager(layoutManager);
         }
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void showToast(String head, String message);
     }
 }

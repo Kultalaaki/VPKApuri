@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,6 +88,8 @@ public class AlarmFragment extends Fragment {
         void loadhalytysButtonsFragment();
 
         void loadAsematauluButtons();
+
+        void showToast(String head, String message);
     }
 
     @Override
@@ -146,7 +147,7 @@ public class AlarmFragment extends Fragment {
                             chronometer.setVisibility(View.INVISIBLE);
                         }
                     } else {
-                        Toast.makeText(getActivity(), "Arkisto on tyhjä. Ei näytettävää hälytystä.", Toast.LENGTH_LONG).show();
+                        mCallback.showToast("Arkisto on tyhjä.", "Ei näytettävää hälytystä.");
                     }
                 }
             });
@@ -174,7 +175,7 @@ public class AlarmFragment extends Fragment {
             if (notificationManager != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && !notificationManager.isNotificationPolicyAccessGranted()) {
-                    Toast.makeText(getActivity(), "Sovelluksella ei ole lupaa säädellä Älä häiritse tilaa.", Toast.LENGTH_LONG).show();
+                    mCallback.showToast("Älä häiritse", "Ei ole lupaa säätää Älä häiritse tilaa.");
                 }
             }
         }
@@ -182,7 +183,6 @@ public class AlarmFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
         halytyksentunnus = view.findViewById(R.id.halytyksenTunnus);
         halytyksenviesti = view.findViewById(R.id.halytyksenViesti);
         kiireellisyys = view.findViewById(R.id.kiireellisyys);
@@ -208,7 +208,6 @@ public class AlarmFragment extends Fragment {
                 public void onChronometerTick(Chronometer chronometer) {
                     if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.valueOf(alarmCounterTime)) {
                         chronometer.stop();
-                        //chronometer.setBase(SystemClock.elapsedRealtime());
                     }
                 }
             });
@@ -226,8 +225,6 @@ public class AlarmFragment extends Fragment {
             if (audioManager != null) {
                 palautaMediaVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 palautaMediaVolBoolean = true;
-                // audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 4, 0);
-                // teksti puheeksi äänenvoimakkuus
                 try {
                     SharedPreferences prefe_general = PreferenceManager.getDefaultSharedPreferences(ctx);
                     tekstiPuheeksiVol = prefe_general.getInt("tekstiPuheeksiVol", -1);
@@ -244,7 +241,6 @@ public class AlarmFragment extends Fragment {
     private int saadaAani(int voima) {
         Context ctx = getActivity();
         if (ctx != null) {
-            //final AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
             if (audioManager != null) {
                 tekstiPuheeksiVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
                 double aani = (double) tekstiPuheeksiVol / 100 * voima;
@@ -281,11 +277,11 @@ public class AlarmFragment extends Fragment {
                 if (status == TextToSpeech.SUCCESS) {
                     int result = t1.setLanguage(Locale.getDefault());
                     if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(getActivity(), "Kieli ei ole tuettu.", Toast.LENGTH_LONG).show();
+                        mCallback.showToast("Teksti puheeksi.", "Kieli ei ole tuettu.");
                     }
                     txtToSpeechVolume();
                 } else {
-                    Toast.makeText(getActivity(), "Virhe", Toast.LENGTH_LONG).show();
+                    mCallback.showToast("Virhe!", "");
                 }
             }
         });

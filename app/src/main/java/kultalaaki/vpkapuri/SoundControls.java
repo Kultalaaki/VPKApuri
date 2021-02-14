@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:58
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 8:56 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -13,8 +13,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -39,7 +42,7 @@ class SoundControls {
         sharedPreferences.edit().putInt("aaneton_profiili", 2).commit();
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Äänetön");
-        Toast.makeText(context,"Äänetön tila käytössä.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"Äänetön tila käytössä.", Toast.LENGTH_SHORT).show();
 
         ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -72,7 +75,7 @@ class SoundControls {
         // set night mode
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putInt("aaneton_profiili", 3).commit();
-        Toast.makeText(context, "Yötila käytössä", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Yötila käytössä", Toast.LENGTH_LONG).show();
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Yötila");
 
@@ -111,7 +114,7 @@ class SoundControls {
         notificationManager.cancel(MY_NOTIFICATION_ID);
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Normaali");
-        Toast.makeText(context,"Äänet kytketty.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"Äänet kytketty.", Toast.LENGTH_SHORT).show();
 
         ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);

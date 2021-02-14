@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -41,7 +41,6 @@ public class BootReadyReceiver extends BroadcastReceiver {
                     String startTime = cursor.getString(cursor.getColumnIndex(DBTimer.STARTTIME));
                     String stopTime = cursor.getString(cursor.getColumnIndex(DBTimer.STOPTIME));
                     setAlarms(key, startTime, stopTime, context);
-                    //Toast.makeText(context, "Ajastimen tiedot: " + key + " : " + startTime + " : " + stopTime, Toast.LENGTH_LONG).show();
                     cursor.moveToNext();
                 }
             }
@@ -63,8 +62,6 @@ public class BootReadyReceiver extends BroadcastReceiver {
             int startHourPar = Integer.parseInt(startHour);
             int startMinutePar = Integer.parseInt(startMinute);
             int requestCode = Integer.parseInt(key) + startHourPar + startMinutePar;
-            //Toast.makeText(getActivity(), "Hour: " + startHourPar + " Minute: " + startMinutePar, Toast.LENGTH_LONG).show();
-            //Log.e("TAG", "Hour: " + startHourPar + " Minute: " + startMinutePar);
 
             AlarmManager alarmMgrStart = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStart = new Intent(ctx, AlarmReceiver.class);

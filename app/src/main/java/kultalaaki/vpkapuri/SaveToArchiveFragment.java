@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 9:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class SaveToArchiveFragment extends Fragment {
 
@@ -72,7 +71,7 @@ public class SaveToArchiveFragment extends Fragment {
 
                         //boolean tallennettu = db.insertData( tunnus, luokka, viesti,"");
                         addressLookUp(viesti, luokka, tunnus);
-                        Toast.makeText(getActivity(), "Tallennettu.", Toast.LENGTH_LONG).show();
+                        mListener.showToast("Hälytys.", "Tallennettu.");
                         mListener.loadEtusivuClearingBackstack();
                         if (getActivity() != null) {
                             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(FrontpageActivity.INPUT_METHOD_SERVICE);
@@ -125,5 +124,7 @@ public class SaveToArchiveFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void loadEtusivuClearingBackstack();
+
+        void showToast(String head, String message);
     }
 }

@@ -1,65 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 2/7/21 9:48 AM
+  ~ Created by Kultala Aki on 2/14/21 9:02 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 2/5/21 7:11 PM
+  ~ Last modified 2/13/21 11:17 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:elevation="8dp">
 
     <ImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/app_logo"
-        app:layout_constraintStart_toStartOf="parent"
+        android:rotation="0"
+        android:rotationX="0"
+        android:rotationY="0"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAppName"
+        app:layout_constraintStart_toStartOf="@+id/textViewAppName"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/textViewAppName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/app_name_orange"
-        android:textSize="36sp"
         android:textColor="@color/orange"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewLogo"
-        app:layout_constraintTop_toTopOf="@+id/imageViewLogo" />
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewWhatPermission"
+        app:layout_constraintStart_toStartOf="@+id/textViewWhatPermission"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
 
     <TextView
         android:id="@+id/textViewWhatPermission"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
+        app:layout_constraintTop_toBottomOf="@id/textViewAppName" />
 
     <TextView
         android:id="@+id/textViewReasoning"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -67,5 +65,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewWhatPermission" />
+
+    <Button
+        android:id="@+id/buttonPositive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewReasoning"
+        app:layout_constraintTop_toBottomOf="@+id/textViewReasoning" />
+
+    <Button
+        android:id="@+id/buttonNegative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/textViewReasoning"
+        app:layout_constraintTop_toTopOf="@+id/buttonPositive" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

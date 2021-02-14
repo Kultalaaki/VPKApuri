@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/24/21 12:36 PM
+ * Created by Kultala Aki on 2/14/21 9:02 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/24/21 12:36 PM
+ * Last modified 2/14/21 8:59 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -25,6 +25,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +41,7 @@ import java.util.Locale;
 
 
 public class AlarmActivity extends AppCompatActivity
-        implements AlarmButtonsFragment.Listener, StationboardButtonsFragment.OnFragmentInteractionListener, AlarmFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener {
+        implements AlarmButtonsFragment.Listener, StationboardButtonsFragment.OnFragmentInteractionListener, AlarmFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener, ResponderFragment.OnFragmentInteractionListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -67,7 +73,6 @@ public class AlarmActivity extends AppCompatActivity
         autoAukaisu = preferences.getBoolean("automaticOpen", false);
 
         constraintLayout = findViewById(R.id.activity_halytys);
-
     }
 
     @Override
@@ -308,6 +313,24 @@ public class AlarmActivity extends AppCompatActivity
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    public void showToast(String headText, String toastText) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView head = (TextView) layout.findViewById(R.id.head_text);
+        head.setText(headText);
+        TextView toastMessage = (TextView) layout.findViewById(R.id.toast_text);
+        toastMessage.setText(toastText);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 
     private void galleryAddPic() {
