@@ -1,5 +1,7 @@
 ## Tervetuloa VPK Apurin sivulle (SIVU ON VIELÄ TYÖN ALLA)
 
+## [Lataa sovellus](https://github.com/Kultalaaki/VPKApuri/releases/download/v3.81/VPKApuriV381.apk)
+
 Sovellus on tarkoitettu ilmaiseksi työkaluksi suomalaisille vapaaehtoisille palokuntalaisille sekä vapaaehtoisen pelastuspalvelun henkilöille.
 
 Sovellusta kehitetään käyttäjien toiveiden mukaan.
