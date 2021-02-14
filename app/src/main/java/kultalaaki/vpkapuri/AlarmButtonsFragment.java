@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/25/21 4:02 PM
+ * Created by Kultala Aki on 2/14/21 9:02 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/25/21 4:02 PM
+ * Last modified 2/14/21 9:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -35,7 +35,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -62,12 +61,12 @@ public class AlarmButtonsFragment extends Fragment {
 
     private Listener mCallback;
 
-    // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
-        /** Called when a button is clicked in AlarmButtonsFragment */
         void hiljenna();
         void autoAukaisuPuhu();
         void avaaWebSivu(String url);
+
+        void showToast(String head, String message);
     }
 
     @Override
@@ -76,19 +75,6 @@ public class AlarmButtonsFragment extends Fragment {
         setResources();
 
     }
-
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception.
-        try {
-            mCallback = (Listener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement Listener");
-        }
-    }*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -108,7 +94,7 @@ public class AlarmButtonsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mCallback = (Listener) context;
@@ -273,12 +259,6 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero != null && smsnumero.equals("whatsapp")) {
                     sendTextToWhatsapp(fivemintxt);
-                    /*Intent whatsapptxt = new Intent();
-                    whatsapptxt.setAction(Intent.ACTION_SEND);
-                    whatsapptxt.putExtra(Intent.EXTRA_TEXT, fivemintxt);
-                    whatsapptxt.setType("text/plain");
-                    whatsapptxt.setPackage("com.whatsapp");
-                    startActivity(whatsapptxt);*/
                 } else if(smsnumero != null && smsnumero.contains("www") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     mCallback.avaaWebSivu(smsnumero);
                 } else if(smsnumero != null && smsnumero.equals("valitse")) {
@@ -291,13 +271,11 @@ public class AlarmButtonsFragment extends Fragment {
                         Context context = getActivity();
                         if(context != null) {
                             try {
-                                //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
-                                Toast.makeText(context,"Alle 5min ilmoitus lähetetty. (" + fivemintxt + ")", Toast.LENGTH_LONG).show();
+                                notifSend("Lähetetty.", "Viesti: " + fivemintxt);
                             } catch(Exception e) {
-                                Toast.makeText(context,"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
-                                        Toast.LENGTH_LONG).show();
+                                smsSendFailed();
                                 e.printStackTrace();
                             }
                         }
@@ -311,12 +289,6 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero10 != null && smsnumero10.equals("whatsapp")) {
                     sendTextToWhatsapp(tenmintxt);
-                    /*Intent whatsapptxt = new Intent();
-                    whatsapptxt.setAction(Intent.ACTION_SEND);
-                    whatsapptxt.putExtra(Intent.EXTRA_TEXT, tenmintxt);
-                    whatsapptxt.setType("text/plain");
-                    whatsapptxt.setPackage("com.whatsapp");
-                    startActivity(whatsapptxt);*/
                 } else if(smsnumero10 != null && smsnumero10.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenmintxt);
                 } else {
@@ -327,13 +299,11 @@ public class AlarmButtonsFragment extends Fragment {
                         Context context = getActivity();
                         if(context != null) {
                             try {
-                                //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
-                                Toast.makeText(context,"Alle 10min ilmoitus lähetetty. (" + tenmintxt + ")", Toast.LENGTH_LONG).show();
+                                notifSend("Lähetetty.", "Viesti: " + tenmintxt);
                             } catch(Exception e) {
-                                Toast.makeText(context,"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
-                                        Toast.LENGTH_LONG).show();
+                                smsSendFailed();
                                 e.printStackTrace();
                             }
                         }
@@ -347,12 +317,6 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero11 != null && smsnumero11.equals("whatsapp")) {
                     sendTextToWhatsapp(tenplusmintxt);
-                    /*Intent whatsapptxt = new Intent();
-                    whatsapptxt.setAction(Intent.ACTION_SEND);
-                    whatsapptxt.putExtra(Intent.EXTRA_TEXT, tenplusmintxt);
-                    whatsapptxt.setType("text/plain");
-                    whatsapptxt.setPackage("com.whatsapp");
-                    startActivity(whatsapptxt);*/
                 } else if(smsnumero11 != null && smsnumero11.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenplusmintxt);
                 } else {
@@ -363,13 +327,11 @@ public class AlarmButtonsFragment extends Fragment {
                         Context context = getActivity();
                         if(context != null) {
                             try {
-                                //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
-                                Toast.makeText(context,"Yli 10min ilmoitus lähetetty. (" + tenplusmintxt + ")", Toast.LENGTH_LONG).show();
+                                notifSend("Lähetetty.", "Viesti: " + tenplusmintxt);
                             } catch(Exception e) {
-                                Toast.makeText(context,"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
-                                        Toast.LENGTH_LONG).show();
+                                smsSendFailed();
                                 e.printStackTrace();
                             }
                         }
@@ -384,7 +346,6 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoiteFromDB);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                //mapIntent.setPackage("com.google.android.apps.maps");
                 Context context = getActivity();
                 if(context != null) {
                     PackageManager packageManager = context.getPackageManager();
@@ -393,9 +354,6 @@ public class AlarmButtonsFragment extends Fragment {
                     if (activities.size() > 0) {
                         startActivity(mapIntent);
                     }
-                    /*if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                        startActivity(mapIntent);
-                    }*/
                 }
             }
         });
@@ -409,21 +367,24 @@ public class AlarmButtonsFragment extends Fragment {
         });
     }
 
-    // Todo what package to use??
+    private void smsSendFailed() {
+        mCallback.showToast("Lähetys epäonnistui.", "Tarkista lupa lähettää viestejä ja numeroiden asetukset.");
+    }
+
+    private void notifSend(String head, String message) {
+        mCallback.showToast(head, message);
+    }
+
     private void sendTextWithOtherMessageApp(String textToSend) {
         Intent signalMessage = new Intent(Intent.ACTION_SEND);
         signalMessage.putExtra(Intent.EXTRA_TEXT, textToSend);
         signalMessage.setType("text/plain");
-        //Intent chooser = Intent.createChooser(signalMessage, textToSend);
         PackageManager packageManager = requireActivity().getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(signalMessage, PackageManager.MATCH_DEFAULT_ONLY);
         boolean isIntentSafe = activities.size() > 0;
         if (isIntentSafe) {
             startActivity(signalMessage);
         }
-        /*if (signalMessage.resolveActivity(requireActivity().getPackageManager()) != null) {
-            startActivity(signalMessage);
-        }*/
     }
 
     private void sendTextToWhatsapp(String textToSend) {
@@ -490,8 +451,7 @@ public class AlarmButtonsFragment extends Fragment {
                             startActivity(callIntent);
                         }
                     }catch(Exception e) {
-                        Toast.makeText(getActivity(),"Puhelu ei onnistunut. Tarkista sovelluksen lupa soittaa ja asetettu numero.",
-                                Toast.LENGTH_LONG).show();
+                        mCallback.showToast("Puhelu epäonnistui.", "Tarkista sovelluksen lupa soittaa ja asetettu numero.");
                         e.printStackTrace();
                     }
                 } else {
@@ -522,8 +482,6 @@ public class AlarmButtonsFragment extends Fragment {
                             .show();
                 }
             }
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 
@@ -532,10 +490,9 @@ public class AlarmButtonsFragment extends Fragment {
         try {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
-            Toast.makeText(getActivity(),"Alle 5min ilmoitus lähetetty. (" + fivemintxt + ")", Toast.LENGTH_LONG).show();
+            notifSend("Lähetetty.", "Viesti: " + fivemintxt);
         } catch(Exception e) {
-            Toast.makeText(getActivity(),"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
-                    Toast.LENGTH_LONG).show();
+            smsSendFailed();
             e.printStackTrace();
         }
         five = false;
@@ -546,10 +503,9 @@ public class AlarmButtonsFragment extends Fragment {
         try {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
-            Toast.makeText(getActivity(),"Alle 10min ilmoitus lähetetty. (" + tenmintxt + ")", Toast.LENGTH_LONG).show();
+            notifSend("Lähetetty.", "Viesti: " + tenmintxt);
         } catch(Exception e) {
-            Toast.makeText(getActivity(),"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
-                    Toast.LENGTH_LONG).show();
+            smsSendFailed();
             e.printStackTrace();
         }
         ten = false;
@@ -560,10 +516,9 @@ public class AlarmButtonsFragment extends Fragment {
         try {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
-            Toast.makeText(getActivity(),"Yli 10min ilmoitus lähetetty. (" + tenplusmintxt + ")", Toast.LENGTH_LONG).show();
+            notifSend("Lähetetty.", "Viesti: " + tenplusmintxt);
         } catch(Exception e) {
-            Toast.makeText(getActivity(),"Tekstiviestin lähetys ei onnistunut. Tarkista sovelluksen lupa lähettää viestejä ja numeroiden asetukset.",
-                    Toast.LENGTH_LONG).show();
+            smsSendFailed();
             e.printStackTrace();
         }
         tenplus = false;

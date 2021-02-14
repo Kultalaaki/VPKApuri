@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 10.7.2019 23:01
-  ~ Copyright (c) 2019. All rights reserved.
-  ~ Last modified 7.7.2019 12:26
+  ~ Created by Kultala Aki on 2/14/21 9:02 PM
+  ~ Copyright (c) 2021. All rights reserved.
+  ~ Last modified 2/14/21 9:02 PM
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
@@ -14,13 +14,17 @@
             android:icon="@drawable/ic_whatshot_white_36dp"
             android:title="@string/testi" />
         <item
+            android:id="@+id/check_settings"
+            android:icon="@drawable/ic_stat_name"
+            android:title="@string/tarkista_asetukset" />
+        <item
             android:id="@+id/hiljenna_halyt"
             android:icon="@drawable/ic_volume_off_white_36dp"
             android:title="@string/hiljenna" />
         <item
             android:id="@+id/timer"
             android:icon="@drawable/ic_access_alarms_white_36dp"
-            android:title="@string/ajastin"/>
+            android:title="@string/ajastin" />
     </group>
     <group
         android:id="@+id/menuMiddle"

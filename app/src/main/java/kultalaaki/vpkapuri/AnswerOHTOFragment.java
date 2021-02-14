@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -21,8 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
-
 
 
 public class AnswerOHTOFragment extends Fragment {
@@ -90,24 +88,23 @@ public class AnswerOHTOFragment extends Fragment {
                     // Vastausviesti ei ole tyhjä, lähetä vastaus
                     String vastaus = vastausViesti.getText().toString().trim();
                     try {
-                        //int permissionChecks = ContextCompat.checkSelfPermission(aktiivinenHaly.this, Manifest.permission.SEND_SMS);
                         SmsManager sms = SmsManager.getDefault();
                         sms.sendTextMessage(halyttavaNumero.getText().toString(), null, vastaus, null, null);
-                        Toast.makeText(getActivity(),"Vastauksesi on lähetetty. (" + vastaus + ")", Toast.LENGTH_LONG).show();
+                        mListener.showToast("Viesti.", "Vastauksesi on lähetetty.");
                     } catch(Exception e) {
-                        Toast.makeText(getActivity(),"Tekstiviestin lähetys ei onnistunut.",
-                                Toast.LENGTH_LONG).show();
+                        mListener.showToast("Viesti.", "Lähetys epäonnistui.");
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Et voi lähettää tyhjää viestiä.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "Et voi lähettää tyhjää viestiä.", Toast.LENGTH_LONG).show();
+                    mListener.showToast("Viesti.", "Tyhjää viestiä ei voi lähettää.");
                 }
             }
         });
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -135,5 +132,6 @@ public class AnswerOHTOFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void showToast(String head, String message);
     }
 }

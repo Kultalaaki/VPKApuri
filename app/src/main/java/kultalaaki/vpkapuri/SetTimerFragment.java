@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 9:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -26,8 +26,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.Calendar;
 
 
@@ -316,7 +314,8 @@ public class SetTimerFragment extends Fragment {
         dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
         if(getActivity() != null) {
             setAlarms(mParam1, startTime, stopTime);
-            Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
+            mListener.showToast("", "Tallennettu!");
             getActivity().onBackPressed();
         }
     }
@@ -421,7 +420,8 @@ public class SetTimerFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         long saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
                            String pe, String la, String su, String selector, String isiton);
-        //void updateListview();
+
+        void showToast(String head, String message);
     }
 
     private void saveTimerToDBs() {

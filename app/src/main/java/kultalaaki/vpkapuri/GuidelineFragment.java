@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -97,10 +97,6 @@ public class GuidelineFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        //final ViewGroup transitionsContainer = findViewById(R.id.cont);
-        //final Button alkusanat = findViewById(R.id.buttonAlkusanat);
-        //final TextView talkusanat = findViewById(R.id.textAlkusanat);
-        //talkusanat.setVisibility(View.GONE);
         alkusanat.setOnClickListener(new View.OnClickListener() {
             boolean visible;
             @Override
@@ -111,8 +107,6 @@ public class GuidelineFragment extends Fragment {
             }
         });
 
-        //final Button halytys = findViewById(R.id.buttonHalytys);
-        //final TextView thalytys = findViewById(R.id.thalytys);
         thalytys.setVisibility(View.GONE);
         halytys.setOnClickListener(new View.OnClickListener() {
             boolean visible;
@@ -124,8 +118,6 @@ public class GuidelineFragment extends Fragment {
             }
         });
 
-        //final Button asetukset = findViewById(R.id.buttonAsetukset);
-        //final TextView tasetukset = findViewById(R.id.tasetukset);
         tasetukset.setVisibility(View.GONE);
         asetukset.setOnClickListener(new View.OnClickListener() {
             boolean visible;
@@ -137,8 +129,6 @@ public class GuidelineFragment extends Fragment {
             }
         });
 
-        //final Button arkisto = findViewById(R.id.buttonarkisto);
-        //final TextView tarkisto = findViewById(R.id.tarkisto);
         tarkisto.setVisibility(View.GONE);
         arkisto.setOnClickListener(new View.OnClickListener() {
             boolean visible;
@@ -150,8 +140,6 @@ public class GuidelineFragment extends Fragment {
             }
         });
 
-        //final Button whatsapp = findViewById(R.id.buttonWhatsapp);
-        //final TextView twhatsapp = findViewById(R.id.twhatsapp);
         twhatsapp.setVisibility(View.GONE);
         whatsapp.setOnClickListener(new View.OnClickListener() {
             boolean visible;
@@ -163,8 +151,6 @@ public class GuidelineFragment extends Fragment {
             }
         });
 
-        //final Button yleista = findViewById(R.id.buttonYleista);
-        //final TextView tyleista = findViewById(R.id.tyleista);
         tyleista.setVisibility(View.GONE);
         yleista.setOnClickListener(new View.OnClickListener() {
             boolean visible;

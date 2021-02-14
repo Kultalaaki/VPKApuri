@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -63,16 +63,11 @@ public class PhonecallBroadcastReceiver extends BroadcastReceiver {
             startService.putExtra("message", "Hälytys tulossa.");
             startService.putExtra("halytysaani", "true");
             startService.putExtra("timestamp", aika);
-            //number = PhoneNumberUtils.formatNumber(number);
-            //Log.i("onIncomingCallStarted", "startService");
-            //Toast.makeText(ctx, "service starttaa: " + number, Toast.LENGTH_LONG).show();
             startService.putExtra("number", number);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                //Log.e("onIncomingCallStarted", "startService");
                 ctx.getApplicationContext().startForegroundService(startService);
             } else {
-                //Log.e("onIncomingCallStarted", "startService");
                 ctx.getApplicationContext().startService(startService);
             }
 
@@ -82,36 +77,23 @@ public class PhonecallBroadcastReceiver extends BroadcastReceiver {
 
     protected void onOutgoingCallStarted(Context ctx, String number) {
         if (number != null) {
-            //Log.e("onOutgoingCallStarted", "stopService");
             Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
-        //Toast.makeText(ctx, "puhelureceiver " + number, Toast.LENGTH_LONG).show();
-
     }
 
     protected void onIncomingCallEnded(Context ctx, String number) {
         if (number != null) {
-            //Log.e("onIncomingCallEnded", "stopService");
             Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
-
-        /*Toast.makeText(ctx, "puhelureceiver " + number, Toast.LENGTH_LONG).show();
-        Intent startService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
-        startService.putExtra("message", "999A Hälytys tuli puheluna. ");
-        startService.putExtra("halytysaani", false);
-        startService.putExtra("number", number);
-        ctx.getApplicationContext().startService(startService);*/
     }
 
     protected void onOutgoingCallEnded(/*Context ctx, String number, Date start, Date end*/) {
-        //Log.e("onOutgoingCallEnded", "Mitään ei tehdä.");
     }
 
     protected void onMissedCall(Context ctx, String number) {
         if (number != null) {
-            //Log.e("onMissedCall", "stopService");
             Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
             ctx.getApplicationContext().stopService(stopService);
         }

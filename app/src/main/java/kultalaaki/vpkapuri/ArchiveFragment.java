@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 9:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -16,11 +16,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -42,6 +40,8 @@ public class ArchiveFragment extends Fragment {
     private FireAlarmViewModel mViewModel;
 
     private OnFragmentInteractionListener mListener;
+
+    private View layout;
 
     public ArchiveFragment() {
         // Required empty public constructor
@@ -92,7 +92,7 @@ public class ArchiveFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         mViewModel = ViewModelProviders.of(this).get(FireAlarmViewModel.class);
-        mViewModel.getAllFireAlarms().observe(this, new Observer<List<FireAlarm>>() {
+        mViewModel.getAllFireAlarms().observe(getViewLifecycleOwner(), new Observer<List<FireAlarm>>() {
             @Override
             public void onChanged(List<FireAlarm> fireAlarms) {
                 adapter.submitList(fireAlarms);
@@ -109,7 +109,7 @@ public class ArchiveFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 mViewModel.delete(adapter.getFireAlarmAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(getActivity(), "Hälytys poistettu arkistosta!", Toast.LENGTH_LONG).show();
+                mListener.showToast("Arkisto", "Hälytys poistettu arkistosta!");
             }
         }).attachToRecyclerView(mRecyclerView);
 
@@ -123,11 +123,10 @@ public class ArchiveFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        //populateListView();
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -155,5 +154,7 @@ public class ArchiveFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void loadHalytysTietokannastaFragment(FireAlarm fireAlarm);
+
+        void showToast(String head, String message);
     }
 }

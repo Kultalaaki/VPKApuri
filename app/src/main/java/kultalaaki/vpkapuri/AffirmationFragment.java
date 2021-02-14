@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/7/21 9:48 AM
+ * Created by Kultala Aki on 2/14/21 9:02 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/6/21 12:26 PM
+ * Last modified 2/14/21 9:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -9,9 +9,7 @@ package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -132,13 +130,7 @@ public class AffirmationFragment extends Fragment {
                             "Et  antanut lupaa analytiikka tietojen keräämiseen.",
                             "Tämä auttaa sovelluksen kehittämisessä paremmaksi ja toimivammaksi.\n\nHaluatko jatkaa ilman tietojen keräämistä?",
                             "Peruuta",
-                            "Jatka",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    letIn();
-                                }
-                            });
+                            "Jatka");
                 } else if(!sharedPreferences.getBoolean("kayttoehdot", false) && sharedPreferences.getBoolean("tietosuoja", false) ||
                         sharedPreferences.getBoolean("kayttoehdot", false) && !sharedPreferences.getBoolean("tietosuoja", false)) {
                     // inform user that terms&conditions and privacy policy must be accepted to use this app
@@ -155,13 +147,12 @@ public class AffirmationFragment extends Fragment {
             @SuppressLint("ApplySharedPref")
             @Override
             public void onClick(View v) {
-                if(sharedPreferences.getBoolean("analyticsEnabled", false)) {
+                if (sharedPreferences.getBoolean("analyticsEnabled", false)) {
                     sharedPreferences.edit().putBoolean("analyticsEnabled", false).commit();
-                    setCheckedStates();
                 } else {
                     sharedPreferences.edit().putBoolean("analyticsEnabled", true).commit();
-                    setCheckedStates();
                 }
+                setCheckedStates();
             }
         });
 
@@ -169,13 +160,12 @@ public class AffirmationFragment extends Fragment {
             @SuppressLint("ApplySharedPref")
             @Override
             public void onClick(View v) {
-                if(sharedPreferences.getBoolean("tietosuoja", false)) {
+                if (sharedPreferences.getBoolean("tietosuoja", false)) {
                     sharedPreferences.edit().putBoolean("tietosuoja", false).commit();
-                    setCheckedStates();
                 } else {
                     sharedPreferences.edit().putBoolean("tietosuoja", true).commit();
-                    setCheckedStates();
                 }
+                setCheckedStates();
             }
         });
 
@@ -183,13 +173,12 @@ public class AffirmationFragment extends Fragment {
             @SuppressLint("ApplySharedPref")
             @Override
             public void onClick(View v) {
-                if(sharedPreferences.getBoolean("kayttoehdot", false)) {
+                if (sharedPreferences.getBoolean("kayttoehdot", false)) {
                     sharedPreferences.edit().putBoolean("kayttoehdot", false).commit();
-                    setCheckedStates();
                 } else {
                     sharedPreferences.edit().putBoolean("kayttoehdot", true).commit();
-                    setCheckedStates();
                 }
+                setCheckedStates();
             }
         });
     }
@@ -201,7 +190,7 @@ public class AffirmationFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mCallback = (AffirmationFragment.Listener) context;
@@ -211,7 +200,7 @@ public class AffirmationFragment extends Fragment {
         }
     }
 
-    private void showMessage(){
+    /*private void showMessage(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Huomautus!")
                 .setMessage("Et  antanut lupaa analytiikka tietojen keräämiseen. Tämä auttaa sovelluksen kehittämisessä. Paina Ok jos haluat jatkaa ilman tietojen keräämistä.")
@@ -223,9 +212,9 @@ public class AffirmationFragment extends Fragment {
                     }
                 });
         builder.create().show();
-    }
+    }*/
 
-    public void showDialog(String upperText, String lowerText, String positiveButtonText) {
+    /*public void showDialog(String upperText, String lowerText, String positiveButtonText) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
@@ -236,9 +225,9 @@ public class AffirmationFragment extends Fragment {
                 .setPositiveButton(positiveButtonText, null)
                 .create()
                 .show();
-    }
+    }*/
 
-    private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
+    /*private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
         TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
@@ -251,7 +240,64 @@ public class AffirmationFragment extends Fragment {
                 .setNeutralButton(neutralButtonText, null)
                 .create()
                 .show();
+    }*/
+
+    public void showDialog(String upperText, String lowerText, String positiveButtonText) {
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        dialog.setView(dialogLayout);
+
+        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        whatPermission.setText(upperText);
+        whatReason.setText(lowerText);
+
+        Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
+        buttonPositive.setText(positiveButtonText);
+
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
+
+    private void showDialog(String upperText, String lowerText, String negativeButtonText, String positiveButtonText) {
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        dialog.setView(dialogLayout);
+
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        dialogUpperText.setText(upperText);
+        dialogLowerText.setText(lowerText);
+
+        Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
+        Button buttonNegative = dialogLayout.findViewById(R.id.buttonNegative);
+        buttonPositive.setText(positiveButtonText);
+        buttonNegative.setText(negativeButtonText);
+
+
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                letIn();
+                dialog.dismiss();
+            }
+        });
+        buttonNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
 
     public void onPause() {
         super.onPause();

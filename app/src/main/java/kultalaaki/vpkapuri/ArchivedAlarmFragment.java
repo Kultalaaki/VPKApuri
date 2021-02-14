@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 /**
@@ -234,7 +233,7 @@ public class ArchivedAlarmFragment extends Fragment {
                         mFireAlarm.setTimeStamp(aikaLeima);
 
                         fireAlarmViewModel.update(mFireAlarm);
-                        Toast.makeText(getActivity(), "Tallennettu.", Toast.LENGTH_SHORT).show();
+                        mListener.showToast("Hälytys.", "Tallennettu.");
                         kommenttiteksti.setCursorVisible(false);
 
                         if (getActivity() != null) {
@@ -273,5 +272,6 @@ public class ArchivedAlarmFragment extends Fragment {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void showToast(String head, String message);
     }
 }

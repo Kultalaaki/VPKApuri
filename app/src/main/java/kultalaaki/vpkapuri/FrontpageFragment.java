@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/7/21 9:48 AM
+ * Created by Kultala Aki on 2/14/21 9:02 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/6/21 11:29 AM
+ * Last modified 2/14/21 7:33 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -39,16 +39,9 @@ public class FrontpageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getActivity() != null) {
             SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
             boolean analytics = pref_general.getBoolean("analyticsEnabled", false);
-
             FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-
             mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
-
-            /*if(analytics) {
-                Fabric.with(getActivity(), new Crashlytics());
-            }*/
         }
     }
 
@@ -103,14 +96,6 @@ public class FrontpageFragment extends Fragment {
             public void onClick(View v) {
                 // Todo ask permissions and let activity start setting page
                 mListener.askPermissionReadExternalStorage();
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                    Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                    startActivity(intent);
-                }*/
             }
         });
     }
