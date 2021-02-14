@@ -6,7 +6,7 @@ Sovellusta kehitetään käyttäjien toiveiden mukaan.
 
 ### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![Image description](appFrontpage.png)
 
 ```markdown
 Syntax highlighted code block
