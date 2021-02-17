@@ -6,6 +6,8 @@ Sovellus on tarkoitettu ilmaiseksi työkaluksi suomalaisille vapaaehtoisille pal
 
 Sovellusta kehitetään käyttäjien toiveiden mukaan.
 
+[TIETOSUOJA](https://kultalaaki.github.io/tietosuoja.md)
+
 ## TIETOSUOJA
 
 Käyttäjien yksityisyys on erittäin tärkeää. Tämä tietosuojaseloste kertoo mitä tietoja käyttäjiltä kerätään ja mitä näillä tiedoilla tehdään.
