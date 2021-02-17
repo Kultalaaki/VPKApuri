@@ -12,7 +12,7 @@ Sovellusta kehitetään käyttäjien toiveiden mukaan.
 
 ### Markdown
 
-![Image description](archiveweb.png) ![Image description](archiveweb.png)
+![Image description](archive.png) ![Image description](archive.png)
 
 ```markdown
 Syntax highlighted code block
