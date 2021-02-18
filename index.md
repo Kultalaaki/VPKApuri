@@ -12,7 +12,9 @@ Sovellusta kehitetään käyttäjien toiveiden mukaan.
 
 ### Markdown
 
-![Image description](archive.png) ![Image description](archive.png)
+![Image description](frontpage.png) ![Image description](archive.png)
+![Image description](alarm.png) ![Image description](alarm2.png)
+![Image description](tabletAlarm.png)
 
 ```markdown
 Syntax highlighted code block
