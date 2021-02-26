@@ -4,7 +4,6 @@ Sovellus on työkalu suomalaisille vapaaehtoisille palokuntalaisille sekä vapaa
 
 ## Päämääränä pelastustoiminnan tehostaminen!
 
-```markdown
 **Sovelluksen ominaisuuksia ovat mm.**
 - Hälytyksien tunnistaminen numeron perusteella
 - Oman hälytysäänen asettaminen
@@ -27,19 +26,6 @@ Sovellus on työkalu suomalaisille vapaaehtoisille palokuntalaisille sekä vapaa
   C-kortillinen, yksikönjohtaja sekä vapaasti kirjoitettavia ominaisuuksia 5kpl
 - TOKEVA nettiversion aukaiseminen selaimeen
 - Kameran pika-aukaisu tuulilasinäkymän ottamiseen
-```
-
-### Näyttökuvat
-
-![Image description](frontpage.png) ![Image description](archive.png)
-Etusivu ja arkisto
-
-![Image description](alarm.png) ![Image description](alarm2.png)
-Hälytys sivu
-
-![Image description](tabletAlarm.png)
-Hälytys sivu tabletilla
-
 
 ## Toiminta
 Sovelluksen toiminta perustuu tekstiviestien tunnistamiseen numeron perusteella. Tämä tunnistaminen tapahtuu taustalla ja tämän takia sovellusta ei saa sulkea taustalta pois. Android järjestelmä on viime vuosina enemmän panostanut akun kestoon. Tämä vaikuttaa tämänkaltaisiin sovelluksiin siltä osin että käyttäjän pitää ottaa sovelluksen osalta akun optimointi pois päältä. VPK Apurin asetuksista löytyy linkit Androidin perusasetuksiin. Tämän lisäksi eri puhelin valmistajilla on erilaisia ratkaisuja akun keston maksimoimiseksi. 
@@ -56,7 +42,3 @@ Kultala Aki
 Kyröskosken VPK
 
 kultalaaki@gmail.com
-
-[TIETOSUOJA](tietosuoja.html)
-
-[KÄYTTÖEHDOT](terms.html)
