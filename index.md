@@ -1,45 +1,56 @@
 # VPK Apuri
 
-## [Lataa sovellus](https://github.com/Kultalaaki/VPKApuri/releases/download/v3.81/VPKApuriV381.apk)
+## [Lataa sovellus](https://github.com/Kultalaaki/VPKApuri/releases/download/v3.81/VPKApuriV381.apk) (Versio 3.81)
 
-Sovellus on tarkoitettu ilmaiseksi työkaluksi suomalaisille vapaaehtoisille palokuntalaisille sekä vapaaehtoisen pelastuspalvelun henkilöille.
+Sovellus on tarkoitettu työkaluksi suomalaisille vapaaehtoisille palokuntalaisille sekä vapaaehtoisen pelastuspalvelun henkilöille.
 
-Sovellusta kehitetään käyttäjien toiveiden mukaan.
+## Päämääränä pelastustoiminnan tehostaminen!
+
+```markdown
+### Sovelluksen ominaisuuksia ovat mm.
+- Hälytyksien tunnistaminen numeron perusteella
+- Oman hälytysäänen asettaminen
+- Osoitteen tunnistaminen viestistä
+- Navigoinnin aloittaminen itse valitsemallaan sovelluksella
+- Hälytykseen ilmoittautuminen soittamalla, tavallinen tekstiviesti, Whatsapp viesti, Signal viesti tai Telegram viesti
+- Ajastin hälytyksen saapumisesta ylöspäin hälytys sivulla
+- Tekstiselvennys hälytystunnukselle
+- Erilaisia värinäkuvioita
+- Äänetön tila
+- Yötila, hälytys tulee hiljaisimmalla mahdollisella äänellä
+- Ajastin äänien automatisoinnille
+- Hälytysviestien arkistointi, mahdollisuus kirjoittaa muistiinpano hälytyksen yhteyteen
+- Yhteensopiva OHTO hälytyksien kanssa
+
+### Lisäksi asematauluna käytettäessä
+- Hälytykseen lähtevien kirjaus
+- Jäsenien ominaisuuksien näyttäminen, savusukeltaja, kemikaalisukeltaja, C-kortillinen, yksikönjohtaja sekä vapaasti kirjoitettavia ominaisuuksia 5kpl
+- TOKEVA nettiversion aukaiseminen selaimeen
+- Kameran pika-aukaisu tuulilasinäkymän ottamiseen
+```
+
+### Näyttökuvat
+
+![Image description](frontpage.png) ![Image description](archive.png)
+Etusivu ja arkisto
+
+![Image description](alarm.png) ![Image description](alarm2.png)
+Hälytys sivu
+
+![Image description](tabletAlarm.png)
+Hälytys sivu tabletilla
+
+
+### Käyttäjien palautetta otetaan vastaan ja parannellaan sovellusta
+
+Sovelluksen toiminta perustuu tekstiviestien tunnistamiseen numeron perusteella. Tämä tunnistaminen tapahtuu taustalla ja tämän takia sovellusta ei saa sulkea taustalta pois. Android järjestelmä on viime vuosina enemmän panostanut akun kestoon. Tämä vaikuttaa tämänkaltaisiin sovelluksiin siltä osin että käyttäjän pitää ottaa sovelluksen osalta akun optimointi pois päältä. VPK Apurin asetuksista löytyy linkit Androidin perusasetuksiin. Tämän lisäksi eri puhelin valmistajilla on erilaisia ratkaisuja akun keston maksimoimiseksi. 
+
+Tässä muutama kohta tarkistettavaksi, lähinnä Huawei sekä Honor puhelimet:
+1. Asetukset -> Sovellukset -> Lisäasetukset -> Akun optimointi ei käytössä -> VPK Apuri -> Salli
+2. Asetukset -> Sovellukset -> VPK Apuri -> Ilmoitukset -> "Salli ilmoitukset" ja "Prioriteettinäyttö" päälle
+3. Asetukset -> Akku -> Sulje, kun näyttö lukitaan -> VPK Apuri -> Aseta tilaksi "Älä sulje"
+
 
 [TIETOSUOJA](tietosuoja.html)
 
 [KÄYTTÖEHDOT](terms.html)
-
-### Markdown
-
-![Image description](frontpage.png) ![Image description](archive.png)
-![Image description](alarm.png) ![Image description](alarm2.png)
-![Image description](tabletAlarm.png)
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Kultalaaki/VPKApuri/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
