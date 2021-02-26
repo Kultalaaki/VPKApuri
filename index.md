@@ -41,8 +41,7 @@ Hälytys sivu
 Hälytys sivu tabletilla
 
 
-### Käyttäjien palautetta otetaan vastaan ja parannellaan sovellusta
-
+## Toiminta
 Sovelluksen toiminta perustuu tekstiviestien tunnistamiseen numeron perusteella. Tämä tunnistaminen tapahtuu taustalla ja tämän takia sovellusta ei saa sulkea taustalta pois. Android järjestelmä on viime vuosina enemmän panostanut akun kestoon. Tämä vaikuttaa tämänkaltaisiin sovelluksiin siltä osin että käyttäjän pitää ottaa sovelluksen osalta akun optimointi pois päältä. VPK Apurin asetuksista löytyy linkit Androidin perusasetuksiin. Tämän lisäksi eri puhelin valmistajilla on erilaisia ratkaisuja akun keston maksimoimiseksi. 
 
 Tässä muutama kohta tarkistettavaksi, lähinnä Huawei sekä Honor puhelimet:
@@ -54,3 +53,9 @@ Tässä muutama kohta tarkistettavaksi, lähinnä Huawei sekä Honor puhelimet:
 [TIETOSUOJA](tietosuoja.html)
 
 [KÄYTTÖEHDOT](terms.html)
+
+### Käyttäjien palautetta otetaan vastaan!
+
+Kultala Aki
+Kyröskosken VPK
+kultalaaki@gmail.com
