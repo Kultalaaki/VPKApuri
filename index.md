@@ -51,11 +51,6 @@ Tässä muutama kohta tarkistettavaksi, lähinnä Huawei sekä Honor puhelimet:
 2. Asetukset -> Sovellukset -> VPK Apuri -> Ilmoitukset -> "Salli ilmoitukset" ja "Prioriteettinäyttö" päälle
 3. Asetukset -> Akku -> Sulje, kun näyttö lukitaan -> VPK Apuri -> Aseta tilaksi "Älä sulje"
 
-
-[TIETOSUOJA](tietosuoja.html)
-
-[KÄYTTÖEHDOT](terms.html)
-
 ### Käyttäjien palautetta otetaan vastaan!
 
 Kultala Aki
@@ -63,3 +58,7 @@ Kultala Aki
 Kyröskosken VPK
 
 kultalaaki@gmail.com
+
+[TIETOSUOJA](tietosuoja.html)
+
+[KÄYTTÖEHDOT](terms.html)
