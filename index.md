@@ -2,17 +2,18 @@
 
 ## [Lataa sovellus](https://github.com/Kultalaaki/VPKApuri/releases/download/v3.81/VPKApuriV381.apk) (Versio 3.81)
 
-Sovellus on tarkoitettu työkaluksi suomalaisille vapaaehtoisille palokuntalaisille sekä vapaaehtoisen pelastuspalvelun henkilöille.
+Sovellus on työkalu suomalaisille vapaaehtoisille palokuntalaisille sekä vapaaehtoisen pelastuspalvelun henkilöille.
 
 ## Päämääränä pelastustoiminnan tehostaminen!
 
 ```markdown
-### Sovelluksen ominaisuuksia ovat mm.
+**Sovelluksen ominaisuuksia ovat mm.**
 - Hälytyksien tunnistaminen numeron perusteella
 - Oman hälytysäänen asettaminen
 - Osoitteen tunnistaminen viestistä
 - Navigoinnin aloittaminen itse valitsemallaan sovelluksella
-- Hälytykseen ilmoittautuminen soittamalla, tavallinen tekstiviesti, Whatsapp viesti, Signal viesti tai Telegram viesti
+- Hälytykseen ilmoittautuminen soittamalla, tavallinen tekstiviesti, 
+  Whatsapp viesti, Signal viesti tai Telegram viesti
 - Ajastin hälytyksen saapumisesta ylöspäin hälytys sivulla
 - Tekstiselvennys hälytystunnukselle
 - Erilaisia värinäkuvioita
@@ -22,9 +23,10 @@ Sovellus on tarkoitettu työkaluksi suomalaisille vapaaehtoisille palokuntalaisi
 - Hälytysviestien arkistointi, mahdollisuus kirjoittaa muistiinpano hälytyksen yhteyteen
 - Yhteensopiva OHTO hälytyksien kanssa
 
-### Lisäksi asematauluna käytettäessä
+**Lisäksi asematauluna käytettäessä**
 - Hälytykseen lähtevien kirjaus
-- Jäsenien ominaisuuksien näyttäminen, savusukeltaja, kemikaalisukeltaja, C-kortillinen, yksikönjohtaja sekä vapaasti kirjoitettavia ominaisuuksia 5kpl
+- Jäsenien ominaisuuksien näyttäminen, savusukeltaja, kemikaalisukeltaja, 
+  C-kortillinen, yksikönjohtaja sekä vapaasti kirjoitettavia ominaisuuksia 5kpl
 - TOKEVA nettiversion aukaiseminen selaimeen
 - Kameran pika-aukaisu tuulilasinäkymän ottamiseen
 ```
@@ -57,5 +59,7 @@ Tässä muutama kohta tarkistettavaksi, lähinnä Huawei sekä Honor puhelimet:
 ### Käyttäjien palautetta otetaan vastaan!
 
 Kultala Aki
+
 Kyröskosken VPK
+
 kultalaaki@gmail.com
