@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/28/21 9:06 AM
+ * Created by Kultala Aki on 2/28/21 9:41 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/28/21 9:02 AM
+ * Last modified 2/28/21 9:32 AM
  */
 
 apply plugin: 'com.android.application'
@@ -53,7 +53,7 @@ repositories {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
 
     implementation 'androidx.media:media:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
