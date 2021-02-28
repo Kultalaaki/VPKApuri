@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 2/14/21 9:02 PM
+  ~ Created by Kultala Aki on 2/28/21 9:06 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 2/13/21 11:17 AM
+  ~ Last modified 2/16/21 9:27 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textViewAppName"
         app:layout_constraintStart_toStartOf="@+id/textViewAppName"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/textViewAppName"

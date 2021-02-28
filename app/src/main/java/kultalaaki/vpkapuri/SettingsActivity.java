@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/7/21 9:48 AM
+ * Created by Kultala Aki on 2/28/21 9:06 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/6/21 11:29 AM
+ * Last modified 2/17/21 8:41 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -468,7 +468,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         // Avaa nettisivu tietosuoja
-                        String url = "http://www.vpkapuri.fi/tietosuoja.html";
+                        String url = "https://kultalaaki.github.io/VPKApuri/tietosuoja.html";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
@@ -483,7 +483,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         // Avaa nettisivu käyttöehdot
-                        String url = "http://www.vpkapuri.fi/kayttoehdot.html";
+                        String url = "https://kultalaaki.github.io/VPKApuri/terms.html";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
