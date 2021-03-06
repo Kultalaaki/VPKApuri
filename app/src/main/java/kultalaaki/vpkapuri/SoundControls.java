@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 3:31 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 8:56 PM
+ * Last modified 3/6/21 3:31 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -32,7 +32,6 @@ class SoundControls {
     /**
      * SoundControls setSilent() sets sound to silent for alarm messages and alarm phonecalls only.
      * When setSilent() is called, notification will be set indicating user that alarms are silent.
-     * Also toast message is displayed.
      * @param context application context
      */
     @SuppressLint("ApplySharedPref")
@@ -67,7 +66,6 @@ class SoundControls {
     /**
      * SoundControls setNightMode() sets sound to 10% volume for alarm messages and alarm phonecalls only.
      * When setNightMode() is called, notification will be set indicating user that alarms are 10% volume.
-     * Also toast message is displayed.
      * @param context application context
      */
     @SuppressLint("ApplySharedPref")
@@ -102,7 +100,6 @@ class SoundControls {
     /**
      * SoundControls setNormal() sets sound to app setting volume for alarm messages and alarm phonecalls only.
      * When setNormal() is called, other notifications with MY_NOTIFICATION_ID are cancelled.
-     * Also toast message is displayed.
      * @param context application context
      */
     @SuppressLint("ApplySharedPref")
