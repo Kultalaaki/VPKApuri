@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
+ * Created by Kultala Aki on 3/6/21 3:31 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 3/5/21 7:43 PM
+ * Last modified 3/6/21 3:31 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -529,68 +529,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    /*public void askPermissionWriteExternalStorages() {
-        if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(FrontpageActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                showDialog("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.",
-                        "Puhelimen muistiin kirjoittaminen vaatii luvan ennen kuin sovellus voi tehdä tämän toimenpiteen.",
-                        new DialogInterface.OnClickListener() {
-                    @TargetApi(Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-                    }
-                });
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(FrontpageActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-            }
-        } else {
-            showDialog(
-                    "Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.",
-                    "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            backupDatabase();
-                        }
-                    });
-        }
-    }*/
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
-        /*if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showDialog(
-                        "Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.",
-                        "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                backupDatabase();
-                            }
-                        });
-            } else {
-                // ei lupaa
-                showDialog("Sovelluksella ei ole lupa käyttää laitteen tiedostoja.", "Et voi tallentaa tietokantaa ennen kuin sovelluksella on lupa käyttää laitteen tiedostoja.");
-            }
-        } else */
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -746,32 +687,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         toast.show();
     }
 
-    /*private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
-        dialogUpperText.setText(upperText);
-        dialogLowerText.setText(lowerText);
-
-        new AlertDialog.Builder(FrontpageActivity.this)
-                .setView(dialogLayout)
-                .setPositiveButton(positiveButtonText, okListener)
-                .setNeutralButton(neutralButtonText, null)
-                .create()
-                .show();
-    }*/
-
-    /*private void backupDB() {
-        String fileName = "VPK_Apuri_Hälytykset";
-        String currentDB = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
-        try (FileOutputStream fos = getApplicationContext().openFileOutput(fileName, Context.MODE_PRIVATE)) {
-            File currentdb = new File(currentDB);
-            fos.write(currentdb);
-        } catch (Exception e) {
-            Toast.makeText(FrontpageActivity.this, "Tiedoston tallennus ei onnistunut", Toast.LENGTH_LONG).show();
-        }
-    }*/
-
     private void saveFile() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -780,43 +695,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         startActivityForResult(intent, CREATE_FILE);
     }
-
-    /*public void backupDatabase() {
-        try {
-            File sd = getApplicationContext().getFilesDir();
-            File[] externalStorageVolumes =
-                    ContextCompat.getExternalFilesDirs(getApplicationContext(), null);
-            File primaryExternalStorage = externalStorageVolumes[0];
-
-
-            if (primaryExternalStorage.canWrite()) {
-                String currentDBPath = getDatabasePath("VPK_Apuri_Halytykset").getAbsolutePath();
-                Log.e("TAG", currentDBPath);
-                String backUpPath = "Hälytykset_VPK_Apuri";
-                File currentDB = new File(currentDBPath);
-                File backUpDP = new File(primaryExternalStorage, backUpPath);
-
-                if (currentDB.exists()) {
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backUpDP).getChannel();
-                    dst.transferFrom(src, src.position(), src.size());
-                    long d = src.position();
-                    Log.e("TAG", String.valueOf(d));
-                    src.close();
-                    dst.close();
-                    Toast.makeText(this, "Tietokanta tallennettu nimellä: Hälytykset VPK Apuri", Toast.LENGTH_LONG).show();
-                }
-                String[] files = getApplicationContext().fileList();
-
-                for (String file : files) {
-                    Log.e("TAG", file);
-                }
-            }
-        } catch (Exception e) {
-            Toast.makeText(FrontpageActivity.this, "Tiedoston tallennus ei onnistunut", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }*/
 
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
