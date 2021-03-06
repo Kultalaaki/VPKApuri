@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 7:33 PM
+ * Last modified 3/6/21 12:26 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -33,24 +33,26 @@ public class PhonecallBroadcastReceiver extends BroadcastReceiver {
         if (intent.hasExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)) {
             String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
-            if (number.contains("0") || number.contains("1") || number.contains("2") || number.contains("3") || number.contains("4") || number.contains("5") || number.contains("6") || number.contains("7")
-                    || number.contains("8") || number.contains("9")) {
-                String stateStr = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-                number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            if (number != null) {
+                if (number.contains("0") || number.contains("1") || number.contains("2") || number.contains("3") || number.contains("4") || number.contains("5") || number.contains("6") || number.contains("7")
+                        || number.contains("8") || number.contains("9")) {
+                    String stateStr = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+                    number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
-                long aika = System.currentTimeMillis();
-                String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
+                    long aika = System.currentTimeMillis();
+                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
 
-                int state = 0;
-                if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-                    state = TelephonyManager.CALL_STATE_IDLE;
-                } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-                    state = TelephonyManager.CALL_STATE_OFFHOOK;
-                } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                    state = TelephonyManager.CALL_STATE_RINGING;
+                    int state = 0;
+                    if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+                        state = TelephonyManager.CALL_STATE_IDLE;
+                    } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                        state = TelephonyManager.CALL_STATE_OFFHOOK;
+                    } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                        state = TelephonyManager.CALL_STATE_RINGING;
+                    }
+
+                    onCallStateChanged(context, state, number, Aika);
                 }
-
-                onCallStateChanged(context, state, number, Aika);
             }
         }
     }

@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 9:02 PM
+ * Last modified 3/6/21 8:41 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -109,7 +109,7 @@ public class ArchiveFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 mViewModel.delete(adapter.getFireAlarmAt(viewHolder.getAdapterPosition()));
-                mListener.showToast("Arkisto", "Hälytys poistettu arkistosta!");
+                mListener.showToast("Arkisto", "Hälytys poistettu!");
             }
         }).attachToRecyclerView(mRecyclerView);
 

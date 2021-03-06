@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 7:33 PM
+ * Last modified 3/6/21 9:25 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -43,6 +44,17 @@ public class ResponderFragment extends Fragment {
 
     public static ResponderFragment newInstance() {
         return new ResponderFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ResponderFragment.OnFragmentInteractionListener) {
+            mListener = (ResponderFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/30/21 12:23 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/30/21 12:23 PM
+ * Last modified 3/6/21 10:37 AM
  */
 
 package kultalaaki.vpkapuri
@@ -9,19 +9,18 @@ package kultalaaki.vpkapuri
 import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_test_settings.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -133,6 +132,10 @@ class TestSettingsFragment : Fragment() {
                 showOnTopOK.setTextColor(Color.parseColor(green))
             }
         }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context) ?: return
+        val alarmVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1)
+        alarmVolumeVal.text = alarmVolume.toString()
     }
 
     companion object {

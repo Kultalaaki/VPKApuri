@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/28/21 9:06 AM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/17/21 8:41 PM
+ * Last modified 3/6/21 12:22 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -276,6 +276,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public static class NotificationPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         private SeekBarPreference _seekBarPref;
+        Vibrator viber;
 
 
         @Override
@@ -283,6 +284,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             //addPreferencesFromResource(R.xml.pref_notification);
             addPreferencesFromResource(R.xml.pref_sounds);
+            viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 
             //Do Not Disturb allowed if menu doesn't open
             Preference pref = getPreferenceManager().findPreference("DoNotDisturb");
@@ -343,8 +345,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return pattern;
         }
 
-
-
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
@@ -360,8 +360,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     int vibrateValue = Integer.parseInt(vibratePattern.getValue());
                     long[] pattern = new long[]{};
                     int[] amplitude = new int[]{};
-                    Vibrator viber;
-                    viber = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+
                     if(vibrateValue == 0) {
                         pattern = Constants.PULSE_PATTERN;
                         amplitude = Constants.PULSE_AMPLITUDE;
