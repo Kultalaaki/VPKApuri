@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 9:02 PM
+ * Last modified 3/5/21 7:43 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -725,6 +725,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
 
         dialog.show();
+        dialog.getWindow().setBackgroundDrawable(null);
     }
 
     public void showToast(String headText, String toastText) {

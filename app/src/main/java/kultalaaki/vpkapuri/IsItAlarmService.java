@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 1/23/21 9:41 AM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 1/23/21 9:39 AM
+ * Last modified 3/6/21 12:26 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -33,6 +33,11 @@ import androidx.core.app.TaskStackBuilder;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -895,7 +900,17 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             throughVibrateMode = sharedPreferences.getBoolean("throughVibrateMode", false);
             soundVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1);
 
-            if (audioManager != null) {
+            boolean isDoNotDisturbAllowed = true;
+            NotificationManager notificationManager =
+                    (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            if (notificationManager != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+                    isDoNotDisturbAllowed = false;
+                }
+            }
+
+            if (audioManager != null && isDoNotDisturbAllowed) {
 
                 streamMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 streamAlarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
@@ -924,6 +939,8 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
 
                 pitaaPalauttaa = true;
+            } else {
+                Toast.makeText(context, "Do Not Disturb oikeudet puuttuvat! Ei voi soittaa hälytysääntä!", Toast.LENGTH_LONG).show();
             }
 
             if (soundMode == 2) {

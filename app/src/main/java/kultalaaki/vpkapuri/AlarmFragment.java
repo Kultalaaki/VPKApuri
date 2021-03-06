@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 7:33 PM
+ * Last modified 3/6/21 12:10 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -175,7 +175,7 @@ public class AlarmFragment extends Fragment {
             if (notificationManager != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && !notificationManager.isNotificationPolicyAccessGranted()) {
-                    mCallback.showToast("Älä häiritse", "Ei ole lupaa säätää Älä häiritse tilaa.");
+                    mCallback.showToast("Älä häiritse", "Ei ole lupa muuttaa Älä häiritse tilaa.");
                 }
             }
         }
@@ -200,18 +200,18 @@ public class AlarmFragment extends Fragment {
             Date date = dateFormat.parse(chronometerStartTimeString);
             long timeWhenAlarmCame = date.getTime();
             chronometer.setBase(SystemClock.elapsedRealtime() - (timeNow - timeWhenAlarmCame));
-            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.valueOf(alarmCounterTime)) {
+            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.parseInt(alarmCounterTime)) {
                 chronometer.setVisibility(View.INVISIBLE);
             }
             chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                 @Override
                 public void onChronometerTick(Chronometer chronometer) {
-                    if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.valueOf(alarmCounterTime)) {
+                    if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.parseInt(alarmCounterTime)) {
                         chronometer.stop();
                     }
                 }
             });
-            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) <= 60000 * Integer.valueOf(alarmCounterTime)) {
+            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) <= 60000 * Integer.parseInt(alarmCounterTime)) {
                 chronometer.start();
             }
         } catch (ParseException e) {

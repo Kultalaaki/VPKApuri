@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 2/28/21 9:06 AM
+  ~ Created by Kultala Aki on 3/6/21 12:26 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 2/17/21 6:56 PM
+  ~ Last modified 3/5/21 5:31 PM
   -->
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -45,7 +45,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_frontpage"
-        android:background="@drawable/seetrough"
+        android:background="@drawable/nav_menu_background"
         app:headerLayout="@layout/drawer_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

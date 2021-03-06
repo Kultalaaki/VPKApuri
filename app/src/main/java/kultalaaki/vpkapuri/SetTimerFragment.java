@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 3/6/21 12:26 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 9:02 PM
+ * Last modified 3/5/21 6:13 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -314,8 +314,7 @@ public class SetTimerFragment extends Fragment {
         dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
         if(getActivity() != null) {
             setAlarms(mParam1, startTime, stopTime);
-            //Toast.makeText(getActivity(), "Tallennettu", Toast.LENGTH_LONG).show();
-            mListener.showToast("", "Tallennettu!");
+            mListener.showToast("Ajastin", "Tallennettu!");
             getActivity().onBackPressed();
         }
     }

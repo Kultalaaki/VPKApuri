@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 2/28/21 9:06 AM
+  ~ Created by Kultala Aki on 3/6/21 12:26 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 2/16/21 9:27 PM
+  ~ Last modified 3/6/21 11:36 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,6 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/custom_dialog_background"
     android:elevation="8dp">
 
     <ImageView
@@ -27,13 +28,15 @@
 
     <TextView
         android:id="@+id/textViewAppName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/app_name_orange"
+        android:textAlignment="center"
         android:textColor="@color/orange"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textViewWhatPermission"
         app:layout_constraintStart_toStartOf="@+id/textViewWhatPermission"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
@@ -47,7 +50,9 @@
         android:layout_marginEnd="16dp"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/primary_material_dark_1"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewAppName" />
@@ -61,6 +66,9 @@
         android:layout_marginBottom="16dp"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/primary_material_dark_1"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,16 +76,30 @@
 
     <Button
         android:id="@+id/buttonPositive"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_dialog_ok"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textViewReasoning"
+        app:layout_constraintStart_toEndOf="@+id/buttonNegative"
         app:layout_constraintTop_toBottomOf="@+id/textViewReasoning" />
 
     <Button
         android:id="@+id/buttonNegative"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/nok_button_background"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPositive"
         app:layout_constraintStart_toStartOf="@+id/textViewReasoning"
         app:layout_constraintTop_toTopOf="@+id/buttonPositive" />
 

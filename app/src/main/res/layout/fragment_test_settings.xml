@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 1/30/21 12:23 PM
+  ~ Created by Kultala Aki on 3/6/21 12:26 PM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/30/21 12:23 PM
+  ~ Last modified 3/6/21 11:13 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -111,7 +111,7 @@
         android:text="Akun optimointi:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="@id/textViewShowOnTop"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShowOnTop" />
+        app:layout_constraintTop_toBottomOf="@+id/showOnTopInfo" />
 
     <TextView
         android:id="@+id/SMSOK"
@@ -194,7 +194,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#C21919"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewShowOnTop"
+        app:layout_constraintBottom_toBottomOf="@+id/showOnTopInfo"
         app:layout_constraintEnd_toEndOf="@+id/doNotDisturbOK"
         app:layout_constraintTop_toTopOf="@+id/textViewShowOnTop" />
 
@@ -209,5 +209,35 @@
         app:layout_constraintBottom_toBottomOf="@+id/textViewBatteryOpt"
         app:layout_constraintEnd_toEndOf="@+id/showOnTopOK"
         app:layout_constraintTop_toTopOf="@+id/textViewBatteryOpt" />
+
+    <TextView
+        android:id="@+id/alarmVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Hälytysäänen voimakkuus:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@+id/textViewBatteryOpt"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBatteryOpt" />
+
+    <TextView
+        android:id="@+id/alarmVolumeVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:textColor="#4CAF50"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/alarmVolume"
+        app:layout_constraintEnd_toEndOf="@+id/batteryOK"
+        app:layout_constraintTop_toTopOf="@+id/alarmVolume" />
+
+    <TextView
+        android:id="@+id/showOnTopInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Android 10+"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewShowOnTop"
+        app:layout_constraintTop_toBottomOf="@+id/textViewShowOnTop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
