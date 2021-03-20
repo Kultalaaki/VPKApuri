@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Kultala Aki on 3/6/21 12:26 PM
+  ~ Created by Kultala Aki on 3/20/21 11:41 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 2/28/21 9:48 AM
+  ~ Last modified 3/14/21 4:36 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +31,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="@string/vpk_apuri"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/secondaryDarkColor"

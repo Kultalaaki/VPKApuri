@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
+ * Created by Kultala Aki on 3/20/21 11:41 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 3/6/21 12:10 PM
+ * Last modified 3/20/21 11:38 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -215,7 +215,11 @@ public class AlarmFragment extends Fragment {
                 chronometer.start();
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            mCallback.showToast("Hälytysajastin", "Parsimisvirhe, kelloa ei voi käynnistää!");
+        } catch (NumberFormatException e) {
+            mCallback.showToast("Hälytysajastin", "Numerovirhe, kelloa ei voi käynnistää!");
+        } catch (Exception e) {
+            mCallback.showToast("Hälytysajastin", "Tuntematon virhe, kelloa ei voi käynnistää!");
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Kultala Aki on 3/6/21 12:26 PM
+  ~ Created by Kultala Aki on 3/20/21 11:41 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 3/6/21 11:36 AM
+  ~ Last modified 3/9/21 8:23 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,13 +16,12 @@
         android:id="@+id/imageViewLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:contentDescription="@string/app_logo"
         android:rotation="0"
         android:rotationX="0"
         android:rotationY="0"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAppName"
-        app:layout_constraintStart_toStartOf="@+id/textViewAppName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_foreground" />
 
@@ -62,14 +61,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/primary_material_dark_1"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewWhatPermission" />
@@ -79,7 +77,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_dialog_ok"
