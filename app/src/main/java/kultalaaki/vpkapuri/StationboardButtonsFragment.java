@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 4/24/21 9:34 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -42,7 +42,6 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class StationboardButtonsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -70,7 +69,6 @@ public class StationboardButtonsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment StationboardButtonsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static StationboardButtonsFragment newInstance(String param1, String param2) {
         StationboardButtonsFragment fragment = new StationboardButtonsFragment();
         Bundle args = new Bundle();
@@ -257,7 +255,6 @@ public class StationboardButtonsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void openCamera();
         void loadResponderFragment();
         //void loadManpowerFragment();

@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/28/21 9:41 AM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/28/21 9:32 AM
+ * Last modified 4/2/21 1:22 PM
  */
 
 apply plugin: 'com.android.application'
@@ -18,8 +18,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         multiDexEnabled true
-        versionCode 109 // Update just before pushing update 109 is live
-        versionName "3.81" // Update just before pushing update 3.81 is live
+        versionCode 110 // Update just before pushing update 109 is live
+        versionName "3.9" // Update just before pushing update 3.81 is live
     }
     buildTypes {
         release {
@@ -28,8 +28,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -41,7 +41,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.5'  // Google Services plugin
-        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'com.android.tools.build:gradle:4.1.3'
     }
 }
 

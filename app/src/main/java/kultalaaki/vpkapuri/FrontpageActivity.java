@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 3/6/21 3:31 PM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 3/6/21 3:31 PM
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -498,7 +498,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    // Todo On devices that run Android 9 (API level 28) or lower, your app must request READ_EXTERNAL_STORAGE permission to access any media file, including the media files that your app created.
     public void askPermissionReadExternalStorage() {
         if (ContextCompat.checkSelfPermission(FrontpageActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)

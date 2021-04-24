@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 4/24/21 9:34 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri
@@ -27,7 +27,6 @@ import android.view.ViewGroup
  */
 class ManpowerFragment : Fragment() {
 
-    // TODO: Rename and change types of parameters
     private var mParam1: String? = null
 
     private var fireAlarmViewModel: FireAlarmViewModel? = null
@@ -76,12 +75,10 @@ class ManpowerFragment : Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"
 
@@ -92,7 +89,6 @@ class ManpowerFragment : Fragment() {
          * @param param1 Parameter 1.
          * @return A new instance of fragment ManpowerFragment.
          */
-        // TODO: Rename and change types and number of parameters
         fun newInstance(param1: String): ManpowerFragment {
             val fragment = ManpowerFragment()
             val args = Bundle()

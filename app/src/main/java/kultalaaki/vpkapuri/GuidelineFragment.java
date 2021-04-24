@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 7:33 PM
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -27,12 +27,10 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class GuidelineFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     ViewGroup transitionsContainer;
@@ -53,7 +51,6 @@ public class GuidelineFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment GuidelineFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static GuidelineFragment newInstance(String param1, String param2) {
         GuidelineFragment fragment = new GuidelineFragment();
         Bundle args = new Bundle();
@@ -191,6 +188,5 @@ public class GuidelineFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
     }
 }
