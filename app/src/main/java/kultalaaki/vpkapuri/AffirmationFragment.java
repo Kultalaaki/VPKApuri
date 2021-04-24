@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 9:02 PM
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -30,7 +30,6 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class AffirmationFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -58,7 +57,6 @@ public class AffirmationFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment AffirmationFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AffirmationFragment newInstance(String param1, String param2) {
         AffirmationFragment fragment = new AffirmationFragment();
         Bundle args = new Bundle();

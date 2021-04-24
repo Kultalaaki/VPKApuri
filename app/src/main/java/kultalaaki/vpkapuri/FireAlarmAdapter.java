@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 4/24/21 9:34 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 4/2/21 1:11 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.FireAlarmHolder> {
 
     private OnItemClickListener listener;
+    private Integer alarmNumber = 1;
 
     public FireAlarmAdapter() {
         super(DIFF_CALLBACK);
@@ -52,9 +53,11 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
     public void onBindViewHolder(@NonNull FireAlarmHolder holder, int position) {
         FireAlarm currentAlarm = getItem(position);
         // TODO: Sijanumero muuttaa niin että saadaan arkistossa näkyviin monesko hälytys uusin aina on
-        holder.textViewSija.setText(Integer.toString(currentAlarm.getId()));
+        //holder.textViewSija.setText(Integer.toString(currentAlarm.getId()));
+        holder.textViewSija.setText(alarmNumber.toString());
         holder.textViewTunnus.setText(currentAlarm.getTunnus());
         holder.textViewViesti.setText(currentAlarm.getViesti());
+        alarmNumber++;
     }
 
     public FireAlarm getFireAlarmAt(int position) {

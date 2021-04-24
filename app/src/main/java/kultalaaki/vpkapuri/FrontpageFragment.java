@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 7:33 PM
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -94,7 +94,6 @@ public class FrontpageFragment extends Fragment {
         csettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Todo ask permissions and let activity start setting page
                 mListener.askPermissionReadExternalStorage();
             }
         });
@@ -128,7 +127,6 @@ public class FrontpageFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void loadArkistoFragment();
 
         void loadOhjeetFragment();

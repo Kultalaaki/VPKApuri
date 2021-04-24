@@ -1,14 +1,16 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 4/24/21 9:34 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 4/5/21 5:05 PM
  */
 
 package kultalaaki.vpkapuri;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 3/6/21 9:25 AM
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -83,7 +83,6 @@ public class ResponderFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(@Nullable List<Responder> responders) {
-                // TODO: update RecyclerView
                 if (responders != null) {
                     if (!responders.isEmpty()) {
                         combined = responders.size();
@@ -193,7 +192,6 @@ public class ResponderFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void showToast(String head, String message);
     }
 }

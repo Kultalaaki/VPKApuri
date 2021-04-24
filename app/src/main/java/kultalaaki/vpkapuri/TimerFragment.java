@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 4/24/21 9:34 AM
+ * Copyright (c) 2021. All rights reserved.
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri;
@@ -105,7 +105,6 @@ public class TimerFragment extends Fragment {
 
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // When clicked perform some action...
-                    //TODO
                     Log.e("TAG", "tulee " + DBTimer.COL_1);
                     TextView textView = view.findViewById(R.id.sijaID);
                     String primaryKey = textView.getText().toString();
@@ -162,7 +161,6 @@ public class TimerFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void openSetTimerNewInstance(String primaryKey);
         void openSetTimer();
     }

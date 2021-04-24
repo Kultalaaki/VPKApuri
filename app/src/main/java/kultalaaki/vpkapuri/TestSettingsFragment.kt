@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
+ * Created by Kultala Aki on 4/24/21 9:34 AM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 3/6/21 10:37 AM
+ * Last modified 3/20/21 1:02 PM
  */
 
 package kultalaaki.vpkapuri
@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_test_settings.*
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -36,7 +35,6 @@ private val green = "#0EB82A"
  * create an instance of this fragment.
  */
 class TestSettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -147,7 +145,6 @@ class TestSettingsFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment TestSettingsFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
                 TestSettingsFragment().apply {

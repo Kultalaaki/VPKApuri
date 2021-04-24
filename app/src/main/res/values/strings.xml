@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Kultala Aki on 2/7/21 9:48 AM
+  ~ Created by Kultala Aki on 4/24/21 9:34 AM
   ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 2/5/21 7:11 PM
+  ~ Last modified 3/20/21 12:06 PM
   -->
 <!--Todo check all and remove duplicates. Arrange all to some meaningful order-->
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -12,37 +12,29 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
+        <u><b>Versio 3.9\n\n</b></u>
+
+        Korjauksia sovelluksen kaatumisten vähentämiseksi.\n
+        Uusi logo\n
+        Pieniä ulkoasun muutoksia\n\n
+
+    </string>
+    <!--Näytetään vain muutosloki sivulla-->
+    <string name="whatsnew">
+        UUSIN VERSIO!\n\n
+
+        <u><b>Versio 3.9\n\n</b></u>
+
+        Korjauksia sovelluksen kaatumisten vähentämiseksi.\n
+        Uusi logo\n
+        Pieniä ulkoasun muutoksia\n\n
+
         <u><b>Versio 3.81\n\n</b></u>
 
         Android 11 korjaus:\n\n
 
         Karttapainikkeen avautuminen korjattu.\n
         Tallennustilan lupa pyydetään ennen kuin asetukset sivulle pääsee.\n\n
-
-        <u><b>Versio 3.8</b></u>\n\n
-
-        Asemataulu käytössä Tokevan pikakäynnistys lisätty, aukeaa nettiselaimeen.\n\n
-
-        Pikailmoitusten vastausvaihtoehtoihin lisätty mahdollisuus lähettää valitsemallaan sovelluksella ilmoittautumisviestit. Esim. Signal tai Telegram.\n\n
-
-        Korjattu: äänienhallinta hälytyksen tullessa saattoi jättää sovelluksen äänettömälle tai värinälle riippuen missä tilassa puhelin oli ennen hälytystä.\n\n
-
-        Ääniasetuksiin lisätty värinäkuviot:\n
-        - Pulse\n
-        - Hurry\n
-        - PiiPaa\n
-        - SOS\n
-        - VIRVE\n\n
-
-        + muita pieniä korjauksia\n\n
-
-        <u><b>Versio 3.7</b></u>\n\n
-        Android 10 korjaus:\n
-        Automaattinen aikaisu ei toimi ilman taustalta toimivan aukaisun lupaa. Luvan voi antaa asetuksista Akun optimointi asetuksen alapuolelta.\n\n
-    </string>
-    <!--Näytetään vain muutosloki sivulla-->
-    <string name="whatsnew">
-        UUSIN VERSIO!\n\n
 
         <u><b>Versio 3.8</b></u>\n\n
 
@@ -149,115 +141,6 @@
         Erican testihälytys nyt myös oikeassa muodossa.\n
         Nyt mahdollista tyhjentää koko arkisto kerralla "sivuvalikosta", myös numerointi alkaa alusta.\n
         Mahdollista käyttää myös muuta kuin Google Maps sovellusta osoitteen näyttämiseen. Katso sovelluksen ohjeista lisätietoa kohdasta: HÄLYTYS -> KARTTAPALVELUN VAIHTAMINEN.\n\n
-
-        <u><b>Versio 2.99.99</b></u>\n
-        Erica järjestelmän lähettämistä viesteistä ensimmäinen versio osoitteen tunnistamiseen. Kytketään sovelluksen Numerot/sms viestien asetuksista kohdasta Osoitteentunnistus ERICA.\n
-        Plus muita pikku korjauksia koodiin.\n\n
-
-        <u><b>Versio 2.99.8</b></u>\n
-        Widgetin jumittaminen korjattu.\n\n
-
-        <u><b>Versio 2.99.6</b></u>\n
-        Median äänenvoimakkuus palautetaan samalle tasolle kuin oli säädetty kun poistutaan hälytys sivulta jos teksti puheeksi käytössä.\n
-        Viestiäänen hiljennys ennen kuin aletaan toistaa sovelluksesta asetettua hälytysääntä.\n
-        Virheenkorjauksia\n\n
-
-        <u><b>Versio 2.99.5</b></u>\n
-        Lisätty kokeellinen ominaisuus:\n
-        Mahdollisuus määrittää avainsanat joiden mukaan hälytetään.\n
-        Hälyttävä numero pitää asettaa ja tämän jälkeen avainsana/sanat jolloin hälyttävän
-        numeron tunnistuksen jälkeen katsotaan viestistä sanat ja verrataan niitä tallennettuihin avainsanoihin.\n
-        Avainsanat tulee kirjoittaa täsmälleen kuten ne viestissä tulevat.\n\n
-
-        <u><b>Versio 2.99.4</b></u>\n
-        Teksti puheeksi asetukset siirretty ääniasetusten puolelle.\n
-        Teksti puheeksi äänenvoimakkuus asetus lisätty.\n
-        Virheenkorjauksia.\n\n
-
-        <u><b>Versio 2.99.3</b></u>\n
-        Pieniä ulkoasu muutoksia.\n
-        Ohjeita päivitetty.\n
-        Hälytysäänen kesto asetuksen numeroiden määrä on rajoitettu 5.\n
-        Peräkkäin tulevilla hälytyksillä edellisen hälytyksen ääni jäi soimaan, korjattu.\n
-        Koneluku ei toimi jos puhelin lukittu ja aukaisee ilmoituksesta sovelluksen. Tämä on selvityksen alla
-        koska mitään järkevää syytä tähän ei tahdo löytyä.\n\n
-
-        <u><b>Versio 2.99.2</b></u>\n
-        Lisätty hälytysäänen kesto asetuksiin, oletusarvo 60sek.\n\n
-
-        <u><b>Versio 2.99 &amp; Versio 2.99.1</b></u>\n
-        Lisätty asetusvalikko josta löytyy oikotiet akun optimointi asetuksiin ja sovelluksen tieto sivulle.\n
-        Teksti puheeksi toimintaa parannettu ja hiljennys näppäin lisätty.\n
-        Virheenkorjauksia.\n\n
-
-        <u><b>Versio 2.97</b></u>\n
-        Puheluilla tuleville hälytyksille muutoksia.\n
-        Nyt voi sovelluksen asetuksissa ottaa käyttöön ääniasetukset myös puheluilla tuleville hälytyksille.\n
-        Puheluiden äänen valinnan takia joutuu kysymään pari uutta lupaa käyttäjältä.\n
-        Värinä poistettu käytöstä jos puhelin äänettömällä ja sovelluksella ei ole lupaa hälyttää äänettömän läpi.\n
-        Joissain viestimuodoissa osoitehaku ottanut vuosiluvusta hälytystunnuksen, tämä on nyt korjattu.\n
-        Nämä on testattu toimivan Android 8.0 versiolla.\n
-        Muita pieniä muutoksia "pellin alla" tapahtuviin asioihin.\n\n
-
-        <u><b>Versio 2.95</b></u>\n
-        Korjaus äänikanaville.\n
-        Lisätty yksi hälytysluokka.\n\n
-
-        <u><b>Versio 2.94</b></u>\n
-        Lisätty puuttuvia hälytysluokkien tekstejä.\n
-        Ohjeisiin päivitetty tietoa pelastustoimen salassapidosta.\n
-        Hälytysviestien voimakkuuden säätö muutettu slideriksi, mahdollisuus valita 10%-100% väliltä. Oletusarvo 50%.\n
-        Mahdollisuus valita tuleeko hälytysviestit äänettömän läpi.\n
-        Uudistettu widget, pienempi koko. Valittavissa normaali, äänetön ja yötila. Yötilassa hälytykset tulevat hiljaisimmalla mahdollisella äänenvoimakkuudella.
-        Äänetöntä tilaa kytkettäessä kysytään varmistus, ei kysytä enään kun laittaa äänet takaisin päälle.\n\n
-
-        <u><b>Versio 2.9</b></u>\n
-        Korjauspäivitys\n
-        - Korjattu sovelluksen kaatuminen hälytyksen tullessa jos ei ollut asettanut äänenvoimakkuutta asetuksissa. Nyt oletusarvona 80%.\n\n
-        <u><b>Versio 2.85 ja 2.86</b></u>\n
-        Uudet ominaisuudet.\n
-        - SMS näppäimillä nyt jokaisella omat asetukset. Jokaiselle näppäimelle mitä haluaa käyttää pitää tehdä omat asetukset.\n
-        - Teksti puheeksi valinta asetuksissa\n
-        - Automaattinen aukaisu hälytyksen tullessa asetus. Sovellus aukeaa automaattisesti ja hälytys hiljennetään hälytys sivulla.\n
-        - Hälytysäänen voimakkuus valittavissa ääniasetuksissa.\n
-        - Värinä lisätty valinnaiseksi.\n
-        - Ulkoasua muutettu asetuksissa selkeämmäksi. Hieman muuallakin värimuutoksia.\n\n
-
-        Virheenkorjaukset\n
-        - Asetuksissa muutama kohta aiheutti kaatumista\n
-        - Osoitteentunnistus pieni korjaus kuntien tunnistamiseen.\n
-        - Hälytysäänen toiminnan parannuksia.\n\n
-
-        <u><b>Versio 2.83 ja 2.84</b></u>\n
-        Virheenkorjauksia\n
-        - Tyhjän arkiston aiheuttama kaatuminen korjattu.\n
-        - Taustalla osoitteen haun ja hälytysäänen soittamisen aiheuttama kaatuminen korjattu.\n
-        Pahoittelut tästä jatkuvasta päivittelystä. Versiossa 2.81 oli todella paljon muutoksia ja muutama hölmö virhe pääsi vahingossa läpi.\n\n
-
-        <u><b>Versio 2.81</b></u>\n
-        - Hälytys ei enää aukaise automaattisesti hälytys sivua. Hälytyksen tullessa tulee ilmoitus josta myöskin hiljennetään hälytysääni.\n
-        - Ilmoituksen voi pyyhkäistä pois jolloin ääni lopettaa tai voi painaa hiljennä näppäintä tai avata suoraan hälytys sivun painamalla ilmoitusta.\n
-        - Hälytys voidaan hiljentää jo lukitusnäytöltä.\n
-        - Hälytykset tallennetaan arkistoon taustalla.\n
-        - Lisätty etusivulle uusi valikko joka aukeaa yläreunan vasemmasta sivusta löytyvällä näppäimellä tai pyyhkäisemällä vasemmasta reunasta.\n
-        - Valikosta löytyy uusia ominaisuuksia ja pari muualta siirrettyä juttua.\n
-        - Tallenna hälytys arkistoon: voit lisätä itse arkistoon hälytyksiä\n
-        - Testaa hälytys: lähettää 5 sekunnin viiveen jälkeen sovellukseen hälytyksen jolla voi testata viestiääntä, hiljaista tilaa ja lukitusnäytöltä hälytyksen hiljentämistä ja ilmoituksen toimintaa.
-        Tämä sen takia koska sovellus ei enää aukea automaattisesti hälytyksen tullessa joten tällä voi harjoitella miten oma puhelin käyttäytyy hälytyksen tullessa.\n
-        - Hiljennä hälytykset: hiljentää hälytykset ja asettaa ilmoituksen joka ilmoittaa että hälytykset on hiljennetty.\n
-        - Muutosloki: täältä näkee uusimpien päivityksien tuomat muutokset.\n
-        - Lähetä palautetta: siirretty etusivulta parempaan paikkaan.\n
-        - Ulkoasua muutettu paremmin toimivaksi varsinkin pienemmillä näytöillä.\n
-        - Tietokannan varmuuskopiointi .db tiedostoon puhelimen sisäiseen muistiin.\n
-        - Arkistosta voi nyt myös poistaa hälytyksiä.\n
-        - Sovelluksen käyttämät luvat kysytään nyt paremmin niille kuuluvilla paikoilla Android 6.0 ja ylemmät.\n
-        - Ohjeet päivitetty. Alimpana tunnetut ongelmat kohta jossa myös ratkaisu.\n
-        Näillä muutoksilla saadaan hälytysten vastaanotto luotettavammaksi ja nopeammaksi. Paljon myös optimointia tehty sovelluksen vakauden parantamiseksi ja asennustiedoston pienentämiseksi.\n\n
-
-        <u><b>Version 2.7 päivitykset</b></u>\n
-        - Osoitteen tunnistaminen toimii kaikille hälytysviesti muodoille. Joitain virheitä voi ilmetä.\n
-        - Arkistossa hälytys luokka kenttä on korvattu Osoite kentällä ja luokka on yhdistettynä Tunnus kenttään\n
-        - Lisätty Hälytys sivulle tekstikenttä jossa näkyy tehtäväluokka ja tekstiselvennys tehtäväluokalle. Mukana myös ensivasteen tehtäväluokat.\n
     </string>
 
     <!--Ohjeet sivun tekstit-->
