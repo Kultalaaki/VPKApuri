@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
+ * Created by Kultala Aki on 5/10/21 8:48 PM
  * Copyright (c) 2021. All rights reserved.
- * Last modified 3/6/21 12:26 PM
+ * Last modified 5/9/21 9:54 AM
  */
 
 package kultalaaki.vpkapuri;
@@ -50,26 +50,23 @@ import java.util.Locale;
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
 
     private static final String TAG = "VPK Apuri käynnissä.";
+    private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
     private static boolean mediaplayerRunning = false;
-    MediaPlayer mMediaPlayer;
-    Vibrator viber;
-    static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>(), OHTOnumbers = new ArrayList<>();
-    SharedPreferences sharedPreferences;
-    private static final int MY_ALARM_NOTIFICATION_ID = 264981;
-    int soundVolume, volume, soundMode;
-    boolean isVibrateOn, automaticOpen, throughSilentMode, throughVibrateMode, puhelu, pitaaPalauttaa = false, OHTO = false, ensivaste = false, alarmIsEnsivaste = false, puheluAani = false;
-    String puheluHaly = "false";
-    static boolean erica;
-    static boolean asemataulu;
     private boolean ringermodeSilent = false, ringermodeVibrate = false, ringermodeNormal = false;
-    int streamRingVolume, streamMusicVolume, streamNotificationVolume, streamAlarmVolume;
-
     private AudioManager audioManager;
+    static ArrayList<String> kunnat = new ArrayList<>(), halytunnukset = new ArrayList<>(), halytekstit = new ArrayList<>(), OHTOnumbers = new ArrayList<>();
+    static boolean erica, asemataulu;
 
+    int soundVolume, volume, soundMode, streamRingVolume, streamMusicVolume, streamNotificationVolume, streamAlarmVolume;
+    boolean isVibrateOn, automaticOpen, throughSilentMode, throughVibrateMode, puhelu, pitaaPalauttaa = false, OHTO = false, ensivaste = false, alarmIsEnsivaste = false, puheluAani = false;
+
+    String puheluHaly = "false";
+    SharedPreferences sharedPreferences;
     PowerManager powerManager;
     PowerManager.WakeLock wakeLock;
-
+    MediaPlayer mMediaPlayer;
+    Vibrator viber;
     Context context;
 
     public IsItAlarmService() {
