@@ -8,7 +8,7 @@ Sovellus on työkalu suomalaisille vapaaehtoisille palokuntalaisille sekä vapaa
 - Hälytyksien tunnistaminen numeron perusteella
 - Oman hälytysäänen asettaminen
 - Osoitteen tunnistaminen viestistä
-- Navigoinnin aloittaminen itse valitsemallaan sovelluksella
+- Navigoinnin aloittaminen valitsemallaan sovelluksella
 - Hälytykseen ilmoittautuminen soittamalla, tavallinen tekstiviesti, 
   Whatsapp viesti, Signal viesti tai Telegram viesti
 - Ajastin hälytyksen saapumisesta ylöspäin hälytys sivulla
