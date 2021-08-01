@@ -33,11 +33,6 @@ import androidx.core.app.TaskStackBuilder;
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -130,6 +125,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     if (erica) {
                         lisaaHalyTunnukset();
                         lisaaKunnatErica();
+                        assert message != null;
                         addressLookUp(message, timestamp, number);
                     } else {
                         // OHTO alarm
@@ -172,6 +168,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (erica) {
                     lisaaHalyTunnukset();
                     lisaaKunnatErica();
+                    assert message != null;
                     addressLookUp(message, timestamp, number);
                 } else {
                     // OHTO alarm
@@ -183,28 +180,24 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (automaticOpen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (Settings.canDrawOverlays(getApplicationContext())) {
                         Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
-                                halyAuki.setAction(Intent.ACTION_SEND);
-                                halyAuki.setType("automaattinen");
-                                halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(halyAuki);
-                            }
+                        handler.postDelayed(() -> {
+                            Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                            halyAuki.setAction(Intent.ACTION_SEND);
+                            halyAuki.setType("automaattinen");
+                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(halyAuki);
                         }, 3000);
                     } else {
                         notificationAlarmMessage(message);
                     }
                 } else if (automaticOpen) {
                     Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
-                            halyAuki.setAction(Intent.ACTION_SEND);
-                            halyAuki.setType("automaattinen");
-                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(halyAuki);
-                        }
+                    handler.postDelayed(() -> {
+                        Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                        halyAuki.setAction(Intent.ACTION_SEND);
+                        halyAuki.setType("automaattinen");
+                        halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(halyAuki);
                     }, 3000);
                 } else {
                     notificationAlarmMessage(message);
@@ -227,14 +220,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (automaticOpen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if(Settings.canDrawOverlays(getApplicationContext())) {
                         Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
-                                halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                halyAuki.setAction(Intent.ACTION_SEND);
-                                halyAuki.setType("automaattinen");
-                                startActivity(halyAuki);
-                            }
+                        handler.postDelayed(() -> {
+                            Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            halyAuki.setAction(Intent.ACTION_SEND);
+                            halyAuki.setType("automaattinen");
+                            startActivity(halyAuki);
                         }, 3000);
                     } else {
                         notificationAlarmPhonecall("Hälytys tuli puheluna");
@@ -242,14 +233,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
                 } else if(automaticOpen){
                     Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
-                            halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            halyAuki.setAction(Intent.ACTION_SEND);
-                            halyAuki.setType("automaattinen");
-                            startActivity(halyAuki);
-                        }
+                    handler.postDelayed(() -> {
+                        Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
+                        halyAuki.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        halyAuki.setAction(Intent.ACTION_SEND);
+                        halyAuki.setType("automaattinen");
+                        startActivity(halyAuki);
                     }, 3000);
                 } else {
                     notificationAlarmPhonecall("Hälytys tuli puheluna");
@@ -267,53 +256,27 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     private String numberFormat(String number) {
         boolean saveToOHTO = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (number != null && !number.isEmpty()) {
-                if (number.startsWith("O")) {
-                    number = number.substring(1);
-                    // this is OHTO alarm number, save to arraylist for later use.
-                    saveToOHTO = true;
-                }
-                number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
-                if (number != null) {
-                    if (number.charAt(0) == '0') {
-                        number = "+358" + number.substring(1);
-                    }
-                    number = number.replaceAll("[()\\s-+]+", "");
-                    number = "0" + number.substring(3);
-                    if (saveToOHTO) {
-                        OHTOnumbers.add(number);
-                    }
-                    return number;
-                }
-                return "99987654321";
+        if (number != null && !number.isEmpty()) {
+            if (number.startsWith("O")) {
+                number = number.substring(1);
+                // this is OHTO alarm number, save to arraylist for later use.
+                saveToOHTO = true;
             }
-            return "99987654321";
-        } else {
-            if (number != null && !number.isEmpty()) {
-                if (number.startsWith("O")) {
-                    number = number.substring(1);
-                    // this is OHTO alarm number, save to arraylist for later use.
+            number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+            if (number != null) {
+                if (number.charAt(0) == '0') {
+                    number = "+358" + number.substring(1);
+                }
+                number = number.replaceAll("[()\\s-+]+", "");
+                number = "0" + number.substring(3);
+                if (saveToOHTO) {
                     OHTOnumbers.add(number);
-                    saveToOHTO = true;
-                    Log.e("åosdfk", "åoawk");
                 }
-                number = PhoneNumberUtils.formatNumber(number);
-                if (number != null) {
-                    if (number.charAt(0) == '0') {
-                        number = "+358" + number.substring(1);
-                    }
-                    number = number.replaceAll("[()\\s-+]+", "");
-                    number = "0" + number.substring(3);
-                    if (saveToOHTO) {
-                        OHTOnumbers.add(number);
-                    }
-                    return number;
-                }
-                return "99987654321";
+                return number;
             }
             return "99987654321";
         }
+        return "99987654321";
     }
 
     /**
@@ -333,7 +296,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 String numberFromSettings = sharedPreferences.getString("puhelinnumero" + i, null);
                 numberFromSettings = numberFormat(numberFromSettings);
 
-                if (numberFromSettings != null && !numberFromSettings.isEmpty()) {
+                if (!numberFromSettings.isEmpty()) {
                     if (numberFromSettings.equals(number)) {
                         String name = sharedPreferences.getString("nimi" + i, null);
                         boolean driversLicense = sharedPreferences.getBoolean("kortti" + i, false);
@@ -717,6 +680,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
 
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -1015,11 +979,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
             stopTime = stop * 1000;
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    stopSelf(stopper);
-                }
-            }, stopTime);
+            handler.postDelayed(() -> stopSelf(stopper), stopTime);
 
         } catch (IOException e) {
             System.out.println("OOPS");
@@ -1072,6 +1032,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         mediaplayerRunning = true;
     }
 
+    @SuppressLint("MissingPermission")
     public void vibrate() {
         String vibrateValue = sharedPreferences.getString("vibrate_pattern", null);
         int vibratePatternValue = 0;
@@ -1098,14 +1059,12 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             amplitude = Constants.VIRVE_AMPLITUDE;
         }
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if (viber != null && viber.hasVibrator()) {
-                if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                    viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, 0));
-                } else {
-                    viber.vibrate(pattern, 0);
-                }
+        viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (viber != null && viber.hasVibrator()) {
+            if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
+                viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, 0));
+            } else {
+                viber.vibrate(pattern, 0);
             }
         }
     }
