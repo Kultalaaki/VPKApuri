@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import kultalaaki.vpkapuri.alarm.SMSMessage;
+
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
 
     private static final String TAG = "VPK Apuri käynnissä.";
@@ -105,9 +107,10 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             automaticOpen = sharedPreferences.getBoolean("automaticOpen", false);
-            String number = intent.getStringExtra("number");
-            String message = intent.getStringExtra("message");
-            String timestamp = intent.getStringExtra("timestamp");
+
+            SMSMessage smsMessage = new SMSMessage(intent.getStringExtra("number"),
+                    intent.getStringExtra("message"),
+                    intent.getStringExtra("timestamp"));
 
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
