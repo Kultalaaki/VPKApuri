@@ -807,7 +807,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntentWithBackStack)
-                .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
+                // Todo find solution to this error .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
                 .setAutoCancel(true);
