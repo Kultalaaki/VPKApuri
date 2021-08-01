@@ -27,6 +27,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 
@@ -40,8 +41,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import kultalaaki.vpkapuri.alarm.ReadFileCities;
 import kultalaaki.vpkapuri.alarm.SMSMessage;
 
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
@@ -84,6 +87,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ApplySharedPref")
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (intent != null) {
@@ -107,10 +111,17 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             automaticOpen = sharedPreferences.getBoolean("automaticOpen", false);
+            // Todo remove next three lines when remodelling advances
+            String number = intent.getStringExtra("number");
+            String message = intent.getStringExtra("message");
+            String timestamp = intent.getStringExtra("timestamp");
 
             SMSMessage smsMessage = new SMSMessage(intent.getStringExtra("number"),
                     intent.getStringExtra("message"),
                     intent.getStringExtra("timestamp"));
+
+            ReadFileCities neww = new ReadFileCities();
+            neww.getCityList();
 
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
@@ -1071,21 +1082,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             }
         }
     }
-
-    /*public void vibrateSilent() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if (viber != null && viber.hasVibrator()) {
-                if (Build.VERSION.SDK_INT >= 26) {
-                    long[] pattern = new long[]{0, 200, 200, 200, 200, 200, 200, 200};
-                    viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
-                } else {
-                    long[] pattern = new long[]{0, 200, 200, 200, 200, 200, 200, 200};
-                    viber.vibrate(pattern, -1);
-                }
-            }
-        }
-    }*/
 
     public void lisaaKunnatErica() {
         //ArrayList<String> kunnat = new ArrayList<>();

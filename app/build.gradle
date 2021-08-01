@@ -11,12 +11,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 30
         multiDexEnabled true
         versionCode 110 // Update just before pushing update 109 is live
         versionName "3.9" // Update just before pushing update 3.81 is live
