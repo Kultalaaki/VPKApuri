@@ -111,7 +111,7 @@ public class AlarmActivity extends AppCompatActivity
     }
 
     public void changeLayout() {
-        if(findViewById(R.id.responder_view) == null) {
+        if (findViewById(R.id.responder_view) == null) {
             constraintSet = new ConstraintSet();
             //constraintSet.clone(constraintLayout);
             constraintSet.load(this, R.layout.halytys_activity_ohto);
@@ -154,7 +154,6 @@ public class AlarmActivity extends AppCompatActivity
     }
 
 
-
     public void loadAsematauluButtons() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         StationboardButtonsFragment stationboardButtonsFragment = new StationboardButtonsFragment();
@@ -173,7 +172,7 @@ public class AlarmActivity extends AppCompatActivity
     @SuppressLint("ApplySharedPref")
     public void loadResponderFragment() {
         responderFragmentShowing = preferences.getBoolean("responderFragmentShowing", false);
-        if(!responderFragmentShowing) {
+        if (!responderFragmentShowing) {
             FragmentManager fragmentManager = this.getSupportFragmentManager();
             ResponderFragment responderFragment = new ResponderFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -274,7 +273,7 @@ public class AlarmActivity extends AppCompatActivity
 
     /**
      * StationboardButtonsFragment methods below this
-     *
+     * <p>
      * <--Methods to take picture and add it to gallery-->
      * openCamera
      * createImageFile

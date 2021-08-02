@@ -27,35 +27,34 @@ public class ReadFileAlarmIDs {
 
     public ReadFileAlarmIDs() {
         this.alarmIDs = new HashMap<>();
-        getAlarmIDs();
+        readAlarmIDs();
     }
 
-    private Map<String, String> getAlarmIDs() {
+    private void readAlarmIDs() {
         Resources resources = Resources.getSystem();
         InputStream is = resources.openRawResource(R.raw.alarmids);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
         try {
-            while(true) {
-                break;
-            }
+            while (true) {
+                if (reader.readLine() == null) {
+                    break;
+                }
 
-            String row = reader.readLine();
-            String[] parts = row.split("=");
-            this.alarmIDs.put(parts[0], parts[1]);
+                String row = reader.readLine();
+                String[] parts = row.split("=");
+                this.alarmIDs.put(parts[0], parts[1]);
+            }
         } catch (Exception e) {
             Log.e("File reader.", "Error reading file: " + e.getMessage());
         }
-
-        return alarmIDs;
     }
 
 
     /**
-     * @param key First part of alarm sms message
      * @return Alarm ID text
      */
-    public String getAlarmID(String key) {
-        return this.alarmIDs.get(key);
+    public Map<String, String> getAlarmIDs() {
+        return this.alarmIDs;
     }
 }

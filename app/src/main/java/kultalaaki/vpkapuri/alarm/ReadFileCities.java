@@ -44,8 +44,8 @@ public class ReadFileCities {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
         try {
-            while(true) {
-                if(reader.readLine() == null) {
+            while (true) {
+                if (reader.readLine() == null) {
                     break;
                 }
 

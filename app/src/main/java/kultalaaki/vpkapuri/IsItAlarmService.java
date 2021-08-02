@@ -41,12 +41,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import kultalaaki.vpkapuri.alarm.Alarm;
-import kultalaaki.vpkapuri.alarm.ReadFileCities;
-import kultalaaki.vpkapuri.alarm.SMSMessage;
+
 
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
 
@@ -83,9 +80,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         super.onCreate();
         context = this;
         //Log.e("IsItAlarmService", "onCreate");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundNotification(TAG);
-        }
+        startForegroundNotification(TAG);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -106,13 +101,11 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
             }
             previousStartId = startId;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundNotification(TAG);
-            }
+            startForegroundNotification(TAG);
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             automaticOpen = sharedPreferences.getBoolean("automaticOpen", false);
-            // Todo remove next three lines when remodelling advances
+
             String number = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             String timestamp = intent.getStringExtra("timestamp");
@@ -873,8 +866,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             NotificationManager notificationManager =
                     (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             if (notificationManager != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+                if (!notificationManager.isNotificationPolicyAccessGranted()) {
                     isDoNotDisturbAllowed = false;
                 }
             }
