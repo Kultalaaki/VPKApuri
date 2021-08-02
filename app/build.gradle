@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "kultalaaki.vpkapuri"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         multiDexEnabled true
         versionCode 110 // Update just before pushing update 109 is live

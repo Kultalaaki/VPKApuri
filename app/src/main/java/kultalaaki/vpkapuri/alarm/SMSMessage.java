@@ -10,12 +10,12 @@ public class SMSMessage {
 
     private String sender;
     private String message;
-    private String received;
+    private String timeStamp;
 
-    public SMSMessage(String sender, String message, String received) {
+    public SMSMessage(String sender, String message, String timeStamp) {
         this.sender = sender;
         this.message = message;
-        this.received = received;
+        this.timeStamp = timeStamp;
     }
 
     public String getSender() {
@@ -26,7 +26,7 @@ public class SMSMessage {
         return this.message;
     }
 
-    public String getReceived() {
-        return this.received;
+    public String getTimeStamp() {
+        return this.timeStamp;
     }
 }
