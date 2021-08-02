@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Kultala Aki on 1/29/21 9:41 PM
-  ~ Copyright (c) 2021. All rights reserved.
-  ~ Last modified 1/29/21 8:49 PM
-  -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="kultalaaki.vpkapuri"
@@ -22,8 +16,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- /\  DANGEROUS PERMISSIONS  /\ -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- /\  DANGEROUS PERMISSIONS  /\ -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
@@ -47,6 +40,7 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.SENDTO" />
+
             <data android:scheme="mailto" />
         </intent>
     </queries>
@@ -56,11 +50,15 @@
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m"
-        android:requestLegacyExternalStorage="true">
+        tools:targetApi="m">
+        <service
+            android:name=".BackgroundService"
+            android:enabled="true"
+            android:exported="true"></service>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -80,7 +78,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
@@ -96,11 +93,11 @@
 
         <activity
             android:name=".AlarmActivity"
-            android:parentActivityName=".FrontpageActivity"
-            android:configChanges="orientation|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden"
+            android:parentActivityName=".FrontpageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -115,9 +112,9 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".FrontpageActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".FrontpageActivity" />
 
         <receiver
             android:name=".SmsBroadcastReceiver"
@@ -126,28 +123,29 @@
             android:permission="android.permission.BROADCAST_SMS"
             android:process=":remote">
             <intent-filter android:priority="999">
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
+
+                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".MyWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name=".MyWidgetProvider.ACTION_WIDGET_REFRESH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
-
         <receiver
             android:name=".PhonecallBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.READ_PHONE_STATE">
             <intent-filter android:priority="999">
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
+
+                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
@@ -157,18 +155,19 @@
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO" />
+
                 <data android:scheme="mailto" />
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

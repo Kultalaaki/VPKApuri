@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import kultalaaki.vpkapuri.alarm.Alarm;
 import kultalaaki.vpkapuri.alarm.ReadFileCities;
 import kultalaaki.vpkapuri.alarm.SMSMessage;
 
@@ -115,13 +116,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             String number = intent.getStringExtra("number");
             String message = intent.getStringExtra("message");
             String timestamp = intent.getStringExtra("timestamp");
-
-            SMSMessage smsMessage = new SMSMessage(intent.getStringExtra("number"),
-                    intent.getStringExtra("message"),
-                    intent.getStringExtra("timestamp"));
-
-            ReadFileCities neww = new ReadFileCities();
-            neww.getCityList();
 
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
