@@ -20,7 +20,7 @@ public class FireAlarm {
     private String viesti; // message
     private String osoite; // address
     private String kommentti; // Comment, added from archive if user writes something
-    private String vastaus; // What is answered to this alarm message. Not in use yet.
+    private String vastaus; // What is answered to this alarmdetection message. Not in use yet.
     private String timeStamp; // Self explanatory
     private String optionalField2; // Stores phone number
     private String optionalField3;

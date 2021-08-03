@@ -444,7 +444,7 @@ public class SetTimerFragment extends Fragment {
 
     }
 
-    /**  Setting alarm intents
+    /**  Setting alarmdetection intents
     *   RequestCode is key + Hour + Minute, this way start and stop intents differ and we can cancel the timer.
     *   Setting time based on user input
     */
@@ -466,7 +466,7 @@ public class SetTimerFragment extends Fragment {
             alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
             intentStart.putExtra("primaryKey", key);
-            intentStart.putExtra("StartOrStop", "Starting alarm");
+            intentStart.putExtra("StartOrStop", "Starting alarmdetection");
             alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -494,7 +494,7 @@ public class SetTimerFragment extends Fragment {
             alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
             intentStop.putExtra("primaryKey", key);
-            intentStop.putExtra("StartOrStop", "Stopping alarm");
+            intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
             alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -526,7 +526,7 @@ public class SetTimerFragment extends Fragment {
         alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
         Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
         intentStart.putExtra("primaryKey", key);
-        intentStart.putExtra("StartOrStop", "Starting alarm");
+        intentStart.putExtra("StartOrStop", "Starting alarmdetection");
         alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
         if(alarmMgrStart != null) {
             alarmMgrStart.cancel(alarmIntentStart);
@@ -544,7 +544,7 @@ public class SetTimerFragment extends Fragment {
         alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
         Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
         intentStop.putExtra("primaryKey", key);
-        intentStop.putExtra("StartOrStop", "Stopping alarm");
+        intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
         alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
         if(alarmMgrStop != null) {
             alarmMgrStop.cancel(alarmIntentStop);

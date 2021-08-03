@@ -4,7 +4,7 @@
  * Last modified 8/1/21, 10:25 PM
  */
 
-package kultalaaki.vpkapuri.alarm;
+package kultalaaki.vpkapuri.alarmdetection;
 
 import android.content.res.Resources;
 import android.util.Log;

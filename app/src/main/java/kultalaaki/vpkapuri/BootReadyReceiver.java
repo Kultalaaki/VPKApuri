@@ -66,7 +66,7 @@ public class BootReadyReceiver extends BroadcastReceiver {
             AlarmManager alarmMgrStart = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStart = new Intent(ctx, AlarmReceiver.class);
             intentStart.putExtra("primaryKey", key);
-            intentStart.putExtra("StartOrStop", "Starting alarm");
+            intentStart.putExtra("StartOrStop", "Starting alarmdetection");
             PendingIntent alarmIntentStart = PendingIntent.getBroadcast(ctx, requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -98,7 +98,7 @@ public class BootReadyReceiver extends BroadcastReceiver {
             AlarmManager alarmMgrStop = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStop = new Intent(ctx, AlarmReceiver.class);
             intentStop.putExtra("primaryKey", key);
-            intentStop.putExtra("StartOrStop", "Stopping alarm");
+            intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
             PendingIntent alarmIntentStop = PendingIntent.getBroadcast(ctx, requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
 

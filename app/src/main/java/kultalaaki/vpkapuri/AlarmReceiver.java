@@ -63,7 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             sunday = "Sunday";
         }
 
-        if(StartOrStop.equals("Starting alarm")) {
+        if(StartOrStop.equals("Starting alarmdetection")) {
             // Alarm start time reached. Check currentDay of week.
             if(currentDay.equals(monday) || currentDay.equals(tuesday) || currentDay.equals(wednesday) || currentDay.equals(thursday) || currentDay.equals(friday) || currentDay.equals(saturday) || currentDay.equals(sunday)) {
                // Check mode to set
@@ -73,7 +73,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                    soundControls.setSilent(context);
                }
             }
-        } else if(StartOrStop.equals("Stopping alarm")) {
+        } else if(StartOrStop.equals("Stopping alarmdetection")) {
             // Alarm stop time reached, setting sound settings to normal.
             soundControls.setNormal(context);
         }

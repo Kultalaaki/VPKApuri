@@ -4,7 +4,7 @@
  * Last modified 8/1/21, 7:16 PM
  */
 
-package kultalaaki.vpkapuri.alarm;
+package kultalaaki.vpkapuri.alarmdetection;
 
 public class SMSMessage {
 

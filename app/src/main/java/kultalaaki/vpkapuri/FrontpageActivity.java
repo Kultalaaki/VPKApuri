@@ -732,7 +732,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         prefs.edit().putInt("aaneton_profiili", 1).commit();
                         prefs.edit().putBoolean("firstrun", false).commit();
                     }
-                    // App updated, add alarm to database
+                    // App updated, add alarmdetection to database
                     FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
                     FireAlarm fireAlarm = new FireAlarm("999", "C", "Uusi asennus tai sovellus on päivitetty.", "Ei osoitetta", "", "",
                             "", "", "", "", "");

@@ -4,7 +4,7 @@
  * Last modified 8/2/21, 12:33 AM
  */
 
-package kultalaaki.vpkapuri.alarm;
+package kultalaaki.vpkapuri.alarmdetection;
 
 import android.content.SharedPreferences;
 
@@ -44,7 +44,7 @@ public class Alarm {
     private void address() {
         String[] parts = message.split(";");
 
-        // Todo make alarm id search functionality. Test this solution!!
+        // Todo make alarmdetection id search functionality. Test this solution!!
         for (String id : parts) {
             alarmID(id);
             if (!(this.alarmTextField == null)) {
@@ -63,7 +63,7 @@ public class Alarm {
     }
 
     /**
-     * Find alarm id from message and assign alarmtext to it
+     * Find alarmdetection id from message and assign alarmtext to it
      */
     private void alarmID(String alarmID) {
         this.alarmID = alarmID;
@@ -72,7 +72,7 @@ public class Alarm {
 
     /**
      * @return true if sender is defined alarms sender, keyword in use and message contains keyword,
-     * test alarm is sent by user.
+     * test alarmdetection is sent by user.
      */
     public boolean isAlarm(SharedPreferences preferences) {
         // 1. Test sender against numbers from shared preferences, don't forget VaPePa numbers
@@ -80,7 +80,7 @@ public class Alarm {
             return false;
         }
         sender = sender.trim();
-        //      1.1. If it is VaPePa alarm form alarm differently
+        //      1.1. If it is VaPePa alarmdetection form alarmdetection differently
         List<String> numbers = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
             String number = preferences.getString("halyvastaanotto" + i, null);

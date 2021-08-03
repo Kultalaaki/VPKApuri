@@ -113,14 +113,14 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
             puheluHaly = intent.getStringExtra("halytysaani");
-            // if erica is false, it's OHTO alarm.
+            // if erica is false, it's OHTO alarmdetection.
             erica = sharedPreferences.getBoolean("Erica", true);
             OHTO = sharedPreferences.getBoolean("OHTO", false);
             ensivaste = sharedPreferences.getBoolean("Ensivaste", false);
             asemataulu = sharedPreferences.getBoolean("asemataulu", false);
             // isItAlarmSMS testaa numeron ja viestin | halytysaani true (puhelu) false(sms) kummasta broadcastreceiveristä tuli
             if (asemataulu) {
-                // Test if it is alarm message. If not alarm, test is it person attending alarm.
+                // Test if it is alarmdetection message. If not alarmdetection, test is it person attending alarmdetection.
                 if (isItAlarmSMS(number, message)) {
 
                     if (erica) {
@@ -129,7 +129,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         assert message != null;
                         addressLookUp(message, timestamp, number);
                     } else {
-                        // OHTO alarm
+                        // OHTO alarmdetection
                         saveOhtoAlarmToDatabase(message, timestamp, number);
                     }
 
@@ -172,7 +172,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     assert message != null;
                     addressLookUp(message, timestamp, number);
                 } else {
-                    // OHTO alarm
+                    // OHTO alarmdetection
                     saveOhtoAlarmToDatabase(message, timestamp, number);
                 }
 
@@ -260,7 +260,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         if (number != null && !number.isEmpty()) {
             if (number.startsWith("O")) {
                 number = number.substring(1);
-                // this is OHTO alarm number, save to arraylist for later use.
+                // this is OHTO alarmdetection number, save to arraylist for later use.
                 saveToOHTO = true;
             }
             number = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
@@ -569,13 +569,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             FireAlarm fireAlarmLastEntry = fireAlarmRepository.getLatest();
             if (fireAlarmLastEntry != null) {
                 if (fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
-                    // Last alarm was OHTO or phonecall alarm. Make new alarm.
+                    // Last alarmdetection was OHTO or phonecall alarmdetection. Make new alarmdetection.
                     FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                             osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
                 } else {
-                    // Last alarm was not OHTO or phonecall alarm, update last alarm with new information if time difference is smaller than 30 minutes.
+                    // Last alarmdetection was not OHTO or phonecall alarmdetection, update last alarmdetection with new information if time difference is smaller than 30 minutes.
                     if (calculateTimeDifference(fireAlarmLastEntry.getTimeStamp(), timeStamp)) {
                         String addMessage = fireAlarmLastEntry.getViesti();
                         addMessage += "\n" +
@@ -602,13 +602,13 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
             if (fireAlarmLastEntry != null) {
                 if (fireAlarmLastEntry.getTunnus().equals("OHTO Hälytys") || fireAlarmLastEntry.getTunnus().equals("999")) {
-                    // Last alarm was OHTO or phonecall alarm. Make new alarm.
+                    // Last alarmdetection was OHTO or phonecall alarmdetection. Make new alarmdetection.
                     FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                             osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
                     fireAlarmRepository.insert(fireAlarm);
                 } else {
-                    // Last alarm was not OHTO or phonecall alarm, update last alarm with new information if time difference is smaller than 30 minutes.
+                    // Last alarmdetection was not OHTO or phonecall alarmdetection, update last alarmdetection with new information if time difference is smaller than 30 minutes.
                     if (calculateTimeDifference(fireAlarmLastEntry.getTimeStamp(), timeStamp)) {
                         String LastEntryViesti = fireAlarmLastEntry.getViesti();
                         LastEntryViesti += "\n" +
@@ -625,7 +625,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         fireAlarmLastEntry.setViesti(LastEntryViesti);
                         fireAlarmRepository.update(fireAlarmLastEntry);
                     } else {
-                        // Time difference over 30 minutes. Make new alarm.
+                        // Time difference over 30 minutes. Make new alarmdetection.
                         FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                                 osoite.trim(), kommentti, "", timeStamp, number, "", "", "");
 
@@ -635,7 +635,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 }
 
             } else {
-                // Last fireAlarm was empty, make new alarm.
+                // Last fireAlarm was empty, make new alarmdetection.
                 FireAlarm fireAlarm = new FireAlarm(tallennettavaTunnus, kiireellisyysLuokka.trim(), message,
                         osoite.trim(), kommentti, "", timeStamp, "", "", "", "");
 
@@ -887,7 +887,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         ringermodeVibrate = true;
                         break;
                     case AudioManager.RINGER_MODE_NORMAL:
-                        // Set phone to silent, store volumes that need to be set back after alarm
+                        // Set phone to silent, store volumes that need to be set back after alarmdetection
                         streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
                         streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 

@@ -15,6 +15,8 @@ import android.text.format.DateFormat;
 
 import java.util.Date;
 
+import kultalaaki.vpkapuri.alarmdetection.CallBackgroundService;
+
 public class PhonecallBroadcastReceiver extends BroadcastReceiver {
 
     //The receiver will be recreated whenever android feels like it.  We need a static variable to remember data between instantiations
@@ -59,34 +61,29 @@ public class PhonecallBroadcastReceiver extends BroadcastReceiver {
 
     //Derived classes should override these to respond to specific events of interest
     protected void onIncomingCallStarted(Context ctx, String number, String aika) {
-        //Toast.makeText(ctx, "check number " + number, Toast.LENGTH_LONG).show();
+        //
         if (number != null) {
-            Intent startService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
+            Intent startService = new Intent(ctx.getApplicationContext(), CallBackgroundService.class);
             startService.putExtra("message", "Hälytys tulossa.");
             startService.putExtra("halytysaani", "true");
             startService.putExtra("timestamp", aika);
             startService.putExtra("number", number);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                ctx.getApplicationContext().startForegroundService(startService);
-            } else {
-                ctx.getApplicationContext().startService(startService);
-            }
-
+            ctx.getApplicationContext().startForegroundService(startService);
         }
 
     }
 
     protected void onOutgoingCallStarted(Context ctx, String number) {
         if (number != null) {
-            Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
+            Intent stopService = new Intent(ctx.getApplicationContext(), CallBackgroundService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
     }
 
     protected void onIncomingCallEnded(Context ctx, String number) {
         if (number != null) {
-            Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
+            Intent stopService = new Intent(ctx.getApplicationContext(), CallBackgroundService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
     }
@@ -96,7 +93,7 @@ public class PhonecallBroadcastReceiver extends BroadcastReceiver {
 
     protected void onMissedCall(Context ctx, String number) {
         if (number != null) {
-            Intent stopService = new Intent(ctx.getApplicationContext(), IsItAlarmService.class);
+            Intent stopService = new Intent(ctx.getApplicationContext(), CallBackgroundService.class);
             ctx.getApplicationContext().stopService(stopService);
         }
 

@@ -4,7 +4,7 @@
  * Last modified 8/1/21, 10:25 PM
  */
 
-package kultalaaki.vpkapuri.alarm;
+package kultalaaki.vpkapuri.alarmdetection;
 
 import android.content.res.Resources;
 import android.os.Build;
@@ -14,10 +14,8 @@ import androidx.annotation.RequiresApi;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import kultalaaki.vpkapuri.R;
 

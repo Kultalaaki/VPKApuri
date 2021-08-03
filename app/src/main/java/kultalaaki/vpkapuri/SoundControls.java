@@ -30,7 +30,7 @@ class SoundControls {
     private SharedPreferences sharedPreferences;
 
     /**
-     * SoundControls setSilent() sets sound to silent for alarm messages and alarm phonecalls only.
+     * SoundControls setSilent() sets sound to silent for alarmdetection messages and alarmdetection phonecalls only.
      * When setSilent() is called, notification will be set indicating user that alarms are silent.
      * @param context application context
      */
@@ -64,7 +64,7 @@ class SoundControls {
     }
 
     /**
-     * SoundControls setNightMode() sets sound to 10% volume for alarm messages and alarm phonecalls only.
+     * SoundControls setNightMode() sets sound to 10% volume for alarmdetection messages and alarmdetection phonecalls only.
      * When setNightMode() is called, notification will be set indicating user that alarms are 10% volume.
      * @param context application context
      */
@@ -98,7 +98,7 @@ class SoundControls {
     }
 
     /**
-     * SoundControls setNormal() sets sound to app setting volume for alarm messages and alarm phonecalls only.
+     * SoundControls setNormal() sets sound to app setting volume for alarmdetection messages and alarmdetection phonecalls only.
      * When setNormal() is called, other notifications with MY_NOTIFICATION_ID are cancelled.
      * @param context application context
      */
