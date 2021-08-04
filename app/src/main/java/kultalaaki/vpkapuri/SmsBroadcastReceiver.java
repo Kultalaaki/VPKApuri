@@ -54,14 +54,9 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 }
 
                 for (int i = 0; i < pituus; i++) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    {
                         String format = myBundle.getString("format");
                         SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdus[i], format);
-                        senderNum = currentMessage.getDisplayOriginatingAddress();
-                        message = currentMessage.getDisplayMessageBody();
-                        content.append(message);
-                    } else {
-                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
                         senderNum = currentMessage.getDisplayOriginatingAddress();
                         message = currentMessage.getDisplayMessageBody();
                         content.append(message);
