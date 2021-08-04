@@ -20,7 +20,7 @@ public class FireAlarmRepository {
     private LiveData<List<FireAlarm>> allFireAlarms;
     private LiveData<List<FireAlarm>> fireAlarmLastEntry;
 
-    FireAlarmRepository(Application application) {
+    public FireAlarmRepository(Application application) {
         FireAlarmDatabase database = FireAlarmDatabase.getInstance(application);
         fireAlarmDao = database.fireAlarmsDao();
         allFireAlarms = fireAlarmDao.getAllFireAlarms();

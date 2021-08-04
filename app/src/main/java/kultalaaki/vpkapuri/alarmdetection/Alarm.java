@@ -21,6 +21,7 @@ public class Alarm {
     private String address;
     private String alarmID;
     private String alarmTextField;
+    private String urgencyClass;
     private List<String> cities;
     private Map<String, String> alarmIDs;
 
@@ -35,6 +36,7 @@ public class Alarm {
         this.address = "";
         this.alarmID = "";
         this.alarmTextField = null;
+        this.urgencyClass = "";
         this.cities = new ArrayList<>();
     }
 
@@ -71,6 +73,15 @@ public class Alarm {
         this.alarmTextField = alarmIDs.get(alarmID);
     }
 
+    private void urgencyClass() {
+        String[] parts = message.split(";");
+        for(String part : parts) {
+            if(part.trim().equals("A") || part.trim().equals("B") || part.trim().equals("C") || part.trim().equals("D")) {
+                this.urgencyClass = part;
+            }
+        }
+    }
+
     /**
      * @return true if sender is defined alarms sender, keyword in use and message contains keyword,
      * test alarmdetection is sent by user.
@@ -98,6 +109,8 @@ public class Alarm {
             formAlarm();
             return true;
         }
+
+
 
         // 2. If keyword is in use, look if keyword is found in message
         boolean keyword = preferences.getBoolean("avainsana", false);
@@ -135,6 +148,7 @@ public class Alarm {
         readCities();
         readAlarmIDs();
         address();
+        urgencyClass();
     }
 
     private void readCities() {
@@ -169,5 +183,9 @@ public class Alarm {
 
     public String getAlarmTextField() {
         return alarmTextField;
+    }
+
+    public String getUrgencyClass() {
+        return this.urgencyClass;
     }
 }

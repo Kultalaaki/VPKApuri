@@ -18,6 +18,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import kultalaaki.vpkapuri.FireAlarm;
+import kultalaaki.vpkapuri.FireAlarmRepository;
 import kultalaaki.vpkapuri.alarmdetection.Alarm;
 
 public class SMSBackgroundService extends Service {
@@ -43,25 +45,29 @@ public class SMSBackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, final int startId) {
         // If intent is empty then skip
         if (intent != null) {
-            // Create Alarm object that holds intent information
+            // Create Alarm object that holds intent (sms message) information
             Alarm alarm = new Alarm(intent.getStringExtra("number"),
                     intent.getStringExtra("message"),
                     intent.getStringExtra("timestamp"));
 
+            // Sharedpreferences to be used in Alarm class.
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            // Todo check if app is in stationboard use or basic user
-            // 1. Basic user
-            //      1.1. Test if it is OHTO alarmdetection, VPK alarmdetection,
-            //      1.2. Alarming preferences, volume, vibration, sound
+
+            // Todo OHTO alarm detection is not done
+
             // Check if message is alarm message
             if (alarm.isAlarm(preferences)) {
                 // Start foreground service notification to ensure survivability of service
-                startForegroundNotification(alarm.getMessage());
+                startForegroundNotification("Uusi hälytys!\nViesti piiloitettu!");
 
                 // Todo it is alarm, do things to alarm person
-                // 1. Play sound
+                // 1. Play sound | Create another service to handle alarming sounds
                 // 2. Save to database
-                // 3.
+                FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),
+                        alarm.getMessage(), alarm.getAddress(), "", "",
+                        alarm.getTimeStamp(), "", "", "", ""));
+
                 Log.i("VPK Apuri", "alarm came through");
                 Log.i("Alarm sender: ", alarm.getSender());
                 Log.i("Alarm message: ", alarm.getMessage());
@@ -76,7 +82,7 @@ public class SMSBackgroundService extends Service {
             boolean stationboard = preferences.getBoolean("asemataulu", false);
             if (stationboard) {
                 // Todo
-                // 1. Compare sender number to numbers of added perons from preferences
+                // 1. Compare sender number to numbers of added persons from preferences
                 // 2. Add them to database containing responders
             }
         }
