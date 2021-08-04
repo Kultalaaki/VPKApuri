@@ -42,7 +42,7 @@ public class SMSBackgroundService extends Service {
 
     public int onStartCommand(Intent intent, int flags, final int startId) {
         // If intent is empty then skip
-        if(intent != null) {
+        if (intent != null) {
             // Create Alarm object that holds intent information
             Alarm alarm = new Alarm(intent.getStringExtra("number"),
                     intent.getStringExtra("message"),
@@ -53,8 +53,8 @@ public class SMSBackgroundService extends Service {
             // 1. Basic user
             //      1.1. Test if it is OHTO alarmdetection, VPK alarmdetection,
             //      1.2. Alarming preferences, volume, vibration, sound
-            // Check if message is alarmdetection message
-            if(alarm.isAlarm(preferences)) {
+            // Check if message is alarm message
+            if (alarm.isAlarm(preferences)) {
                 // Start foreground service notification to ensure survivability of service
                 startForegroundNotification(alarm.getMessage());
 
@@ -73,9 +73,12 @@ public class SMSBackgroundService extends Service {
             }
 
             // Todo
-            //if(stationboard use true) {
-
-           // }
+            boolean stationboard = preferences.getBoolean("asemataulu", false);
+            if (stationboard) {
+                // Todo
+                // 1. Compare sender number to numbers of added perons from preferences
+                // 2. Add them to database containing responders
+            }
         }
 
         return Service.START_STICKY;

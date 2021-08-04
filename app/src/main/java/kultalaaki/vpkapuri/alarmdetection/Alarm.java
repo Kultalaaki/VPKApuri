@@ -44,7 +44,6 @@ public class Alarm {
     private void address() {
         String[] parts = message.split(";");
 
-        // Todo make alarmdetection id search functionality. Test this solution!!
         for (String id : parts) {
             alarmID(id.trim());
             if (!(this.alarmTextField == null)) {
