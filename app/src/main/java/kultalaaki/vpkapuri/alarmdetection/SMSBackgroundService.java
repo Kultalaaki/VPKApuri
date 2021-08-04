@@ -62,6 +62,13 @@ public class SMSBackgroundService extends Service {
                 // 1. Play sound
                 // 2. Save to database
                 // 3.
+                Log.i("VPK Apuri", "alarm came through");
+                Log.i("Alarm sender: ", alarm.getSender());
+                Log.i("Alarm message: ", alarm.getMessage());
+                Log.i("Alarm address: ", alarm.getAddress());
+                Log.i("Alarm ID: ", alarm.getAlarmID());
+                Log.i("Alarm text: ", alarm.getAlarmTextField());
+                Log.i("Alarm timestamp: ", alarm.getTimeStamp());
 
             }
 

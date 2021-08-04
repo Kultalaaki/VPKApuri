@@ -21,6 +21,8 @@ import java.util.Date;
 
 import static android.content.Context.POWER_SERVICE;
 
+import kultalaaki.vpkapuri.alarmdetection.SMSBackgroundService;
+
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
@@ -70,16 +72,12 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 aika = System.currentTimeMillis();
                 Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
 
-                Intent startService = new Intent(context.getApplicationContext(), IsItAlarmService.class);
+                Intent startService = new Intent(context.getApplicationContext(), SMSBackgroundService.class);
                 startService.putExtra("message", message);
                 startService.putExtra("halytysaani", "false");
                 startService.putExtra("number", senderNum);
                 startService.putExtra("timestamp", Aika);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.getApplicationContext().startForegroundService(startService);
-                } else {
-                    context.getApplicationContext().startService(startService);
-                }
+                context.getApplicationContext().startForegroundService(startService);
             }
         } catch (Exception e) {
             Log.e("SmsReceiver", "Exception smsReceiver " + e);

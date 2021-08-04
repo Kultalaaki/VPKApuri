@@ -16,8 +16,8 @@ import java.util.Map;
 public class Alarm {
 
     private String sender;
-    private String message;
-    private String timeStamp;
+    private final String message;
+    private final String timeStamp;
     private String address;
     private String alarmID;
     private String alarmTextField;
@@ -46,16 +46,18 @@ public class Alarm {
 
         // Todo make alarmdetection id search functionality. Test this solution!!
         for (String id : parts) {
-            alarmID(id);
+            alarmID(id.trim());
             if (!(this.alarmTextField == null)) {
                 break;
             }
         }
 
         for (String part : parts) {
-            if (cities.contains(part)) {
-                this.address = part;
-                return;
+            for(String city : cities) {
+                if(part.contains(city)) {
+                    this.address = part.trim();
+                    return;
+                }
             }
         }
 
@@ -130,19 +132,19 @@ public class Alarm {
         return false;
     }
 
-    private void formAlarm() {
+    public void formAlarm() {
         readCities();
         readAlarmIDs();
         address();
     }
 
     private void readCities() {
-        ReadFileCities readCities = new ReadFileCities();
+        Cities readCities = new Cities();
         cities = readCities.getCityList();
     }
 
     private void readAlarmIDs() {
-        ReadFileAlarmIDs readFile = new ReadFileAlarmIDs();
+        AlarmIDs readFile = new AlarmIDs();
         alarmIDs = readFile.getAlarmIDs();
     }
 
