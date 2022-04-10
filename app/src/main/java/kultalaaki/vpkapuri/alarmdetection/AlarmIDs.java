@@ -46,12 +46,12 @@ public class AlarmIDs {
         alarmIDs.put("106", "LAITEVIKA");
         alarmIDs.put("107", "YHTEYSVIKA");
         alarmIDs.put("108", "HUOLTO");
-        alarmIDs.put("200", "TIELIIKENNE:MUU TAI ONNETTOMUUDEN UHKA");
+        alarmIDs.put("200", "TIELIIKENNE: MUU TAI ONNETTOMUUDEN UHKA");
         alarmIDs.put("201", "TIELIIKENNE: PELTIKOLARI, SUISTUMINEN");
         alarmIDs.put("202", "TIELIIKENNE: PIENI");
         alarmIDs.put("203", "TIELIIKENNE: KESKISUURI");
         alarmIDs.put("204", "TIELIIKENNE: SUURI");
-        alarmIDs.put("205", "TIELIIKENNE: ELÄINOSALLISEENA");
+        alarmIDs.put("205", "TIELIIKENNE: ELÄIN OSALLISENA");
         alarmIDs.put("206", "TIELIIKENNE: MAANALLA:PIENI");
         alarmIDs.put("207", "TIELIIKENNE: MAANALLA:KESKISUURI");
         alarmIDs.put("208", "TIELIIKENNE: MAANALLA:SUURI");

@@ -20,7 +20,6 @@ import android.util.Log;
 
 import kultalaaki.vpkapuri.FireAlarm;
 import kultalaaki.vpkapuri.FireAlarmRepository;
-import kultalaaki.vpkapuri.alarmdetection.Alarm;
 
 public class SMSBackgroundService extends Service {
 
@@ -54,28 +53,21 @@ public class SMSBackgroundService extends Service {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
             // Todo OHTO alarm detection is not done
+            // if erica setting is false then it is OHTO alarm for Vapepa
 
             // Check if message is alarm message
-            if (alarm.isAlarm(preferences)) {
+            String whatAlarm = alarm.isAlarm(preferences);
+
+            if (whatAlarm.equals("true")) {
                 // Start foreground service notification to ensure survivability of service
                 startForegroundNotification("Uusi hälytys!\nViesti piiloitettu!");
 
                 // Todo it is alarm, do things to alarm person
-                // 1. Play sound | Create another service to handle alarming sounds
-                // 2. Save to database
-                FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
-                fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),
-                        alarm.getMessage(), alarm.getAddress(), "", "",
-                        alarm.getTimeStamp(), "", "", "", ""));
+                // TODO Play sound | Create another service to handle alarming sounds
 
-                Log.i("VPK Apuri", "alarm came through");
-                Log.i("Alarm sender: ", alarm.getSender());
-                Log.i("Alarm message: ", alarm.getMessage());
-                Log.i("Alarm address: ", alarm.getAddress());
-                Log.i("Alarm ID: ", alarm.getAlarmID());
-                Log.i("Alarm text: ", alarm.getAlarmTextField());
-                Log.i("Alarm timestamp: ", alarm.getTimeStamp());
 
+            } else if (whatAlarm.equals("OHTO")){
+                // Todo check if it is OHTO alarm
             }
 
             // Todo
@@ -88,6 +80,22 @@ public class SMSBackgroundService extends Service {
         }
 
         return Service.START_STICKY;
+    }
+
+    public void saveToDatabase(Alarm alarm) {
+        /* FireAlarmRepository handles saving alarm to database */
+        FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+        fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),
+                alarm.getMessage(), alarm.getAddress(), "", "",
+                alarm.getTimeStamp(), "", "", "", ""));
+
+        Log.i("VPK Apuri", "alarm came through");
+        Log.i("Alarm sender: ", alarm.getSender());
+        Log.i("Alarm message: ", alarm.getMessage());
+        Log.i("Alarm address: ", alarm.getAddress());
+        Log.i("Alarm ID: ", alarm.getAlarmID());
+        Log.i("Alarm text: ", alarm.getAlarmTextField());
+        Log.i("Alarm timestamp: ", alarm.getTimeStamp());
     }
 
     public void startForegroundNotification(String message) {

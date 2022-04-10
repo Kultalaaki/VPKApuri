@@ -1,14 +1,11 @@
 /*
- * Created by Kultala Aki on 4/24/21 9:34 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 4/5/21 5:05 PM
+ * Created by Kultala Aki on 2.4.2022 10.05
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 1.8.2021 15.43
  */
 
 package kultalaaki.vpkapuri;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;

@@ -44,7 +44,6 @@ import java.util.Date;
 import java.util.Locale;
 
 
-
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
 
     private static final String TAG = "VPK Apuri käynnissä.";

@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Alarm {
@@ -54,8 +55,8 @@ public class Alarm {
         }
 
         for (String part : parts) {
-            for(String city : cities) {
-                if(part.contains(city)) {
+            for (String city : cities) {
+                if (part.contains(city)) {
                     this.address = part.trim();
                     return;
                 }
@@ -75,8 +76,8 @@ public class Alarm {
 
     private void urgencyClass() {
         String[] parts = message.split(";");
-        for(String part : parts) {
-            if(part.trim().equals("A") || part.trim().equals("B") || part.trim().equals("C") || part.trim().equals("D")) {
+        for (String part : parts) {
+            if (part.trim().equals("A") || part.trim().equals("B") || part.trim().equals("C") || part.trim().equals("D")) {
                 this.urgencyClass = part;
             }
         }
@@ -86,17 +87,27 @@ public class Alarm {
      * @return true if sender is defined alarms sender, keyword in use and message contains keyword,
      * test alarmdetection is sent by user.
      */
-    public boolean isAlarm(SharedPreferences preferences) {
+    public String isAlarm(SharedPreferences preferences) {
         // 1. Test sender against numbers from shared preferences, don't forget VaPePa numbers
-        if(sender == null) {
-            return false;
+        if (sender == null) {
+            return "false";
         }
         sender = sender.trim();
-        //      1.1. If it is VaPePa alarmdetection form alarmdetection differently
+        // TODO 1.1. If it is VaPePa alarmdetection form alarmdetection differently
         List<String> numbers = new ArrayList<>();
+        List<String> OHTONumbers = new ArrayList<>();
+
         for (int i = 1; i < 11; i++) {
             String number = preferences.getString("halyvastaanotto" + i, null);
             if (number == null) {
+                continue;
+            }
+
+            if(number.startsWith("O")) {
+                // TODO it is ohto number
+                number = number.substring(1);
+                number = number.trim();
+                OHTONumbers.add(number);
                 continue;
             }
 
@@ -107,9 +118,13 @@ public class Alarm {
 
         if (numbers.contains(sender)) {
             formAlarm();
-            return true;
+            return "true";
         }
 
+        if(OHTONumbers.contains(sender)) {
+            formAlarm();
+            return "OHTO";
+        }
 
 
         // 2. If keyword is in use, look if keyword is found in message
@@ -127,9 +142,11 @@ public class Alarm {
 
             // Test if message contains either one of keywords
             for (String word : keywords) {
-                if (this.message.contains(word)) {
+                word = word.toLowerCase();
+                String message = this.message.toLowerCase();
+                if (message.contains(word)) {
                     formAlarm();
-                    return true;
+                    return "true";
                 }
             }
         }
@@ -137,11 +154,11 @@ public class Alarm {
         // 3. Test alarms must also work.. obviously
         if (this.message.contains("TESTIHÄLYTYS") || this.message.contains("SALSA")) {
             formAlarm();
-            return true;
+            return "true";
         }
 
         // 4. Todo check and confirm many times before getting this out of hands.
-        return false;
+        return "false";
     }
 
     public void formAlarm() {

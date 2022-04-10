@@ -8,9 +8,7 @@ package kultalaaki.vpkapuri;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
