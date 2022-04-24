@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -26,6 +27,9 @@ public class SMSBackgroundService extends Service {
     private static final String TAG = "VPK Apuri käynnissä.";
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
+
+    PowerManager powerManager;
+    PowerManager.WakeLock wakelock;
 
     public SMSBackgroundService() {
     }
@@ -42,6 +46,19 @@ public class SMSBackgroundService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, final int startId) {
+
+        // Kill process if intent is null
+        checkIntent(intent);
+
+        // Acquire wakelock to ensure that android doesn't kill this process
+        acquireWakelock();
+
+        // Check starting id of this service
+        startIDChecker(startId);
+
+        // Todo check what alarm it is? Maybe it is not alarrm at all
+        alarmChecker();
+
         // If intent is empty then skip
         if (intent != null) {
             // Create Alarm object that holds intent (sms message) information
@@ -82,6 +99,30 @@ public class SMSBackgroundService extends Service {
         return Service.START_STICKY;
     }
 
+    private void alarmChecker() {
+    }
+
+    private void checkIntent(Intent intent) {
+        if(intent == null) {
+            stopSelf();
+        }
+    }
+
+    private void acquireWakelock() {
+        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        if(powerManager != null) {
+            wakelock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    "VPK Apuri::Hälytys taustalla.");
+        }
+    }
+
+    private void startIDChecker(int startId) {
+        if (previousStartId != startId) {
+            stopSelf(previousStartId);
+        }
+        previousStartId = startId;
+    }
+
     public void saveToDatabase(Alarm alarm) {
         /* FireAlarmRepository handles saving alarm to database */
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
@@ -120,5 +161,13 @@ public class SMSBackgroundService extends Service {
 
     public void onDestroy() {
         super.onDestroy();
+        if (wakelock != null) {
+            try {
+                wakelock.release();
+            } catch (Throwable th) {
+                // No Need to do anything.
+            }
+
+        }
     }
 }
