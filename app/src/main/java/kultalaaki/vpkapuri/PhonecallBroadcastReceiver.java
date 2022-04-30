@@ -65,6 +65,7 @@ public class PhonecallBroadcastReceiver extends BroadcastReceiver {
         if (number != null) {
             Intent startService = new Intent(ctx.getApplicationContext(), CallBackgroundService.class);
             startService.putExtra("message", "Hälytys tulossa.");
+            // halytysaani is for differentiating calls and sms. May be redundant after remodeling background services
             startService.putExtra("halytysaani", "true");
             startService.putExtra("timestamp", aika);
             startService.putExtra("number", number);

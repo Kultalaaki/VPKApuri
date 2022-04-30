@@ -69,6 +69,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
                 Intent startService = new Intent(context.getApplicationContext(), SMSBackgroundService.class);
                 startService.putExtra("message", message);
+                // halytysaani is for differentiating calls and sms. May be redundant after remodeling background services
                 startService.putExtra("halytysaani", "false");
                 startService.putExtra("number", senderNum);
                 startService.putExtra("timestamp", Aika);

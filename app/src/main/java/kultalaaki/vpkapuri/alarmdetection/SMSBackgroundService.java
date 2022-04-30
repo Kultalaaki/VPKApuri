@@ -49,15 +49,18 @@ public class SMSBackgroundService extends Service {
 
         // Kill process if intent is null
         checkIntent(intent);
-
         // Acquire wakelock to ensure that android doesn't kill this process
         acquireWakelock();
-
         // Check starting id of this service
         startIDChecker(startId);
+        // Todo check what alarm it is? Maybe it is not alarm at all
+        SMSMessage message = new SMSMessage(intent.getStringExtra("number"),
+                intent.getStringExtra("message"),
+                intent.getStringExtra("timestamp"));
 
-        // Todo check what alarm it is? Maybe it is not alarrm at all
-        alarmChecker();
+        if(isItAlarm(message)) {
+            // Todo it is alarm. Save to database, start alarming procedures
+        }
 
         // If intent is empty then skip
         if (intent != null) {
@@ -99,7 +102,9 @@ public class SMSBackgroundService extends Service {
         return Service.START_STICKY;
     }
 
-    private void alarmChecker() {
+    private boolean isItAlarm(SMSMessage message) {
+
+        return  false;
     }
 
     private void checkIntent(Intent intent) {
