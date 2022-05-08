@@ -8,14 +8,17 @@ package kultalaaki.vpkapuri.alarmdetection;
 
 public class SMSMessage {
 
-    private String sender;
-    private String message;
-    private String timeStamp;
+    private String sender, message, timeStamp;
+    private String detectedSender;
 
     public SMSMessage(String sender, String message, String timeStamp) {
         this.sender = sender;
         this.message = message;
         this.timeStamp = timeStamp;
+    }
+
+    private String detectedSender(String sender) {
+        return "member";
     }
 
     public String getSender() {

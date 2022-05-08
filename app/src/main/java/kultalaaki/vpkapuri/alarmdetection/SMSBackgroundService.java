@@ -53,50 +53,29 @@ public class SMSBackgroundService extends Service {
         acquireWakelock();
         // Check starting id of this service
         startIDChecker(startId);
-        // Todo check what alarm it is? Maybe it is not alarm at all
+
+        // Take sms message from broadcastreceiver and make it object
         SMSMessage message = new SMSMessage(intent.getStringExtra("number"),
                 intent.getStringExtra("message"),
                 intent.getStringExtra("timestamp"));
 
-        if(isItAlarm(message)) {
-            // Todo it is alarm. Save to database, start alarming procedures
-        }
+        // New alarm object to test if message is alarm and what kind of alarm it is.
+        Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
 
-        // If intent is empty then skip
-        if (intent != null) {
-            // Create Alarm object that holds intent (sms message) information
-            Alarm alarm = new Alarm(intent.getStringExtra("number"),
-                    intent.getStringExtra("message"),
-                    intent.getStringExtra("timestamp"));
+        // Determine what alarm it is.
+        String whatAlarm = alarm.isAlarm(PreferenceManager.getDefaultSharedPreferences(this));
 
-            // Sharedpreferences to be used in Alarm class.
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(whatAlarm.equals("true")) {
+            // Basic alarm
 
-            // Todo OHTO alarm detection is not done
-            // if erica setting is false then it is OHTO alarm for Vapepa
+            // Start foreground service notification to ensure survivability of service
+            startForegroundNotification("Uusi hälytys!\nViesti piiloitettu!");
 
-            // Check if message is alarm message
-            String whatAlarm = alarm.isAlarm(preferences);
-
-            if (whatAlarm.equals("true")) {
-                // Start foreground service notification to ensure survivability of service
-                startForegroundNotification("Uusi hälytys!\nViesti piiloitettu!");
-
-                // Todo it is alarm, do things to alarm person
-                // TODO Play sound | Create another service to handle alarming sounds
-
-
-            } else if (whatAlarm.equals("OHTO")){
-                // Todo check if it is OHTO alarm
-            }
-
+            // Todo it is alarm, do things to alarm person
+            // TODO Play sound | Create another service to handle alarming sounds
+        } else if(whatAlarm.equals("OHTO")) {
+            // Vapepa alarm
             // Todo
-            boolean stationboard = preferences.getBoolean("asemataulu", false);
-            if (stationboard) {
-                // Todo
-                // 1. Compare sender number to numbers of added persons from preferences
-                // 2. Add them to database containing responders
-            }
         }
 
         return Service.START_STICKY;
