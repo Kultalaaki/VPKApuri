@@ -27,6 +27,7 @@ public class SMSBackgroundService extends Service {
     private static final String TAG = "VPK Apuri käynnissä.";
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
+    SMSMessage message;
 
     PowerManager powerManager;
     PowerManager.WakeLock wakelock;
@@ -49,34 +50,24 @@ public class SMSBackgroundService extends Service {
 
         // Kill process if intent is null
         checkIntent(intent);
+
         // Acquire wakelock to ensure that android doesn't kill this process
         acquireWakelock();
+
         // Check starting id of this service
         startIDChecker(startId);
 
-        // Take sms message from broadcastreceiver and make it object
-        SMSMessage message = new SMSMessage(intent.getStringExtra("number"),
-                intent.getStringExtra("message"),
-                intent.getStringExtra("timestamp"));
+        // Create SMSMessage object from intent
+        formMessage(intent);
 
-        // New alarm object to test if message is alarm and what kind of alarm it is.
-        Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
+        // Todo design how to detect what alarm is
+        /* Inside message object use sender number to detect if sender is marked as number
+        *  to alarm and use that to determine what alarm the message is.
+        *
+        *
+        * */
 
-        // Determine what alarm it is.
-        String whatAlarm = alarm.isAlarm(PreferenceManager.getDefaultSharedPreferences(this));
-
-        if(whatAlarm.equals("true")) {
-            // Basic alarm
-
-            // Start foreground service notification to ensure survivability of service
-            startForegroundNotification("Uusi hälytys!\nViesti piiloitettu!");
-
-            // Todo it is alarm, do things to alarm person
-            // TODO Play sound | Create another service to handle alarming sounds
-        } else if(whatAlarm.equals("OHTO")) {
-            // Vapepa alarm
-            // Todo
-        }
+        String whatAlarm = message.getDetectedSender();
 
         return Service.START_STICKY;
     }
@@ -105,6 +96,13 @@ public class SMSBackgroundService extends Service {
             stopSelf(previousStartId);
         }
         previousStartId = startId;
+    }
+
+    private void formMessage(Intent intent) {
+        // Take sms message from broadcastreceiver and make it object
+        message = new SMSMessage(intent.getStringExtra("number"),
+                intent.getStringExtra("message"),
+                intent.getStringExtra("timestamp"));
     }
 
     public void saveToDatabase(Alarm alarm) {
