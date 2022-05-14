@@ -16,8 +16,9 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import kultalaaki.vpkapuri.FireAlarm;
 import kultalaaki.vpkapuri.FireAlarmRepository;
@@ -27,6 +28,8 @@ public class SMSBackgroundService extends Service {
     private static final String TAG = "VPK Apuri käynnissä.";
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
+
+    private SharedPreferences preferences;
     SMSMessage message;
 
     PowerManager powerManager;
@@ -66,6 +69,8 @@ public class SMSBackgroundService extends Service {
         *
         *
         * */
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String whatAlarm = message.getDetectedSender();
 
