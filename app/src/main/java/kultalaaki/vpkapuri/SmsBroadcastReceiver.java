@@ -9,7 +9,6 @@ package kultalaaki.vpkapuri;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -20,8 +19,6 @@ import android.util.Log;
 import java.util.Date;
 
 import static android.content.Context.POWER_SERVICE;
-
-import kultalaaki.vpkapuri.alarmdetection.SMSBackgroundService;
 
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {

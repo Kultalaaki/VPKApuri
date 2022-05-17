@@ -56,7 +56,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <service
-            android:name=".alarmdetection.SMSBackgroundService"
+            android:name=".SMSBackgroundService"
             android:enabled="true"
             android:exported="true"></service>
 

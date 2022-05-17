@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 8/3/21, 11:21 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 8/3/21, 9:42 AM
+ * Created by Kultala Aki on 5/17/22, 10:07 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 5/17/22, 9:44 PM
  */
 
-package kultalaaki.vpkapuri.alarmdetection;
+package kultalaaki.vpkapuri;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -22,6 +22,9 @@ import androidx.preference.PreferenceManager;
 
 import kultalaaki.vpkapuri.FireAlarm;
 import kultalaaki.vpkapuri.FireAlarmRepository;
+import kultalaaki.vpkapuri.alarmdetection.Alarm;
+import kultalaaki.vpkapuri.alarmdetection.PhoneNumberDetector;
+import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
 
 public class SMSBackgroundService extends Service {
 
@@ -57,31 +60,34 @@ public class SMSBackgroundService extends Service {
         // Acquire wakelock to ensure that android doesn't kill this process
         acquireWakelock();
 
+        // Create notification to make sure this service doesn't get cancelled
+        startForegroundNotification();
+
         // Check starting id of this service
         startIDChecker(startId);
 
         // Create SMSMessage object from intent
         formMessage(intent);
 
-        /**
-         * Message senderID comes from PhoneNumberDetector.java
-         */
+
+        // Message senderID comes from PhoneNumberDetector.java
         switch (message.getSenderID()) {
             case 0:
                 // Not important message to this app,
                 // let it go, let it go
                 // Can't hold it back anymore
+                stopSelf();
                 break;
             case 1:
                 // Message from alarm provider. Needs reaction
-                // Make alarm go loud
-                // Save to fire alarms database
-                // Create notification
+                // Todo: Make alarm go loud
+                // Todo: Form alarm
+                // Todo: Save to fire alarms database
                 break;
             case 2:
                 // Message from person attending alarm.
-                // Form responder
-                // Save to responder database
+                // Todo: Form responder
+                // Todo: Save to responder database
         }
 
         return Service.START_STICKY;
@@ -136,10 +142,10 @@ public class SMSBackgroundService extends Service {
         Log.i("Alarm timestamp: ", alarm.getTimeStamp());
     }
 
-    public void startForegroundNotification(String message) {
+    public void startForegroundNotification() {
         Notification.Builder builder = new Notification.Builder(this, "ACTIVE SERVICE")
                 .setContentTitle("VPK Apuri")
-                .setContentText(message)
+                .setContentText("Viestin tarkistus menossa!")
                 .setAutoCancel(true);
 
         Notification notification = builder.build();
@@ -153,7 +159,7 @@ public class SMSBackgroundService extends Service {
             }
         }
 
-        startForeground(15, notification);
+        startForeground(MY_ALARM_NOTIFICATION_ID, notification);
     }
 
     public void onDestroy() {

@@ -763,7 +763,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent stopAlarm = new Intent(this, StopIsItAlarmService.class);
-        PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")
                 .setSmallIcon(R.mipmap.ic_launcher)
