@@ -8,19 +8,13 @@ package kultalaaki.vpkapuri.alarmdetection;
 
 public class SMSMessage {
 
-    private String sender, message, timeStamp, detectedSender;
+    private String sender, message, timeStamp;
+    private int senderID = 9;
 
     public SMSMessage(String sender, String message, String timeStamp) {
         this.sender = sender;
         this.message = message;
         this.timeStamp = timeStamp;
-        this.detectedSender = detectedSender(sender);
-    }
-
-    private String detectedSender(String sender) {
-        // Todo make number recognition here. Compare sender number to those that
-        // are saved to SharedPreferences.
-        return "member";
     }
 
     public String getSender() {
@@ -35,5 +29,11 @@ public class SMSMessage {
         return this.timeStamp;
     }
 
-    public String getDetectedSender() { return this.detectedSender; }
+    public void setSenderID(int id) {
+        this.senderID = id;
+    }
+
+    public int getSenderID() {
+        return this.senderID;
+    }
 }

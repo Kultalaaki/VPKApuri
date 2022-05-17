@@ -63,34 +63,39 @@ public class SMSBackgroundService extends Service {
         // Create SMSMessage object from intent
         formMessage(intent);
 
-        // Todo design how to detect what alarm is
-        /* Inside message object use sender number to detect if sender is marked as number
-        *  to alarm and use that to determine what alarm the message is.
-        *
-        *
-        * */
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String whatAlarm = message.getDetectedSender();
+        /**
+         * Message senderID comes from PhoneNumberDetector.java
+         */
+        switch (message.getSenderID()) {
+            case 0:
+                // Not important message to this app,
+                // let it go, let it go
+                // Can't hold it back anymore
+                break;
+            case 1:
+                // Message from alarm provider. Needs reaction
+                // Make alarm go loud
+                // Save to fire alarms database
+                // Create notification
+                break;
+            case 2:
+                // Message from person attending alarm.
+                // Form responder
+                // Save to responder database
+        }
 
         return Service.START_STICKY;
     }
 
-    private boolean isItAlarm(SMSMessage message) {
-
-        return  false;
-    }
-
     private void checkIntent(Intent intent) {
-        if(intent == null) {
+        if (intent == null) {
             stopSelf();
         }
     }
 
     private void acquireWakelock() {
         powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        if(powerManager != null) {
+        if (powerManager != null) {
             wakelock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     "VPK Apuri::Hälytys taustalla.");
         }
@@ -108,6 +113,11 @@ public class SMSBackgroundService extends Service {
         message = new SMSMessage(intent.getStringExtra("number"),
                 intent.getStringExtra("message"),
                 intent.getStringExtra("timestamp"));
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        PhoneNumberDetector detector = new PhoneNumberDetector(message.getSender(), preferences);
+        message.setSenderID(detector.whoSent());
     }
 
     public void saveToDatabase(Alarm alarm) {

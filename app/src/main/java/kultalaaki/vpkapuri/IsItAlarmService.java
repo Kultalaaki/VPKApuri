@@ -218,7 +218,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 fireAlarmRepository.insert(fireAlarm);
 
                 if (automaticOpen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    if(Settings.canDrawOverlays(getApplicationContext())) {
+                    if (Settings.canDrawOverlays(getApplicationContext())) {
                         Handler handler = new Handler();
                         handler.postDelayed(() -> {
                             Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
@@ -231,7 +231,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         notificationAlarmPhonecall("Hälytys tuli puheluna");
                     }
 
-                } else if(automaticOpen){
+                } else if (automaticOpen) {
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
                         Intent halyAuki = new Intent(IsItAlarmService.this, AlarmActivity.class);
@@ -679,7 +679,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     }
 
 
-
     @SuppressLint("MissingPermission")
     @Override
     public void onDestroy() {
@@ -908,7 +907,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (throughSilentMode && ringermodeSilent) {
                     // ei saa tulla äänettömän läpi
                     return;
-                } else if(throughVibrateMode && ringermodeVibrate) {
+                } else if (throughVibrateMode && ringermodeVibrate) {
                     // ei saa tulla värinän läpi
                     return;
                 }
@@ -920,7 +919,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (throughSilentMode && ringermodeSilent) {
                     // ei saa tulla äänettömän läpi
                     return;
-                } else if(throughVibrateMode && ringermodeVibrate) {
+                } else if (throughVibrateMode && ringermodeVibrate) {
                     // ei saa tulla värinätilan läpi
                     return;
                 }
@@ -942,7 +941,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 if (throughSilentMode && ringermodeSilent) {
                     // ei saa tulla äänettömän läpi
                     return;
-                } else if(throughVibrateMode && ringermodeVibrate) {
+                } else if (throughVibrateMode && ringermodeVibrate) {
                     // ei saa tulla värinätilan läpi
                     return;
                 }
@@ -1035,32 +1034,32 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
     public void vibrate() {
         String vibrateValue = sharedPreferences.getString("vibrate_pattern", null);
         int vibratePatternValue = 0;
-        if(vibrateValue != null) {
+        if (vibrateValue != null) {
             vibratePatternValue = Integer.parseInt(vibrateValue);
         }
 
         long[] pattern = new long[]{};
         int[] amplitude = new int[]{};
-        if(vibratePatternValue == 0) {
+        if (vibratePatternValue == 0) {
             pattern = Constants.PULSE_PATTERN;
             amplitude = Constants.PULSE_AMPLITUDE;
-        } else if(vibratePatternValue == 1) {
+        } else if (vibratePatternValue == 1) {
             pattern = Constants.HURRY_PATTERN;
             amplitude = Constants.HURRY_AMPLITUDE;
-        } else if(vibratePatternValue == 2) {
+        } else if (vibratePatternValue == 2) {
             pattern = Constants.SLOW_PATTERN;
             amplitude = Constants.SLOW_AMPLITUDE;
-        } else if(vibratePatternValue == 3) {
+        } else if (vibratePatternValue == 3) {
             pattern = Constants.SOS_PATTERN;
             amplitude = Constants.SOS_AMPLITUDE;
-        } else if(vibratePatternValue == 4) {
+        } else if (vibratePatternValue == 4) {
             pattern = Constants.VIRVE_PATTERN;
             amplitude = Constants.VIRVE_AMPLITUDE;
         }
 
         viber = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (viber != null && viber.hasVibrator()) {
-            if (Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
+            if (viber.hasAmplitudeControl()) {
                 viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, 0));
             } else {
                 viber.vibrate(pattern, 0);

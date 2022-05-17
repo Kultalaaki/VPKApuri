@@ -10,25 +10,16 @@ import android.telephony.PhoneNumberUtils;
 
 import java.util.Locale;
 
+/**
+ * Class for formatting numbers to be exactly same. Android system doesn't reliably give
+ * phone numbers in same format. Haven't figured out the logic behind it.
+ */
 public class NumberFormatter {
 
-    private String number;
-
-
-    // Todo maybe constructor can be empty?? Think this better.
-    public NumberFormatter(String numberToFormat) {
-        this.number = numberToFormat;
-
-        numberFormat(number);
-    }
-
-    /** @return returns formatted number, like it isn't obvious!
+    /**
+     * @return String value of given phone number.
      */
-    public String formattedNumber() {
-        return number;
-    }
-
-    private void numberFormat(String numberToFormat) {
+    public String formatNumber(String numberToFormat) {
         if (numberToFormat != null && !numberToFormat.isEmpty()) {
             if (numberToFormat.startsWith("O")) {
                 numberToFormat = numberToFormat.substring(1);
@@ -41,8 +32,10 @@ public class NumberFormatter {
                 numberToFormat = numberToFormat.replaceAll("[()\\s-+]+", "");
                 numberToFormat = "0" + numberToFormat.substring(3);
             }
-        }
 
-        number = numberToFormat;
+            return numberToFormat;
+        } else {
+            return "Error";
+        }
     }
 }
