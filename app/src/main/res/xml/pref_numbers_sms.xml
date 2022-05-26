@@ -34,9 +34,9 @@
         android:title="Hälytysnumerot"
         android:key="pref_key_numerot">
         <PreferenceScreen
-            android:title="Hälyttävät numerot"
+            android:title="Vpk hälytysnumerot"
             android:persistent="false"
-            android:summary="Aseta hälyttävät numerot."
+            android:summary="Aseta vpk hälytyksien numerot."
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
             <PreferenceCategory
                 android:title="Hälytysnumerot"
@@ -124,6 +124,58 @@
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:title="10: Hälytysnumero"/>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="Vapepa hälytysnumerot"
+            android:persistent="false"
+            android:summary="Aseta Vapepa hälytyksien numerot"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            <PreferenceCategory
+                android:title="Vapepa hälytysnumerot"
+                android:key="pref_key_vapepa_halnu" />
+            <Preference
+                android:summary="Vapepan hälyttävät numerot."
+                android:selectable="false"/>
+            <EditTextPreference
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="vapepanumber1"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="1: Vapepa numero" />
+            <EditTextPreference
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="vapepanumber2"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="2: Vapepa numero"/>
+            <EditTextPreference
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="vapepanumber3"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="3: Vapepa numero"/>
+            <EditTextPreference
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="vapepanumber4"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="4: Vapepa numero"/>
+            <EditTextPreference
+                android:defaultValue="@string/pref_default_display_number"
+                android:inputType="text"
+                android:key="vapepanumber5"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="5: Vapepap numero"/>
         </PreferenceScreen>
     </PreferenceCategory>
 

@@ -82,12 +82,30 @@ public class SMSBackgroundService extends Service {
                 // Message from alarm provider. Needs reaction
                 // Todo: Make alarm go loud
                 // Todo: Form alarm
+                Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
+                FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                FireAlarm fireAlarm = new FireAlarm(alarm.getAlarmID(),
+                        alarm.getUrgencyClass(),
+                        alarm.getMessage(),
+                        alarm.getAddress(),
+                        "",
+                        "",
+                        alarm.getTimeStamp(),
+                        "",
+                        "",
+                        "",
+                        "");
+                fireAlarmRepository.insert(fireAlarm);
                 // Todo: Save to fire alarms database
                 break;
             case 2:
                 // Message from person attending alarm.
                 // Todo: Form responder
                 // Todo: Save to responder database
+                break;
+            case 3:
+                // It is alarm for Vapepa personnel
+                // Todo almost the same thing as with normal alarm
         }
 
         return Service.START_STICKY;
