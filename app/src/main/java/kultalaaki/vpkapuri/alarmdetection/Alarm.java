@@ -41,8 +41,6 @@ public class Alarm {
         this.alarmTextField = null;
         this.urgencyClass = "";
         this.cities = new ArrayList<>();
-
-        formAlarm();
     }
 
     /**

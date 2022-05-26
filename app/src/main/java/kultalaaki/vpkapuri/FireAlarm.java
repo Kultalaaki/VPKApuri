@@ -27,6 +27,20 @@ public class FireAlarm {
     private String optionalField4;
     private String optionalField5;
 
+    /**
+     *
+     * @param tunnus
+     * @param luokka
+     * @param viesti
+     * @param osoite
+     * @param kommentti
+     * @param vastaus
+     * @param timeStamp
+     * @param optionalField2 message sender number
+     * @param optionalField3
+     * @param optionalField4
+     * @param optionalField5
+     */
     public FireAlarm(String tunnus, String luokka, String viesti, String osoite, String kommentti, String vastaus,
                      String timeStamp, String optionalField2, String optionalField3, String optionalField4, String optionalField5) {
         this.tunnus = tunnus;

@@ -81,22 +81,12 @@ public class SMSBackgroundService extends Service {
             case 1:
                 // Message from alarm provider. Needs reaction
                 // Todo: Make alarm go loud
-                // Todo: Form alarm
+                // Create Alarm object and use formAlarm() method to create it ready.
+                //
                 Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
-                FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
-                FireAlarm fireAlarm = new FireAlarm(alarm.getAlarmID(),
-                        alarm.getUrgencyClass(),
-                        alarm.getMessage(),
-                        alarm.getAddress(),
-                        "",
-                        "",
-                        alarm.getTimeStamp(),
-                        "",
-                        "",
-                        "",
-                        "");
-                fireAlarmRepository.insert(fireAlarm);
-                // Todo: Save to fire alarms database
+                alarm.formAlarm();
+
+                saveToDatabase(alarm);
                 break;
             case 2:
                 // Message from person attending alarm.
@@ -105,7 +95,10 @@ public class SMSBackgroundService extends Service {
                 break;
             case 3:
                 // It is alarm for Vapepa personnel
-                // Todo almost the same thing as with normal alarm
+                // No need to form alarm before saving
+                Alarm alarm1 = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
+
+                saveToDatabase(alarm1);
         }
 
         return Service.START_STICKY;
@@ -132,6 +125,11 @@ public class SMSBackgroundService extends Service {
         previousStartId = startId;
     }
 
+    /** Creates SMSMessage object
+     * Is used for detecting sender
+     * SMSMessage object gets ID based on sender number
+     * ID defines what app needs to do
+     */
     private void formMessage(Intent intent) {
         // Take sms message from broadcastreceiver and make it object
         message = new SMSMessage(intent.getStringExtra("number"),
@@ -149,7 +147,7 @@ public class SMSBackgroundService extends Service {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),
                 alarm.getMessage(), alarm.getAddress(), "", "",
-                alarm.getTimeStamp(), "", "", "", ""));
+                alarm.getTimeStamp(), alarm.getSender(), "", "", ""));
 
         Log.i("VPK Apuri", "alarm came through");
         Log.i("Alarm sender: ", alarm.getSender());
