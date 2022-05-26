@@ -58,7 +58,7 @@ Tässä muutama kohta tarkistettavaksi, lähinnä Huawei sekä Honor puhelimet:
 
 Kultala Aki
 
-Kyröskosken VPK
+Hämeenkyrön VPK
 
 kultalaaki@gmail.com
 
