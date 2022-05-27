@@ -108,5 +108,7 @@ public class Responder {
         return attributeOptional5;
     }
 
-    public void setMessage(String message) { this.message = message; }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

@@ -28,8 +28,8 @@ public class Alarm {
     private Map<String, String> alarmIDs;
 
     /**
-     * @param sender  SMSMessage sender
-     * @param message SMSMessage message
+     * @param sender    SMSMessage sender
+     * @param message   SMSMessage message
      * @param timeStamp SMSMessage received
      */
     public Alarm(String sender, String message, String timeStamp) {

@@ -46,9 +46,12 @@ public class PhoneNumberDetector {
         }
     }
 
+    public int getIndexPosition(String number) {
+        return memberNumbers.indexOf(number);
+    }
+
     private void populateVapepaAlarmNumbers() {
-        // Todo add Vapepa alarm numbers to settings file
-        for (int i = 1; i<=5; i++) {
+        for (int i = 1; i <= 5; i++) {
             vapepaNumbers.add(formatter.formatNumber(preferences.getString("vapepanumber" + i, null)));
         }
     }
@@ -64,7 +67,7 @@ public class PhoneNumberDetector {
             return 1;
         } else if (memberNumbers.contains(numberToCheck)) {
             return 2;
-        } else if(vapepaNumbers.contains(numberToCheck)) {
+        } else if (vapepaNumbers.contains(numberToCheck)) {
             return 3;
         }
         return 0;

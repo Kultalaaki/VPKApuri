@@ -17,11 +17,10 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
-import kultalaaki.vpkapuri.FireAlarm;
-import kultalaaki.vpkapuri.FireAlarmRepository;
 import kultalaaki.vpkapuri.alarmdetection.Alarm;
 import kultalaaki.vpkapuri.alarmdetection.PhoneNumberDetector;
 import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
@@ -31,6 +30,8 @@ public class SMSBackgroundService extends Service {
     private static final String TAG = "VPK Apuri käynnissä.";
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
+
+    private PhoneNumberDetector detectorMember = null;
 
     private SharedPreferences preferences;
     SMSMessage message;
@@ -86,19 +87,51 @@ public class SMSBackgroundService extends Service {
                 Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
                 alarm.formAlarm();
 
-                saveToDatabase(alarm);
+                saveAlarm(alarm);
                 break;
             case 2:
                 // Message from person attending alarm.
-                // Todo: Form responder
-                // Todo: Save to responder database
+                String positionInList = Integer.toString(detectorMember.getIndexPosition(message.getSender()));
+                String name = preferences.getString("nimi" + positionInList, null);
+                boolean driversLicense = preferences.getBoolean("kortti" + positionInList, false);
+                boolean smoke = preferences.getBoolean("savusukeltaja" + positionInList, false);
+                boolean chemical = preferences.getBoolean("kemikaalisukeltaja" + positionInList, false);
+                boolean leader = preferences.getBoolean("yksikonjohtaja" + positionInList, false);
+                String vacancyNumber = preferences.getString("vakanssinumero" + positionInList, null);
+                String optional1 = preferences.getString("optional1_" + positionInList, null);
+                String optional2 = preferences.getString("optional2_" + positionInList, null);
+                String optional3 = preferences.getString("optional3_" + positionInList, null);
+                String optional4 = preferences.getString("optional4_" + positionInList, null);
+                String optional5 = preferences.getString("optional5_" + positionInList, null);
+                String driver = "";
+                String smok = "";
+                String chem = "";
+                String lead = "";
+                if (driversLicense) {
+                    driver = "C";
+                }
+                if (smoke) {
+                    smok = "S";
+                }
+                if (chemical) {
+                    chem = "K";
+                }
+                if (leader) {
+                    lead = "Y";
+                }
+
+                Responder responder = new Responder(name, vacancyNumber, message.getMessage(), lead, driver, smok, chem, optional1, optional2, optional3, optional4, optional5);
+                ResponderRepository repository = new ResponderRepository(getApplication());
+                repository.insert(responder);
+
+                Toast.makeText(this, name + " lähetti ilmoituksen.", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 // It is alarm for Vapepa personnel
                 // No need to form alarm before saving
                 Alarm alarm1 = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
 
-                saveToDatabase(alarm1);
+                saveAlarm(alarm1);
         }
 
         return Service.START_STICKY;
@@ -125,7 +158,8 @@ public class SMSBackgroundService extends Service {
         previousStartId = startId;
     }
 
-    /** Creates SMSMessage object
+    /**
+     * Creates SMSMessage object
      * Is used for detecting sender
      * SMSMessage object gets ID based on sender number
      * ID defines what app needs to do
@@ -138,11 +172,11 @@ public class SMSBackgroundService extends Service {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        PhoneNumberDetector detector = new PhoneNumberDetector(message.getSender(), preferences);
-        message.setSenderID(detector.whoSent());
+        detectorMember = new PhoneNumberDetector(message.getSender(), preferences);
+        message.setSenderID(detectorMember.whoSent());
     }
 
-    public void saveToDatabase(Alarm alarm) {
+    public void saveAlarm(Alarm alarm) {
         /* FireAlarmRepository handles saving alarm to database */
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),

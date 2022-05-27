@@ -728,7 +728,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    // Todo this might be obsolete @TargetApi(Build.VERSION_CODES.O)
     public void startForegroundNotification(String message) {
         Notification.Builder builder = new Notification.Builder(this, "ACTIVE SERVICE")
                 .setContentTitle("VPK Apuri")
