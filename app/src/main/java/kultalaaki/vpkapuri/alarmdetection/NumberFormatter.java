@@ -19,23 +19,21 @@ public class NumberFormatter {
     /**
      * @return String value of given phone number.
      */
-    public String formatNumber(String numberToFormat) {
-        if (numberToFormat != null && !numberToFormat.isEmpty()) {
-            if (numberToFormat.startsWith("O")) {
-                numberToFormat = numberToFormat.substring(1);
-            }
-            numberToFormat = PhoneNumberUtils.formatNumber(numberToFormat, Locale.getDefault().getCountry());
-            if (numberToFormat != null) {
-                if (numberToFormat.charAt(0) == '0') {
-                    numberToFormat = "+358" + numberToFormat.substring(1);
-                }
-                numberToFormat = numberToFormat.replaceAll("[()\\s-+]+", "");
-                numberToFormat = "0" + numberToFormat.substring(3);
+    public String formatNumber(String number) {
+        if(number != null && !number.isEmpty()) {
+            if(number.startsWith("0")) {
+                number = "0" + number.substring(1);
+                number = number.replaceAll("[()\\s-+]+", "");
+            } else if(number.startsWith("+358")) {
+                number = "0" + number.substring(4);
+                number = number.replaceAll("[()\\s-+]+", "");
             }
 
-            return numberToFormat;
+            return number;
         } else {
             return "Error";
         }
     }
+
+
 }

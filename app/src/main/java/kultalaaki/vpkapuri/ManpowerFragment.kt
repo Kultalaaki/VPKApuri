@@ -36,7 +36,7 @@ class ManpowerFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
+            mParam1 = requireArguments().getString(ARG_PARAM1)
         }
     }
 
@@ -56,7 +56,7 @@ class ManpowerFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             mListener = context as OnFragmentInteractionListener
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(requireContext().toString() + " must implement OnFragmentInteractionListener")
         }
     }
 

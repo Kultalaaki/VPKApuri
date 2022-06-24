@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 4/24/21 9:34 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 3/20/21 1:02 PM
+ * Created by Kultala Aki on 6/24/22, 4:08 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 6/24/22, 4:02 PM
  */
 
 package kultalaaki.vpkapuri
@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_test_settings.*
+
+//import kotlinx.android.synthetic.main.fragment_test_settings.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -131,7 +133,8 @@ class TestSettingsFragment : Fragment() {
             }
         }
 
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context) ?: return
+        val sharedPreferences = context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+            ?: return
         val alarmVolume = sharedPreferences.getInt("SEEKBAR_VALUE", -1)
         alarmVolumeVal.text = alarmVolume.toString()
     }

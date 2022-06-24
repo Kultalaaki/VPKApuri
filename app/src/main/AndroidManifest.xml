@@ -94,7 +94,8 @@
         <activity
             android:name=".AlarmActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:parentActivityName=".FrontpageActivity">
+            android:parentActivityName=".FrontpageActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <!-- <category android:name="android.intent.category.DEFAULT" /> -->
@@ -128,7 +129,9 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".MyWidgetProvider">
+        <receiver
+            android:name=".MyWidgetProvider"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name=".MyWidgetProvider.ACTION_WIDGET_REFRESH" />
@@ -152,7 +155,8 @@
 
         <activity
             android:name=".FrontpageActivity"
-            android:configChanges="orientation|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -16,10 +16,12 @@ import java.util.ArrayList;
  */
 public class PhoneNumberDetector {
 
-    private String numberToCheck;
-    private ArrayList<String> alarmNumbers, memberNumbers, vapepaNumbers;
-    private SharedPreferences preferences;
-    private NumberFormatter formatter;
+    private final String numberToCheck;
+    private final ArrayList<String> alarmNumbers;
+    private final ArrayList<String> memberNumbers;
+    private final ArrayList<String> vapepaNumbers;
+    private final SharedPreferences preferences;
+    private final NumberFormatter formatter;
 
 
     public PhoneNumberDetector(String numberToCheck, SharedPreferences preferences) {
@@ -71,5 +73,17 @@ public class PhoneNumberDetector {
             return 3;
         }
         return 0;
+    }
+
+    public void addNumberToAlarmNumberList(String number) {
+        alarmNumbers.add(formatter.formatNumber(number));
+    }
+
+    public void addNumberToMemberNumberList(String number) {
+        memberNumbers.add(formatter.formatNumber(number));
+    }
+
+    public void addNumberTovapepaNumberList(String number) {
+        vapepaNumbers.add(formatter.formatNumber(number));
     }
 }
