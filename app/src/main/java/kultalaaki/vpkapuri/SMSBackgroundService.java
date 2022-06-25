@@ -22,6 +22,8 @@ import android.widget.Toast;
 import androidx.preference.PreferenceManager;
 
 import kultalaaki.vpkapuri.alarmdetection.Alarm;
+import kultalaaki.vpkapuri.alarmdetection.NumberFormatter;
+import kultalaaki.vpkapuri.alarmdetection.NumberLists;
 import kultalaaki.vpkapuri.alarmdetection.PhoneNumberDetector;
 import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
 
@@ -31,7 +33,7 @@ public class SMSBackgroundService extends Service {
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
 
-    private PhoneNumberDetector detectorMember = null;
+    private NumberLists numbers = null;
 
     private SharedPreferences preferences;
     SMSMessage message;
@@ -91,7 +93,7 @@ public class SMSBackgroundService extends Service {
                 break;
             case 2:
                 // Message from person attending alarm.
-                String positionInList = Integer.toString(detectorMember.getIndexPosition(message.getSender()));
+                String positionInList = Integer.toString(numbers.getIndexPositionOfMember(message.getSender()));
                 String name = preferences.getString("nimi" + positionInList, null);
                 boolean driversLicense = preferences.getBoolean("kortti" + positionInList, false);
                 boolean smoke = preferences.getBoolean("savusukeltaja" + positionInList, false);
@@ -172,8 +174,14 @@ public class SMSBackgroundService extends Service {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        detectorMember = new PhoneNumberDetector(message.getSender(), preferences);
-        message.setSenderID(detectorMember.whoSent());
+        numbers = new NumberLists(preferences);
+
+        PhoneNumberDetector phoneNumberDetector = new PhoneNumberDetector();
+        NumberFormatter formatter = new NumberFormatter();
+
+        String senderNumber = formatter.formatNumber(message.getSender());
+
+        message.setSenderID(phoneNumberDetector.whoSent(senderNumber, numbers));
     }
 
     public void saveAlarm(Alarm alarm) {

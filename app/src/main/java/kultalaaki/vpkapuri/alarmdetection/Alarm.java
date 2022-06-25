@@ -17,7 +17,7 @@ import java.util.Map;
 // Todo work in progress..
 public class Alarm {
 
-    private String sender;
+    private final String sender;
     private final String message;
     private final String timeStamp;
     private String address;
