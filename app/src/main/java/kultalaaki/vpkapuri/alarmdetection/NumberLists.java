@@ -20,6 +20,10 @@ public class NumberLists {
 
     private final NumberFormatter formatter;
 
+    /**
+     * Add numbers to lists so PhoneNumberDetector can check if message sender is marked in settings
+     * @param preferences needed for reading preferences
+     */
     public NumberLists(SharedPreferences preferences) {
         super();
         this.alarmNumbers = new ArrayList<>();

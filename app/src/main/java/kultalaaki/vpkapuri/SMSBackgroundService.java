@@ -33,7 +33,7 @@ public class SMSBackgroundService extends Service {
     private static final int MY_ALARM_NOTIFICATION_ID = 264981;
     private static int previousStartId = 1;
 
-    private NumberLists numbers = null;
+    private NumberLists numberLists = null;
 
     private SharedPreferences preferences;
     SMSMessage message;
@@ -93,7 +93,7 @@ public class SMSBackgroundService extends Service {
                 break;
             case 2:
                 // Message from person attending alarm.
-                String positionInList = Integer.toString(numbers.getIndexPositionOfMember(message.getSender()));
+                String positionInList = Integer.toString(numberLists.getIndexPositionOfMember(message.getSender()) + 1);
                 String name = preferences.getString("nimi" + positionInList, null);
                 boolean driversLicense = preferences.getBoolean("kortti" + positionInList, false);
                 boolean smoke = preferences.getBoolean("savusukeltaja" + positionInList, false);
@@ -132,8 +132,8 @@ public class SMSBackgroundService extends Service {
                 // It is alarm for Vapepa personnel
                 // No need to form alarm before saving
                 Alarm alarm1 = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
-
                 saveAlarm(alarm1);
+                // Todo: Make alarm go loud
         }
 
         return Service.START_STICKY;
@@ -174,14 +174,14 @@ public class SMSBackgroundService extends Service {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        numbers = new NumberLists(preferences);
+        numberLists = new NumberLists(preferences);
 
         PhoneNumberDetector phoneNumberDetector = new PhoneNumberDetector();
         NumberFormatter formatter = new NumberFormatter();
 
         String senderNumber = formatter.formatNumber(message.getSender());
 
-        message.setSenderID(phoneNumberDetector.whoSent(senderNumber, numbers));
+        message.setSenderID(phoneNumberDetector.whoSent(senderNumber, numberLists));
     }
 
     public void saveAlarm(Alarm alarm) {
