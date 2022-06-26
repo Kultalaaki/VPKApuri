@@ -87,6 +87,7 @@ public class SMSBackgroundService extends Service {
             case 1:
                 // Message from alarm provider. Needs reaction
                 // Todo: Make alarm go loud
+                notificationAlarmMessage();
                 // Create Alarm object and use formAlarm() method to create it ready.
                 //
                 Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
@@ -241,14 +242,15 @@ public class SMSBackgroundService extends Service {
     }
 
     // Todo this whole method needs to be redone
-    public void notificationAlarmMessage(String message) {
+    public void notificationAlarmMessage() {
+        Log.i("TAG", "alarm notification method");
         Intent intentsms = new Intent(getApplicationContext(), AlarmActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
         intentsms.setType("text/plain");
         intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(intentsms);
-        PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE);
 
         Intent stopAlarm = new Intent(this, StopSMSBackgroundService.class);
         PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_IMMUTABLE);
@@ -256,7 +258,7 @@ public class SMSBackgroundService extends Service {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(SMSBackgroundService.this, "HALYTYS")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(getString(R.string.alarm))
-                .setContentText(message)
+                .setContentText("message")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntentWithBackStack)

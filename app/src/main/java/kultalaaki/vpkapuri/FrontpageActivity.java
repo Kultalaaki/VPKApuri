@@ -465,7 +465,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
                     String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
                     halyaaniService.putExtra("message", alarmMessage);
-                    halyaaniService.putExtra("number", "+358401234567");
+                    halyaaniService.putExtra("number", "0400112326");
                     halyaaniService.putExtra("halytysaani", "false");
                     halyaaniService.putExtra("timestamp", Aika);
                     getApplicationContext().startService(halyaaniService);
