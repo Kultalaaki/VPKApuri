@@ -59,15 +59,16 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import java.io.File;
 import java.util.Date;
 
-import kultalaaki.vpkapuri.fragments.AffirmationFragment;
-import kultalaaki.vpkapuri.fragments.ArchiveFragment;
-import kultalaaki.vpkapuri.fragments.ArchivedAlarmFragment;
-import kultalaaki.vpkapuri.fragments.ChangelogFragment;
-import kultalaaki.vpkapuri.fragments.FrontpageFragment;
-import kultalaaki.vpkapuri.fragments.GuidelineFragment;
-import kultalaaki.vpkapuri.fragments.SaveToArchiveFragment;
-import kultalaaki.vpkapuri.fragments.SetTimerFragment;
-import kultalaaki.vpkapuri.fragments.TimerFragment;
+import kultalaaki.vpkapuri.Fragments.AffirmationFragment;
+import kultalaaki.vpkapuri.Fragments.ArchiveFragment;
+import kultalaaki.vpkapuri.Fragments.ArchivedAlarmFragment;
+import kultalaaki.vpkapuri.Fragments.ChangelogFragment;
+import kultalaaki.vpkapuri.Fragments.FrontpageFragment;
+import kultalaaki.vpkapuri.Fragments.GuidelineFragment;
+import kultalaaki.vpkapuri.Fragments.SaveToArchiveFragment;
+import kultalaaki.vpkapuri.Fragments.SetTimerFragment;
+import kultalaaki.vpkapuri.Fragments.TestSettingsFragment;
+import kultalaaki.vpkapuri.Fragments.TimerFragment;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
@@ -461,7 +462,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     long aika = System.currentTimeMillis();
                     String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
                     String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
-                    Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
+                    Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
                     String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
                     halyaaniService.putExtra("message", alarmMessage);
                     halyaaniService.putExtra("number", "+358401234567");
@@ -541,6 +542,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

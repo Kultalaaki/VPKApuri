@@ -7,7 +7,6 @@
 package kultalaaki.vpkapuri;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -762,7 +761,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
         stackBuilder.addNextIntentWithParentStack(intentsms);
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent stopAlarm = new Intent(this, StopIsItAlarmService.class);
+        Intent stopAlarm = new Intent(this, StopSMSBackgroundService.class);
         PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(IsItAlarmService.this, "HALYTYS")

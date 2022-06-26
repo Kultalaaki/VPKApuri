@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 6/26/22, 12:11 PM
+ * Created by Kultala Aki on 6/26/22, 6:18 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 4/25/22, 9:31 PM
+ * Last modified 6/26/22, 6:02 PM
  */
 
-package kultalaaki.vpkapuri.fragments;
+package kultalaaki.vpkapuri.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -271,7 +271,7 @@ public class ArchivedAlarmFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener {
         void showToast(String head, String message);
     }
 }

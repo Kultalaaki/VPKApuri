@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 6/26/22, 12:07 PM
+ * Created by Kultala Aki on 6/26/22, 6:18 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 6/26/22, 12:06 PM
+ * Last modified 6/26/22, 6:02 PM
  */
 
-package kultalaaki.vpkapuri.fragments;
+package kultalaaki.vpkapuri.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

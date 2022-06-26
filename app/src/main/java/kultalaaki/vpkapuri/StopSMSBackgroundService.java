@@ -13,7 +13,7 @@ import android.content.Intent;
 
 import androidx.core.app.TaskStackBuilder;
 
-public class StopIsItAlarmService extends BroadcastReceiver {
+public class StopSMSBackgroundService extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -27,7 +27,7 @@ public class StopIsItAlarmService extends BroadcastReceiver {
         PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         context.startActivity(startAlarmActivity);
 
-        Intent stopService = new Intent(context, IsItAlarmService.class);
+        Intent stopService = new Intent(context, SMSBackgroundService.class);
         context.stopService(stopService);
     }
 }

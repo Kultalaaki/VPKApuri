@@ -167,7 +167,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * {@inheritDoc}
      */
     @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
@@ -188,7 +187,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This fragment shows general pref_sounds only. It is used when the
      * activity is showing a two-pane settings UI.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
 
 
@@ -272,7 +270,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This fragment shows notification pref_sounds only. It is used when the
      * activity is showing a two-pane settings UI.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         private SeekBarPreference _seekBarPref;
@@ -295,8 +292,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         NotificationManager notificationManager =
                                 (NotificationManager) getActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                         if(notificationManager != null) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                                    && !notificationManager.isNotificationPolicyAccessGranted()) {
+                            if (!notificationManager.isNotificationPolicyAccessGranted()) {
                                 Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
                                 startActivity(intent);
                                 return true;
@@ -411,11 +407,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This fragment shows data and sync pref_sounds only. It is used when the
      * activity is showing a two-pane settings UI.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
 
         private String[] permissionsSms = {Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS};
+                Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS, Manifest.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND};
 
         //, Manifest.permission.CALL_PHONE
 
@@ -430,13 +425,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 prefi.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                            startActivity(intent);
-                            return true;
-                        }
+                        Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                        startActivity(intent);
+                        return true;
 
-                        return false;
                     }
                 });
             }
@@ -526,16 +518,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 prefa.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                                return true;
-                            }
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        return true;
 
-                        return false;
                     }
                 });
             }
@@ -546,14 +535,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 prefsms.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if(!arePermissionsEnabled()){
-                                // permissions granted, continue flow normally
-                                requestMultiplePermissions();
-                            }//else{
-                              //  requestMultiplePermissions();
-                            //}
-                        }
+                        if(!arePermissionsEnabled()){
+                            // permissions granted, continue flow normally
+                            requestMultiplePermissions();
+                        }//else{
+                        //  requestMultiplePermissions();
+                        //}
                         return true;
                     }
                 });
@@ -568,7 +555,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
         private boolean arePermissionsEnabled(){
             for(String permission : permissionsSms){
                 if(ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED)
@@ -577,7 +563,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return true;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
         private void requestMultiplePermissions(){
             List<String> remainingPermissions = new ArrayList<>();
             for (String permission : permissionsSms) {
@@ -590,7 +575,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             //requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), 101);
         }
 
-        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                                @NonNull int[] grantResults) {
@@ -634,7 +618,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class AsematauluPreferenceFragment extends PreferenceFragment {
 
 

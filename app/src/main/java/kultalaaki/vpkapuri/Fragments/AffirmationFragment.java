@@ -1,10 +1,14 @@
 /*
- * Created by Kultala Aki on 6/26/22, 12:01 PM
+ * Created by Kultala Aki on 6/26/22, 6:16 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 4/25/22, 9:31 PM
+ * Last modified 6/26/22, 6:07 PM
  */
 
-package kultalaaki.vpkapuri.fragments;
+package kultalaaki.vpkapuri.Fragments;/*
+ * Created by Kultala Aki on 6/26/22, 6:04 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 6/26/22, 6:02 PM
+ */
 
 
 import android.annotation.SuppressLint;
@@ -44,7 +48,7 @@ public class AffirmationFragment extends Fragment {
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface Listener {
-        /** Called when a button is clicked in AffirmationFragment */
+        /** Called when a button is clicked in kultalaaki.vpkapuri.Fragments.AffirmationFragment */
         void loadEtusivuFromFragment();
     }
     public AffirmationFragment() {
@@ -57,7 +61,7 @@ public class AffirmationFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AffirmationFragment.
+     * @return A new instance of fragment kultalaaki.vpkapuri.Fragments.AffirmationFragment.
      */
     public static AffirmationFragment newInstance(String param1, String param2) {
         AffirmationFragment fragment = new AffirmationFragment();

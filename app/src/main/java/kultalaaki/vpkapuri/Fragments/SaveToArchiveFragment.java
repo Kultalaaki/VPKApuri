@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 6/26/22, 12:13 PM
+ * Created by Kultala Aki on 6/26/22, 6:19 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 4/25/22, 9:31 PM
+ * Last modified 6/26/22, 6:02 PM
  */
 
-package kultalaaki.vpkapuri.fragments;
+package kultalaaki.vpkapuri.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -9,6 +9,7 @@ package kultalaaki.vpkapuri;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.preference.PreferenceManager;
 
 import kultalaaki.vpkapuri.alarmdetection.Alarm;
@@ -64,7 +67,7 @@ public class SMSBackgroundService extends Service {
         acquireWakelock();
 
         // Create notification to make sure this service doesn't get cancelled
-        startForegroundNotification();
+        startForegroundNotificationVersion2();
 
         // Check starting id of this service
         startIDChecker(startId);
@@ -218,6 +221,61 @@ public class SMSBackgroundService extends Service {
         }
 
         startForeground(MY_ALARM_NOTIFICATION_ID, notification);
+    }
+
+    public void startForegroundNotificationVersion2() {
+        Log.i("TAG", "service notification method");
+        Intent notificationIntent = new Intent(this, AlarmActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE);
+
+        Notification notification =
+                new Notification.Builder(this, "ACTIVE SERVICE")
+                        .setContentTitle("VPK Apuri")
+                        .setContentText("Viestin tarkistus menossa")
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true)
+                        .build();
+
+        startForeground(12345, notification);
+    }
+
+    // Todo this whole method needs to be redone
+    public void notificationAlarmMessage(String message) {
+        Intent intentsms = new Intent(getApplicationContext(), AlarmActivity.class);
+        intentsms.setAction(Intent.ACTION_SEND);
+        intentsms.setType("text/plain");
+        intentsms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(intentsms);
+        PendingIntent pendingIntentWithBackStack = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent stopAlarm = new Intent(this, StopSMSBackgroundService.class);
+        PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(SMSBackgroundService.this, "HALYTYS")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.alarm))
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setContentIntent(pendingIntentWithBackStack)
+                // Todo find solution to this error .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setDeleteIntent(stop)
+                .setAutoCancel(true);
+
+        Notification notification = mBuilder.build();
+        startForeground(MY_ALARM_NOTIFICATION_ID, notification);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            try {
+                notificationManager.cancel(15);
+            } catch (Exception e) {
+                Log.i("IsItAlarmService", "There was not notification to cancel.");
+            }
+        }
     }
 
     public void onDestroy() {

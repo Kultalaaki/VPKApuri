@@ -70,6 +70,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 startService.putExtra("halytysaani", "false");
                 startService.putExtra("number", senderNum);
                 startService.putExtra("timestamp", Aika);
+                Log.i("TAG", "broadcastreceiver");
                 context.getApplicationContext().startForegroundService(startService);
             }
         } catch (Exception e) {

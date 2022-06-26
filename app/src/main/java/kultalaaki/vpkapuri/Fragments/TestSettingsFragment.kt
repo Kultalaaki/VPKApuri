@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 6/26/22, 12:19 PM
+ * Created by Kultala Aki on 6/26/22, 6:18 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 6/24/22, 4:08 PM
+ * Last modified 6/26/22, 6:02 PM
  */
 
-package kultalaaki.vpkapuri.fragments
+package kultalaaki.vpkapuri.Fragments
 
 import android.Manifest
 import android.app.NotificationManager

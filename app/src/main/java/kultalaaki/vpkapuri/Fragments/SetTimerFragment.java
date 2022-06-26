@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 6/26/22, 12:28 PM
+ * Created by Kultala Aki on 6/26/22, 6:19 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 6/26/22, 12:26 PM
+ * Last modified 6/26/22, 6:02 PM
  */
 
-package kultalaaki.vpkapuri.fragments;
+package kultalaaki.vpkapuri.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
