@@ -6,13 +6,11 @@
 
 package kultalaaki.vpkapuri.alarmdetection;
 
-import android.content.SharedPreferences;
-
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+
 
 // Todo work in progress..
 public class Alarm {

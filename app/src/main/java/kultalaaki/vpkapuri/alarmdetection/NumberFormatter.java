@@ -20,11 +20,11 @@ public class NumberFormatter {
      * @return String value of given phone number.
      */
     public String formatNumber(String number) {
-        if(number != null && !number.isEmpty()) {
-            if(number.startsWith("0")) {
+        if (number != null && !number.isEmpty()) {
+            if (number.startsWith("0")) {
                 number = "0" + number.substring(1);
                 number = number.replaceAll("[()\\s-+]+", "");
-            } else if(number.startsWith("+358")) {
+            } else if (number.startsWith("+358")) {
                 number = "0" + number.substring(4);
                 number = number.replaceAll("[()\\s-+]+", "");
             }
