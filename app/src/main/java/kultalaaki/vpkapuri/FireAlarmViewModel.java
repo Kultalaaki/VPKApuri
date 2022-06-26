@@ -31,19 +31,19 @@ public class FireAlarmViewModel extends AndroidViewModel {
         lastFireAlarm = repository.getLastEntry();
     }
 
-    void setAddress(CharSequence input) {
+    public void setAddress(CharSequence input) {
         address.setValue(input);
     }
 
-    LiveData<CharSequence> getAddress() {
+    public LiveData<CharSequence> getAddress() {
         return address;
     }
 
-    void setAlarmingNumber(CharSequence input) {
+    public void setAlarmingNumber(CharSequence input) {
         number.setValue(input);
     }
 
-    LiveData<CharSequence> getAlarmingNumber() {
+    public LiveData<CharSequence> getAlarmingNumber() {
         return number;
     }
 
@@ -63,7 +63,7 @@ public class FireAlarmViewModel extends AndroidViewModel {
         return repository.getLatest();
     }
 
-    LiveData<List<FireAlarm>> getLastEntry() {return lastFireAlarm;}
+    public LiveData<List<FireAlarm>> getLastEntry() {return lastFireAlarm;}
 
-    LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
+    public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
 }

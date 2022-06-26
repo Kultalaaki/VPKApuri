@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 4/24/21 9:34 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 3/20/21 1:02 PM
+ * Created by Kultala Aki on 6/26/22, 12:17 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 4/25/22, 9:31 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,6 +30,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import kultalaaki.vpkapuri.AutoFitGridLayoutManager;
+import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.Responder;
+import kultalaaki.vpkapuri.ResponderAdapter;
+import kultalaaki.vpkapuri.ResponderViewModel;
 
 public class ResponderFragment extends Fragment {
 

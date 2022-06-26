@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 4/24/21 9:34 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 3/20/21 1:02 PM
+ * Created by Kultala Aki on 6/26/22, 12:01 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 4/25/22, 9:31 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
 
 import android.annotation.SuppressLint;
@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import kultalaaki.vpkapuri.R;
 
 
 /**

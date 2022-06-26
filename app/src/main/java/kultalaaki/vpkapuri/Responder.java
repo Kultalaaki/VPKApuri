@@ -20,17 +20,17 @@ public class Responder {
 
     @ColumnInfo(name = "name")
     public String name;
-    private String vacancyNumber;
+    private final String vacancyNumber;
     private String message;
-    private String attributeLeader;
-    private String attributeDriverLicense;
-    private String attributeSmoke;
-    private String attributeChemical;
-    private String attributeOptionall;
-    private String attributeOptional2;
-    private String attributeOptional3;
-    private String attributeOptional4;
-    private String attributeOptional5;
+    private final String attributeLeader;
+    private final String attributeDriverLicense;
+    private final String attributeSmoke;
+    private final String attributeChemical;
+    private final String attributeOptionall;
+    private final String attributeOptional2;
+    private final String attributeOptional3;
+    private final String attributeOptional4;
+    private final String attributeOptional5;
 
     public Responder(String name, String vacancyNumber, String message, String attributeLeader, String attributeDriverLicense, String attributeSmoke, String attributeChemical, String attributeOptionall,
                      String attributeOptional2, String attributeOptional3, String attributeOptional4, String attributeOptional5) {
@@ -60,7 +60,7 @@ public class Responder {
         return name;
     }
 
-    String getVacancyNumber() {
+    public String getVacancyNumber() {
         return vacancyNumber;
     }
 
@@ -68,43 +68,43 @@ public class Responder {
         return message;
     }
 
-    String getAttributeOptionall() {
+    public String getAttributeOptionall() {
         return attributeOptionall;
     }
 
-    String getAttributeLeader() {
+    public String getAttributeLeader() {
         return attributeLeader;
     }
 
-    String getAttributeDriverLicense() {
+    public String getAttributeDriverLicense() {
         return attributeDriverLicense;
     }
 
-    String getAttributeSmoke() {
+    public String getAttributeSmoke() {
         return attributeSmoke;
     }
 
-    String getAttributeChemical() {
+    public String getAttributeChemical() {
         return attributeChemical;
     }
 
-    String getAttributeOptional1() {
+    public String getAttributeOptional1() {
         return attributeOptionall;
     }
 
-    String getAttributeOptional2() {
+    public String getAttributeOptional2() {
         return attributeOptional2;
     }
 
-    String getAttributeOptional3() {
+    public String getAttributeOptional3() {
         return attributeOptional3;
     }
 
-    String getAttributeOptional4() {
+    public String getAttributeOptional4() {
         return attributeOptional4;
     }
 
-    String getAttributeOptional5() {
+    public String getAttributeOptional5() {
         return attributeOptional5;
     }
 

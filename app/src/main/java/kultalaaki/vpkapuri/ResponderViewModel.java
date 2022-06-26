@@ -35,11 +35,11 @@ public class ResponderViewModel extends AndroidViewModel {
         repository.delete(responder);
     }
 
-    void deleteAll() {
+    public void deleteAll() {
         repository.deleteAllResponders();
     }
 
-    LiveData<List<Responder>> getAllResponders() {
+    public LiveData<List<Responder>> getAllResponders() {
         return allResponders;
     }
 }

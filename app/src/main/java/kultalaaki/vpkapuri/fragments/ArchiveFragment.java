@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 3/6/21 8:41 AM
+ * Created by Kultala Aki on 6/26/22, 12:11 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 4/25/22, 9:31 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import kultalaaki.vpkapuri.FireAlarm;
+import kultalaaki.vpkapuri.FireAlarmAdapter;
+import kultalaaki.vpkapuri.FireAlarmViewModel;
+import kultalaaki.vpkapuri.R;
 
 
 /**

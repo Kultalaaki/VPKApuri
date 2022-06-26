@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 2/14/21 9:02 PM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 2/14/21 9:02 PM
+ * Created by Kultala Aki on 6/26/22, 12:07 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 6/26/22, 12:06 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -37,6 +37,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import kultalaaki.vpkapuri.FireAlarmViewModel;
+import kultalaaki.vpkapuri.IsItAlarmService;
+import kultalaaki.vpkapuri.R;
 
 
 public class AlarmButtonsFragment extends Fragment {
@@ -158,12 +162,12 @@ public class AlarmButtonsFragment extends Fragment {
         }
     }
 
-    void setTextHiljennaPuhe() {
+    public void setTextHiljennaPuhe() {
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_puhe);
     }
 
-    void autoAukaisu() {
+    public void autoAukaisu() {
         stopAlarm = true;
         hiljenna.setVisibility(View.VISIBLE);
         hiljennys.setText(R.string.hiljenna_halytys);
@@ -184,7 +188,7 @@ public class AlarmButtonsFragment extends Fragment {
         });
     }
 
-    private void autoAukaisuHiljennaPuhe() {
+    public void autoAukaisuHiljennaPuhe() {
         mCallback.autoAukaisuPuhu();
         hiljennys.setText(R.string.hiljenna_puhe);
         hiljenna.setOnClickListener(new View.OnClickListener() {

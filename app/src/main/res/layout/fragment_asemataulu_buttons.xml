@@ -11,7 +11,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primaryLightColor"
-    tools:context=".StationboardButtonsFragment">
+    tools:context=".fragments.StationboardButtonsFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonDividerHorizontal"

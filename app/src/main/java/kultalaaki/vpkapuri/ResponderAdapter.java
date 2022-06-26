@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.ResponderHolder> {
 
-    ResponderAdapter() {
+    public ResponderAdapter() {
         super(DIFF_CALLBACK);
     }
 
@@ -65,7 +65,7 @@ public class ResponderAdapter extends ListAdapter<Responder, ResponderAdapter.Re
         return responders.size();
     }*/
 
-    Responder getResponderAt(int position) {
+    public Responder getResponderAt(int position) {
         return getItem(position);
     }
 

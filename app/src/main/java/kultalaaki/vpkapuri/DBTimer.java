@@ -13,27 +13,27 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-class DBTimer extends SQLiteOpenHelper {
+public class DBTimer extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "timers.db";
     private static final String TABLE_NAME = "Timers_table";
-    static final String COL_1 = "_id";
-    static final String NAME = "nimi";
-    static final String STARTTIME = "alkuaika";
-    static final String STOPTIME = "lopetusaika";
-    static final String MA = "ma";
-    static final String TI = "ti";
-    static final String KE = "ke";
-    static final String TO = "tor";
-    static final String PE = "pe";
-    static final String LA = "la";
-    static final String SU = "su";
-    static final String SELECTOR = "selectState";
-    static final String ISITON = "isiton";
+    public static final String COL_1 = "_id";
+    public static final String NAME = "nimi";
+    public static final String STARTTIME = "alkuaika";
+    public static final String STOPTIME = "lopetusaika";
+    public static final String MA = "ma";
+    public static final String TI = "ti";
+    public static final String KE = "ke";
+    public static final String TO = "tor";
+    public static final String PE = "pe";
+    public static final String LA = "la";
+    public static final String SU = "su";
+    public static final String SELECTOR = "selectState";
+    public static final String ISITON = "isiton";
     private static final String[] ALL_KEYS = new String[] {COL_1, NAME, STARTTIME, STOPTIME, MA, TI, KE, TO, PE, LA, SU, SELECTOR, ISITON};
 
-    DBTimer(Context context) {
+    public DBTimer(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -57,7 +57,7 @@ class DBTimer extends SQLiteOpenHelper {
         //onCreate(db);
     }
 
-    long insertData(String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
+    public long insertData(String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
@@ -85,7 +85,7 @@ class DBTimer extends SQLiteOpenHelper {
         return db.rawQuery("select * from " + TABLE_NAME, null);
     }*/
 
-    Cursor timerID(String id) {
+    public Cursor timerID(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE "
@@ -99,7 +99,7 @@ class DBTimer extends SQLiteOpenHelper {
         return c;
     }
 
-    void deleteRow(int id) {
+    public void deleteRow(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, COL_1+"="+id, null);
         //db.execSQL("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Halytykset_table'");
@@ -113,7 +113,7 @@ class DBTimer extends SQLiteOpenHelper {
         return true;
     }
 
-    boolean tallennaMuutokset(String id, String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
+    public boolean tallennaMuutokset(String id, String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
@@ -132,7 +132,7 @@ class DBTimer extends SQLiteOpenHelper {
         return true;
     }
 
-    Cursor getAllRows() {
+    public Cursor getAllRows() {
         SQLiteDatabase db = this.getReadableDatabase();
         //SQLiteDatabase dbr = this.getWritableDatabase();
         //db.execSQL("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Halytykset_table'");

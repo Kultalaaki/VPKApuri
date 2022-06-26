@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 6/24/22, 4:08 PM
+ * Created by Kultala Aki on 6/26/22, 12:19 PM
  * Copyright (c) 2022. All rights reserved.
- * Last modified 6/24/22, 4:02 PM
+ * Last modified 6/24/22, 4:08 PM
  */
 
-package kultalaaki.vpkapuri
+package kultalaaki.vpkapuri.fragments
 
 import android.Manifest
 import android.app.NotificationManager
@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_test_settings.*
+import kultalaaki.vpkapuri.R
 
 //import kotlinx.android.synthetic.main.fragment_test_settings.*
 

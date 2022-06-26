@@ -15,7 +15,7 @@ public class AutoFitGridLayoutManager extends GridLayoutManager {
     private int columnWidth;
     private boolean columnWidthChanged = true;
 
-    AutoFitGridLayoutManager(Context context, int columnWidth) {
+    public AutoFitGridLayoutManager(Context context, int columnWidth) {
         super(context, 1);
 
         setColumnWidth(columnWidth);

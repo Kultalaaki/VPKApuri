@@ -59,6 +59,16 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import java.io.File;
 import java.util.Date;
 
+import kultalaaki.vpkapuri.fragments.AffirmationFragment;
+import kultalaaki.vpkapuri.fragments.ArchiveFragment;
+import kultalaaki.vpkapuri.fragments.ArchivedAlarmFragment;
+import kultalaaki.vpkapuri.fragments.ChangelogFragment;
+import kultalaaki.vpkapuri.fragments.FrontpageFragment;
+import kultalaaki.vpkapuri.fragments.GuidelineFragment;
+import kultalaaki.vpkapuri.fragments.SaveToArchiveFragment;
+import kultalaaki.vpkapuri.fragments.SetTimerFragment;
+import kultalaaki.vpkapuri.fragments.TimerFragment;
+
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
         ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener,

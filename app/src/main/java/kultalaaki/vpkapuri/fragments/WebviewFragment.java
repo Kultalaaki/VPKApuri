@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 10.7.2019 23:01
- * Copyright (c) 2019. All rights reserved.
- * Last modified 7.7.2019 12:26
+ * Created by Kultala Aki on 6/26/22, 12:19 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 4/25/22, 9:31 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import kultalaaki.vpkapuri.R;
 
 public class WebviewFragment extends Fragment {
 

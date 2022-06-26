@@ -1,10 +1,10 @@
 /*
- * Created by Kultala Aki on 3/20/21 11:41 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 3/20/21 11:38 AM
+ * Created by Kultala Aki on 6/26/22, 12:09 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 6/26/22, 12:09 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -36,6 +36,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import kultalaaki.vpkapuri.FireAlarm;
+import kultalaaki.vpkapuri.FireAlarmViewModel;
+import kultalaaki.vpkapuri.R;
 
 public class AlarmFragment extends Fragment {
 
@@ -274,7 +278,7 @@ public class AlarmFragment extends Fragment {
         return 0;
     }
 
-    void txtToSpeech() {
+    public void txtToSpeech() {
         t1 = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -291,7 +295,7 @@ public class AlarmFragment extends Fragment {
         });
     }
 
-    void lopetaPuhe() {
+    public void lopetaPuhe() {
         Context ctx = getActivity();
         if (ctx != null) {
             if (audioManager != null) {

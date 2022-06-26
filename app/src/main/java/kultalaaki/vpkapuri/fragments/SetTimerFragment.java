@@ -1,11 +1,12 @@
 /*
- * Created by Kultala Aki on 3/6/21 12:26 PM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 3/5/21 6:13 PM
+ * Created by Kultala Aki on 6/26/22, 12:28 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 6/26/22, 12:26 PM
  */
 
-package kultalaaki.vpkapuri;
+package kultalaaki.vpkapuri.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -27,6 +28,10 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import java.util.Calendar;
+
+import kultalaaki.vpkapuri.AlarmReceiver;
+import kultalaaki.vpkapuri.DBTimer;
+import kultalaaki.vpkapuri.R;
 
 
 /**
@@ -92,6 +97,7 @@ public class SetTimerFragment extends Fragment {
         }
     }
 
+    @SuppressLint("Range")
     private void populateTimer(String primaryKey) {
         Cursor cursor = dbTimer.timerID(primaryKey);
         if(cursor != null) {
@@ -371,7 +377,7 @@ public class SetTimerFragment extends Fragment {
         minuteSelector2 = view.findViewById(R.id.minuteSelector2);
     }
 
-    void setTimerTimes(int hour, int minute) {
+    public void setTimerTimes(int hour, int minute) {
         String min = String.valueOf(minute);
         String hou = String.valueOf(hour);
         if(startOrStopSelector) {

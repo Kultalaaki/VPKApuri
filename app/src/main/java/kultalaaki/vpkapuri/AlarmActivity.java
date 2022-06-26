@@ -41,6 +41,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import kultalaaki.vpkapuri.fragments.AlarmButtonsFragment;
+import kultalaaki.vpkapuri.fragments.AlarmFragment;
+import kultalaaki.vpkapuri.fragments.AnswerOHTOFragment;
+import kultalaaki.vpkapuri.fragments.ResponderFragment;
+import kultalaaki.vpkapuri.fragments.StationboardButtonsFragment;
+import kultalaaki.vpkapuri.fragments.WebviewFragment;
+
 
 public class AlarmActivity extends AppCompatActivity
         implements AlarmButtonsFragment.Listener, StationboardButtonsFragment.OnFragmentInteractionListener, AlarmFragment.Listener, AnswerOHTOFragment.OnFragmentInteractionListener, ResponderFragment.OnFragmentInteractionListener {
