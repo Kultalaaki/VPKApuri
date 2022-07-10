@@ -1,7 +1,7 @@
 /*
- * Created by Kultala Aki on 8/2/21, 12:33 AM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 8/2/21, 12:33 AM
+ * Created by Kultala Aki on 2/8/2021, 12:33 AM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 9/7/2022
  */
 
 package kultalaaki.vpkapuri.alarmdetection;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 
-// Todo work in progress..
 public class Alarm {
 
     private final String sender;
@@ -20,39 +19,29 @@ public class Alarm {
     private final String timeStamp;
     private String address;
     private String alarmID;
-    private String alarmTextField;
     private String urgencyClass;
     private List<String> cities;
     private Map<String, String> alarmIDs;
 
-    /**
-     * @param sender    SMSMessage sender
-     * @param message   SMSMessage message
-     * @param timeStamp SMSMessage received
-     */
+    // Alarm is for finding information from message
+    // Possibly extending this class for recognizing unit IDs
+    // With unit IDs app can highlight important units for user
+    // Easier for stations with multiple units to see what unit is alarmed
     public Alarm(String sender, String message, String timeStamp) {
         this.sender = sender;
         this.message = message;
         this.timeStamp = timeStamp;
         this.address = "";
         this.alarmID = "";
-        this.alarmTextField = null;
         this.urgencyClass = "";
         this.cities = new ArrayList<>();
     }
 
-    /**
-     * Find address from message
-     */
-    private void address() {
-        String[] parts = message.split(";");
 
-        for (String id : parts) {
-            alarmID(id.trim());
-            if (!(this.alarmTextField == null)) {
-                break;
-            }
-        }
+    // Find address from message
+    // Exit when found
+    private void findAddressFromString() {
+        String[] parts = message.split(";");
 
         for (String part : parts) {
             for (String city : cities) {
@@ -66,19 +55,40 @@ public class Alarm {
         this.address = "Osoitetta ei löytynyt.";
     }
 
-    /**
-     * Find id from message and assign alarmtext to it
-     */
-    private void alarmID(String alarmID) {
-        this.alarmID = alarmID;
-        this.alarmTextField = alarmIDs.get(alarmID);
+    // Find id from message and assign alarmtext to it
+    // Exit when found
+    private void findAlarmID() {
+        String[] parts = message.split(";");
+
+        for (String part : parts) {
+            part = part.trim();
+
+            if (alarmIDs.containsKey(part)) {
+                this.alarmID = part + ": " + alarmIDs.get(part);
+                return;
+            }
+        }
+        this.alarmID = "Tunnus ei ole luettelossa";
     }
 
-    private void urgencyClass() {
+    // Find urgency class and exit when found
+    private void findUrgencyClass() {
         String[] parts = message.split(";");
         for (String part : parts) {
-            if (part.trim().equals("A") || part.trim().equals("B") || part.trim().equals("C") || part.trim().equals("D")) {
-                this.urgencyClass = part;
+            part = part.trim();
+            switch (part) {
+                case "A":
+                    this.urgencyClass = part;
+                    return;
+                case "B":
+                    this.urgencyClass = part;
+                    return;
+                case "C":
+                    this.urgencyClass = part;
+                    return;
+                case "D":
+                    this.urgencyClass = part;
+                    return;
             }
         }
     }
@@ -86,8 +96,9 @@ public class Alarm {
     public void formAlarm() {
         readCities();
         readAlarmIDs();
-        address();
-        urgencyClass();
+        findAddressFromString();
+        findAlarmID();
+        findUrgencyClass();
     }
 
     private void readCities() {
@@ -96,8 +107,8 @@ public class Alarm {
     }
 
     private void readAlarmIDs() {
-        AlarmIDs readFile = new AlarmIDs();
-        alarmIDs = readFile.getAlarmIDs();
+        AlarmIDs alarmIDs = new AlarmIDs();
+        this.alarmIDs = alarmIDs.mappedAlarmIDs();
     }
 
     public String getSender() {
@@ -118,10 +129,6 @@ public class Alarm {
 
     public String getAlarmID() {
         return alarmID;
-    }
-
-    public String getAlarmTextField() {
-        return alarmTextField;
     }
 
     public String getUrgencyClass() {

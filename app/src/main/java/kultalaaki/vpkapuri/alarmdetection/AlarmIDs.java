@@ -1,45 +1,20 @@
 /*
- * Created by Kultala Aki on 8/1/21, 10:25 PM
- * Copyright (c) 2021. All rights reserved.
- * Last modified 8/1/21, 10:25 PM
+ * Created by Kultala Aki on 1/8/2021, 10:25 PM
+ * Copyright (c) 2022. All rights reserved.
+ * Last modified 9/7/2022
  */
 
 package kultalaaki.vpkapuri.alarmdetection;
 
-import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
-/**
- * Alarm IDs in HashMap<String, String>.
- */
+
 public class AlarmIDs {
 
-    Map<String, String> alarmIDs;
+    public HashMap<String, String> mappedAlarmIDs() {
+        HashMap<String, String> alarmIDs = new HashMap<>();
 
-    public AlarmIDs() {
-        this.alarmIDs = new HashMap<>();
-        addAlarmIDsToMap();
-    }
-
-    /**
-     * @return Alarm ID text
-     */
-    public Map<String, String> getAlarmIDs() {
-        return this.alarmIDs;
-    }
-
-    private void addAlarmIDsToMap() {
         alarmIDs.put("103", "PALOHÄLYTYS");
         alarmIDs.put("104", "SÄTEILYHÄLYTYS");
         alarmIDs.put("105", "HISSIHÄLYTYS");
@@ -183,6 +158,8 @@ public class AlarmIDs {
         alarmIDs.put("793", "Hoitolaitossiirto");
         alarmIDs.put("794", "Muu sairaankuljetustehtävä");
         alarmIDs.put("796", "Monipotilastilanne/ Suuronnettomuus");
-        alarmIDs.put("901", "PELASTUSTOIMIPOIKKEUSOLOISSA");
+        alarmIDs.put("901", "PELASTUSTOIMI POIKKEUSOLOISSA");
+
+        return alarmIDs;
     }
 }
