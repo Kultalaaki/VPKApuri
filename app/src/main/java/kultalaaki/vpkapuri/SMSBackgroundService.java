@@ -23,10 +23,12 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.preference.PreferenceManager;
 
 import kultalaaki.vpkapuri.alarmdetection.Alarm;
+import kultalaaki.vpkapuri.alarmdetection.RescueAlarm;
 import kultalaaki.vpkapuri.alarmdetection.NumberFormatter;
 import kultalaaki.vpkapuri.alarmdetection.NumberLists;
-import kultalaaki.vpkapuri.alarmdetection.PhoneNumberDetector;
+import kultalaaki.vpkapuri.alarmdetection.AlarmDetector;
 import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
+import kultalaaki.vpkapuri.alarmdetection.VapepaAlarm;
 
 public class SMSBackgroundService extends Service {
 
@@ -80,8 +82,8 @@ public class SMSBackgroundService extends Service {
                 notificationAlarmMessage();
 
                 // Create Alarm object and use formAlarm() method to create it ready.
-                Alarm alarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
-                alarm.formAlarm();
+                Alarm alarm = new RescueAlarm(this, message);
+                ((RescueAlarm) alarm).formAlarm();
                 saveAlarm(alarm);
 
                 // Todo: Make alarm go loud
@@ -93,7 +95,8 @@ public class SMSBackgroundService extends Service {
             case 3:
                 // It is alarm for Vapepa personnel
                 // No need to form alarm before saving
-                Alarm vapepaAlarm = new Alarm(message.getSender(), message.getMessage(), message.getTimeStamp());
+                Alarm vapepaAlarm = new VapepaAlarm(this, message);
+                vapepaAlarm.setAlarmSound("ringtone_vapepa");
                 saveAlarm(vapepaAlarm);
 
                 // Todo: Make alarm go loud
@@ -134,12 +137,12 @@ public class SMSBackgroundService extends Service {
 
         numberLists = new NumberLists(preferences);
 
-        PhoneNumberDetector phoneNumberDetector = new PhoneNumberDetector();
+        AlarmDetector alarmDetector = new AlarmDetector();
         NumberFormatter formatter = new NumberFormatter();
 
         String senderNumber = formatter.formatNumber(message.getSender());
 
-        message.setSenderID(phoneNumberDetector.whoSent(senderNumber, numberLists));
+        message.setSenderID(alarmDetector.isItAlarm(senderNumber, numberLists));
     }
 
     public void notificationAlarmMessage() {

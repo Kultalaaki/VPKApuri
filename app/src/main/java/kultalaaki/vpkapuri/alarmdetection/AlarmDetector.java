@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Public class for detecting if sender is alarm provider, person who is attending alarm or
  * someone else.
  */
-public class PhoneNumberDetector {
+public class AlarmDetector {
 
     /**
      * @return number 0 is not in application settings
@@ -22,7 +22,7 @@ public class PhoneNumberDetector {
      * number 2 is member
      * number 3 is Vapepa
      */
-    public int whoSent(String numberToCheck, NumberLists numbers) {
+    public int isItAlarm(String numberToCheck, NumberLists numbers) {
         if (numbers.getAlarmNumbers().contains(numberToCheck)) {
             return 1;
         } else if (numbers.getMemberNumbers().contains(numberToCheck)) {
