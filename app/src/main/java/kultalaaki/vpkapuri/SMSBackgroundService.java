@@ -22,12 +22,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.preference.PreferenceManager;
 
-import kultalaaki.vpkapuri.alarmdetection.Alarm;
-import kultalaaki.vpkapuri.alarmdetection.RescueAlarm;
+import kultalaaki.vpkapuri.alarmdetection.AlarmDetector;
 import kultalaaki.vpkapuri.alarmdetection.NumberFormatter;
 import kultalaaki.vpkapuri.alarmdetection.NumberLists;
-import kultalaaki.vpkapuri.alarmdetection.AlarmDetector;
+import kultalaaki.vpkapuri.alarmdetection.RescueAlarm;
 import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
+import kultalaaki.vpkapuri.alarmdetection.Saveable;
 import kultalaaki.vpkapuri.alarmdetection.VapepaAlarm;
 
 public class SMSBackgroundService extends Service {
@@ -82,9 +82,9 @@ public class SMSBackgroundService extends Service {
                 notificationAlarmMessage();
 
                 // Create Alarm object and use formAlarm() method to create it ready.
-                Alarm alarm = new RescueAlarm(this, message);
-                ((RescueAlarm) alarm).formAlarm();
-                saveAlarm(alarm);
+                RescueAlarm rescueAlarm = new RescueAlarm(this, message);
+                rescueAlarm.formAlarm();
+                saveAlarm(rescueAlarm);
 
                 // Todo: Make alarm go loud
                 break;
@@ -95,8 +95,11 @@ public class SMSBackgroundService extends Service {
             case 3:
                 // It is alarm for Vapepa personnel
                 // No need to form alarm before saving
-                Alarm vapepaAlarm = new VapepaAlarm(this, message);
-                vapepaAlarm.setAlarmSound("ringtone_vapepa");
+                VapepaAlarm vapepaAlarm = new VapepaAlarm(this, message);
+                // If user has set different alarm sound for vapepa alarms, then change that
+                if (preferences.getBoolean("boolean_vapepa_sound", false)) {
+                    vapepaAlarm.setAlarmSound("ringtone_vapepa");
+                }
                 saveAlarm(vapepaAlarm);
 
                 // Todo: Make alarm go loud
@@ -195,7 +198,7 @@ public class SMSBackgroundService extends Service {
     }
 
     // Section: Saving alarm and incoming personnel
-    public void saveAlarm(Alarm alarm) {
+    public void saveAlarm(Saveable alarm) {
         /* FireAlarmRepository handles saving alarm to database */
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),

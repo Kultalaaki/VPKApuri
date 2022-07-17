@@ -58,13 +58,13 @@
             android:summary="Käytetäänkö hälytyksen tullessa värinää."
             android:title="Värinä" />
         <ListPreference
-            android:key="vibrate_pattern"
             android:defaultValue="0"
             android:dependency="varina"
-            android:title="Värinäkuvio"
-            android:summary="Valitse värinäkuvio eri vaihtoehdoista"
             android:entries="@array/vibrate"
-            android:entryValues="@array/vibratePatterns" />
+            android:entryValues="@array/vibratePatterns"
+            android:key="vibrate_pattern"
+            android:summary="Valitse värinäkuvio eri vaihtoehdoista"
+            android:title="Värinäkuvio" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -116,12 +116,12 @@
             android:title="Lisäasetukset">
             <SwitchPreference
                 android:defaultValue="false"
-                android:key="OHTO"
+                android:key="boolean_vapepa_sound"
                 android:summary="OHTO Hälytyksille oma hälytysääni."
                 android:title="OHTO" />
             <kultalaaki.vpkapuri.ExtraRingtonePreference
                 android:defaultValue="content://settings/system/notification_sound"
-                android:dependency="OHTO"
+                android:dependency="boolean_vapepa_sound"
                 android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
                 android:key="ringtone_vapepa"
                 android:summary="@string/ringtoneSummary"
@@ -133,12 +133,12 @@
                 auto:showSilent="false" />
             <SwitchPreference
                 android:defaultValue="false"
-                android:key="Ensivaste"
+                android:key="boolean_emergency_sound"
                 android:summary="Ensivaste hälytyksille oma hälytysääni."
                 android:title="Ensivaste" />
             <kultalaaki.vpkapuri.ExtraRingtonePreference
                 android:defaultValue="content://settings/system/notification_sound"
-                android:dependency="Ensivaste"
+                android:dependency="boolean_emergency_sound"
                 android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
                 android:key="ringtone_emergency"
                 android:summary="@string/ringtoneSummary"

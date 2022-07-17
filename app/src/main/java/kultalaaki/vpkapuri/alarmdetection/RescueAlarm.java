@@ -14,10 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class RescueAlarm extends Alarm {
+public class RescueAlarm extends Alarm implements Saveable {
 
     private String address, alarmID, urgencyClass;
-    private List<String> cities = new ArrayList<>();
+    private final String[] messageParts;
+    private List<String> cities;
     private Map<String, String> rescueIDs;
     private Map<String, String> ambulanceIDs;
 
@@ -27,6 +28,8 @@ public class RescueAlarm extends Alarm {
     // Easier for stations with multiple units to see what unit is alarmed
     public RescueAlarm(Context context, SMSMessage message) {
         super(context, message);
+        messageParts = super.message.getMessage().split(";");
+        this.cities = new ArrayList<>();
     }
 
     public void formAlarm() {
@@ -51,9 +54,7 @@ public class RescueAlarm extends Alarm {
     // Find address from message
     // Exit when found
     private void getAlarmAddress() {
-        String[] parts = message.getMessage().split(";");
-
-        for (String part : parts) {
+        for (String part : this.messageParts) {
             for (String city : cities) {
                 if (part.contains(city)) {
                     this.address = part.trim();
@@ -68,9 +69,7 @@ public class RescueAlarm extends Alarm {
     // Find id from message and assign alarmtext to it
     // Exit when found
     private void findAlarmID() {
-        String[] parts = message.getMessage().split(";");
-
-        for (String part : parts) {
+        for (String part : this.messageParts) {
             part = part.trim();
 
             if (rescueIDs.containsKey(part)) {
@@ -78,7 +77,10 @@ public class RescueAlarm extends Alarm {
                 return;
             } else if (ambulanceIDs.containsKey(part)) {
                 this.alarmID = part + ": " + ambulanceIDs.get(part);
-                super.setAlarmSound("ringtone_emergency");
+                // If user has set different alarm sound for emergency alarms, then change that
+                if (preferences.getBoolean("boolean_emergency_sound", false)) {
+                    super.setAlarmSound("ringtone_emergency");
+                }
                 return;
             }
         }
@@ -87,8 +89,7 @@ public class RescueAlarm extends Alarm {
 
     // Find urgency class and exit when found
     private void findUrgencyClass() {
-        String[] parts = message.getMessage().split(";");
-        for (String part : parts) {
+        for (String part : this.messageParts) {
             part = part.trim();
             switch (part) {
                 case "A":

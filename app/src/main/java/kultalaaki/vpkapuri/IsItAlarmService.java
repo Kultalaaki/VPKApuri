@@ -25,15 +25,14 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.TaskStackBuilder;
-
 import android.provider.Settings;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -208,8 +207,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                     puheluAani = sharedPreferences.getBoolean("Puhelu", false);
                     selectAlarmSound(startId);
                 }
-                //db = new DBHelper(getApplicationContext());
-                //db.insertData("999A", "Ei osoitetta", "Hälytys tuli puheluna", "");
                 FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
                 FireAlarm fireAlarm = new FireAlarm("999", "A", "Hälytys tuli puheluna",
                         "Ei osoitetta", "", "", timestamp, "", "", "", "");
@@ -659,8 +656,6 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
             long oldAlarmTime = dateOld.getTime();
             assert dateNew != null;
             long newAlarmTime = dateNew.getTime();
-            //long difference = newAlarmTime - oldAlarmTime;
-            //Log.e("TAG", "Time difference: " + difference);
             return newAlarmTime - oldAlarmTime <= (60000 * 30);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -727,7 +722,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
 
     }
 
-    // Todo this might be obsolete @TargetApi(Build.VERSION_CODES.O)
+    // this might be obsolete @TargetApi(Build.VERSION_CODES.O)
     public void startForegroundNotification(String message) {
         Notification.Builder builder = new Notification.Builder(this, "ACTIVE SERVICE")
                 .setContentTitle("VPK Apuri")
@@ -771,7 +766,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntentWithBackStack)
-                // Todo find solution to this error .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
+                // find solution to this error .addAction(R.mipmap.ic_launcher, "HILJENNÄ", stop)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(stop)
                 .setAutoCancel(true);

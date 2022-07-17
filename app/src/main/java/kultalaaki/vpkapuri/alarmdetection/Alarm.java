@@ -11,35 +11,24 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
-public abstract class Alarm {
+public class Alarm {
 
     protected String sound;
     protected SMSMessage message;
-    SharedPreferences preferences;
+    protected SharedPreferences preferences;
 
     public Alarm(Context context, SMSMessage message) {
         this.message = message;
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sound = preferences.getString("ringtone_rescue", null);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.sound = preferences.getString("ringtone_rescue", null);
     }
 
     public String getAlarmSound() {
-        return sound;
+        return this.sound;
     }
 
     public void setAlarmSound(String alarmSound) {
-        sound = preferences.getString(alarmSound, null);
+        this.sound = preferences.getString(alarmSound, null);
     }
 
-    public abstract String getAlarmID();
-
-    public abstract String getUrgencyClass();
-
-    public abstract String getMessage();
-
-    public abstract String getAddress();
-
-    public abstract String getTimeStamp();
-
-    public abstract String getSender();
 }
