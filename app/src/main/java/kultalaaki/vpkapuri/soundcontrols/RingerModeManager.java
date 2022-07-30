@@ -13,21 +13,30 @@ import android.media.AudioManager;
 // Return ringer mode back after alarm
 public class RingerModeManager {
 
-    private final AudioManager audioManager;
-    private final int ringerModeBeforeAlarm;
+    private final Context context;
+    private AudioManager audioManager;
+    private int ringerModeBeforeAlarm;
 
     public RingerModeManager(Context context) {
+        this.context = context;
+    }
+
+    /**
+     * @return 0 when phone is in silent mode
+     * 1 when phone is in vibrate
+     * 2 when phone is in normal
+     */
+    public int getRingerMode() {
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        ringerModeBeforeAlarm = audioManager.getRingerMode();
+        return this.audioManager.getRingerMode();
     }
 
-    // Set ringer mode to silent
     public void setRingerModeSilent() {
-        audioManager.setRingerMode(0);
+        ringerModeBeforeAlarm = audioManager.getRingerMode();
+        this.audioManager.setRingerMode(0);
     }
 
-    // Set ringer mode back after alarm
     public void returnRingerMode() {
-        audioManager.setRingerMode(ringerModeBeforeAlarm);
+        this.audioManager.setRingerMode(this.ringerModeBeforeAlarm);
     }
 }

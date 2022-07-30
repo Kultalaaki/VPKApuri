@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import kultalaaki.vpkapuri.util.Constants;
+
 
 public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedListener {
 
@@ -879,7 +881,7 @@ public class IsItAlarmService extends Service implements MediaPlayer.OnPreparedL
                         ringermodeVibrate = true;
                         break;
                     case AudioManager.RINGER_MODE_NORMAL:
-                        // Set phone to silent, store volumes that need to be set back after alarmdetection
+                        // Set phone to silent, store volumes that need to be set back after alarm
                         streamNotificationVolume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
                         streamRingVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 

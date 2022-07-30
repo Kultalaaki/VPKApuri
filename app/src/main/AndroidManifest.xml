@@ -55,12 +55,11 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        android:usesCleartextTraffic="true">
         <service
             android:name=".SMSBackgroundService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -96,8 +95,8 @@
         <activity
             android:name=".AlarmActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:parentActivityName=".FrontpageActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".FrontpageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <!-- <category android:name="android.intent.category.DEFAULT" /> -->

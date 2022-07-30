@@ -10,6 +10,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import kultalaaki.vpkapuri.util.NumberFormatter;
+
 public class NumberFormatterTest {
 
     @Test

@@ -6,9 +6,6 @@
 
 package kultalaaki.vpkapuri.alarmdetection;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,6 @@ public class Cities {
 
     List<String> cities;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public Cities() {
         this.cities = new ArrayList<>();
         addCitiesToList();
@@ -156,6 +152,7 @@ public class Cities {
         cities.add("Kustavi");
         cities.add("Kuusamo");
         cities.add("Kyyjärvi");
+        cities.add("Kyröskoski");
         cities.add("Kärkölä");
         cities.add("Kärsämäki");
         cities.add("Kökar");

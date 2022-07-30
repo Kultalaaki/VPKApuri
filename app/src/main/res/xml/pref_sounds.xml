@@ -54,12 +54,12 @@
         android:title="Hälytysäänen voimakkuus ja värinä">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="varina"
+            android:key="vibrate"
             android:summary="Käytetäänkö hälytyksen tullessa värinää."
             android:title="Värinä" />
         <ListPreference
             android:defaultValue="0"
-            android:dependency="varina"
+            android:dependency="vibrate"
             android:entries="@array/vibrate"
             android:entryValues="@array/vibratePatterns"
             android:key="vibrate_pattern"

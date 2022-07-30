@@ -1,14 +1,11 @@
 /*
- * Created by Kultala Aki on 5/14/22, 7:26 PM
+ * Created by Kultala Aki on 29/7/2022
  * Copyright (c) 2022. All rights reserved.
- * Last modified 5/14/22, 7:26 PM
+ * Last modified 26/6/2022
  */
 
-package kultalaaki.vpkapuri.alarmdetection;
+package kultalaaki.vpkapuri.util;
 
-import android.telephony.PhoneNumberUtils;
-
-import java.util.Locale;
 
 /**
  * Class for formatting numbers to be exactly same. Android system doesn't reliably give

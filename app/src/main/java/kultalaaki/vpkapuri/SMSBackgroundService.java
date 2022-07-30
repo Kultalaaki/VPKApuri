@@ -13,6 +13,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
@@ -23,16 +24,19 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.preference.PreferenceManager;
 
 import kultalaaki.vpkapuri.alarmdetection.AlarmDetector;
-import kultalaaki.vpkapuri.alarmdetection.NumberFormatter;
 import kultalaaki.vpkapuri.alarmdetection.NumberLists;
 import kultalaaki.vpkapuri.alarmdetection.RescueAlarm;
 import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
 import kultalaaki.vpkapuri.alarmdetection.Saveable;
 import kultalaaki.vpkapuri.alarmdetection.VapepaAlarm;
+import kultalaaki.vpkapuri.soundcontrols.AlarmMediaPlayer;
+import kultalaaki.vpkapuri.util.Constants;
+import kultalaaki.vpkapuri.util.NumberFormatter;
 
 public class SMSBackgroundService extends Service {
 
     private static int previousStartId = 1;
+    private AlarmMediaPlayer alarmMediaPlayer;
     private NumberLists numberLists = null;
     private SharedPreferences preferences;
     SMSMessage message;
@@ -53,7 +57,7 @@ public class SMSBackgroundService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, final int startId) {
-
+        Log.i("VPK Apuri", "Service started");
         // Kill process if intent is null
         checkIntent(intent);
 
@@ -66,7 +70,7 @@ public class SMSBackgroundService extends Service {
         // Create notification to make sure this service doesn't get cancelled
         notificationAlarmMessage();
 
-        // Check starting id of this service
+        // Check starting id of this service and set timer to stop this service
         startIDChecker(startId);
 
         // Message senderID comes from PhoneNumberDetector.java
@@ -86,7 +90,8 @@ public class SMSBackgroundService extends Service {
                 rescueAlarm.formAlarm();
                 saveAlarm(rescueAlarm);
 
-                // Todo: Make alarm go loud
+                String alarmSound = rescueAlarm.getAlarmSound();
+                playAlarmSound(alarmSound);
                 break;
             case 2:
                 // Message from person attending alarm.
@@ -102,7 +107,8 @@ public class SMSBackgroundService extends Service {
                 }
                 saveAlarm(vapepaAlarm);
 
-                // Todo: Make alarm go loud
+                String vapepaAlarmSound = vapepaAlarm.getAlarmSound();
+                playAlarmSound(vapepaAlarmSound);
                 break;
         }
 
@@ -144,6 +150,7 @@ public class SMSBackgroundService extends Service {
         NumberFormatter formatter = new NumberFormatter();
 
         String senderNumber = formatter.formatNumber(message.getSender());
+        message.setSender(senderNumber);
 
         message.setSenderID(alarmDetector.isItAlarm(senderNumber, numberLists));
     }
@@ -178,7 +185,7 @@ public class SMSBackgroundService extends Service {
 
         Notification notification = mBuilder.build();
         mBuilder.build().flags |= Notification.FLAG_AUTO_CANCEL;
-        startForeground(264981, notification);
+        startForeground(Constants.ALARM_NOTIFICATION_ID, notification);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null) {
@@ -192,12 +199,16 @@ public class SMSBackgroundService extends Service {
 
     private void startIDChecker(int startId) {
         if (previousStartId != startId) {
+            try {
+                alarmMediaPlayer.stopAlarmMedia();
+            } catch (Exception e) {
+                // Todo: add this error to firebase
+            }
             stopSelf(previousStartId);
         }
         previousStartId = startId;
     }
 
-    // Section: Saving alarm and incoming personnel
     public void saveAlarm(Saveable alarm) {
         /* FireAlarmRepository handles saving alarm to database */
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
@@ -244,6 +255,21 @@ public class SMSBackgroundService extends Service {
 
     }
 
+    private void playAlarmSound(String alarmSound) {
+        // Make alarm go boom
+        Uri uri = Uri.parse(alarmSound);
+        alarmMediaPlayer = new AlarmMediaPlayer(this, preferences, uri);
+        if (alarmMediaPlayer.mediaPlayer != null && alarmMediaPlayer.mediaPlayer.isPlaying()) {
+            alarmMediaPlayer.stopAlarmMedia();
+        }
+        if (alarmMediaPlayer.isDoNotDisturbAllowed()) {
+            alarmMediaPlayer.audioFocusRequest();
+        } else {
+            // Todo: Do Not Disturb not allowed, inform user the reason
+        }
+
+    }
+
     public void onDestroy() {
         super.onDestroy();
         if (wakelock != null) {
@@ -252,7 +278,11 @@ public class SMSBackgroundService extends Service {
             } catch (Throwable th) {
                 // No Need to do anything.
             }
-
         }
+
+        if (alarmMediaPlayer != null) {
+            alarmMediaPlayer.stopAlarmMedia();
+        }
+
     }
 }

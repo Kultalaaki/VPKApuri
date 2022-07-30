@@ -6,10 +6,6 @@
 
 package kultalaaki.vpkapuri.alarmdetection;
 
-import android.content.SharedPreferences;
-
-import java.util.ArrayList;
-
 /**
  * Public class for detecting if sender is alarm provider, person who is attending alarm or
  * someone else.

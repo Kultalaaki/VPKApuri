@@ -6,6 +6,8 @@
 
 package kultalaaki.vpkapuri;
 
+import static android.content.Context.POWER_SERVICE;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +20,6 @@ import android.util.Log;
 
 import java.util.Date;
 
-import static android.content.Context.POWER_SERVICE;
-
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
@@ -27,56 +27,61 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
 
+        getWakeLock(context);
 
+        final Bundle bundle = intent.getExtras();
+        String message = "";
+        String senderNum = "";
+        long systemTime;
+        String formattedTime = "";
+
+        try {
+            if (bundle != null) {
+                Object[] pdus = (Object[]) bundle.get("pdus");
+                assert pdus != null;
+                final SmsMessage[] messages = new SmsMessage[pdus.length];
+                for (int i = 0; i < pdus.length; i++) {
+                    String format = bundle.getString("format");
+                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format);
+                    Log.i("VPK Apuri", "Format is: " + format);
+                }
+                if (messages.length > 0) {
+                    StringBuilder content = new StringBuilder();
+                    for (SmsMessage sms : messages) {
+                        content.append(sms.getDisplayMessageBody());
+                        message = content.toString();
+                    }
+                    senderNum = messages[0].getDisplayOriginatingAddress();
+                    systemTime = System.currentTimeMillis();
+                    formattedTime = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(systemTime));
+                }
+                startService(context.getApplicationContext(), message, senderNum, formattedTime);
+                releaseWakeLock();
+            }
+        } catch (Exception e) {
+            // Todo: add this error to firebase analytics
+            Log.e("VPK Apuri", "Could not read sms message: " + e);
+        }
+    }
+
+    private void startService(Context context, String message, String senderNumber, String formattedTime) {
+        Intent startBackgroundService = new Intent(context.getApplicationContext(), SMSBackgroundService.class);
+        startBackgroundService.putExtra("message", message);
+        startBackgroundService.putExtra("number", senderNumber);
+        startBackgroundService.putExtra("timestamp", formattedTime);
+        Log.i("TAG", "broadcastreceiver");
+        context.getApplicationContext().startForegroundService(startBackgroundService);
+    }
+
+    private void getWakeLock(Context context) {
         PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
         if (powerManager != null) {
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     "VPKApuri::HälytysServiceTaustalla");
         }
+    }
 
-        final Bundle myBundle = intent.getExtras();
-        String message = "";
-        String senderNum = "";
-        long aika;
-        String Aika;
-
-        try {
-
-            if (myBundle != null) {
-                StringBuilder content = new StringBuilder();
-                final Object[] pdus = (Object[]) myBundle.get("pdus");
-                int pituus = 0;
-                if (pdus != null) {
-                    pituus = pdus.length;
-                }
-
-                for (int i = 0; i < pituus; i++) {
-                    {
-                        String format = myBundle.getString("format");
-                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdus[i], format);
-                        senderNum = currentMessage.getDisplayOriginatingAddress();
-                        message = currentMessage.getDisplayMessageBody();
-                        content.append(message);
-                    }
-                    message = content.toString();
-                }
-
-                aika = System.currentTimeMillis();
-                Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-
-                Intent startService = new Intent(context.getApplicationContext(), SMSBackgroundService.class);
-                startService.putExtra("message", message);
-                // halytysaani is for differentiating calls and sms. May be redundant after remodeling background services
-                startService.putExtra("halytysaani", "false");
-                startService.putExtra("number", senderNum);
-                startService.putExtra("timestamp", Aika);
-                Log.i("TAG", "broadcastreceiver");
-                context.getApplicationContext().startForegroundService(startService);
-            }
-        } catch (Exception e) {
-            Log.e("SmsReceiver", "Exception smsReceiver " + e);
-        }
-
+    private void releaseWakeLock() {
         try {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

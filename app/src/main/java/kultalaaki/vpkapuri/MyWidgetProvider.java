@@ -13,7 +13,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
@@ -21,7 +20,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
     public static String ACTION_WIDGET_REFRESH = "ActionReceiverRefresh";
     SharedPreferences sharedPreferences;
-    private SoundControls soundControls = new SoundControls();
+    private final SoundControls soundControls = new SoundControls();
 
     @Override
     public void onUpdate(final Context context, AppWidgetManager appWidgetManager,
@@ -31,7 +30,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
         Intent active = new Intent(context, MyWidgetProvider.class);
         active.setAction(ACTION_WIDGET_REFRESH);
-        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, PendingIntent.FLAG_IMMUTABLE);
         remoteViews.setOnClickPendingIntent(R.id.nappain, actionPendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
@@ -43,12 +42,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if(intent.getAction() != null) {
+        if (intent.getAction() != null) {
             if (intent.getAction().equals(ACTION_WIDGET_REFRESH)) {
 
                 if (sharedPreferences.getInt("aaneton_profiili", -1) == 3) {
                     soundControls.setNormal(context);
-                } else if (sharedPreferences.getInt("aaneton_profiili", -1) == 1){
+                } else if (sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
                     soundControls.setSilent(context);
                 } else {
                     soundControls.setNightMode(context);

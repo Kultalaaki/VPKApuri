@@ -8,7 +8,6 @@ package kultalaaki.vpkapuri;
 
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -32,15 +31,17 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import kultalaaki.vpkapuri.util.Constants;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -317,7 +318,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-            bindPreferenceSummaryToValue(findPreference("ringtone"));
+            bindPreferenceSummaryToValue(findPreference("ringtone_rescue"));
             bindPreferenceSummaryToValue(findPreference("stopTime"));
             bindPreferenceSummaryToValue(findPreference("vibrate_pattern"));
 
@@ -373,13 +374,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         pattern = Constants.VIRVE_PATTERN;
                         amplitude = Constants.VIRVE_AMPLITUDE;
                     }
-                    if(Build.VERSION.SDK_INT >= 21) {
-                        if(viber != null && viber.hasVibrator()) {
-                            if(Build.VERSION.SDK_INT >= 26 && viber.hasAmplitudeControl()) {
-                                viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
-                            } else {
-                                viber.vibrate(pattern, -1);
-                            }
+                    if(viber != null && viber.hasVibrator()) {
+                        if(viber.hasAmplitudeControl()) {
+                            viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
+                        } else {
+                            viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
                         }
                     }
                 }

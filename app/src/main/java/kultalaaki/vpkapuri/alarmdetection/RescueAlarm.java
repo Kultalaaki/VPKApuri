@@ -33,9 +33,7 @@ public class RescueAlarm extends Alarm implements Saveable {
     }
 
     public void formAlarm() {
-        readCities();
-        readAlarmIDs();
-        getAlarmAddress();
+        findAlarmAddress();
         findAlarmID();
         findUrgencyClass();
     }
@@ -53,7 +51,8 @@ public class RescueAlarm extends Alarm implements Saveable {
 
     // Find address from message
     // Exit when found
-    private void getAlarmAddress() {
+    private void findAlarmAddress() {
+        readCities();
         for (String part : this.messageParts) {
             for (String city : cities) {
                 if (part.contains(city)) {
@@ -69,6 +68,7 @@ public class RescueAlarm extends Alarm implements Saveable {
     // Find id from message and assign alarmtext to it
     // Exit when found
     private void findAlarmID() {
+        readAlarmIDs();
         for (String part : this.messageParts) {
             part = part.trim();
 

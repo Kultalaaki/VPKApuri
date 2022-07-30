@@ -24,23 +24,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -53,6 +39,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
@@ -105,7 +103,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
-        if(actionbar != null) {
+        if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_36dp);
         }
@@ -127,7 +125,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                         mDrawerLayout.closeDrawers();
-                        switch(menuItem.getItemId()) {
+                        switch (menuItem.getItemId()) {
                             case R.id.tallenna_arkistoon_haly:
                                 loadTallennaArkistoonFragment();
                                 //startTallennaArkistoon();
@@ -373,7 +371,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         //Toast.makeText(getApplicationContext(), "melkein " + name + startTime + stopTime + ma + ti+ke+to+pe+la+su+selector, Toast.LENGTH_LONG).show();
         long tallennettu = dbTimer.insertData(name, startTime, stopTime,
                 ma, ti, ke, to, pe, la, su, selector, isiton);
-        if(tallennettu != -1) {
+        if (tallennettu != -1) {
             showToast("Ajastin", "Tallennettu.");
             //Toast.makeText(getApplicationContext(), "Tallennettu", Toast.LENGTH_LONG).show();
             return tallennettu;
@@ -386,7 +384,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         Log.i("TAG", "OnTimeSet reached");
         SetTimerFragment setTimerFragment = (SetTimerFragment)
                 getSupportFragmentManager().findFragmentByTag("setTimerFragment");
-        if(setTimerFragment != null) {
+        if (setTimerFragment != null) {
             setTimerFragment.setTimerTimes(hourOfDay, minute);
         }
     }
@@ -455,6 +453,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     public void testAlarm() {
 
         ericaEtusivu = preferences.getBoolean("Erica", true);
+        preferences.edit().putString("halyvastaanotto11", "0401234567").apply();
         if (ericaEtusivu) {
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
@@ -465,7 +464,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
                     String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
                     halyaaniService.putExtra("message", alarmMessage);
-                    halyaaniService.putExtra("number", "0400112326");
+                    halyaaniService.putExtra("number", "0401234567");
                     halyaaniService.putExtra("halytysaani", "false");
                     halyaaniService.putExtra("timestamp", Aika);
                     getApplicationContext().startService(halyaaniService);
@@ -489,7 +488,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    public void startLahetaPalaute () {
+    public void startLahetaPalaute() {
         Intent intentemail = new Intent(Intent.ACTION_SENDTO);
         intentemail.setData(Uri.parse("mailto:"));
         intentemail.putExtra(Intent.EXTRA_EMAIL, emailAddress);
@@ -715,11 +714,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     private class WhatsNewScreen {
-        private static final String LOG_TAG                 = "WhatsNewScreen";
+        private static final String LOG_TAG = "WhatsNewScreen";
 
-        private static final String LAST_VERSION_CODE_KEY   = "last_version_code";
+        private static final String LAST_VERSION_CODE_KEY = "last_version_code";
 
-        private Activity            mActivity;
+        private Activity mActivity;
 
         // Constructor memorize the calling Activity ("context")
         private WhatsNewScreen(Activity context) {
@@ -789,9 +788,10 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 File dir = context.getCacheDir();
                 deleteDir(dir);
             } catch (Exception e) {
-                Log.i("VPK Apuri","Välimuistin tyhjennys epäonnistui.");
+                Log.i("VPK Apuri", "Välimuistin tyhjennys epäonnistui.");
             }
         }
+
         boolean deleteDir(File dir) {
             if (dir != null && dir.isDirectory()) {
                 String[] children = dir.list();
@@ -802,7 +802,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     }
                 }
                 return dir.delete();
-            } else if(dir!= null && dir.isFile()) {
+            } else if (dir != null && dir.isFile()) {
                 return dir.delete();
             } else {
                 return false;

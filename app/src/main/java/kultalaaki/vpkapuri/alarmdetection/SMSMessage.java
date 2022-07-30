@@ -8,7 +8,8 @@ package kultalaaki.vpkapuri.alarmdetection;
 
 public class SMSMessage {
 
-    private final String sender, message, timeStamp;
+    private String sender;
+    private final String message, timeStamp;
     private int senderID = 0;
 
     public SMSMessage(String sender, String message, String timeStamp) {
@@ -27,6 +28,10 @@ public class SMSMessage {
 
     public String getTimeStamp() {
         return this.timeStamp;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     public void setSenderID(int id) {

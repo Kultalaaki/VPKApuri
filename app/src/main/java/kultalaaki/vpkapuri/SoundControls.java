@@ -19,9 +19,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceManager;
 
-class SoundControls {
+import kultalaaki.vpkapuri.util.Constants;
 
-    private static final int MY_NOTIFICATION_ID = 15245;
+class SoundControls {
 
     private SharedPreferences sharedPreferences;
 
@@ -54,7 +54,7 @@ class SoundControls {
                 .setOngoing(true)
                 .setAutoCancel(false);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
+        notificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
     }
 
     /**
@@ -82,7 +82,7 @@ class SoundControls {
                 .setOngoing(true)
                 .setAutoCancel(false);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
+        notificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
 
         ComponentName thisWidget = new ComponentName(context, MyWidgetProvider.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -99,7 +99,7 @@ class SoundControls {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putInt("aaneton_profiili", 1).commit();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.cancel(MY_NOTIFICATION_ID);
+        notificationManager.cancel(Constants.NOTIFICATION_ID);
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Normaali");
 

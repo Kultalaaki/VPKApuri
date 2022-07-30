@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
+import kultalaaki.vpkapuri.util.NumberFormatter;
+
 public class NumberLists {
 
     protected ArrayList<String> alarmNumbers;
@@ -38,14 +40,14 @@ public class NumberLists {
     }
 
     public void populateAlarmingNumbers() {
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 11; i++) {
             alarmNumbers.add(formatter.formatNumber(preferences.getString("halyvastaanotto" + i, null)));
-        }
+                    }
     }
 
     public void populateMemberNumbers() {
         for (int i = 1; i <= 50; i++) {
-            memberNumbers.add(formatter.formatNumber(preferences.getString("nimi" + i, null)));
+            memberNumbers.add(formatter.formatNumber(preferences.getString("puhelinnumero" + i, null)));
         }
     }
 
