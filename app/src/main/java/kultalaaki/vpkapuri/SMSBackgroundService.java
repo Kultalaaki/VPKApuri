@@ -23,15 +23,16 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.preference.PreferenceManager;
 
-import kultalaaki.vpkapuri.alarmdetection.AlarmDetector;
+import kultalaaki.vpkapuri.alarmdetection.AlarmMessage;
+import kultalaaki.vpkapuri.alarmdetection.AlarmNumberDetector;
 import kultalaaki.vpkapuri.alarmdetection.NumberLists;
 import kultalaaki.vpkapuri.alarmdetection.RescueAlarm;
 import kultalaaki.vpkapuri.alarmdetection.SMSMessage;
-import kultalaaki.vpkapuri.alarmdetection.Saveable;
 import kultalaaki.vpkapuri.alarmdetection.VapepaAlarm;
 import kultalaaki.vpkapuri.soundcontrols.AlarmMediaPlayer;
+import kultalaaki.vpkapuri.soundcontrols.VibrateController;
 import kultalaaki.vpkapuri.util.Constants;
-import kultalaaki.vpkapuri.util.NumberFormatter;
+import kultalaaki.vpkapuri.util.FormatNumber;
 
 public class SMSBackgroundService extends Service {
 
@@ -146,13 +147,12 @@ public class SMSBackgroundService extends Service {
 
         numberLists = new NumberLists(preferences);
 
-        AlarmDetector alarmDetector = new AlarmDetector();
-        NumberFormatter formatter = new NumberFormatter();
+        AlarmNumberDetector alarmDetector = new AlarmNumberDetector();
 
-        String senderNumber = formatter.formatNumber(message.getSender());
-        message.setSender(senderNumber);
-
-        message.setSenderID(alarmDetector.isItAlarm(senderNumber, numberLists));
+        // Format number and assign it for sender
+        message.setSender(FormatNumber.formatFinnishNumber(message.getSender()));
+        // Set sender ID. ID is based on comparing sender number and user set numbers.
+        message.setSenderID(alarmDetector.numberID(message.getSender(), numberLists));
     }
 
     public void notificationAlarmMessage() {
@@ -203,13 +203,14 @@ public class SMSBackgroundService extends Service {
                 alarmMediaPlayer.stopAlarmMedia();
             } catch (Exception e) {
                 // Todo: add this error to firebase
+                Log.e("VPK Apuri", "Could not stop alarm media player. Error: " + e);
             }
             stopSelf(previousStartId);
         }
         previousStartId = startId;
     }
 
-    public void saveAlarm(Saveable alarm) {
+    public void saveAlarm(AlarmMessage alarm) {
         /* FireAlarmRepository handles saving alarm to database */
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),
@@ -265,7 +266,10 @@ public class SMSBackgroundService extends Service {
         if (alarmMediaPlayer.isDoNotDisturbAllowed()) {
             alarmMediaPlayer.audioFocusRequest();
         } else {
-            // Todo: Do Not Disturb not allowed, inform user the reason
+            // Todo: Do Not Disturb not allowed, inform user the reason. Maybe with notification?
+            // Use vibration notification
+            VibrateController vibrateController = new VibrateController(this, preferences);
+            vibrateController.vibrateNotification();
         }
 
     }

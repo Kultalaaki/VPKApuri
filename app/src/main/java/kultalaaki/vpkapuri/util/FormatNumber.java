@@ -11,12 +11,12 @@ package kultalaaki.vpkapuri.util;
  * Class for formatting numbers to be exactly same. Android system doesn't reliably give
  * phone numbers in same format. Haven't figured out the logic behind it.
  */
-public class NumberFormatter {
+public class FormatNumber {
 
     /**
      * @return String value of given phone number.
      */
-    public String formatNumber(String number) {
+    public static String formatFinnishNumber(String number) {
         if (number != null && !number.isEmpty()) {
             if (number.startsWith("0")) {
                 number = "0" + number.substring(1);

@@ -6,7 +6,7 @@
 
 package kultalaaki.vpkapuri.alarmdetection;
 
-public interface Saveable {
+public interface AlarmMessage {
 
     String getAlarmID();
 

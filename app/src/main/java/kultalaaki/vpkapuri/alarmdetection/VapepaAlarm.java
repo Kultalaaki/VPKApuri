@@ -8,7 +8,7 @@ package kultalaaki.vpkapuri.alarmdetection;
 
 import android.content.Context;
 
-public class VapepaAlarm extends Alarm implements Saveable {
+public class VapepaAlarm extends Alarm implements AlarmMessage {
 
     public VapepaAlarm(Context context, SMSMessage message) {
         super(context, message);

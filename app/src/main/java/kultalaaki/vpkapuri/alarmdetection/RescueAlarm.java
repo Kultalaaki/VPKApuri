@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class RescueAlarm extends Alarm implements Saveable {
+public class RescueAlarm extends Alarm implements AlarmMessage {
 
     private String address, alarmID, urgencyClass;
     private final String[] messageParts;

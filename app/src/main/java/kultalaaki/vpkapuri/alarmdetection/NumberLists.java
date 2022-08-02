@@ -10,7 +10,7 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
-import kultalaaki.vpkapuri.util.NumberFormatter;
+import kultalaaki.vpkapuri.util.FormatNumber;
 
 public class NumberLists {
 
@@ -19,8 +19,6 @@ public class NumberLists {
     protected ArrayList<String> vapepaNumbers;
 
     private final SharedPreferences preferences;
-
-    private final NumberFormatter formatter;
 
     /**
      * Add numbers to lists so PhoneNumberDetector can check if message sender is marked in settings
@@ -33,7 +31,6 @@ public class NumberLists {
         this.memberNumbers = new ArrayList<>();
         this.vapepaNumbers = new ArrayList<>();
         this.preferences = preferences;
-        this.formatter = new NumberFormatter();
         populateAlarmingNumbers();
         populateMemberNumbers();
         populateVapepaNumbers();
@@ -41,35 +38,35 @@ public class NumberLists {
 
     public void populateAlarmingNumbers() {
         for (int i = 1; i <= 11; i++) {
-            alarmNumbers.add(formatter.formatNumber(preferences.getString("halyvastaanotto" + i, null)));
-                    }
+            this.alarmNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("halyvastaanotto" + i, null)));
+        }
     }
 
     public void populateMemberNumbers() {
         for (int i = 1; i <= 50; i++) {
-            memberNumbers.add(formatter.formatNumber(preferences.getString("puhelinnumero" + i, null)));
+            this.memberNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("puhelinnumero" + i, null)));
         }
     }
 
     public void populateVapepaNumbers() {
         for (int i = 1; i <= 5; i++) {
-            vapepaNumbers.add(formatter.formatNumber(preferences.getString("vapepanumber" + i, null)));
+            this.vapepaNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("vapepanumber" + i, null)));
         }
     }
 
     public int getIndexPositionOfMember(String number) {
-        return memberNumbers.indexOf(number);
+        return this.memberNumbers.indexOf(number);
     }
 
     public ArrayList<String> getAlarmNumbers() {
-        return alarmNumbers;
+        return this.alarmNumbers;
     }
 
     public ArrayList<String> getMemberNumbers() {
-        return memberNumbers;
+        return this.memberNumbers;
     }
 
     public ArrayList<String> getVapepaNumbers() {
-        return vapepaNumbers;
+        return this.vapepaNumbers;
     }
 }
