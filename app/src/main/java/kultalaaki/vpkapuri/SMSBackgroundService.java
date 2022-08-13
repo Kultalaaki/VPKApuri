@@ -7,10 +7,8 @@
 package kultalaaki.vpkapuri;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -34,6 +32,9 @@ import kultalaaki.vpkapuri.soundcontrols.VibrateController;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.FormatNumber;
 
+/**
+ * Background service for handling incoming messages
+ */
 public class SMSBackgroundService extends Service {
 
     private static int previousStartId = 1;
@@ -57,6 +58,13 @@ public class SMSBackgroundService extends Service {
         super.onCreate();
     }
 
+    /**
+     * Main logic of service
+     *
+     * @param intent  contains information carried over from SMSBroadcastReceiver.java
+     * @param startId service start id
+     * @return Service.START_STICKY
+     */
     public int onStartCommand(Intent intent, int flags, final int startId) {
         Log.i("VPK Apuri", "Service started");
         // Kill process if intent is null
@@ -88,7 +96,6 @@ public class SMSBackgroundService extends Service {
 
                 // Create Alarm object and use formAlarm() method to create it ready.
                 RescueAlarm rescueAlarm = new RescueAlarm(this, message);
-                rescueAlarm.formAlarm();
                 saveAlarm(rescueAlarm);
 
                 String alarmSound = rescueAlarm.getAlarmSound();
@@ -116,13 +123,21 @@ public class SMSBackgroundService extends Service {
         return Service.START_STICKY;
     }
 
-    // Section: Service start procedures
+    /**
+     * Checks intent for null
+     *
+     * @param intent if it is null, stop service
+     */
     private void checkIntent(Intent intent) {
         if (intent == null) {
             stopSelf();
         }
     }
 
+    /**
+     * Acquire wakelock so that service doesn't get stopped before foreground notification
+     * is in place
+     */
     private void acquireWakelock() {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         if (powerManager != null) {
@@ -155,6 +170,11 @@ public class SMSBackgroundService extends Service {
         message.setSenderID(alarmDetector.numberID(message.getSender(), numberLists));
     }
 
+    /**
+     * Create foreground notification. Notification text is message text.
+     * Button in notification "POISTA ILMOITUS" is meant for clearing notification
+     * and closing service.
+     */
     public void notificationAlarmMessage() {
         // This intent is responsible for opening AlarmActivity
         Intent intentsms = new Intent(getApplicationContext(), AlarmActivity.class);
@@ -186,17 +206,13 @@ public class SMSBackgroundService extends Service {
         Notification notification = mBuilder.build();
         mBuilder.build().flags |= Notification.FLAG_AUTO_CANCEL;
         startForeground(Constants.ALARM_NOTIFICATION_ID, notification);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null) {
-            try {
-                notificationManager.cancel(15);
-            } catch (Exception e) {
-                Log.i("IsItAlarmService", "There was not notification to cancel.");
-            }
-        }
     }
 
+    /**
+     * Checks start id and stops alarm media player if it is running
+     *
+     * @param startId start id of service
+     */
     private void startIDChecker(int startId) {
         if (previousStartId != startId) {
             try {
@@ -210,6 +226,11 @@ public class SMSBackgroundService extends Service {
         previousStartId = startId;
     }
 
+    /**
+     * Saves alarm to database
+     *
+     * @param alarm sms message object that contains all needed information
+     */
     public void saveAlarm(AlarmMessage alarm) {
         /* FireAlarmRepository handles saving alarm to database */
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
@@ -218,6 +239,11 @@ public class SMSBackgroundService extends Service {
                 alarm.getTimeStamp(), alarm.getSender(), "", "", ""));
     }
 
+    /**
+     * Look person attributes from preferences.
+     * Persons have to be added in Asemataulu settings page before this recognizes them.
+     * Save person to database.
+     */
     void createPersonComingToAlarm() {
         String positionInList = Integer.toString(numberLists.getIndexPositionOfMember(message.getSender()) + 1);
         String name = preferences.getString("nimi" + positionInList, null);
@@ -256,10 +282,18 @@ public class SMSBackgroundService extends Service {
 
     }
 
+    /**
+     * Creates new AlarmMediaPlayer.
+     * Checks if media player is not null and not already playing.
+     * Check if do not disturb is allowed to this app, allowed: ask audio focus,
+     * not allowed: start notification vibration to alarm user.
+     *
+     * @param alarmSound string representation for alarm sound to use. This is user set in settings.
+     */
     private void playAlarmSound(String alarmSound) {
         // Make alarm go boom
         Uri uri = Uri.parse(alarmSound);
-        alarmMediaPlayer = new AlarmMediaPlayer(this, preferences, uri);
+        alarmMediaPlayer = alarmMediaPlayer.getInstance(this, preferences, uri);
         if (alarmMediaPlayer.mediaPlayer != null && alarmMediaPlayer.mediaPlayer.isPlaying()) {
             alarmMediaPlayer.stopAlarmMedia();
         }
@@ -274,6 +308,11 @@ public class SMSBackgroundService extends Service {
 
     }
 
+    /**
+     * When service gets stopped.
+     * Release wakelock if it isn't null
+     * Stop alarm media player if it isn't null
+     */
     public void onDestroy() {
         super.onDestroy();
         if (wakelock != null) {

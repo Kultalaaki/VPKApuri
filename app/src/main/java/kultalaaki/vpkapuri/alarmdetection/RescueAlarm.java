@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Meant for VFD alarms.
+ * Responsible for finding information from message
+ */
 public class RescueAlarm extends Alarm implements AlarmMessage {
 
     private String address, alarmID, urgencyClass;
@@ -22,73 +25,76 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
     private Map<String, String> rescueIDs;
     private Map<String, String> ambulanceIDs;
 
-    // Alarm is for finding information from message
-    // Possibly extending this class for recognizing unit IDs
-    // With unit IDs app can highlight important units for user
-    // Easier for stations with multiple units to see what unit is alarmed
+    /**
+     * Splits message text with regex.
+     *
+     * @param context Application context
+     * @param message SMS Message object
+     */
     public RescueAlarm(Context context, SMSMessage message) {
         super(context, message);
         messageParts = super.message.getMessage().split(";");
         this.cities = new ArrayList<>();
     }
 
-    public void formAlarm() {
-        findAlarmAddress();
-        findAlarmID();
-        findUrgencyClass();
-    }
-
+    /**
+     * Get list of Finnish cities
+     */
     private void readCities() {
         Cities readCities = new Cities();
         cities = readCities.getCityList();
     }
 
+    /**
+     * Get list of alarm ids for rescue and ambulance.
+     */
     private void readAlarmIDs() {
         AlarmIDs alarmIDs = new AlarmIDs();
         this.rescueIDs = alarmIDs.rescueAlarmIDs();
         this.ambulanceIDs = alarmIDs.ambulanceAlarmIDs();
     }
 
-    // Find address from message
-    // Exit when found
-    private void findAlarmAddress() {
+    /**
+     * Finding address from message.
+     */
+    public String getAddress() {
         readCities();
         for (String part : this.messageParts) {
             for (String city : cities) {
                 if (part.contains(city)) {
-                    this.address = part.trim();
-                    return;
+                    return part.trim();
                 }
             }
         }
 
-        this.address = "Osoitetta ei löytynyt.";
+        return "Osoitetta ei löytynyt.";
     }
 
-    // Find id from message and assign alarmtext to it
-    // Exit when found
-    private void findAlarmID() {
+    /**
+     * Find id from message and assign alarm text clarification to it
+     */
+    public String getAlarmID() {
         readAlarmIDs();
         for (String part : this.messageParts) {
             part = part.trim();
 
             if (rescueIDs.containsKey(part)) {
-                this.alarmID = part + ": " + rescueIDs.get(part);
-                return;
+                return part + ": " + rescueIDs.get(part);
             } else if (ambulanceIDs.containsKey(part)) {
-                this.alarmID = part + ": " + ambulanceIDs.get(part);
                 // If user has set different alarm sound for emergency alarms, then change that
                 if (preferences.getBoolean("boolean_emergency_sound", false)) {
                     super.setAlarmSound("ringtone_emergency");
                 }
-                return;
+                return part + ": " + ambulanceIDs.get(part);
             }
         }
-        this.alarmID = "Tunnus ei ole luettelossa";
+        return "Tunnus ei ole luettelossa";
     }
 
-    // Find urgency class and exit when found
-    private void findUrgencyClass() {
+    /**
+     * Find urgency class from message.
+     */
+    public String getUrgencyClass() {
         for (String part : this.messageParts) {
             part = part.trim();
             switch (part) {
@@ -96,34 +102,31 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
                 case "B":
                 case "C":
                 case "D":
-                    this.urgencyClass = part;
-                    return;
+                    return part;
             }
         }
+        return "Ei löytynyt";
     }
 
+    /**
+     * @return Message sender
+     */
     public String getSender() {
         return message.getSender();
     }
 
+    /**
+     * @return Message text.
+     */
     public String getMessage() {
         return message.getMessage();
     }
 
+    /**
+     * @return Timestamp when system received message.
+     */
     public String getTimeStamp() {
         return message.getTimeStamp();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getAlarmID() {
-        return alarmID;
-    }
-
-    public String getUrgencyClass() {
-        return this.urgencyClass;
     }
 
 }

@@ -10,37 +10,37 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import kultalaaki.vpkapuri.util.NumberFormatter;
+import kultalaaki.vpkapuri.util.FormatNumber;
 
 public class NumberFormatterTest {
 
     @Test
     public void NumberFormatterGivesCorrectFormWhenNumberIsInternationallyFormatted() {
-        NumberFormatter formatter = new NumberFormatter();
-        assertEquals("0401234567", formatter.formatNumber("+358401234567"));
+        FormatNumber formatter = new FormatNumber();
+        assertEquals("0401234567", formatter.formatFinnishNumber("+358401234567"));
     }
 
     @Test
     public void NumberFormatterGivesCorrectFormWhenNumberIsNotInternationallyFormatted() {
-        NumberFormatter formatter = new NumberFormatter();
-        assertEquals("0401234567", formatter.formatNumber("0401234567"));
+        FormatNumber formatter = new FormatNumber();
+        assertEquals("0401234567", formatter.formatFinnishNumber("0401234567"));
     }
 
     @Test
     public void NumberIsNotNumberButStringOfSenderName() {
-        NumberFormatter formatter = new NumberFormatter();
-        assertEquals("SENDER", formatter.formatNumber("SENDER"));
+        FormatNumber formatter = new FormatNumber();
+        assertEquals("SENDER", formatter.formatFinnishNumber("SENDER"));
     }
 
     @Test
     public void numberIsNull() {
-        NumberFormatter formatter = new NumberFormatter();
-        assertEquals("Error", formatter.formatNumber(null));
+        FormatNumber formatter = new FormatNumber();
+        assertEquals("Error", formatter.formatFinnishNumber(null));
     }
 
     @Test
     public void numberIsEmpty() {
-        NumberFormatter formatter = new NumberFormatter();
-        assertEquals("Error", formatter.formatNumber(""));
+        FormatNumber formatter = new FormatNumber();
+        assertEquals("Error", formatter.formatFinnishNumber(""));
     }
 }

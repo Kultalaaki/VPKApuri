@@ -408,10 +408,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
 
-        private String[] permissionsSms = {Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS, Manifest.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND};
-
-        //, Manifest.permission.CALL_PHONE
+        private String[] permissionsSms = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS,
+                Manifest.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND};
 
         @Override
         public void onCreate(Bundle savedInstanceState) {

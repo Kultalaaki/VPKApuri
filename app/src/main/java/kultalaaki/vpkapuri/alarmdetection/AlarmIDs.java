@@ -9,9 +9,14 @@ package kultalaaki.vpkapuri.alarmdetection;
 
 import java.util.HashMap;
 
-
+/**
+ * Contains alarm ids in HashMap
+ */
 public class AlarmIDs {
 
+    /**
+     * @return HashMap containing rescue alarm ids.
+     */
     public HashMap<String, String> rescueAlarmIDs() {
         HashMap<String, String> rescueAlarmIDs = new HashMap<>();
 
@@ -119,6 +124,9 @@ public class AlarmIDs {
         return rescueAlarmIDs;
     }
 
+    /**
+     * @return HashMap containing ambulance alarm ids.
+     */
     public HashMap<String, String> ambulanceAlarmIDs() {
         HashMap<String, String> ambulanceAlarmIDs = new HashMap<>();
 

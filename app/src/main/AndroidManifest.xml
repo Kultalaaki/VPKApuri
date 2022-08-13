@@ -7,8 +7,6 @@
     <!-- Crashlytics testaamista varten -->
     <!-- <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" /> -->
     <!-- \/  DANGEROUS PERMISSIONS  \/ -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -104,10 +102,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".IsItAlarmService"
-            android:exported="false" />
-
         <receiver
             android:name=".StopSMSBackgroundService"
             android:exported="false" />
@@ -141,17 +135,6 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
-        </receiver>
-        <receiver
-            android:name=".PhonecallBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.READ_PHONE_STATE">
-            <intent-filter android:priority="999">
-
-                <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
         </receiver>
 
         <activity

@@ -13,7 +13,8 @@ package kultalaaki.vpkapuri.alarmdetection;
 public class AlarmNumberDetector {
 
     /**
-     * @return number 0 is not in application settings
+     * @return int value that is used for determining what we do
+     * number 0 is not in application settings
      * number 1 is alarm number
      * number 2 is member
      * number 3 is Vapepa

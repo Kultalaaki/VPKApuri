@@ -31,7 +31,7 @@ public class DBTimer extends SQLiteOpenHelper {
     public static final String SU = "su";
     public static final String SELECTOR = "selectState";
     public static final String ISITON = "isiton";
-    private static final String[] ALL_KEYS = new String[] {COL_1, NAME, STARTTIME, STOPTIME, MA, TI, KE, TO, PE, LA, SU, SELECTOR, ISITON};
+    private static final String[] ALL_KEYS = new String[]{COL_1, NAME, STARTTIME, STOPTIME, MA, TI, KE, TO, PE, LA, SU, SELECTOR, ISITON};
 
     public DBTimer(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,17 +44,10 @@ public class DBTimer extends SQLiteOpenHelper {
                 + STARTTIME + " TEXT," + STOPTIME + " TEXT," + MA + " TEXT," + TI + " TEXT," + KE + " TEXT," + TO + " TEXT," + PE + " TEXT," + LA + " TEXT," + SU + " TEXT, " + SELECTOR + " TEXT," + ISITON + " TEXT" + ")");
     }
 
-    /* varakopio
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT," + TUNNUS + " TEXT,"
-                + LUOKKA + " TEXT," + VIESTI + " TEXT," + KOMMENTTI + " TEXT" + ")");
-    }
-     */
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        //onCreate(db);
+
     }
 
     public long insertData(String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
@@ -78,13 +71,6 @@ public class DBTimer extends SQLiteOpenHelper {
 
     }
 
-    /*Cursor getAllData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
-        //db.rawQuery("select * from " + TABLE_NAME, null);
-        return db.rawQuery("select * from " + TABLE_NAME, null);
-    }*/
-
     public Cursor timerID(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -101,19 +87,10 @@ public class DBTimer extends SQLiteOpenHelper {
 
     public void deleteRow(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, COL_1+"="+id, null);
-        //db.execSQL("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Halytykset_table'");
+        db.delete(TABLE_NAME, COL_1 + "=" + id, null);
     }
 
-    boolean tyhjennaTietokanta () {
-        SQLiteDatabase db = this.getWritableDatabase();
-        //db.delete(TABLE_NAME, "Halytykset_table", null);
-        db.delete(TABLE_NAME, null, null);
-        db.execSQL("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Halytykset_table'");
-        return true;
-    }
-
-    public boolean tallennaMuutokset(String id, String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
+    public void tallennaMuutokset(String id, String name, String startTime, String stopTime, String ma, String ti, String ke, String to, String pe, String la, String su, String selector, String isiton) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
@@ -128,65 +105,16 @@ public class DBTimer extends SQLiteOpenHelper {
         contentValues.put(SU, su);
         contentValues.put(SELECTOR, selector);
         contentValues.put(ISITON, isiton);
-        db.update(TABLE_NAME, contentValues, "_id = ?", new String[] { id });
-        return true;
+        db.update(TABLE_NAME, contentValues, "_id = ?", new String[]{id});
     }
 
     public Cursor getAllRows() {
         SQLiteDatabase db = this.getReadableDatabase();
-        //SQLiteDatabase dbr = this.getWritableDatabase();
-        //db.execSQL("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Halytykset_table'");
-        //String where = null;
-        Cursor c = db.query(true, TABLE_NAME, ALL_KEYS, null, null, null, null, COL_1+" DESC", null);
-        if(c != null) {
+        Cursor c = db.query(true, TABLE_NAME, ALL_KEYS, null, null, null, null, COL_1 + " DESC", null);
+        if (c != null) {
             c.moveToFirst();
         }
         return c;
     }
-
-    /*Cursor hakuTunnuksella(String search_text) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        //String where = null;
-        Cursor c = db.query(TABLE_NAME, ALL_KEYS,
-                TUNNUS + " LIKE '%"+search_text+"%'",
-                null, null, null,COL_1+" DESC");
-        if(c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
-
-    Cursor hakuLuokalla(String search_text) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        //String where = null;
-        Cursor c = db.query(TABLE_NAME, ALL_KEYS,
-                LUOKKA + " LIKE '%"+search_text+"%'",
-                null, null, null,COL_1+" DESC");
-        if(c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
-
-    Cursor hakuTekstista(String search_text) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        //String where = null;
-        Cursor c = db.query(TABLE_NAME, ALL_KEYS,
-                VIESTI + " LIKE '%"+search_text+"%' OR "
-                        + KOMMENTTI + " LIKE '%"+search_text+"%'",
-                null, null, null,COL_1+" DESC");
-        if(c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }*/
-
-    //Testi haetaan viimeisin entry tietokannasta
-    /*Cursor haeViimeisinLisays() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.query(TABLE_NAME, ALL_KEYS, null, null, null, null, null);
-        c.moveToLast();
-        return c;
-    }*/
 
 }

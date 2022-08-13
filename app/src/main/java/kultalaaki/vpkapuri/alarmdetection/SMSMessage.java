@@ -6,6 +6,9 @@
 
 package kultalaaki.vpkapuri.alarmdetection;
 
+/**
+ * SMS message object.
+ */
 public class SMSMessage {
 
     private String sender;
@@ -18,26 +21,51 @@ public class SMSMessage {
         this.timeStamp = timeStamp;
     }
 
+    /**
+     *
+     * @return Sender of message.
+     */
     public String getSender() {
         return this.sender;
     }
 
+    /**
+     *
+     * @return Message text.
+     */
     public String getMessage() {
         return this.message;
     }
 
+    /**
+     *
+     * @return Timestamp when system received message
+     */
     public String getTimeStamp() {
         return this.timeStamp;
     }
 
+    /**
+     *
+     * @param sender Set sender number again after formatting.
+     */
     public void setSender(String sender) {
         this.sender = sender;
     }
 
+    /**
+     *
+     * @param id AlarmNumberDetector.numberID is responsible of determining id.
+     */
     public void setSenderID(int id) {
         this.senderID = id;
     }
 
+    /**
+     *
+     * @returnid Id is used for determining who is sender. Fire rescue sender, vapepa alarm sender or
+     * member coming to alarm
+     */
     public int getSenderID() {
         return this.senderID;
     }

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 
 import kultalaaki.vpkapuri.util.FormatNumber;
 
+/**
+ * Add numbers to lists so PhoneNumberDetector can check if message sender is marked in settings.
+ */
 public class NumberLists {
 
     protected ArrayList<String> alarmNumbers;
@@ -21,8 +24,6 @@ public class NumberLists {
     private final SharedPreferences preferences;
 
     /**
-     * Add numbers to lists so PhoneNumberDetector can check if message sender is marked in settings
-     *
      * @param preferences needed for reading preferences
      */
     public NumberLists(SharedPreferences preferences) {
@@ -36,36 +37,58 @@ public class NumberLists {
         populateVapepaNumbers();
     }
 
+    /**
+     * Alarming numbers for fire rescue missions.
+     */
     public void populateAlarmingNumbers() {
         for (int i = 1; i <= 11; i++) {
             this.alarmNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("halyvastaanotto" + i, null)));
         }
     }
 
+    /**
+     * Member numbers for detecting station board incoming members.
+     */
     public void populateMemberNumbers() {
         for (int i = 1; i <= 50; i++) {
             this.memberNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("puhelinnumero" + i, null)));
         }
     }
 
+    /**
+     * Vapepa numbers for detecting incoming OHTO alarms
+     */
     public void populateVapepaNumbers() {
         for (int i = 1; i <= 5; i++) {
             this.vapepaNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("vapepanumber" + i, null)));
         }
     }
 
+    /**
+     * @param number Phone number used for finding member position.
+     * @return index position where member is in settings
+     */
     public int getIndexPositionOfMember(String number) {
         return this.memberNumbers.indexOf(number);
     }
 
+    /**
+     * @return Fire alarms numbers list.
+     */
     public ArrayList<String> getAlarmNumbers() {
         return this.alarmNumbers;
     }
 
+    /**
+     * @return Member numbers list.
+     */
     public ArrayList<String> getMemberNumbers() {
         return this.memberNumbers;
     }
 
+    /**
+     * @return Vapepa alarms number list.
+     */
     public ArrayList<String> getVapepaNumbers() {
         return this.vapepaNumbers;
     }

@@ -11,18 +11,10 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +22,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,8 +45,8 @@ public class AlarmFragment extends Fragment {
     private TextView halytyksentunnus;
     private TextView kiireellisyys;
     private TextToSpeech t1;
-    private int palautaMediaVol, tekstiPuheeksiVol;
-    private boolean palautaMediaVolBoolean = false, previousAlarmOHTO = false, asemataulu;
+    private int tekstiPuheeksiVol;
+    private boolean previousAlarmOHTO = false, asemataulu;
     private SharedPreferences preferences;
     private Chronometer chronometer;
     private boolean chronoInUse;
@@ -177,8 +175,7 @@ public class AlarmFragment extends Fragment {
             NotificationManager notificationManager =
                     (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             if (notificationManager != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+                if (!notificationManager.isNotificationPolicyAccessGranted()) {
                     mCallback.showToast("Älä häiritse", "Ei ole lupa muuttaa Älä häiritse tilaa.");
                 }
             }
@@ -204,18 +201,18 @@ public class AlarmFragment extends Fragment {
             Date date = dateFormat.parse(chronometerStartTimeString);
             long timeWhenAlarmCame = date.getTime();
             chronometer.setBase(SystemClock.elapsedRealtime() - (timeNow - timeWhenAlarmCame));
-            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.parseInt(alarmCounterTime)) {
+            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000L * Integer.parseInt(alarmCounterTime)) {
                 chronometer.setVisibility(View.INVISIBLE);
             }
             chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                 @Override
                 public void onChronometerTick(Chronometer chronometer) {
-                    if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000 * Integer.parseInt(alarmCounterTime)) {
+                    if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 60000L * Integer.parseInt(alarmCounterTime)) {
                         chronometer.stop();
                     }
                 }
             });
-            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) <= 60000 * Integer.parseInt(alarmCounterTime)) {
+            if ((SystemClock.elapsedRealtime() - chronometer.getBase()) <= 60000L * Integer.parseInt(alarmCounterTime)) {
                 chronometer.start();
             }
         } catch (ParseException e) {
@@ -231,8 +228,6 @@ public class AlarmFragment extends Fragment {
         Context ctx = getActivity();
         if (ctx != null) {
             if (audioManager != null) {
-                palautaMediaVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                palautaMediaVolBoolean = true;
                 try {
                     SharedPreferences prefe_general = PreferenceManager.getDefaultSharedPreferences(ctx);
                     tekstiPuheeksiVol = prefe_general.getInt("tekstiPuheeksiVol", -1);
@@ -309,11 +304,7 @@ public class AlarmFragment extends Fragment {
 
     private void puhu() {
         String puheeksi = halytyksentunnus.getText().toString() + " " + halytyksenviesti.getText().toString();
-        if (Build.VERSION.SDK_INT >= 21) {
-            t1.playSilentUtterance(1000, TextToSpeech.QUEUE_FLUSH, null);
-        } else {
-            t1.playSilence(1000, TextToSpeech.QUEUE_FLUSH, null);
-        }
+        t1.playSilentUtterance(1000, TextToSpeech.QUEUE_FLUSH, null);
         t1.speak(puheeksi, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -325,15 +316,7 @@ public class AlarmFragment extends Fragment {
             t1.stop();
             t1.shutdown();
         }
-        if (palautaMediaVolBoolean) {
-            Context ctx = getActivity();
-            if (ctx != null) {
-                if (audioManager != null) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, palautaMediaVol, 0);
-                }
-            }
-            palautaMediaVolBoolean = false;
-        }
+
         preferences.edit().putBoolean("HalytysOpen", false).commit();
     }
 }

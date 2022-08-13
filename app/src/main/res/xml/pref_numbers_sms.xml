@@ -179,6 +179,7 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
+    <!--Todo: make this be unit detection from messages-->
     <PreferenceCategory
         android:title="Avainsanat"
         android:key="pref_key_avainsanat" >
@@ -379,17 +380,7 @@
     <PreferenceCategory
         android:title="Muut asetukset"
         android:key="pref_key_numerot">
-        <SwitchPreference
-            android:key="Erica"
-            android:title="Osoitteentunnistus"
-            android:defaultValue="true"
-            android:summary="Osoite tunnistetaan hätäkeskuksen hälytysviesteistä. Ota osoitteentunnistus pois päältä jos sovellus tulee vain VaPePa käyttöön. Käynnistä sovellus uudestaan jotta muutos tulee voimaan." />
-        <SwitchPreference
-            android:key="automaticOpen"
-            android:title="Automaattinen aukaisu"
-            android:defaultValue="false"
-            android:summary="Hälytys sivu aukeaa 3 sekunnin viiveellä jotta hälytys keretään tallentamaan ja osoite hakemaan valmiiksi. Hälytys hiljennetään hiljennä hälytys näppäimestä. Ei mahdollisuutta hiljentää lukitusnäytöltä."/>
-        <SwitchPreference
+       <SwitchPreference
             android:key="AlarmCounter"
             android:title="Hälytyskello"
             android:defaultValue="false"

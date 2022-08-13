@@ -11,20 +11,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-
-import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +23,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,7 +51,7 @@ public class AlarmActivity extends AppCompatActivity
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    boolean koneluku, autoAukaisu, asemataulu, responderFragmentShowing;
+    boolean koneluku, asemataulu, responderFragmentShowing;
     private String action, type, currentPhotoPath;
     SharedPreferences preferences;
     FragmentManager fragmentManager;
@@ -79,12 +76,10 @@ public class AlarmActivity extends AppCompatActivity
         action = intent.getAction();
         type = intent.getType();
         koneluku = preferences.getBoolean("koneluku", false);
-        autoAukaisu = preferences.getBoolean("automaticOpen", false);
 
         constraintLayout = findViewById(R.id.activity_halytys);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();
@@ -262,20 +257,17 @@ public class AlarmActivity extends AppCompatActivity
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                Intent stopAlarm = new Intent(AlarmActivity.this, IsItAlarmService.class);
+                Intent stopAlarm = new Intent(AlarmActivity.this, SMSBackgroundService.class);
                 AlarmActivity.this.stopService(stopAlarm);
-                if (koneluku && !autoAukaisu) {
+                if (koneluku) {
                     waitForFragment();
                 }
-            } else if ("automaattinen".equals(type)) {
-                preferences.edit().putBoolean("showHiljenna", true).commit();
-                waitForButtonsFragment();
             }
         }
     }
 
     /**
-     * StationboardButtonsFragment methods below this
+     * StationboardButtonsFragment methods
      * <p>
      * <--Methods to take picture and add it to gallery-->
      * openCamera
