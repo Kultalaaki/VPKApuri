@@ -107,7 +107,7 @@ public class AlarmFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.alarm_fragment_clear, parent, false);
+        return inflater.inflate(R.layout.alarm_fragment_clear, parent, false);
 
     }
 
