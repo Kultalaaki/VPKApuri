@@ -19,7 +19,6 @@ import java.util.Map;
  */
 public class RescueAlarm extends Alarm implements AlarmMessage {
 
-    private String address, alarmID, urgencyClass;
     private final String[] messageParts;
     private List<String> cities;
     private Map<String, String> rescueIDs;
@@ -106,6 +105,39 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
             }
         }
         return "Ei löytynyt";
+    }
+
+    /**
+     * Look if message contains units that user has set in settings
+     * return string containing only those units separated by comma
+     * <p>
+     * Time complexity of this method is O(n2). Replace with better solution.
+     */
+    public String getUnits() {
+        ArrayList<String> units = new ArrayList<>();
+        units.add(super.preferences.getString("unit1", null));
+        units.add(super.preferences.getString("unit2", null));
+        units.add(super.preferences.getString("unit3", null));
+        units.add(super.preferences.getString("unit4", null));
+        units.add(super.preferences.getString("unit5", null));
+        units.add(super.preferences.getString("unit6", null));
+        units.add(super.preferences.getString("unit7", null));
+        units.add(super.preferences.getString("unit8", null));
+        units.add(super.preferences.getString("unit9", null));
+        units.add(super.preferences.getString("unit10", null));
+
+        StringBuilder result = new StringBuilder();
+        for (String part : this.messageParts) {
+            for (String unit : units) {
+                String partLower = part.toLowerCase();
+                String unitLower = unit.toLowerCase();
+                if (partLower.contains(unitLower)) {
+                    result.append(unit).append(" ");
+                }
+            }
+        }
+
+        return result.toString();
     }
 
     /**

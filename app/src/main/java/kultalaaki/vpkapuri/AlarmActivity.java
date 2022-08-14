@@ -176,13 +176,12 @@ public class AlarmActivity extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (findViewById(R.id.responder_view) != null) {
                 fragmentTransaction.replace(R.id.responder_view, responderFragment, "ResponderFragment").commit();
-                preferences.edit().putBoolean("responderFragmentShowing", true).commit();
             } else {
                 fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_down);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.HalytysYlaosa, responderFragment, "ResponderFragment").commit();
-                preferences.edit().putBoolean("responderFragmentShowing", true).commit();
             }
+            preferences.edit().putBoolean("responderFragmentShowing", true).commit();
         }
     }
 
@@ -191,22 +190,8 @@ public class AlarmActivity extends AppCompatActivity
         AlarmFragment alarmFragment = new AlarmFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_down, R.animator.slide_out_down);
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.HalytysYlaosa, alarmFragment, "alarmFragment").commit();
     }
-
-    /*public void loadManpowerFragment() {
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ManpowerFragment manpowerFragment = new ManpowerFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-        fragmentTransaction.addToBackStack(null);
-        if(findViewById(R.id.responder_view) != null) {
-            fragmentTransaction.replace(R.id.responder_view, manpowerFragment, "manpowerFragment").commit();
-        } else {
-            fragmentTransaction.replace(R.id.HalytysYlaosa, manpowerFragment, "manpowerFragment").commit();
-        }
-    }*/
 
     public void loadhalytysButtonsFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
@@ -218,34 +203,16 @@ public class AlarmActivity extends AppCompatActivity
 
     public void waitForFragment() {
         Handler handler1 = new Handler();
-        handler1.postDelayed(new Runnable() {
-            public void run() {
-                AlarmFragment alarmFragment = (AlarmFragment)
-                        getSupportFragmentManager().findFragmentByTag("alarmFragment");
-                //Log.i("AlarmActivity", alarmFragment.toString());
-                if (alarmFragment != null) {
-                    alarmFragment.txtToSpeech();
-                }
-                AlarmButtonsFragment alarmButtonsFragment = (AlarmButtonsFragment)
-                        getSupportFragmentManager().findFragmentByTag("alarmButtonsFragment");
-                if (alarmButtonsFragment != null) {
-                    alarmButtonsFragment.setTextHiljennaPuhe();
-                }
+        handler1.postDelayed(() -> {
+            AlarmFragment alarmFragment = (AlarmFragment)
+                    getSupportFragmentManager().findFragmentByTag("alarmFragment");
+            if (alarmFragment != null) {
+                alarmFragment.txtToSpeech();
             }
-        }, 1000);
-        action = null;
-        type = null;
-    }
-
-    public void waitForButtonsFragment() {
-        Handler handler2 = new Handler();
-        handler2.postDelayed(new Runnable() {
-            public void run() {
-                AlarmButtonsFragment alarmButtonsFragment = (AlarmButtonsFragment)
-                        getSupportFragmentManager().findFragmentByTag("alarmButtonsFragment");
-                if (alarmButtonsFragment != null) {
-                    alarmButtonsFragment.autoAukaisu();
-                }
+            AlarmButtonsFragment alarmButtonsFragment = (AlarmButtonsFragment)
+                    getSupportFragmentManager().findFragmentByTag("alarmButtonsFragment");
+            if (alarmButtonsFragment != null) {
+                alarmButtonsFragment.setTextHiljennaPuhe();
             }
         }, 1000);
         action = null;

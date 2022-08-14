@@ -54,12 +54,12 @@ public class AlarmSoundSettingsManager {
             return 0;
         } else if (getUserSetSoundmode() == 3) {
             // App is in night mode set volume to 10
-            return alarmVolume(10);
+            return getVolume(10);
         }
-        return alarmVolume(getSeekbarValue());
+        return getVolume(getSeekbarValue());
     }
 
-    private int alarmVolume(int value) {
+    public int getVolume(int value) {
         final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int volume = 0;
         if (audioManager != null) {

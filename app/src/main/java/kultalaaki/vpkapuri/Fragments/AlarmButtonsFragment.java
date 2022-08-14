@@ -20,27 +20,27 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import java.util.List;
 
 import kultalaaki.vpkapuri.FireAlarmViewModel;
-import kultalaaki.vpkapuri.IsItAlarmService;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.SMSBackgroundService;
 
 
 public class AlarmButtonsFragment extends Fragment {
@@ -176,7 +176,7 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 Context ctx = getActivity();
                 if(ctx != null) {
-                    Intent stopAlarm = new Intent(ctx, IsItAlarmService.class);
+                    Intent stopAlarm = new Intent(ctx, SMSBackgroundService.class);
                     ctx.stopService(stopAlarm);
                 }
                 if(koneluku) {
@@ -543,7 +543,7 @@ public class AlarmButtonsFragment extends Fragment {
         super.onDestroy();
         Context ctx = getActivity();
         if(stopAlarm && ctx != null) {
-            Intent stopAlarm = new Intent(ctx, IsItAlarmService.class);
+            Intent stopAlarm = new Intent(ctx, SMSBackgroundService.class);
             ctx.stopService(stopAlarm);
         }
         pref_general.edit().putBoolean("showHiljenna", false).commit();

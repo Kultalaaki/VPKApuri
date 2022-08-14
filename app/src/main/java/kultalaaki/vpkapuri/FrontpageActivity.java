@@ -452,40 +452,23 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     public void testAlarm() {
 
-        ericaEtusivu = preferences.getBoolean("Erica", true);
         preferences.edit().putString("halyvastaanotto11", "0401234567").apply();
-        if (ericaEtusivu) {
-            Handler handler1 = new Handler();
-            handler1.postDelayed(new Runnable() {
-                public void run() {
-                    long aika = System.currentTimeMillis();
-                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-                    String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
-                    Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
-                    String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
-                    halyaaniService.putExtra("message", alarmMessage);
-                    halyaaniService.putExtra("number", "0401234567");
-                    halyaaniService.putExtra("halytysaani", "false");
-                    halyaaniService.putExtra("timestamp", Aika);
-                    getApplicationContext().startService(halyaaniService);
-                }
-            }, 5000);
-        } else {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    long aika = System.currentTimeMillis();
-                    String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-                    Intent halyaaniService = new Intent(getApplicationContext(), IsItAlarmService.class);
-                    String alarmMessage = "TESTIHÄLYTYS; Operaatio nro 220/Etsintä/Kankaanpää/12.10.18:30. Kuittaus: 220 ok/ei/pm hh:mm";
-                    halyaaniService.putExtra("message", alarmMessage);
-                    halyaaniService.putExtra("number", "+358401234567");
-                    halyaaniService.putExtra("halytysaani", "false");
-                    halyaaniService.putExtra("timestamp", Aika);
-                    getApplicationContext().startService(halyaaniService);
-                }
-            }, 5000);
-        }
+        Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            public void run() {
+                long aika = System.currentTimeMillis();
+                String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
+                String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
+                Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
+                String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
+                halyaaniService.putExtra("message", alarmMessage);
+                halyaaniService.putExtra("number", "0401234567");
+                halyaaniService.putExtra("halytysaani", "false");
+                halyaaniService.putExtra("timestamp", Aika);
+                getApplicationContext().startService(halyaaniService);
+            }
+        }, 5000);
+
     }
 
     public void startLahetaPalaute() {

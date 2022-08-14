@@ -40,4 +40,10 @@ public interface AlarmMessage {
      * @return Sender of message.
      */
     String getSender();
+
+    /**
+     *
+     * @return Alarmed units from message
+     */
+    String getUnits();
 }

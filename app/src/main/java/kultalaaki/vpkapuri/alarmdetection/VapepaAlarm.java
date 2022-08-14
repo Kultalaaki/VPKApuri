@@ -65,4 +65,13 @@ public class VapepaAlarm extends Alarm implements AlarmMessage {
     public String getSender() {
         return message.getSender();
     }
+
+    /**
+     *
+     * @return blank string. No unit finder in Vapepa alarms.
+     */
+    @Override
+    public String getUnits() {
+        return "";
+    }
 }

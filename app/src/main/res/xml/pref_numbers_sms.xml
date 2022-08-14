@@ -7,43 +7,42 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
     <PreferenceCategory
-        android:title="Soittonäppäin"
-        android:key="pref_key_soitto">
+        android:key="pref_key_soitto"
+        android:title="Soittonäppäin">
         <SwitchPreference
-            android:key="CallButtonVisible"
-            android:title="Soittonäppäin"
             android:defaultValue="true"
-            android:summary="Voit ottaa soittonäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
+            android:key="CallButtonVisible"
+            android:summary="Voit ottaa soittonäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta."
+            android:title="Soittonäppäin" />
         <EditTextPreference
             android:defaultValue="@string/pref_default_display_number"
+            android:dependency="CallButtonVisible"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:inputType="phone"
             android:key="example_text"
             android:maxLines="1"
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Soittopainikkeen numero"
-            android:dependency="CallButtonVisible" />
+            android:title="Soittopainikkeen numero" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Hälytysnumerot"
-        android:key="pref_key_numerot">
+        android:key="pref_key_numerot"
+        android:title="Hälytysnumerot">
         <PreferenceScreen
-            android:title="Vpk hälytysnumerot"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:persistent="false"
             android:summary="Aseta vpk hälytyksien numerot."
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            android:title="Vpk hälytysnumerot">
             <PreferenceCategory
-                android:title="Hälytysnumerot"
-                android:key="pref_key_halnu" />
+                android:key="pref_key_halnu"
+                android:title="Hälytysnumerot" />
             <Preference
-                android:summary="Kaikki kohdat käyvät sms tai puheluilla tuleville hälytyksille."
-                android:selectable="false"/>
+                android:selectable="false"
+                android:summary="Kaikki kohdat käyvät sms tai puheluilla tuleville hälytyksille." />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -59,7 +58,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="2: Hälytysnumero"/>
+                android:title="2: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -67,7 +66,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="3: Hälytysnumero"/>
+                android:title="3: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -75,7 +74,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="4: Hälytysnumero"/>
+                android:title="4: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -83,7 +82,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="5: Hälytysnumero"/>
+                android:title="5: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -91,7 +90,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="6: Hälytysnumero"/>
+                android:title="6: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -99,7 +98,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="7: Hälytysnumero"/>
+                android:title="7: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -107,7 +106,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="8: Hälytysnumero"/>
+                android:title="8: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -115,7 +114,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="9: Hälytysnumero"/>
+                android:title="9: Hälytysnumero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -123,19 +122,19 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="10: Hälytysnumero"/>
+                android:title="10: Hälytysnumero" />
         </PreferenceScreen>
         <PreferenceScreen
-            android:title="Vapepa hälytysnumerot"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:persistent="false"
             android:summary="Aseta Vapepa hälytyksien numerot"
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            android:title="Vapepa hälytysnumerot">
             <PreferenceCategory
-                android:title="Vapepa hälytysnumerot"
-                android:key="pref_key_vapepa_halnu" />
+                android:key="pref_key_vapepa_halnu"
+                android:title="Vapepa hälytysnumerot" />
             <Preference
-                android:summary="Vapepan hälyttävät numerot."
-                android:selectable="false"/>
+                android:selectable="false"
+                android:summary="Vapepan hälyttävät numerot." />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -151,7 +150,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="2: Vapepa numero"/>
+                android:title="2: Vapepa numero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -159,7 +158,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="3: Vapepa numero"/>
+                android:title="3: Vapepa numero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -167,7 +166,7 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="4: Vapepa numero"/>
+                android:title="4: Vapepa numero" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
@@ -175,221 +174,251 @@
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="5: Vapepap numero"/>
-        </PreferenceScreen>
-    </PreferenceCategory>
-
-    <!--Todo: make this be unit detection from messages-->
-    <PreferenceCategory
-        android:title="Avainsanat"
-        android:key="pref_key_avainsanat" >
-        <PreferenceScreen
-            android:title="Hälyttävät sanat"
-            android:persistent="false"
-            android:summary="Tämä on vain erikoistapauksia varten. Älä käytä jos ei ole pakollista tarvetta. Voit asettaa sanat joiden mukaan hälytetään."
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
-            <PreferenceCategory
-                android:title="Avainsanat"
-                android:key="pref_key_halsan" />
-            <Preference
-                android:summary="Voit määrittää avainsanat joiden mukaan hälytetään jos viesti tulee oikeasta numerosta ja sisältää jonkun määritetyistä sanoista. Sanat tulee kirjoittaa täsmälleen
-                                samalla tavalla kuin ne viestissä tulevat, esim RPI101 on eri kuin rpi101"
-                android:selectable="false"/>
-            <SwitchPreference
-                android:key="avainsana"
-                android:title="Avainsanat"
-                android:summary="Laita päälle jos haluat hälytykset vain viesteistä jotka sisältävät jonkun avainsanoista."
-                android:defaultValue="false"/>
-            <EditTextPreference
-                android:defaultValue="XXX111"
-                android:inputType="text"
-                android:key="avainsana1"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="1: Avainsana"/>
-            <EditTextPreference
-                android:defaultValue="XXX111"
-                android:inputType="text"
-                android:key="avainsana2"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="2: Avainsana"/>
-            <EditTextPreference
-                android:defaultValue="XXX111"
-                android:inputType="text"
-                android:key="avainsana3"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="3: Avainsana"/>
-            <EditTextPreference
-                android:defaultValue="XXX111"
-                android:inputType="text"
-                android:key="avainsana4"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="4: Avainsana"/>
-            <EditTextPreference
-                android:defaultValue="XXX111"
-                android:inputType="text"
-                android:key="avainsana5"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="5: Avainsana"/>
+                android:title="5: Vapepap numero" />
         </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Vastausviestien asetukset"
-        android:key="pref_key_vastausviesti">
+        android:key="pref_key_avainsanat"
+        android:title="Yksiköiden tunnistus">
         <PreferenceScreen
-            android:title="SMS VIHREÄ"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:persistent="false"
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
+            android:summary=""
+            android:title="Yksiköt">
             <PreferenceCategory
-                android:title="SMS Vihreä asetukset" />
-            <SwitchPreference
-                android:key="SmsGreenVisible"
-                android:title="SMS Vihreä"
-                android:defaultValue="true"
-                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
+                android:key="pref_key_halsan"
+                android:title="Yksiköt" />
             <Preference
-                android:summary="Sms ilmoitusnumero voi olla puhelinnumero, pienellä kirjoitettuna whatsapp tai valitse"
                 android:selectable="false"
-                android:dependency="SmsGreenVisible"/>
+                android:summary="Aseta yksiköt jotka haluat eroteltuina omalle riville hälytys sivulla." />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit1"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="1: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit2"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="2: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit3"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="3: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit4"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="4: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit5"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="5: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit6"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="6: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit7"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="7: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit8"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="8: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit9"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="9: Yksikkö" />
+            <EditTextPreference
+                android:defaultValue="XXX111"
+                android:inputType="text"
+                android:key="unit10"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="10: Yksikkö" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_vastausviesti"
+        android:title="Vastausviestien asetukset">
+        <PreferenceScreen
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
+            android:persistent="false"
+            android:title="SMS VIHREÄ">
+            <PreferenceCategory android:title="SMS Vihreä asetukset" />
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="SmsGreenVisible"
+                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta."
+                android:title="SMS Vihreä" />
+            <Preference
+                android:dependency="SmsGreenVisible"
+                android:selectable="false"
+                android:summary="Sms ilmoitusnumero voi olla puhelinnumero, pienellä kirjoitettuna whatsapp tai valitse" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
+                android:dependency="SmsGreenVisible"
                 android:inputType="text"
                 android:key="sms_numero"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_name2"
-                android:dependency="SmsGreenVisible"/>
+                android:title="@string/pref_title_display_name2" />
             <EditTextPreference
                 android:defaultValue="ALLE 5"
+                android:dependency="SmsGreenVisible"
                 android:inputType="text"
                 android:key="fivemintextotsikko"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Näppäimessä näkyvä teksti"
-                android:dependency="SmsGreenVisible"/>
+                android:title="Näppäimessä näkyvä teksti" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_txt5"
+                android:dependency="SmsGreenVisible"
                 android:inputType="text"
                 android:key="fivemintxt"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_fivemintxt"
-                android:dependency="SmsGreenVisible"/>
+                android:title="@string/pref_title_display_fivemintxt" />
         </PreferenceScreen>
         <PreferenceScreen
-            android:title="SMS KELTAINEN"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:persistent="false"
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
-            <PreferenceCategory
-                android:title="SMS Keltainen asetukset" />
+            android:title="SMS KELTAINEN">
+            <PreferenceCategory android:title="SMS Keltainen asetukset" />
             <SwitchPreference
-                android:key="SmsYellowVisible"
-                android:title="SMS Keltainen"
                 android:defaultValue="true"
-                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
+                android:key="SmsYellowVisible"
+                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta."
+                android:title="SMS Keltainen" />
             <Preference
-                android:summary="Sms ilmoitusnumero voi olla puhelinnumero, pienellä kirjoitettuna whatsapp tai valitse"
+                android:dependency="SmsYellowVisible"
                 android:selectable="false"
-                android:dependency="SmsYellowVisible"/>
+                android:summary="Sms ilmoitusnumero voi olla puhelinnumero, pienellä kirjoitettuna whatsapp tai valitse" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
+                android:dependency="SmsYellowVisible"
                 android:inputType="text"
                 android:key="sms_numero10"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_name2"
-                android:dependency="SmsYellowVisible" />
+                android:title="@string/pref_title_display_name2" />
             <EditTextPreference
                 android:defaultValue="ALLE 10"
+                android:dependency="SmsYellowVisible"
                 android:inputType="text"
                 android:key="tenmintextotsikko"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Näppäimessä näkyvä teksti"
-                android:dependency="SmsYellowVisible" />
+                android:title="Näppäimessä näkyvä teksti" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_txt10"
+                android:dependency="SmsYellowVisible"
                 android:inputType="text"
                 android:key="tenmintxt"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_tenmintxt"
-                android:dependency="SmsYellowVisible"/>
+                android:title="@string/pref_title_display_tenmintxt" />
         </PreferenceScreen>
         <PreferenceScreen
-            android:title="SMS PUNAINEN"
+            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:persistent="false"
-            android:icon="@drawable/ic_keyboard_arrow_right_white_24dp">
-            <PreferenceCategory
-                android:title="SMS Punainen asetukset" />
+            android:title="SMS PUNAINEN">
+            <PreferenceCategory android:title="SMS Punainen asetukset" />
             <SwitchPreference
-                android:key="SmsRedVisible"
-                android:title="SMS Punainen"
                 android:defaultValue="true"
-                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta." />
+                android:key="SmsRedVisible"
+                android:summary="Voit ottaa viestinäppäimen pois käytöstä. Painike piilotetaan myös hälytys sivulta."
+                android:title="SMS Punainen" />
             <Preference
-                android:summary="Sms ilmoitusnumero voi olla puhelinnumero, pienellä kirjoitettuna whatsapp tai valitse"
+                android:dependency="SmsRedVisible"
                 android:selectable="false"
-                android:dependency="SmsRedVisible"/>
+                android:summary="Sms ilmoitusnumero voi olla puhelinnumero, pienellä kirjoitettuna whatsapp tai valitse" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
+                android:dependency="SmsRedVisible"
                 android:inputType="text"
                 android:key="sms_numero11"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_name2"
-                android:dependency="SmsRedVisible"/>
+                android:title="@string/pref_title_display_name2" />
             <EditTextPreference
                 android:defaultValue="YLI 10"
+                android:dependency="SmsRedVisible"
                 android:inputType="text"
                 android:key="tenplusmintextotsikko"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Näppäimessä näkyvä teksti"
-                android:dependency="SmsRedVisible"/>
+                android:title="Näppäimessä näkyvä teksti" />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_txt10plus"
+                android:dependency="SmsRedVisible"
                 android:inputType="text"
                 android:key="tenplusmintxt"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="@string/pref_title_display_tenplusmintxt"
-                android:dependency="SmsRedVisible"/>
+                android:title="@string/pref_title_display_tenplusmintxt" />
         </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Muut asetukset"
-        android:key="pref_key_numerot">
-       <SwitchPreference
-            android:key="AlarmCounter"
-            android:title="Hälytyskello"
+        android:key="pref_key_numerot"
+        android:title="Muut asetukset">
+        <SwitchPreference
             android:defaultValue="false"
-            android:summary="Näyttää hälytys sivulla ajan mikä on kulunut hälytyksestä." />
+            android:key="AlarmCounter"
+            android:summary="Näyttää hälytys sivulla ajan mikä on kulunut hälytyksestä."
+            android:title="Hälytyskello" />
         <EditTextPreference
-            android:title="Hälytyskellon aika"
-            android:key="AlarmCounterTime"
             android:defaultValue="20"
-            android:summary="Aseta aika minuutteina." />
+            android:key="AlarmCounterTime"
+            android:summary="Aseta aika minuutteina."
+            android:title="Hälytyskellon aika" />
 
     </PreferenceCategory>
 

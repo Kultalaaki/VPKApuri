@@ -155,7 +155,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     //Oman menun testailu
 
 
-
     /**
      * {@inheritDoc}
      */
@@ -223,11 +222,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto8"));
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto9"));
             bindPreferenceSummaryToValue(findPreference("halyvastaanotto10"));
-            bindPreferenceSummaryToValue(findPreference("avainsana1"));
-            bindPreferenceSummaryToValue(findPreference("avainsana2"));
-            bindPreferenceSummaryToValue(findPreference("avainsana3"));
-            bindPreferenceSummaryToValue(findPreference("avainsana4"));
-            bindPreferenceSummaryToValue(findPreference("avainsana5"));
+            bindPreferenceSummaryToValue(findPreference("unit1"));
+            bindPreferenceSummaryToValue(findPreference("unit2"));
+            bindPreferenceSummaryToValue(findPreference("unit3"));
+            bindPreferenceSummaryToValue(findPreference("unit4"));
+            bindPreferenceSummaryToValue(findPreference("unit5"));
+            bindPreferenceSummaryToValue(findPreference("unit6"));
+            bindPreferenceSummaryToValue(findPreference("unit7"));
+            bindPreferenceSummaryToValue(findPreference("unit8"));
+            bindPreferenceSummaryToValue(findPreference("unit9"));
+            bindPreferenceSummaryToValue(findPreference("unit10"));
             bindPreferenceSummaryToValue(findPreference("AlarmCounterTime"));
 
             /*
@@ -253,7 +257,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });*/
         }
-
 
 
         @Override
@@ -286,13 +289,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             //Do Not Disturb allowed if menu doesn't open
             Preference pref = getPreferenceManager().findPreference("DoNotDisturb");
-            if(pref != null) {
+            if (pref != null) {
                 pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         NotificationManager notificationManager =
                                 (NotificationManager) getActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        if(notificationManager != null) {
+                        if (notificationManager != null) {
                             if (!notificationManager.isNotificationPolicyAccessGranted()) {
                                 Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
                                 startActivity(intent);
@@ -325,18 +328,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         }
 
-        public long[] genVibratorPattern( float intensity, long duration )
-        {
-            float dutyCycle = Math.abs( ( intensity * 2.0f ) - 1.0f );
-            long hWidth = (long) ( dutyCycle * ( duration - 1 ) ) + 1;
+        public long[] genVibratorPattern(float intensity, long duration) {
+            float dutyCycle = Math.abs((intensity * 2.0f) - 1.0f);
+            long hWidth = (long) (dutyCycle * (duration - 1)) + 1;
             long lWidth = dutyCycle == 1.0f ? 0 : 1;
 
-            int pulseCount = (int) ( 2.0f * ( (float) duration / (float) ( hWidth + lWidth ) ) );
-            long[] pattern = new long[ pulseCount ];
+            int pulseCount = (int) (2.0f * ((float) duration / (float) (hWidth + lWidth)));
+            long[] pattern = new long[pulseCount];
 
-            for( int i = 0; i < pulseCount; i++ )
-            {
-                pattern[i] = intensity < 0.5f ? ( i % 2 == 0 ? hWidth : lWidth ) : ( i % 2 == 0 ? lWidth : hWidth );
+            for (int i = 0; i < pulseCount; i++) {
+                pattern[i] = intensity < 0.5f ? (i % 2 == 0 ? hWidth : lWidth) : (i % 2 == 0 ? lWidth : hWidth);
             }
 
             return pattern;
@@ -348,34 +349,34 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // Set seekbar summary :
             //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
             //int rad = sharedPreferences.getInt("SEEKBAR_VALUE", 50);
-            if(key.equals("vibrate_pattern")) {
+            if (key.equals("vibrate_pattern")) {
 
                 ListPreference vibratePattern = (ListPreference) findPreference("vibrate_pattern");
-                if(vibratePattern != null) {
+                if (vibratePattern != null) {
                     //CharSequence vibrateText = vibratePattern.getEntry();
                     //String vibrateValue = vibratePattern.getValue();
                     int vibrateValue = Integer.parseInt(vibratePattern.getValue());
                     long[] pattern = new long[]{};
                     int[] amplitude = new int[]{};
 
-                    if(vibrateValue == 0) {
+                    if (vibrateValue == 0) {
                         pattern = Constants.PULSE_PATTERN;
                         amplitude = Constants.PULSE_AMPLITUDE;
                     } else if (vibrateValue == 1) {
                         pattern = Constants.HURRY_PATTERN;
                         amplitude = Constants.HURRY_AMPLITUDE;
-                    } else if(vibrateValue == 2) {
+                    } else if (vibrateValue == 2) {
                         pattern = Constants.SLOW_PATTERN;
                         amplitude = Constants.SLOW_AMPLITUDE;
-                    } else if(vibrateValue == 3) {
+                    } else if (vibrateValue == 3) {
                         pattern = Constants.SOS_PATTERN;
                         amplitude = Constants.SOS_AMPLITUDE;
-                    } else if(vibrateValue == 4) {
+                    } else if (vibrateValue == 4) {
                         pattern = Constants.VIRVE_PATTERN;
                         amplitude = Constants.VIRVE_AMPLITUDE;
                     }
-                    if(viber != null && viber.hasVibrator()) {
-                        if(viber.hasAmplitudeControl()) {
+                    if (viber != null && viber.hasVibrator()) {
+                        if (viber.hasAmplitudeControl()) {
                             viber.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
                         } else {
                             viber.vibrate(VibrationEffect.createWaveform(pattern, -1));
@@ -384,7 +385,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             }
             Activity activity = getActivity();
-            if(activity != null) {
+            if (activity != null) {
                 int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt("SEEKBAR_VALUE", 50);
                 _seekBarPref.setSummary(this.getString(R.string.settings_summary).replace("$1", "" + radius));
             }
@@ -419,7 +420,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             //Battery optimization
             Preference prefi = getPreferenceManager().findPreference("batteryOptimization");
-            if(prefi != null) {
+            if (prefi != null) {
                 prefi.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
@@ -433,7 +434,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             //Opening app from background
             Preference prefOpenWindow = getPreferenceManager().findPreference("windowOperation");
-            if(prefOpenWindow != null) {
+            if (prefOpenWindow != null) {
                 prefOpenWindow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
@@ -452,7 +453,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
 
             Preference prefTietosuoja = getPreferenceManager().findPreference("tietosuoja");
-            if(prefTietosuoja != null) {
+            if (prefTietosuoja != null) {
                 prefTietosuoja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
@@ -466,8 +467,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 });
             }
 
-            Preference prefKayttoehdot= getPreferenceManager().findPreference("kayttoehdot");
-            if(prefKayttoehdot != null) {
+            Preference prefKayttoehdot = getPreferenceManager().findPreference("kayttoehdot");
+            if (prefKayttoehdot != null) {
                 prefKayttoehdot.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
@@ -481,8 +482,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 });
             }
 
-            Preference prefFacebook= getPreferenceManager().findPreference("facebook");
-            if(prefFacebook != null) {
+            Preference prefFacebook = getPreferenceManager().findPreference("facebook");
+            if (prefFacebook != null) {
                 prefFacebook.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
@@ -512,7 +513,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             //Sovelluksen luvat
             Preference prefa = getPreferenceManager().findPreference("luvatApuri");
-            if(prefa != null) {
+            if (prefa != null) {
                 prefa.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
@@ -529,11 +530,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             //Sovelluksen luvat SMS hälytyksiä varten
             Preference prefsms = getPreferenceManager().findPreference("luvatSMS");
-            if(prefsms != null) {
+            if (prefsms != null) {
                 prefsms.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        if(!arePermissionsEnabled()){
+                        if (!arePermissionsEnabled()) {
                             // permissions granted, continue flow normally
                             requestMultiplePermissions();
                         }//else{
@@ -553,15 +554,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         }
 
-        private boolean arePermissionsEnabled(){
-            for(String permission : permissionsSms){
-                if(ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED)
+        private boolean arePermissionsEnabled() {
+            for (String permission : permissionsSms) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED)
                     return false;
             }
             return true;
         }
 
-        private void requestMultiplePermissions(){
+        private void requestMultiplePermissions() {
             List<String> remainingPermissions = new ArrayList<>();
             for (String permission : permissionsSms) {
                 if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
@@ -577,10 +578,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                                @NonNull int[] grantResults) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if(requestCode == 101){
-                for(int i=0;i<grantResults.length;i++){
-                    if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
-                        if(shouldShowRequestPermissionRationale(permissions[i])){
+            if (requestCode == 101) {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        if (shouldShowRequestPermissionRationale(permissions[i])) {
                             new AlertDialog.Builder(getActivity())
                                     .setMessage("Annoitko tarvittavat luvat?")
                                     .setPositiveButton("Näytä uudestaan", new DialogInterface.OnClickListener() {
@@ -1080,7 +1081,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("optional4_50"));
             bindPreferenceSummaryToValue(findPreference("optional5_50"));
         }
-
 
 
         @Override

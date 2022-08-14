@@ -22,8 +22,6 @@ import java.io.IOException;
 
 public class AlarmMediaPlayer {
 
-    private AlarmMediaPlayer alarmMediaPlayer = null;
-
     public MediaPlayer mediaPlayer;
 
     private final Context context;
@@ -41,19 +39,10 @@ public class AlarmMediaPlayer {
     private VibrateController vibrateController;
 
 
-    private AlarmMediaPlayer(Context context, SharedPreferences preferences, Uri uri) {
+    public AlarmMediaPlayer(Context context, SharedPreferences preferences, Uri uri) {
         this.context = context;
         this.preferences = preferences;
         this.uri = uri;
-    }
-
-    public AlarmMediaPlayer getInstance(Context context, SharedPreferences preferences, Uri uri) {
-        if (alarmMediaPlayer == null) {
-            alarmMediaPlayer = new AlarmMediaPlayer(context, preferences, uri);
-            return alarmMediaPlayer;
-        }
-
-        return alarmMediaPlayer;
     }
 
     public boolean isDoNotDisturbAllowed() {
@@ -102,9 +91,10 @@ public class AlarmMediaPlayer {
                     } else if (i == AudioManager.AUDIOFOCUS_GAIN) {
                         // Your app has been granted audio focus again
                         // Raise volume to normal, restart playback if necessary
-                        // Todo: if can't make this class singleton like, delete this portion
-                        // Problem is that sometimes Android system can call this after alarm is
-                        // long gone and start media playing again.
+
+                        // Problem: sometimes Android system calls this after alarm is
+                        // long gone and media starts playing again.
+                        // Wait for user experience from this. If no complaints, then leave it be.
                         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmSoundSettingsManager.getAlarmSoundVolume(), 0);
                         if (audioFocusDucked) {
                             mediaPlayer.start();

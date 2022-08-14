@@ -32,4 +32,9 @@ public class Constants {
      */
     public static int ALARM_NOTIFICATION_ID = 264981;
     public static int NOTIFICATION_ID = 15245;
+
+    /**
+     * Text to speech
+     */
+    public static String UTTERANCE_ID_ALARM = "VPK Apuri alarm speaker";
 }

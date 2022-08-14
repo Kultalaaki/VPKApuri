@@ -236,7 +236,7 @@ public class SMSBackgroundService extends Service {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.insert(new FireAlarm(alarm.getAlarmID(), alarm.getUrgencyClass(),
                 alarm.getMessage(), alarm.getAddress(), "", "",
-                alarm.getTimeStamp(), alarm.getSender(), "", "", ""));
+                alarm.getTimeStamp(), alarm.getSender(), alarm.getUnits(), "", ""));
     }
 
     /**
@@ -293,7 +293,7 @@ public class SMSBackgroundService extends Service {
     private void playAlarmSound(String alarmSound) {
         // Make alarm go boom
         Uri uri = Uri.parse(alarmSound);
-        alarmMediaPlayer = alarmMediaPlayer.getInstance(this, preferences, uri);
+        alarmMediaPlayer = new AlarmMediaPlayer(this, preferences, uri);
         if (alarmMediaPlayer.mediaPlayer != null && alarmMediaPlayer.mediaPlayer.isPlaying()) {
             alarmMediaPlayer.stopAlarmMedia();
         }
