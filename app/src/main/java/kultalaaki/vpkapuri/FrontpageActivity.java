@@ -23,7 +23,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -56,6 +55,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Objects;
 
 import kultalaaki.vpkapuri.Fragments.AffirmationFragment;
 import kultalaaki.vpkapuri.Fragments.ArchiveFragment;
@@ -67,6 +67,7 @@ import kultalaaki.vpkapuri.Fragments.SaveToArchiveFragment;
 import kultalaaki.vpkapuri.Fragments.SetTimerFragment;
 import kultalaaki.vpkapuri.Fragments.TestSettingsFragment;
 import kultalaaki.vpkapuri.Fragments.TimerFragment;
+import kultalaaki.vpkapuri.util.Constants;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
@@ -82,7 +83,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     String emailSubject;
     DBTimer dbTimer;
     SharedPreferences preferences;
-    boolean ericaEtusivu, analytics, asemataulu;
+    boolean analytics, asemataulu;
     SoundControls soundControls;
     FragmentManager fragmentManager;
 
@@ -114,8 +115,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         // Setting Firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        FirebaseCrashlytics mFirebaseCrashlytics = FirebaseCrashlytics.getInstance();
-        mFirebaseCrashlytics.setCrashlyticsCollectionEnabled(analytics);
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(analytics);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -166,20 +166,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                         "Peruuta",
                                         "Kyllä",
                                         "saveDatabase");
-                                //saveFile();
-                                /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    askPermissionWriteExternalStorages();
-                                } else {
-                                    showDialog(
-                                            "Tietokannassa olevat hälytykset tallennetaan puhelimen muistiin nimellä: Hälytykset VPK Apuri.",
-                                            "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    backupDatabase();
-                                                }
-                                            });
-                                }*/
                                 return true;
                             case R.id.tyhjennatietokanta:
                                 showDialog(
@@ -242,15 +228,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadLegalFragment() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         AffirmationFragment affirmationFragment = new AffirmationFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.etusivuContainer, affirmationFragment, "etusivuLegal").commit();
     }
 
     public void loadArkistoFragment() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchiveFragment archiveFragment = new ArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -258,18 +241,13 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadSettingsFragment() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FrontpageActivity.this);
-            Intent intent = new Intent(FrontpageActivity.this, SettingsActivity.class);
-            startActivity(intent, options.toBundle());
-        } else {
-            Intent intent = new Intent(FrontpageActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        }
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(FrontpageActivity.this);
+        Intent intent = new Intent(FrontpageActivity.this, SettingsActivity.class);
+        startActivity(intent, options.toBundle());
+
     }
 
     public void loadOhjeetFragment() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         GuidelineFragment guidelineFragment = new GuidelineFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -281,35 +259,27 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadEtusivuFragment() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.add(R.id.etusivuContainer, frontpageFragment, "etusivuNavigation").commit();
     }
 
     public void loadEtusivuClearingBackstack() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.replace(R.id.etusivuContainer, frontpageFragment, "etusivuNavigation").commit();
     }
 
     public void loadEtusivuFromFragment() {
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(analytics);
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.replace(R.id.etusivuContainer, frontpageFragment, "etusivuNavigation");
-        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
     public void loadTallennaArkistoonFragment() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         SaveToArchiveFragment saveToArchiveFragment = new SaveToArchiveFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -328,7 +298,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void loadHalytysTietokannastaFragment(FireAlarm fireAlarm) {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         ArchivedAlarmFragment archivedAlarmFragment = ArchivedAlarmFragment.newInstance(fireAlarm);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -340,25 +309,20 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     public void openSetTimerNewInstance(String primaryKey) {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = SetTimerFragment.newInstance(primaryKey);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
     }
 
     public void openSetTimer() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         SetTimerFragment setTimerFragment = new SetTimerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.etusivuContainer, setTimerFragment, "setTimerFragment").commit();
     }
 
     public void startTimerActivity() {
-        //FragmentManager fragmentManager = this.getSupportFragmentManager();
         TimerFragment timerFragment = new TimerFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -368,7 +332,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     public long saveTimerToDB(String name, String startTime, String stopTime, String ma, String ti, String ke, String to,
                               String pe, String la, String su, String selector, String isiton) {
         dbTimer = new DBTimer(this);
-        //Toast.makeText(getApplicationContext(), "melkein " + name + startTime + stopTime + ma + ti+ke+to+pe+la+su+selector, Toast.LENGTH_LONG).show();
         long tallennettu = dbTimer.insertData(name, startTime, stopTime,
                 ma, ti, ke, to, pe, la, su, selector, isiton);
         if (tallennettu != -1) {
@@ -392,53 +355,60 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     public void createChannels() {
 
         //Ilmoituskanava hälytyksille
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel halyChannel = new NotificationChannel("HALYTYS", "HÄLYTYS", importance);
-            halyChannel.setDescription("Tämän kanavan ilmoitukset ovat hälytyksiä varten.");
-            halyChannel.enableVibration(false);
-            halyChannel.setSound(null, null);
-            NotificationManager notificationManager = (NotificationManager) getSystemService(
-                    NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(halyChannel);
-            }
+
+        // Create the NotificationChannel
+        int importanceHigh = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel alarmChannel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_ALARM, Constants.NOTIFICATION_CHANNEL_ALARM, importanceHigh);
+        alarmChannel.setDescription("Tämän kanavan ilmoitukset ovat hälytyksiä varten.");
+        alarmChannel.enableVibration(false);
+        alarmChannel.setSound(null, null);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(alarmChannel);
         }
+
 
         //Ilmoituskanava kun hälytykset on hiljennetty
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel ilmChannel = new NotificationChannel("HILJENNYS", "HILJENNYS", importance);
-            ilmChannel.setDescription("Tämä ilmoituskanava ilmoittaa kun sovelluksesta on hälytykset hiljennetty");
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            ilmChannel.setSound(null, null);
-            ilmChannel.enableVibration(false);
-            NotificationManager notificationManager = (NotificationManager) getSystemService(
-                    NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(ilmChannel);
-            }
+
+        // Create the NotificationChannel
+        int importanceDefault = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel silentChannel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_SILENCE, Constants.NOTIFICATION_CHANNEL_SILENCE, importanceDefault);
+        silentChannel.setDescription("Tämä ilmoituskanava ilmoittaa kun sovelluksesta on hälytykset hiljennetty");
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        silentChannel.setSound(null, null);
+        silentChannel.enableVibration(false);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(silentChannel);
         }
 
+
         //Ilmoituskanava aktiiviselle servicelle
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel mChannel = new NotificationChannel("ACTIVE SERVICE", "ACTIVE SERVICE", importance);
-            mChannel.setDescription("Tämä ilmoituskanava on käytössä kun sovelluksen taustapalvelu on käynnissä osoitteen hakua ja hälytysäänen soittamista varten.");
-            mChannel.enableVibration(false);
-            mChannel.setSound(null, null);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = (NotificationManager) getSystemService(
-                    NOTIFICATION_SERVICE);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(mChannel);
-            }
+
+        // Create the NotificationChannel
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel serviceChannel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_SERVICE, Constants.NOTIFICATION_CHANNEL_SERVICE, importance);
+        serviceChannel.setDescription("Tämä ilmoituskanava on käytössä kun sovelluksen taustapalvelu on käynnissä osoitteen hakua ja hälytysäänen soittamista varten.");
+        serviceChannel.enableVibration(false);
+        serviceChannel.setSound(null, null);
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(serviceChannel);
         }
+
+        // Create the NotificationChannel
+        NotificationChannel mChannel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_INFORMATION, Constants.NOTIFICATION_CHANNEL_INFORMATION, NotificationManager.IMPORTANCE_DEFAULT);
+        mChannel.setDescription("Tämä ilmoituskanava on käytössä kun sovelluus ilmoittaa jostain virheestä.");
+        mChannel.enableVibration(false);
+        mChannel.setSound(null, null);
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
     }
 
     @Override
@@ -659,7 +629,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
 
         dialog.show();
-        dialog.getWindow().setBackgroundDrawable(null);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(null);
     }
 
     public void showToast(String headText, String toastText) {
@@ -701,7 +671,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         private static final String LAST_VERSION_CODE_KEY = "last_version_code";
 
-        private Activity mActivity;
+        private final Activity mActivity;
 
         // Constructor memorize the calling Activity ("context")
         private WhatsNewScreen(Activity context) {

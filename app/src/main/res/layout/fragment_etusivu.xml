@@ -46,8 +46,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true"
-                tools:targetApi="lollipop">
+                android:focusable="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -73,7 +72,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
-                        android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_halytys"
                         android:textColor="@color/secondaryColor"
@@ -106,8 +104,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true"
-                tools:targetApi="lollipop">
+                android:focusable="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -130,7 +127,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
-                        android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_arkisto"
                         android:textColor="@color/secondaryLightColor"
@@ -163,8 +159,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true"
-                tools:targetApi="lollipop">
+                android:focusable="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -187,7 +182,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
-                        android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_ohjeet"
                         android:textColor="@color/secondaryLightColor"
@@ -222,8 +216,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@animator/lift_on_touch"
                 android:clickable="true"
-                android:focusable="true"
-                tools:targetApi="lollipop">
+                android:focusable="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -247,7 +240,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primaryLightColor"
                         android:paddingStart="8dp"
-                        android:paddingLeft="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/action_asetukset"
                         android:textColor="@color/secondaryLightColor"

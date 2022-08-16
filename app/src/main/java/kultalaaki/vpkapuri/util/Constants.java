@@ -28,13 +28,25 @@ public class Constants {
     public static int[] VIBRATION_NOTIFICATION_AMPLITUDE = new int[]{0, 150, 100, 150, 0, 150, 100, 150};
 
     /**
-     * Notification ids
+     * Notifications
      */
     public static int ALARM_NOTIFICATION_ID = 264981;
     public static int NOTIFICATION_ID = 15245;
+    public static int INFORMATION_NOTIFICATION_ID = 7648;
+    public static String NOTIFICATION_CHANNEL_INFORMATION = "Information channel";
+    public static String NOTIFICATION_CHANNEL_ALARM = "HÄLYTYS";
+    public static String NOTIFICATION_CHANNEL_SILENCE = "HILJENNYS";
+    public static String NOTIFICATION_CHANNEL_SERVICE = "ACTIVE SERVICE";
 
     /**
      * Text to speech
      */
     public static String UTTERANCE_ID_ALARM = "VPK Apuri alarm speaker";
+
+    /**
+     * Sound profiles
+     */
+    public static int SOUND_PROFILE_NORMAL = 1;
+    public static int SOUND_PROFILE_SILENT = 2;
+    public static int SOUND_PROFILE_NIGHT_MODE = 3;
 }

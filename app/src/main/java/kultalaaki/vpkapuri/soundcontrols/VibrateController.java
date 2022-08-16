@@ -52,9 +52,9 @@ public class VibrateController {
             pattern = Constants.VIBRATION_NOTIFICATION_PATTERN;
             amplitude = Constants.VIBRATION_NOTIFICATION_AMPLITUDE;
             if (vibratorHasAmplitudeControl()) {
-                vibrator.vibrate(VibrationEffect.createWaveform(pattern, amplitude, 3));
+                vibrator.vibrate(VibrationEffect.createWaveform(pattern, amplitude, -1));
             } else {
-                vibrator.vibrate(VibrationEffect.createWaveform(pattern, 3));
+                vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
             }
         }
     }

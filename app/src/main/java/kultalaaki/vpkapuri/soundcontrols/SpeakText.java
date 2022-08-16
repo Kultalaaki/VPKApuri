@@ -12,6 +12,8 @@ import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import java.util.Locale;
 
 import kultalaaki.vpkapuri.util.Constants;
@@ -51,6 +53,7 @@ public class SpeakText {
                 int result = textToSpeech.setLanguage(Locale.getDefault());
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                     // Todo: inform user. Language is not supported.
+                    FirebaseCrashlytics.getInstance().log("SpeakText.java: Language not supported.");
                 }
                 volume = preferences.getInt("tekstiPuheeksiVol", -1);
                 alarmSoundSettingsManager = new AlarmSoundSettingsManager(context, preferences);
@@ -66,6 +69,7 @@ public class SpeakText {
                 Log.i("VPK Apuri", "init completed");
             } else {
                 // Todo: inform user. Error. Could not initialize text to speech.
+                FirebaseCrashlytics.getInstance().log("SpeakText.java: Text to speech initialization error.");
             }
         });
     }

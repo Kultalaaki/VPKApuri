@@ -17,6 +17,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import java.io.IOException;
 
 
@@ -53,7 +55,7 @@ public class AlarmMediaPlayer {
             // inform user that do not disturb is not allowed and that is reason why it is not working
             return notificationManager.isNotificationPolicyAccessGranted();
         }
-        // Todo could not check do not disturb permission. Log this error to firebase
+        FirebaseCrashlytics.getInstance().log("AlarmMediaPlayer.java: Could not check do not disturb permission");
         return false;
     }
 

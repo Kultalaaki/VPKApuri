@@ -21,6 +21,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.preference.PreferenceManager;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import kultalaaki.vpkapuri.alarmdetection.AlarmMessage;
 import kultalaaki.vpkapuri.alarmdetection.AlarmNumberDetector;
 import kultalaaki.vpkapuri.alarmdetection.NumberLists;
@@ -31,6 +33,7 @@ import kultalaaki.vpkapuri.soundcontrols.AlarmMediaPlayer;
 import kultalaaki.vpkapuri.soundcontrols.VibrateController;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.FormatNumber;
+import kultalaaki.vpkapuri.util.MyNotifications;
 
 /**
  * Background service for handling incoming messages
@@ -76,9 +79,6 @@ public class SMSBackgroundService extends Service {
         // Create SMSMessage object from intent
         formMessage(intent);
 
-        // Create notification to make sure this service doesn't get cancelled
-        notificationAlarmMessage();
-
         // Check starting id of this service and set timer to stop this service
         startIDChecker(startId);
 
@@ -91,12 +91,12 @@ public class SMSBackgroundService extends Service {
                 stopSelf();
                 break;
             case 1:
-                // Message from alarm provider. Create notification.
-                notificationAlarmMessage();
-
                 // Create Alarm object and use formAlarm() method to create it ready.
                 RescueAlarm rescueAlarm = new RescueAlarm(this, message);
                 saveAlarm(rescueAlarm);
+
+                // Message from alarm provider. Create notification.
+                notificationAlarmMessage(rescueAlarm.getAlarmID(), rescueAlarm.getMessage());
 
                 String alarmSound = rescueAlarm.getAlarmSound();
                 playAlarmSound(alarmSound);
@@ -113,6 +113,9 @@ public class SMSBackgroundService extends Service {
                 if (preferences.getBoolean("boolean_vapepa_sound", false)) {
                     vapepaAlarm.setAlarmSound("ringtone_vapepa");
                 }
+
+                notificationAlarmMessage("Vapepa", message.getMessage());
+
                 saveAlarm(vapepaAlarm);
 
                 String vapepaAlarmSound = vapepaAlarm.getAlarmSound();
@@ -175,7 +178,7 @@ public class SMSBackgroundService extends Service {
      * Button in notification "POISTA ILMOITUS" is meant for clearing notification
      * and closing service.
      */
-    public void notificationAlarmMessage() {
+    public void notificationAlarmMessage(String title, String content) {
         // This intent is responsible for opening AlarmActivity
         Intent intentsms = new Intent(getApplicationContext(), AlarmActivity.class);
         intentsms.setAction(Intent.ACTION_SEND);
@@ -193,8 +196,8 @@ public class SMSBackgroundService extends Service {
         // Foreground notification to show user and keeping service alive
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(SMSBackgroundService.this, "HALYTYS")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getString(R.string.alarm))
-                .setContentText(message.getMessage())
+                .setContentTitle(title)
+                .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setContentIntent(pendingIntentWithBackStack)
@@ -218,8 +221,7 @@ public class SMSBackgroundService extends Service {
             try {
                 alarmMediaPlayer.stopAlarmMedia();
             } catch (Exception e) {
-                // Todo: add this error to firebase
-                Log.e("VPK Apuri", "Could not stop alarm media player. Error: " + e);
+                FirebaseCrashlytics.getInstance().log("SMSBackgroundService.java: Could not stop alarm media player." + e);
             }
             stopSelf(previousStartId);
         }
@@ -300,7 +302,8 @@ public class SMSBackgroundService extends Service {
         if (alarmMediaPlayer.isDoNotDisturbAllowed()) {
             alarmMediaPlayer.audioFocusRequest();
         } else {
-            // Todo: Do Not Disturb not allowed, inform user the reason. Maybe with notification?
+            MyNotifications notification = new MyNotifications(this);
+            notification.showInformationNotification("Do Not Disturb ei ole sallittu. Anna lupa sovelluksen asetuksissa.");
             // Use vibration notification
             VibrateController vibrateController = new VibrateController(this, preferences);
             vibrateController.vibrateNotification();
