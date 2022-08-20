@@ -449,7 +449,7 @@
     - Soita ja hallinnoi puheluita lupaa tarvitaan hälytys sivun soita painikkeen toimintaan ja jos hälytykset tulevat puheluilla.\n
     - Mediatiedostojen käyttämistä tarvitaan hälytysäänen asettamista varten.\n
     - Tekstiviestien lähettäminen ja vastaanottaminen tarvitaan sms viesteillä tuleviin hälytyksiin ja sms pikaviestien lähettämiseen.</string>
-    <string name="testihalytysEricaEtuosa">TESTIHÄLYTYS; 554; C;</string>
+    <string name="testihalytysEricaEtuosa">TESTIHÄLYTYS; 402; B;</string>
     <string name="testihalytysEricaTakaosa">; Satakunnankatu 3–5, Pori; Tämä on sovelluksen luoma testihälytysviesti soittoäänen ja ilmoitusten toiminnan testaamiseksi.</string>
     <string name="alkusanat">Alkusanat</string>
     <string name="h_lytys">Hälytys</string>

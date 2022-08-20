@@ -13,29 +13,230 @@
     android:background="@color/primaryLightColor">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardView_alarm"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_20"
+        app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/alarm_info_background">
+
+            <TextView
+                android:id="@+id/alarm_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/urgency_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/alarm_id"
+                app:layout_constraintStart_toStartOf="@+id/alarm_id"
+                app:layout_constraintTop_toBottomOf="@+id/alarm_id" />
+
+            <TextView
+                android:id="@+id/text_clarification_part_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintBottom_toBottomOf="@+id/alarm_id"
+                app:layout_constraintStart_toEndOf="@+id/alarm_id"
+                app:layout_constraintTop_toTopOf="@+id/alarm_id" />
+
+            <TextView
+                android:id="@+id/text_clarification_part_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toEndOf="@+id/alarm_id"
+                app:layout_constraintTop_toBottomOf="@+id/text_clarification_part_1" />
+
+            <TextView
+                android:id="@+id/text_clarification_part_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toEndOf="@+id/alarm_id"
+                app:layout_constraintTop_toBottomOf="@+id/text_clarification_part_2" />
+
+            <TextView
+                android:id="@+id/text_clarification_part_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toEndOf="@+id/alarm_id"
+                app:layout_constraintTop_toBottomOf="@+id/text_clarification_part_3" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_units"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_20" />
+        app:layout_constraintTop_toBottomOf="@id/cardView_alarm">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/alarm_info_background">
+
+            <Button
+                android:id="@+id/unit1"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:padding="4dp"
+                android:text="RPI741"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/unit2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/unit2"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="RPI742"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/unit1"
+                app:layout_constraintEnd_toStartOf="@+id/unit3"
+                app:layout_constraintStart_toEndOf="@+id/unit1"
+                app:layout_constraintTop_toTopOf="@+id/unit1" />
+
+            <Button
+                android:id="@+id/unit3"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="RPI744"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/unit2"
+                app:layout_constraintEnd_toStartOf="@+id/unit4"
+                app:layout_constraintStart_toEndOf="@+id/unit2"
+                app:layout_constraintTop_toTopOf="@+id/unit2" />
+
+            <Button
+                android:id="@+id/unit4"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:padding="4dp"
+                android:text="RPI745"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/unit3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/unit3"
+                app:layout_constraintTop_toTopOf="@+id/unit3" />
+
+            <Button
+                android:id="@+id/unit5"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="RPI745"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/unit6"
+                app:layout_constraintStart_toStartOf="@+id/unit1"
+                app:layout_constraintTop_toBottomOf="@+id/unit1" />
+
+            <Button
+                android:id="@+id/unit6"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="RPI7415"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/unit5"
+                app:layout_constraintEnd_toStartOf="@+id/unit7"
+                app:layout_constraintStart_toEndOf="@+id/unit5"
+                app:layout_constraintTop_toTopOf="@+id/unit5" />
+
+            <Button
+                android:id="@+id/unit7"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="RPI762"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/unit6"
+                app:layout_constraintEnd_toStartOf="@+id/unit8"
+                app:layout_constraintStart_toEndOf="@+id/unit6"
+                app:layout_constraintTop_toTopOf="@+id/unit6" />
+
+            <Button
+                android:id="@+id/unit8"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="RPI761"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/unit7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/unit7"
+                app:layout_constraintTop_toTopOf="@+id/unit7" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:id="@+id/scrollView4"
@@ -57,6 +258,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:contentDescription="Sisältää hälytyksen viestin."
             android:inputType="none"
             android:paddingStart="16dp"
             android:paddingTop="16dp"

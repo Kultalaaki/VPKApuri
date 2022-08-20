@@ -55,7 +55,7 @@ public class AlarmIDs {
         rescueAlarmIDs.put("235", "ILMALIIKENNEVAARA: KESKISUURI");
         rescueAlarmIDs.put("236", "ILMALIIKENNEVAARA: SUURI");
         rescueAlarmIDs.put("271", "MAASTOLIIKENNEONNETTOMUUS");
-        rescueAlarmIDs.put("H351", "VARIKKO TAI ASEMAVALMIUS");
+        rescueAlarmIDs.put("H351", "VARIKKO-/ ASEMAVALMIUS");
         rescueAlarmIDs.put("H352", "VALMIUSSIIRTO");
         rescueAlarmIDs.put("401", "RAKENNUSPALO: PIENI");
         rescueAlarmIDs.put("402", "RAKENNUSPALO: KESKISUURI");

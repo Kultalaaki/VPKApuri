@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,9 +40,17 @@ import kultalaaki.vpkapuri.soundcontrols.SpeakText;
 
 public class AlarmFragment extends Fragment {
 
-    private TextView halytyksenviesti;
+    private TextView alarmMessage;
+
     private TextView halytyksentunnus;
     private TextView kiireellisyys;
+
+    private TextView alarmId;
+    private TextView urgencyClass;
+    private TextView textClarificationPart1, textClarificationPart2, textClarificationPart3, textClarificationPart4;
+
+    private Button unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8;
+
     private TextView units;
     private boolean previousAlarmOHTO = false, asemataulu;
     private SharedPreferences preferences;
@@ -102,7 +113,7 @@ public class AlarmFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.alarm_fragment_clear, parent, false);
+        return inflater.inflate(R.layout.fragment_alarm_cards, parent, false);
 
     }
 
@@ -115,10 +126,22 @@ public class AlarmFragment extends Fragment {
             fireAlarmViewModel.getLastEntry().observe(getViewLifecycleOwner(), fireAlarms -> {
                 if (!fireAlarms.isEmpty()) {
                     FireAlarm currentAlarm = fireAlarms.get(0);
-                    halytyksenviesti.setText(currentAlarm.getViesti());
-                    halytyksentunnus.setText(currentAlarm.getTunnus());
-                    kiireellisyys.setText(currentAlarm.getLuokka());
-                    units.setText(currentAlarm.getOptionalField3());
+                    String[] alarmSplitted = currentAlarm.getTunnus().split("([:/])+");
+                    alarmMessage.setText(currentAlarm.getViesti());
+
+                    try {
+                        alarmId.setText(alarmSplitted[0]);
+                        textClarificationPart1.setText(alarmSplitted[1].trim());
+                        textClarificationPart2.setText(alarmSplitted[2].trim());
+                        textClarificationPart3.setText(alarmSplitted[3].trim());
+                        textClarificationPart4.setText(alarmSplitted[4].trim());
+                    } catch (Exception e) {
+                        FirebaseCrashlytics.getInstance().log("Alarm fragment: Could not set all texts for alarm card.");
+                    }
+
+
+                    urgencyClass.setText(currentAlarm.getLuokka());
+                    //units.setText(currentAlarm.getOptionalField3());
                     toSpeech = currentAlarm.getTunnus() + " "
                             + currentAlarm.getLuokka() + " "
                             + currentAlarm.getOsoite() + " "
@@ -181,10 +204,14 @@ public class AlarmFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        halytyksentunnus = view.findViewById(R.id.halytyksenTunnus);
-        halytyksenviesti = view.findViewById(R.id.halytyksenViesti);
-        kiireellisyys = view.findViewById(R.id.kiireellisyys);
-        units = view.findViewById(R.id.units);
+        alarmId = view.findViewById(R.id.alarm_id);
+        alarmMessage = view.findViewById(R.id.halytyksenViesti);
+        urgencyClass = view.findViewById(R.id.urgency_class);
+        textClarificationPart1 = view.findViewById(R.id.text_clarification_part_1);
+        textClarificationPart2 = view.findViewById(R.id.text_clarification_part_2);
+        textClarificationPart3 = view.findViewById(R.id.text_clarification_part_3);
+        textClarificationPart4 = view.findViewById(R.id.text_clarification_part_4);
+        //units = view.findViewById(R.id.units);
 
         chronometer = view.findViewById(R.id.alarm_chronometer);
         if (!chronoInUse) {
