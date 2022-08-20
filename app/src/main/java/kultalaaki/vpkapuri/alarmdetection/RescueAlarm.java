@@ -114,6 +114,7 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
      * Time complexity of this method is O(n2). Replace with better solution.
      */
     public String getUnits() {
+        boolean unitsFound = false;
         ArrayList<String> units = new ArrayList<>();
         units.add(super.preferences.getString("unit1", null));
         units.add(super.preferences.getString("unit2", null));
@@ -129,15 +130,21 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
         StringBuilder result = new StringBuilder();
         for (String part : this.messageParts) {
             for (String unit : units) {
-                String partLower = part.toLowerCase();
-                String unitLower = unit.toLowerCase();
-                if (partLower.contains(unitLower)) {
-                    result.append(unit).append(" ");
+                if (part != null && unit != null) {
+                    String partLower = part.toLowerCase();
+                    String unitLower = unit.toLowerCase();
+                    if (partLower.contains(unitLower)) {
+                        result.append(unit).append(",");
+                        unitsFound = true;
+                    }
                 }
             }
         }
 
-        return result.toString();
+        if (unitsFound) {
+            return result.toString();
+        }
+        return "Ei löytynyt yksiköitä";
     }
 
     /**
