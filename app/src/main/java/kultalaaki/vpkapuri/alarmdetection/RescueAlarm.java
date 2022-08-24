@@ -111,10 +111,8 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
      * Look if message contains units that user has set in settings
      * return string containing only those units separated by comma
      * <p>
-     * Time complexity of this method is O(n2). Replace with better solution.
      */
     public String getUnits() {
-        boolean unitsFound = false;
         ArrayList<String> units = new ArrayList<>();
         units.add(super.preferences.getString("unit1", null));
         units.add(super.preferences.getString("unit2", null));
@@ -127,24 +125,36 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
         units.add(super.preferences.getString("unit9", null));
         units.add(super.preferences.getString("unit10", null));
 
-        StringBuilder result = new StringBuilder();
+        // Take message parts and find which part contains units
         for (String part : this.messageParts) {
             for (String unit : units) {
                 if (part != null && unit != null) {
                     String partLower = part.toLowerCase();
                     String unitLower = unit.toLowerCase();
                     if (partLower.contains(unitLower)) {
-                        result.append(unit).append(",");
-                        unitsFound = true;
+                        // This message part contains units
+                        // Take this part and units and compare which units are found
+                        return compareUnits(part, units);
                     }
                 }
             }
         }
 
-        if (unitsFound) {
-            return result.toString();
-        }
         return "Ei löytynyt yksiköitä";
+    }
+
+    private String compareUnits (String unitPart, ArrayList<String> units) {
+        ArrayList<String> foundUnits = new ArrayList<>();
+        String[] unitPartSplitted = unitPart.split(",");
+        for(String unit : units) {
+            for(String partUnit : unitPartSplitted) {
+                if(partUnit.trim().equals(unit.trim())) {
+                    foundUnits.add(unit.trim());
+                }
+            }
+        }
+
+        return String.join(", ", foundUnits);
     }
 
     /**

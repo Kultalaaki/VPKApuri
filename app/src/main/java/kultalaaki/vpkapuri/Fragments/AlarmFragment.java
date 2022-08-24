@@ -149,7 +149,7 @@ public class AlarmFragment extends Fragment {
 
                     for(int i = 0; i < units.length; i++) {
                         if(units[i] != null) {
-                            setUnitToButton(i, units[i]);
+                            setUnitToButton(i, units[i].trim());
                         }
                     }
 
