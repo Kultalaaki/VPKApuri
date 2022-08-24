@@ -26,21 +26,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/card_background_red"
+                android:background="@drawable/brushed_red"
                 android:scaleType="fitXY"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="1.0"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.497" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.497" />
 
             <TextView
                 android:id="@+id/alarm_id"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toBottomOf="@+id/alarm_id"
                 app:layout_constraintStart_toEndOf="@+id/alarm_id"
                 app:layout_constraintTop_toTopOf="@+id/alarm_id" />
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toEndOf="@+id/alarm_id"
                 app:layout_constraintTop_toBottomOf="@+id/text_clarification_part_1" />
 
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toEndOf="@+id/alarm_id"
                 app:layout_constraintTop_toBottomOf="@+id/text_clarification_part_2" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toEndOf="@+id/alarm_id"
                 app:layout_constraintTop_toBottomOf="@+id/text_clarification_part_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -126,7 +126,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/card_background_blue"
+                android:background="@drawable/brushed_blue"
                 android:scaleType="fitXY"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"

@@ -4,6 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/kulta/StudioProjects/VPKApuri/app/src/main/res/xml/pref_numbers_sms.xml" value="0.371875" />
+        <entry key="app/src/main/res/drawable/button_dialog_nok.xml" value="0.2395" />
+        <entry key="app/src/main/res/drawable/button_dialog_ok.xml" value="0.2395" />
+        <entry key="app/src/main/res/drawable/halytys_fragment_style.xml" value="0.2395" />
+        <entry key="app/src/main/res/drawable/ic_tokeva.xml" value="0.2395" />
+        <entry key="app/src/main/res/drawable/toast_custom_background.xml" value="0.2395" />
+        <entry key="app/src/main/res/drawable/widgetshape.xml" value="0.2395" />
         <entry key="app/src/main/res/layout-sw600dp/activity_halytys.xml" value="0.136328125" />
         <entry key="app/src/main/res/layout/activity_halytys.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/layout/alarm_fragment_clear.xml" value="0.328125" />
