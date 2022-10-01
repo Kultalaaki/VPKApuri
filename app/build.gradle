@@ -11,15 +11,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 26
-        targetSdkVersion 32
+        targetSdkVersion 33
         multiDexEnabled true
-        versionCode 110 // Update just before pushing update 109 is live
-        versionName "3.9" // Update just before pushing update 3.81 is live
+        versionCode 111 // Update just before pushing update 109 is live
+        versionName "3.9-beta" // Update just before pushing update 3.81 is live
     }
     buildTypes {
         release {
@@ -50,8 +50,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.12'  // Google Services plugin
-        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath 'com.google.gms:google-services:4.3.14'  // Google Services plugin
+        classpath 'com.android.tools.build:gradle:7.2.2'
     }
 }
 
@@ -62,7 +62,7 @@ repositories {
 
 dependencies {
     implementation 'androidx.test:monitor:1.5.0'
-    implementation 'androidx.media2:media2-player:1.1.3'
+    implementation 'androidx.media2:media2-player:1.2.1'
 
 
     // Core library
@@ -95,20 +95,20 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.0"
 
     implementation 'androidx.media:media:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
-    implementation 'androidx.room:room-runtime:2.4.2'
-    annotationProcessor 'androidx.room:room-compiler:2.4.2'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "androidx.multidex:multidex:2.0.1"
 
-    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "androidx.core:core-ktx:1.9.0"
 
     implementation 'com.google.android.material:material:1.6.1'
 

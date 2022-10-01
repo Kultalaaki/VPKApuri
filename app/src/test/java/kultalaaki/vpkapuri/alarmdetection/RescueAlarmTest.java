@@ -6,10 +6,7 @@
 
 package kultalaaki.vpkapuri.alarmdetection;
 
-/**
- * Tests will be written after i have completed the reworking of this app
- * Also adding roboelectric to this project
- */
+
 public class RescueAlarmTest {
 
     /*RescueAlarm rescueAlarm;

@@ -101,6 +101,7 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
                 case "B":
                 case "C":
                 case "D":
+                case "N":
                     return part;
             }
         }
@@ -143,12 +144,12 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
         return "Ei löytynyt yksiköitä";
     }
 
-    private String compareUnits (String unitPart, ArrayList<String> units) {
+    private String compareUnits(String unitPart, ArrayList<String> units) {
         ArrayList<String> foundUnits = new ArrayList<>();
         String[] unitPartSplitted = unitPart.split(",");
-        for(String unit : units) {
-            for(String partUnit : unitPartSplitted) {
-                if(partUnit.trim().equals(unit.trim())) {
+        for (String unit : units) {
+            for (String partUnit : unitPartSplitted) {
+                if (partUnit.trim().equals(unit.trim())) {
                     foundUnits.add(unit.trim());
                 }
             }

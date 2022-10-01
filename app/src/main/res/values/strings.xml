@@ -11,10 +11,22 @@
         <u><b>TÄRKEÄÄ!</b></u>\n
         Päivityksen jälkeen tärkeää tarkistaa hälytysääni ja äänenvoimakkuus.\n\n
 
-        <u><b>Versio 3.9\n\n</b></u>
+        <u><b>Versio 3.9-beta\n\n</b></u>
 
         Korjauksia sovelluksen kaatumisten vähentämiseksi.\n
-        Uusi logo\n
+        Mahdollisuus merkata yksiköt asetuksissa mitkä haluaa eroteltuina hälytyksen tullessa.\n
+        Asetuksien tarkistus sivu mistä näkee mitkä asetukset on kunnossa.\n
+        Teksti puheeksi muutoksia: luetaan hälytystunnus, tekstiselvennys ja merkatut yksiköt.\n\n
+        VPK hälytys numerot ja Vapepa hälytys numerot eroteltu omiksi asetuksissa.\n
+        Virheilmoituksia paranneltu, esim. jos Do Not Disturb lupa ei ole annettu hälytyksen tullessa tulee tästä
+        ylävalikkoon ilmoitus joka kertoo missä vika.\n\n
+
+        Uusi logo\n\n
+
+        Hälytysäänen korjauksia:\n
+        Kesken puhelun tuleva hälytys pelkkä värinä\n
+        Muutamia korjauksia miten hälytysäänet tulevat kun muita ääniä on puhelimessa käytössä\n\n
+
         Pieniä ulkoasun muutoksia\n\n
 
     </string>
@@ -22,10 +34,22 @@
     <string name="whatsnew">
         UUSIN VERSIO!\n\n
 
-        <u><b>Versio 3.9\n\n</b></u>
+        <u><b>Versio 3.9-beta\n\n</b></u>
 
         Korjauksia sovelluksen kaatumisten vähentämiseksi.\n
-        Uusi logo\n
+        Mahdollisuus merkata yksiköt asetuksissa mitkä haluaa eroteltuina hälytyksen tullessa.\n
+        Asetuksien tarkistus sivu mistä näkee mitkä asetukset on kunnossa.\n
+        Teksti puheeksi muutoksia: luetaan hälytystunnus, tekstiselvennys ja merkatut yksiköt.\n\n
+        VPK hälytys numerot ja Vapepa hälytys numerot eroteltu omiksi asetuksissa.\n
+        Virheilmoituksia paranneltu, esim. jos Do Not Disturb lupa ei ole annettu hälytyksen tullessa tulee tästä
+        ylävalikkoon ilmoitus joka kertoo missä vika.\n\n
+
+        Uusi logo\n\n
+
+        Hälytysäänen korjauksia:\n
+        Kesken puhelun tuleva hälytys pelkkä värinä\n
+        Muutamia korjauksia miten hälytysäänet tulevat kun muita ääniä on puhelimessa käytössä\n\n
+
         Pieniä ulkoasun muutoksia\n\n
 
         <u><b>Versio 3.81\n\n</b></u>

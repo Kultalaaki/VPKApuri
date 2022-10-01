@@ -16,31 +16,26 @@ public class NumberFormatterTest {
 
     @Test
     public void NumberFormatterGivesCorrectFormWhenNumberIsInternationallyFormatted() {
-        FormatNumber formatter = new FormatNumber();
-        assertEquals("0401234567", formatter.formatFinnishNumber("+358401234567"));
+        assertEquals("0401234567", FormatNumber.formatFinnishNumber("+358401234567"));
     }
 
     @Test
     public void NumberFormatterGivesCorrectFormWhenNumberIsNotInternationallyFormatted() {
-        FormatNumber formatter = new FormatNumber();
-        assertEquals("0401234567", formatter.formatFinnishNumber("0401234567"));
+        assertEquals("0401234567", FormatNumber.formatFinnishNumber("0401234567"));
     }
 
     @Test
     public void NumberIsNotNumberButStringOfSenderName() {
-        FormatNumber formatter = new FormatNumber();
-        assertEquals("SENDER", formatter.formatFinnishNumber("SENDER"));
+        assertEquals("SENDER", FormatNumber.formatFinnishNumber("SENDER"));
     }
 
     @Test
     public void numberIsNull() {
-        FormatNumber formatter = new FormatNumber();
-        assertEquals("Error", formatter.formatFinnishNumber(null));
+        assertEquals("Error", FormatNumber.formatFinnishNumber(null));
     }
 
     @Test
     public void numberIsEmpty() {
-        FormatNumber formatter = new FormatNumber();
-        assertEquals("Error", formatter.formatFinnishNumber(""));
+        assertEquals("Error", FormatNumber.formatFinnishNumber(""));
     }
 }
