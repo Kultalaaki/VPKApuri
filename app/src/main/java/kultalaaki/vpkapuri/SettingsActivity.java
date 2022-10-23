@@ -234,6 +234,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("unit10"));
             bindPreferenceSummaryToValue(findPreference("AlarmCounterTime"));
 
+            bindPreferenceSummaryToValue(findPreference("vapepanumber1"));
+            bindPreferenceSummaryToValue(findPreference("vapepanumber2"));
+            bindPreferenceSummaryToValue(findPreference("vapepanumber3"));
+            bindPreferenceSummaryToValue(findPreference("vapepanumber4"));
+            bindPreferenceSummaryToValue(findPreference("vapepanumber5"));
+
             /*
             Preference button = findPreference(getString(R.string.Aseta_numerot));
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
