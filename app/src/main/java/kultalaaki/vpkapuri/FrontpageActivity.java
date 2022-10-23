@@ -666,6 +666,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         showToast("Arkisto", "Arkisto tyhjennetty!");
     }
 
+
     private class WhatsNewScreen {
         private static final String LOG_TAG = "WhatsNewScreen";
 
@@ -689,7 +690,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 final long lastVersionCode = prefs.getLong(LAST_VERSION_CODE_KEY, 0);
 
                 // Kokeillaan versionCode == getLongVersionCode()
-                final int versionCode = BuildConfig.VERSION_CODE;
+                final int versionCode = packageInfo.versionCode;
                 if (versionCode != lastVersionCode) {
 
                     if (prefs.getBoolean("firstrun", true)) {

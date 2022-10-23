@@ -11,12 +11,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "kultalaaki.vpkapuri"
         minSdkVersion 26
-        targetSdkVersion 33
+        targetSdkVersion 32
         multiDexEnabled true
         versionCode 111 // Update just before pushing update 109 is live
         versionName "3.9-beta" // Update just before pushing update 3.81 is live
@@ -42,6 +42,7 @@ android {
             }
         }
     }
+    namespace 'kultalaaki.vpkapuri'
 }
 
 buildscript {
@@ -51,7 +52,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'  // Google Services plugin
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:7.3.0'
     }
 }
 
@@ -108,7 +109,7 @@ dependencies {
 
     implementation "androidx.multidex:multidex:2.0.1"
 
-    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.core:core-ktx:1.8.0"
 
     implementation 'com.google.android.material:material:1.6.1'
 

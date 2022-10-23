@@ -194,7 +194,7 @@ public class SMSBackgroundService extends Service {
         PendingIntent stop = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), stopAlarm, PendingIntent.FLAG_IMMUTABLE);
 
         // Foreground notification to show user and keeping service alive
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(SMSBackgroundService.this, "HALYTYS")
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(SMSBackgroundService.this, Constants.NOTIFICATION_CHANNEL_ALARM)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content)
