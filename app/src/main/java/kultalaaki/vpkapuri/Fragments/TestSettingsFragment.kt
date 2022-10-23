@@ -98,20 +98,6 @@ class TestSettingsFragment : Fragment() {
             SMSOK.setTextColor(Color.parseColor(green))
         }
 
-        if (context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.READ_PHONE_STATE)
-                }
-                == PackageManager.PERMISSION_GRANTED) {
-            phoneOK.setTextColor(Color.parseColor(green))
-        }
-        if ((context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.READ_CALL_LOG)
-                }
-                        == PackageManager.PERMISSION_GRANTED)) {
-            callLogOK.setTextColor(Color.parseColor(green))
-        }
 
         val notificationManager = activity?.applicationContext?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M

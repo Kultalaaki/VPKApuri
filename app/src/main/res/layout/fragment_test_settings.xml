@@ -33,34 +33,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewPermissions" />
 
     <TextView
-        android:id="@+id/textViewPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Puhelin:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@id/textViewSMS"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSMS" />
-
-    <TextView
-        android:id="@+id/textViewPhoneLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Puhelulokit:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@id/textViewPhone"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPhone" />
-
-    <TextView
         android:id="@+id/textViewStorage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Tall.-tila"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@id/textViewPhoneLog"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPhoneLog" />
+        app:layout_constraintStart_toStartOf="@+id/textViewSMS"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSMS" />
 
     <TextView
         android:id="@+id/textViewCamera"
@@ -127,30 +107,6 @@
         app:layout_constraintTop_toTopOf="@+id/textViewSMS" />
 
     <TextView
-        android:id="@+id/phoneOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#C21919"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewPhone"
-        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
-        app:layout_constraintTop_toTopOf="@+id/textViewPhone" />
-
-    <TextView
-        android:id="@+id/callLogOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#C21919"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewPhoneLog"
-        app:layout_constraintEnd_toEndOf="@+id/phoneOK"
-        app:layout_constraintTop_toTopOf="@+id/textViewPhoneLog" />
-
-    <TextView
         android:id="@+id/storageOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -159,7 +115,7 @@
         android:textColor="#C21919"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewStorage"
-        app:layout_constraintEnd_toEndOf="@+id/callLogOK"
+        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
         app:layout_constraintTop_toTopOf="@+id/textViewStorage" />
 
     <TextView
@@ -171,7 +127,7 @@
         android:textColor="#C21919"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewCamera"
-        app:layout_constraintEnd_toEndOf="@+id/storageOK"
+        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
         app:layout_constraintTop_toTopOf="@+id/textViewCamera" />
 
     <TextView
@@ -183,7 +139,7 @@
         android:textColor="#C21919"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewDoNotDisturb"
-        app:layout_constraintEnd_toEndOf="@+id/cameraOK"
+        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
         app:layout_constraintTop_toTopOf="@+id/textViewDoNotDisturb" />
 
     <TextView
@@ -195,7 +151,7 @@
         android:textColor="#C21919"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/showOnTopInfo"
-        app:layout_constraintEnd_toEndOf="@+id/doNotDisturbOK"
+        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
         app:layout_constraintTop_toTopOf="@+id/textViewShowOnTop" />
 
     <TextView
@@ -207,7 +163,7 @@
         android:textColor="#C21919"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewBatteryOpt"
-        app:layout_constraintEnd_toEndOf="@+id/showOnTopOK"
+        app:layout_constraintEnd_toEndOf="@+id/SMSOK"
         app:layout_constraintTop_toTopOf="@+id/textViewBatteryOpt" />
 
     <TextView
