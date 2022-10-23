@@ -27,7 +27,9 @@
         Kesken puhelun tuleva hälytys pelkkä värinä\n
         Muutamia korjauksia miten hälytysäänet tulevat kun muita ääniä on puhelimessa käytössä\n\n
 
-        Pieniä ulkoasun muutoksia\n\n
+        Pieniä ulkoasun muutoksia\n
+        Vapepa hälytykset aukeavat samaan näkymään kuin vpk hälytykset.\n
+        Pikavastaus Vapepa hälytyksiin poistui.\n\n
 
     </string>
     <!--Näytetään vain muutosloki sivulla-->
@@ -50,7 +52,9 @@
         Kesken puhelun tuleva hälytys pelkkä värinä\n
         Muutamia korjauksia miten hälytysäänet tulevat kun muita ääniä on puhelimessa käytössä\n\n
 
-        Pieniä ulkoasun muutoksia\n\n
+        Pieniä ulkoasun muutoksia\n
+        Vapepa hälytykset aukeavat samaan näkymään kuin vpk hälytykset.\n
+        Pikavastaus Vapepa hälytyksiin poistui.\n\n
 
         <u><b>Versio 3.81\n\n</b></u>
 
