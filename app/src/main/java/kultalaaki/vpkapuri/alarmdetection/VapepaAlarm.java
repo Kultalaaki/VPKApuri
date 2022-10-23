@@ -25,10 +25,10 @@ public class VapepaAlarm extends Alarm implements AlarmMessage {
     }
 
     /**
-     * @return blank string. There is no alarm id in vapepa alarms.
+     * @return Vapepa. There is no alarm id in Vapepa alarms.
      */
     public String getAlarmID() {
-        return "";
+        return "Vapepa";
     }
 
     /**
@@ -67,7 +67,6 @@ public class VapepaAlarm extends Alarm implements AlarmMessage {
     }
 
     /**
-     *
      * @return blank string. No unit finder in Vapepa alarms.
      */
     @Override
