@@ -6,6 +6,7 @@
     <!-- Crashlytics testaamista varten -->
     <!-- <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" /> -->
     <!-- \/  DANGEROUS PERMISSIONS  \/ -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />

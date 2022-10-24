@@ -13,20 +13,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import java.util.Calendar;
 
 import kultalaaki.vpkapuri.AlarmReceiver;
@@ -139,179 +138,140 @@ public class SetTimerFragment extends Fragment {
     }
 
     private void setOnClickListeners() {
-        monday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bMonday) {
-                    bMonday = true;
-                    ma = "Ma";
-                    monday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bMonday = false;
-                    ma = "";
-                    monday.setTextColor(getResources().getColor(R.color.text_color_primary));
+        monday.setOnClickListener(v -> {
+            if(!bMonday) {
+                bMonday = true;
+                ma = "Ma";
+                monday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bMonday = false;
+                ma = "";
+                monday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        tuesday.setOnClickListener(v -> {
+            if(!bTuesday) {
+                bTuesday = true;
+                ti = "Ti";
+                tuesday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bTuesday = false;
+                ti = "";
+                tuesday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        wednesday.setOnClickListener(v -> {
+            if(!bWednesday) {
+                bWednesday = true;
+                ke = "Ke";
+                wednesday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bWednesday = false;
+                ke = "";
+                wednesday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        thursday.setOnClickListener(v -> {
+            if(!bThursday) {
+                bThursday = true;
+                to = "To";
+                thursday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bThursday = false;
+                to = "";
+                thursday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        friday.setOnClickListener(v -> {
+            if(!bFriday) {
+                bFriday = true;
+                pe = "Pe";
+                friday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bFriday = false;
+                pe = "";
+                friday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        saturday.setOnClickListener(v -> {
+            if(!bSaturday) {
+                bSaturday = true;
+                la = "La";
+                saturday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bSaturday = false;
+                la = "";
+                saturday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        sunday.setOnClickListener(v -> {
+            if(!bSunday) {
+                bSunday = true;
+                su = "Su";
+                sunday.setTextColor(getResources().getColor(R.color.orange));
+            } else {
+                bSunday = false;
+                su = "";
+                sunday.setTextColor(getResources().getColor(R.color.text_color_primary));
+            }
+        });
+        hourSelector.setOnClickListener(v -> {
+            startOrStopSelector = true;
+            DialogFragment timePicker = new TimePickerFragment();
+            if(getFragmentManager() != null) {
+                timePicker.show(getFragmentManager(), "time picker");
+            }
+        });
+        minuteSelector.setOnClickListener(v -> {
+            startOrStopSelector = true;
+            DialogFragment timePicker = new TimePickerFragment();
+            if(getFragmentManager() != null) {
+                timePicker.show(getFragmentManager(), "time picker");
+            }
+        });
+        hourSelector2.setOnClickListener(v -> {
+            startOrStopSelector = false;
+            DialogFragment timePicker = new TimePickerFragment();
+            if(getFragmentManager() != null) {
+                timePicker.show(getFragmentManager(), "time picker");
+            }
+        });
+        minuteSelector2.setOnClickListener(v -> {
+            startOrStopSelector = false;
+            DialogFragment timePicker = new TimePickerFragment();
+            if(getFragmentManager() != null) {
+                timePicker.show(getFragmentManager(), "time picker");
+            }
+        });
+        cancel.setOnClickListener(v -> {
+            if(getArguments() != null) {
+                int sija = Integer.parseInt(mParam1);
+                dbTimer.deleteRow(sija);
+                deleteAlarms(mParam1);
+                if(getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            } else {
+                if(getActivity() != null) {
+                    getActivity().onBackPressed();
                 }
             }
         });
-        tuesday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bTuesday) {
-                    bTuesday = true;
-                    ti = "Ti";
-                    tuesday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bTuesday = false;
-                    ti = "";
-                    tuesday.setTextColor(getResources().getColor(R.color.text_color_primary));
-                }
-            }
-        });
-        wednesday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bWednesday) {
-                    bWednesday = true;
-                    ke = "Ke";
-                    wednesday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bWednesday = false;
-                    ke = "";
-                    wednesday.setTextColor(getResources().getColor(R.color.text_color_primary));
-                }
-            }
-        });
-        thursday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bThursday) {
-                    bThursday = true;
-                    to = "To";
-                    thursday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bThursday = false;
-                    to = "";
-                    thursday.setTextColor(getResources().getColor(R.color.text_color_primary));
-                }
-            }
-        });
-        friday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bFriday) {
-                    bFriday = true;
-                    pe = "Pe";
-                    friday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bFriday = false;
-                    pe = "";
-                    friday.setTextColor(getResources().getColor(R.color.text_color_primary));
-                }
-            }
-        });
-        saturday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bSaturday) {
-                    bSaturday = true;
-                    la = "La";
-                    saturday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bSaturday = false;
-                    la = "";
-                    saturday.setTextColor(getResources().getColor(R.color.text_color_primary));
-                }
-            }
-        });
-        sunday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bSunday) {
-                    bSunday = true;
-                    su = "Su";
-                    sunday.setTextColor(getResources().getColor(R.color.orange));
-                } else {
-                    bSunday = false;
-                    su = "";
-                    sunday.setTextColor(getResources().getColor(R.color.text_color_primary));
-                }
-            }
-        });
-        hourSelector.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startOrStopSelector = true;
-                DialogFragment timePicker = new TimePickerFragment();
-                if(getFragmentManager() != null) {
-                    timePicker.show(getFragmentManager(), "time picker");
-                }
-            }
-        });
-        minuteSelector.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startOrStopSelector = true;
-                DialogFragment timePicker = new TimePickerFragment();
-                if(getFragmentManager() != null) {
-                    timePicker.show(getFragmentManager(), "time picker");
-                }
-            }
-        });
-        hourSelector2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startOrStopSelector = false;
-                DialogFragment timePicker = new TimePickerFragment();
-                if(getFragmentManager() != null) {
-                    timePicker.show(getFragmentManager(), "time picker");
-                }
-            }
-        });
-        minuteSelector2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startOrStopSelector = false;
-                DialogFragment timePicker = new TimePickerFragment();
-                if(getFragmentManager() != null) {
-                    timePicker.show(getFragmentManager(), "time picker");
-                }
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getArguments() != null) {
-                    int sija = Integer.parseInt(mParam1);
-                    dbTimer.deleteRow(sija);
-                    deleteAlarms(mParam1);
-                    if(getActivity() != null) {
-                        getActivity().onBackPressed();
-                    }
-                } else {
-                    if(getActivity() != null) {
-                        getActivity().onBackPressed();
-                    }
-                }
-            }
-        });
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getArguments() != null) {
-                    deleteAlarms(mParam1);
-                    timerName = name.getText().toString();
-                    startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
-                    stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
+        save.setOnClickListener(v -> {
+            if(getArguments() != null) {
+                deleteAlarms(mParam1);
+                timerName = name.getText().toString();
+                startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
+                stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
 
-                    if(startTime.equals(stopTime)) {
-                        dialog();
-                    } else {
-                        saveAndQuit();
-                    }
-
+                if(startTime.equals(stopTime)) {
+                    dialog();
                 } else {
-                    saveTimerToDBs();
+                    saveAndQuit();
                 }
+
+            } else {
+                saveTimerToDBs();
             }
         });
     }
@@ -334,18 +294,15 @@ public class SetTimerFragment extends Fragment {
     }
 
     private void stateSelectorState() {
-        stateSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    selectoryo = true;
-                    state = "Yötila";
-                    stateSelector.setText(R.string.nightMode);
-                } else {
-                    selectoryo = false;
-                    state = "Äänetön";
-                    stateSelector.setText(R.string.pref_ringtone_silent);
-                }
+        stateSelector.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                selectoryo = true;
+                state = "Yötila";
+                stateSelector.setText(R.string.nightMode);
+            } else {
+                selectoryo = false;
+                state = "Äänetön";
+                stateSelector.setText(R.string.pref_ringtone_silent);
             }
         });
     }
@@ -399,7 +356,7 @@ public class SetTimerFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(context
                     + " must implement OnFragmentInteractionListener");
         }
     }
@@ -466,14 +423,12 @@ public class SetTimerFragment extends Fragment {
             int startHourPar = Integer.parseInt(startHour);
             int startMinutePar = Integer.parseInt(startMinute);
             int requestCode = Integer.parseInt(key) + startHourPar + startMinutePar;
-            //Toast.makeText(getActivity(), "Hour: " + startHourPar + " Minute: " + startMinutePar, Toast.LENGTH_LONG).show();
-            Log.e("TAG", "Hour: " + startHourPar + " Minute: " + startMinutePar);
 
             alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
             intentStart.putExtra("primaryKey", key);
             intentStart.putExtra("StartOrStop", "Starting alarmdetection");
-            alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_IMMUTABLE);
 
 
             // Setting time based on user input
@@ -482,9 +437,7 @@ public class SetTimerFragment extends Fragment {
             calendar.set(Calendar.HOUR_OF_DAY, startHourPar);
             calendar.set(Calendar.MINUTE, startMinutePar);
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmMgrStart.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntentStart);
-            }
+            alarmMgrStart.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntentStart);
             alarmMgrStart.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStart);
 
 
@@ -501,7 +454,7 @@ public class SetTimerFragment extends Fragment {
             Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
             intentStop.putExtra("primaryKey", key);
             intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
-            alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_IMMUTABLE);
 
 
             // Setting time based on user input
@@ -510,9 +463,7 @@ public class SetTimerFragment extends Fragment {
             calendar1.set(Calendar.HOUR_OF_DAY, stopHourPar);
             calendar1.set(Calendar.MINUTE, stopMinutePar);
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmMgrStop.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), alarmIntentStop);
-            }
+            alarmMgrStop.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), alarmIntentStop);
             alarmMgrStop.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStop);
             return true;
         }
@@ -533,7 +484,7 @@ public class SetTimerFragment extends Fragment {
         Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
         intentStart.putExtra("primaryKey", key);
         intentStart.putExtra("StartOrStop", "Starting alarmdetection");
-        alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_IMMUTABLE);
         if(alarmMgrStart != null) {
             alarmMgrStart.cancel(alarmIntentStart);
         }
@@ -551,7 +502,7 @@ public class SetTimerFragment extends Fragment {
         Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
         intentStop.putExtra("primaryKey", key);
         intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
-        alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_IMMUTABLE);
         if(alarmMgrStop != null) {
             alarmMgrStop.cancel(alarmIntentStop);
         }
