@@ -87,7 +87,7 @@ public class SetTimerFragment extends Fragment {
     public void onStart() {
         super.onStart();
         dbTimer = new DBTimer(getActivity());
-        if(getArguments()!= null) {
+        if (getArguments() != null) {
             populateTimer(mParam1);
             cancel.setText(R.string.poistaAjastin);
         } else {
@@ -99,7 +99,7 @@ public class SetTimerFragment extends Fragment {
     @SuppressLint("Range")
     private void populateTimer(String primaryKey) {
         Cursor cursor = dbTimer.timerID(primaryKey);
-        if(cursor != null) {
+        if (cursor != null) {
             timerName = cursor.getString(cursor.getColumnIndex(DBTimer.NAME));
             name.setText(timerName);
             ma = cursor.getString(cursor.getColumnIndex(DBTimer.MA));
@@ -112,14 +112,35 @@ public class SetTimerFragment extends Fragment {
             startTime = cursor.getString(cursor.getColumnIndex(DBTimer.STARTTIME));
             stopTime = cursor.getString(cursor.getColumnIndex(DBTimer.STOPTIME));
             state = cursor.getString(cursor.getColumnIndex(DBTimer.SELECTOR));
-            if(ma.equals("Ma")) { bMonday = true; monday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(ti.equals("Ti")) { bTuesday = true; tuesday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(ke.equals("Ke")) { bWednesday = true; wednesday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(to.equals("To")) { bThursday = true; thursday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(pe.equals("Pe")) { bFriday = true; friday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(la.equals("La")) { bSaturday = true; saturday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(su.equals("Su")) { bSunday = true; sunday.setTextColor(getResources().getColor(R.color.orange)); }
-            if(state.equals("Yötila")) {
+            if (ma.equals("Ma")) {
+                bMonday = true;
+                monday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (ti.equals("Ti")) {
+                bTuesday = true;
+                tuesday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (ke.equals("Ke")) {
+                bWednesday = true;
+                wednesday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (to.equals("To")) {
+                bThursday = true;
+                thursday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (pe.equals("Pe")) {
+                bFriday = true;
+                friday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (la.equals("La")) {
+                bSaturday = true;
+                saturday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (su.equals("Su")) {
+                bSunday = true;
+                sunday.setTextColor(getResources().getColor(R.color.orange));
+            }
+            if (state.equals("Yötila")) {
                 selectoryo = true;
                 stateSelector.setText(R.string.nightMode);
                 stateSelector.setChecked(true);
@@ -128,10 +149,10 @@ public class SetTimerFragment extends Fragment {
                 stateSelector.setText(R.string.pref_ringtone_silent);
                 stateSelector.setChecked(false);
             }
-            hourSelector.setText(startTime.substring(0,2));
-            minuteSelector.setText(startTime.substring(3,5));
-            hourSelector2.setText(stopTime.substring(0,2));
-            minuteSelector2.setText(stopTime.substring(3,5));
+            hourSelector.setText(startTime.substring(0, 2));
+            minuteSelector.setText(startTime.substring(3, 5));
+            hourSelector2.setText(stopTime.substring(0, 2));
+            minuteSelector2.setText(stopTime.substring(3, 5));
             setOnClickListeners();
             stateSelectorState();
         }
@@ -139,7 +160,7 @@ public class SetTimerFragment extends Fragment {
 
     private void setOnClickListeners() {
         monday.setOnClickListener(v -> {
-            if(!bMonday) {
+            if (!bMonday) {
                 bMonday = true;
                 ma = "Ma";
                 monday.setTextColor(getResources().getColor(R.color.orange));
@@ -150,7 +171,7 @@ public class SetTimerFragment extends Fragment {
             }
         });
         tuesday.setOnClickListener(v -> {
-            if(!bTuesday) {
+            if (!bTuesday) {
                 bTuesday = true;
                 ti = "Ti";
                 tuesday.setTextColor(getResources().getColor(R.color.orange));
@@ -161,7 +182,7 @@ public class SetTimerFragment extends Fragment {
             }
         });
         wednesday.setOnClickListener(v -> {
-            if(!bWednesday) {
+            if (!bWednesday) {
                 bWednesday = true;
                 ke = "Ke";
                 wednesday.setTextColor(getResources().getColor(R.color.orange));
@@ -172,7 +193,7 @@ public class SetTimerFragment extends Fragment {
             }
         });
         thursday.setOnClickListener(v -> {
-            if(!bThursday) {
+            if (!bThursday) {
                 bThursday = true;
                 to = "To";
                 thursday.setTextColor(getResources().getColor(R.color.orange));
@@ -183,7 +204,7 @@ public class SetTimerFragment extends Fragment {
             }
         });
         friday.setOnClickListener(v -> {
-            if(!bFriday) {
+            if (!bFriday) {
                 bFriday = true;
                 pe = "Pe";
                 friday.setTextColor(getResources().getColor(R.color.orange));
@@ -194,7 +215,7 @@ public class SetTimerFragment extends Fragment {
             }
         });
         saturday.setOnClickListener(v -> {
-            if(!bSaturday) {
+            if (!bSaturday) {
                 bSaturday = true;
                 la = "La";
                 saturday.setTextColor(getResources().getColor(R.color.orange));
@@ -205,7 +226,7 @@ public class SetTimerFragment extends Fragment {
             }
         });
         sunday.setOnClickListener(v -> {
-            if(!bSunday) {
+            if (!bSunday) {
                 bSunday = true;
                 su = "Su";
                 sunday.setTextColor(getResources().getColor(R.color.orange));
@@ -218,53 +239,53 @@ public class SetTimerFragment extends Fragment {
         hourSelector.setOnClickListener(v -> {
             startOrStopSelector = true;
             DialogFragment timePicker = new TimePickerFragment();
-            if(getFragmentManager() != null) {
+            if (getFragmentManager() != null) {
                 timePicker.show(getFragmentManager(), "time picker");
             }
         });
         minuteSelector.setOnClickListener(v -> {
             startOrStopSelector = true;
             DialogFragment timePicker = new TimePickerFragment();
-            if(getFragmentManager() != null) {
+            if (getFragmentManager() != null) {
                 timePicker.show(getFragmentManager(), "time picker");
             }
         });
         hourSelector2.setOnClickListener(v -> {
             startOrStopSelector = false;
             DialogFragment timePicker = new TimePickerFragment();
-            if(getFragmentManager() != null) {
+            if (getFragmentManager() != null) {
                 timePicker.show(getFragmentManager(), "time picker");
             }
         });
         minuteSelector2.setOnClickListener(v -> {
             startOrStopSelector = false;
             DialogFragment timePicker = new TimePickerFragment();
-            if(getFragmentManager() != null) {
+            if (getFragmentManager() != null) {
                 timePicker.show(getFragmentManager(), "time picker");
             }
         });
         cancel.setOnClickListener(v -> {
-            if(getArguments() != null) {
+            if (getArguments() != null) {
                 int sija = Integer.parseInt(mParam1);
                 dbTimer.deleteRow(sija);
                 deleteAlarms(mParam1);
-                if(getActivity() != null) {
+                if (getActivity() != null) {
                     getActivity().onBackPressed();
                 }
             } else {
-                if(getActivity() != null) {
+                if (getActivity() != null) {
                     getActivity().onBackPressed();
                 }
             }
         });
         save.setOnClickListener(v -> {
-            if(getArguments() != null) {
+            if (getArguments() != null) {
                 deleteAlarms(mParam1);
                 timerName = name.getText().toString();
                 startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
                 stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
 
-                if(startTime.equals(stopTime)) {
+                if (startTime.equals(stopTime)) {
                     dialog();
                 } else {
                     saveAndQuit();
@@ -278,7 +299,7 @@ public class SetTimerFragment extends Fragment {
 
     private void saveAndQuit() {
         dbTimer.tallennaMuutokset(mParam1, timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, state, "on");
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             setAlarms(mParam1, startTime, stopTime);
             mListener.showToast("Ajastin", "Tallennettu!");
             getActivity().onBackPressed();
@@ -295,7 +316,7 @@ public class SetTimerFragment extends Fragment {
 
     private void stateSelectorState() {
         stateSelector.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 selectoryo = true;
                 state = "Yötila";
                 stateSelector.setText(R.string.nightMode);
@@ -337,14 +358,22 @@ public class SetTimerFragment extends Fragment {
     public void setTimerTimes(int hour, int minute) {
         String min = String.valueOf(minute);
         String hou = String.valueOf(hour);
-        if(startOrStopSelector) {
-            if(minute < 10) { min = "0" + minute; }
-            if(hour < 10) {hou = "0" + hour; }
+        if (startOrStopSelector) {
+            if (minute < 10) {
+                min = "0" + minute;
+            }
+            if (hour < 10) {
+                hou = "0" + hour;
+            }
             hourSelector.setText(hou);
             minuteSelector.setText(min);
         } else {
-            if(minute < 10) { min = "0" + minute; }
-            if(hour < 10) {hou = "0" + hour; }
+            if (minute < 10) {
+                min = "0" + minute;
+            }
+            if (hour < 10) {
+                hou = "0" + hour;
+            }
             hourSelector2.setText(hou);
             minuteSelector2.setText(min);
         }
@@ -387,44 +416,73 @@ public class SetTimerFragment extends Fragment {
     }
 
     private void saveTimerToDBs() {
-        String ma="", ti="", ke="", to="", pe="", la="", su="", selector, timerName, startTime, stopTime;
-        if(bMonday){ma="Ma";}if(bTuesday){ti="Ti";}if(bWednesday){ke="Ke";}if(bThursday){to="To";}if(bFriday){pe="Pe";}if(bSaturday){la="La";}if(bSunday){su="Su";}
-        if(selectoryo){ selector = "Yötila"; } else { selector = "Äänetön"; }
+        String ma = "", ti = "", ke = "", to = "", pe = "", la = "", su = "", selector, timerName, startTime, stopTime;
+        if (bMonday) {
+            ma = "Ma";
+        }
+        if (bTuesday) {
+            ti = "Ti";
+        }
+        if (bWednesday) {
+            ke = "Ke";
+        }
+        if (bThursday) {
+            to = "To";
+        }
+        if (bFriday) {
+            pe = "Pe";
+        }
+        if (bSaturday) {
+            la = "La";
+        }
+        if (bSunday) {
+            su = "Su";
+        }
+        if (selectoryo) {
+            selector = "Yötila";
+        } else {
+            selector = "Äänetön";
+        }
         timerName = name.getText().toString();
         startTime = hourSelector.getText().toString() + ":" + minuteSelector.getText().toString();
         stopTime = hourSelector2.getText().toString() + ":" + minuteSelector2.getText().toString();
-        if(startTime.equals(stopTime)) {
+        if (startTime.equals(stopTime)) {
             dialog();
         } else {
             long rowId = mListener.saveTimerToDB(timerName, startTime, stopTime, ma, ti, ke, to, pe, la, su, selector, "on");
             //mListener.updateListview();
-            int rowIdToInt = (int)rowId;
-            String  rowIdString = String.valueOf(rowIdToInt);
-            if(getActivity() != null && setAlarms(rowIdString, startTime, stopTime)) {
+            int rowIdToInt = (int) rowId;
+            String rowIdString = String.valueOf(rowIdToInt);
+            if (getActivity() != null && setAlarms(rowIdString, startTime, stopTime)) {
                 getActivity().onBackPressed();
             }
         }
 
     }
 
-    /**  Setting alarmdetection intents
-    *   RequestCode is key + Hour + Minute, this way start and stop intents differ and we can cancel the timer.
-    *   Setting time based on user input
-    */
+    /**
+     * Setting alarmdetection intents
+     * RequestCode is key + Hour + Minute, this way start and stop intents differ and we can cancel the timer.
+     * Setting time based on user input
+     */
     private boolean setAlarms(String key, String startTime, String stopTime) {
 
-        if(ctx != null) {
+        if (ctx != null) {
 
             // Setting start PendingIntent
-            String startHour = startTime.substring(0,2);
-            String startMinute = startTime.substring(3,5);
-            if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
-            if(startMinute.charAt(0) == '0') { startMinute = startTime.substring(4,5); }
+            String startHour = startTime.substring(0, 2);
+            String startMinute = startTime.substring(3, 5);
+            if (startHour.charAt(0) == '0') {
+                startHour = startTime.substring(1, 2);
+            }
+            if (startMinute.charAt(0) == '0') {
+                startMinute = startTime.substring(4, 5);
+            }
             int startHourPar = Integer.parseInt(startHour);
             int startMinutePar = Integer.parseInt(startMinute);
             int requestCode = Integer.parseInt(key) + startHourPar + startMinutePar;
 
-            alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+            alarmMgrStart = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
             intentStart.putExtra("primaryKey", key);
             intentStart.putExtra("StartOrStop", "Starting alarmdetection");
@@ -442,15 +500,19 @@ public class SetTimerFragment extends Fragment {
 
 
             // Setting stop PendingIntent
-            String stopHour = stopTime.substring(0,2);
-            String stopMinute = stopTime.substring(3,5);
-            if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
-            if(stopMinute.charAt(0) == '0') { stopMinute = stopTime.substring(4,5);}
+            String stopHour = stopTime.substring(0, 2);
+            String stopMinute = stopTime.substring(3, 5);
+            if (stopHour.charAt(0) == '0') {
+                stopHour = stopTime.substring(1, 2);
+            }
+            if (stopMinute.charAt(0) == '0') {
+                stopMinute = stopTime.substring(4, 5);
+            }
             int stopHourPar = Integer.parseInt(stopHour);
             int stopMinutePar = Integer.parseInt(stopMinute);
             requestCode = Integer.parseInt(key) + stopHourPar + stopMinutePar;
 
-            alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+            alarmMgrStop = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
             intentStop.putExtra("primaryKey", key);
             intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
@@ -472,38 +534,46 @@ public class SetTimerFragment extends Fragment {
 
     private void deleteAlarms(String key) {
         // cancel starting PendingIntent.
-        String startHour = startTime.substring(0,2);
-        String startMinute = startTime.substring(3,5);
-        if(startHour.charAt(0) == '0') { startHour = startTime.substring(1,2); }
-        if(startMinute.charAt(0) == '0') { startMinute = startTime.substring(4,5); }
+        String startHour = startTime.substring(0, 2);
+        String startMinute = startTime.substring(3, 5);
+        if (startHour.charAt(0) == '0') {
+            startHour = startTime.substring(1, 2);
+        }
+        if (startMinute.charAt(0) == '0') {
+            startMinute = startTime.substring(4, 5);
+        }
         int startHourPar = Integer.parseInt(startHour);
         int startMinutePar = Integer.parseInt(startMinute);
         int requestCode = Integer.parseInt(key) + startHourPar + startMinutePar;
 
-        alarmMgrStart = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+        alarmMgrStart = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         Intent intentStart = new Intent(getActivity(), AlarmReceiver.class);
         intentStart.putExtra("primaryKey", key);
         intentStart.putExtra("StartOrStop", "Starting alarmdetection");
         alarmIntentStart = PendingIntent.getBroadcast(getActivity(), requestCode, intentStart, PendingIntent.FLAG_IMMUTABLE);
-        if(alarmMgrStart != null) {
+        if (alarmMgrStart != null) {
             alarmMgrStart.cancel(alarmIntentStart);
         }
 
         // cancel stopping PendingIntent.
-        String stopHour = stopTime.substring(0,2);
-        String stopMinute = stopTime.substring(3,5);
-        if(stopHour.charAt(0) == '0') { stopHour = stopTime.substring(1,2); }
-        if(stopMinute.charAt(0) == '0') { stopMinute = stopTime.substring(4,5); }
+        String stopHour = stopTime.substring(0, 2);
+        String stopMinute = stopTime.substring(3, 5);
+        if (stopHour.charAt(0) == '0') {
+            stopHour = stopTime.substring(1, 2);
+        }
+        if (stopMinute.charAt(0) == '0') {
+            stopMinute = stopTime.substring(4, 5);
+        }
         int stopHourPar = Integer.parseInt(stopHour);
         int stopMinutePar = Integer.parseInt(stopMinute);
         requestCode = Integer.parseInt(key) + stopHourPar + stopMinutePar;
 
-        alarmMgrStop = (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
+        alarmMgrStop = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         Intent intentStop = new Intent(getActivity(), AlarmReceiver.class);
         intentStop.putExtra("primaryKey", key);
         intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
         alarmIntentStop = PendingIntent.getBroadcast(getActivity(), requestCode, intentStop, PendingIntent.FLAG_IMMUTABLE);
-        if(alarmMgrStop != null) {
+        if (alarmMgrStop != null) {
             alarmMgrStop.cancel(alarmIntentStop);
         }
     }
