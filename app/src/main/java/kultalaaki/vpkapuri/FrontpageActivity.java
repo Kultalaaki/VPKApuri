@@ -63,7 +63,6 @@ import kultalaaki.vpkapuri.Fragments.FrontpageFragment;
 import kultalaaki.vpkapuri.Fragments.GuidelineFragment;
 import kultalaaki.vpkapuri.Fragments.SaveToArchiveFragment;
 import kultalaaki.vpkapuri.Fragments.SetTimerFragment;
-import kultalaaki.vpkapuri.Fragments.TestSettingsFragment;
 import kultalaaki.vpkapuri.Fragments.TimerFragment;
 import kultalaaki.vpkapuri.util.Constants;
 
@@ -133,9 +132,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                     "Peruuta",
                                     "Testaa",
                                     "testAlarm");
-                            return true;
-                        case R.id.check_settings:
-                            loadTestSettingsFragment();
                             return true;
                         case R.id.hiljenna_halyt:
                             if (preferences.getInt("aaneton_profiili", -1) == 1) {
@@ -213,13 +209,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         } else {
             super.onBackPressed();
         }
-    }
-
-    public void loadTestSettingsFragment() {
-        TestSettingsFragment testSettingsFragment = new TestSettingsFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.etusivuContainer, testSettingsFragment, "testSettingsFragment").commit();
     }
 
     public void loadLegalFragment() {

@@ -14,10 +14,6 @@
             android:icon="@drawable/ic_whatshot_white_36dp"
             android:title="@string/testi" />
         <item
-            android:id="@+id/check_settings"
-            android:icon="@drawable/ic_stat_name"
-            android:title="@string/tarkista_asetukset" />
-        <item
             android:id="@+id/hiljenna_halyt"
             android:icon="@drawable/ic_volume_off_white_36dp"
             android:title="@string/hiljenna" />

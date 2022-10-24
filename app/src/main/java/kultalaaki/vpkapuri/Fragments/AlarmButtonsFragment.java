@@ -67,7 +67,9 @@ public class AlarmButtonsFragment extends Fragment {
 
     public interface Listener {
         void hiljenna();
+
         void autoAukaisuPuhu();
+
         void avaaWebSivu(String url);
 
         void showToast(String head, String message);
@@ -84,7 +86,7 @@ public class AlarmButtonsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Context ctx = getActivity();
-        if(ctx != null) {
+        if (ctx != null) {
             LifecycleOwner lf = getViewLifecycleOwner();
             FireAlarmViewModel fireAlarmViewModel = ViewModelProviders.of(getActivity()).get(FireAlarmViewModel.class);
             fireAlarmViewModel.getAddress().observe(lf, new Observer<CharSequence>() {
@@ -123,13 +125,13 @@ public class AlarmButtonsFragment extends Fragment {
         super.onResume();
         setOnClickListeners();
         setTexts();
-        if(showHiljennaButton) {
+        if (showHiljennaButton) {
             autoAukaisu();
         }
     }
 
     private void setTexts() {
-        if(CallButtonVisible) {
+        if (CallButtonVisible) {
             callNumber.setText(soittonumero);
         } else {
             call.setVisibility(View.GONE);
@@ -137,7 +139,7 @@ public class AlarmButtonsFragment extends Fragment {
 
         osoite.setText(osoiteFromDB);
 
-        if(SmsGreenVisible) {
+        if (SmsGreenVisible) {
             sms5Otsikko.setText(fivemintxtotsikko);
             sms5Sisalto.setText(fivemintxt);
             sms5Recipient.setText(smsnumero);
@@ -145,7 +147,7 @@ public class AlarmButtonsFragment extends Fragment {
             fiveMin.setVisibility(View.GONE);
         }
 
-        if(SmsYellowVisible) {
+        if (SmsYellowVisible) {
             sms10Otsikko.setText(tenmintxtotsikko);
             sms10Sisalto.setText(tenmintxt);
             sms10Recipient.setText(smsnumero10);
@@ -153,7 +155,7 @@ public class AlarmButtonsFragment extends Fragment {
             tenMin.setVisibility(View.GONE);
         }
 
-        if(SmsRedVisible) {
+        if (SmsRedVisible) {
             sms11Otsikko.setText(tenplusmintxtotsikko);
             sms11Sisalto.setText(tenplusmintxt);
             sms11Recipient.setText(smsnumero11);
@@ -175,11 +177,11 @@ public class AlarmButtonsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Context ctx = getActivity();
-                if(ctx != null) {
+                if (ctx != null) {
                     Intent stopAlarm = new Intent(ctx, SMSBackgroundService.class);
                     ctx.stopService(stopAlarm);
                 }
-                if(koneluku) {
+                if (koneluku) {
                     autoAukaisuHiljennaPuhe();
                 } else {
                     hiljenna.setVisibility(View.GONE);
@@ -263,22 +265,22 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero != null && smsnumero.equals("whatsapp")) {
                     sendTextToWhatsapp(fivemintxt);
-                } else if(smsnumero != null && smsnumero.contains("www") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                } else if (smsnumero != null && smsnumero.contains("www") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     mCallback.avaaWebSivu(smsnumero);
-                } else if(smsnumero != null && smsnumero.equals("valitse")) {
+                } else if (smsnumero != null && smsnumero.equals("valitse")) {
                     sendTextWithOtherMessageApp(fivemintxt);
                 } else {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         five = true;
                         pyydaLuvatSms();
                     } else {
                         Context context = getActivity();
-                        if(context != null) {
+                        if (context != null) {
                             try {
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
                                 notifSend("Lähetetty.", "Viesti: " + fivemintxt);
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 smsSendFailed();
                                 e.printStackTrace();
                             }
@@ -293,20 +295,20 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero10 != null && smsnumero10.equals("whatsapp")) {
                     sendTextToWhatsapp(tenmintxt);
-                } else if(smsnumero10 != null && smsnumero10.equals("valitse")) {
+                } else if (smsnumero10 != null && smsnumero10.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenmintxt);
                 } else {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         ten = true;
                         pyydaLuvatSms();
                     } else {
                         Context context = getActivity();
-                        if(context != null) {
+                        if (context != null) {
                             try {
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
                                 notifSend("Lähetetty.", "Viesti: " + tenmintxt);
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 smsSendFailed();
                                 e.printStackTrace();
                             }
@@ -321,20 +323,20 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero11 != null && smsnumero11.equals("whatsapp")) {
                     sendTextToWhatsapp(tenplusmintxt);
-                } else if(smsnumero11 != null && smsnumero11.equals("valitse")) {
+                } else if (smsnumero11 != null && smsnumero11.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenplusmintxt);
                 } else {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         tenplus = true;
                         pyydaLuvatSms();
                     } else {
                         Context context = getActivity();
-                        if(context != null) {
+                        if (context != null) {
                             try {
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
                                 notifSend("Lähetetty.", "Viesti: " + tenplusmintxt);
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 smsSendFailed();
                                 e.printStackTrace();
                             }
@@ -351,7 +353,7 @@ public class AlarmButtonsFragment extends Fragment {
                 Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + osoiteFromDB);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 Context context = getActivity();
-                if(context != null) {
+                if (context != null) {
                     PackageManager packageManager = context.getPackageManager();
                     List<ResolveInfo> activities = packageManager.queryIntentActivities(mapIntent,
                             PackageManager.MATCH_DEFAULT_ONLY);
@@ -402,7 +404,7 @@ public class AlarmButtonsFragment extends Fragment {
 
     private void pyydaLuvatSms() {
         Context ctx = getActivity();
-        if(ctx != null) {
+        if (ctx != null) {
             if (ContextCompat.checkSelfPermission(ctx,
                     Manifest.permission.SEND_SMS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -416,7 +418,7 @@ public class AlarmButtonsFragment extends Fragment {
                                 @TargetApi(Build.VERSION_CODES.M)
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    requestPermissions(new String[] {Manifest.permission.SEND_SMS},
+                                    requestPermissions(new String[]{Manifest.permission.SEND_SMS},
                                             MY_PERMISSIONS_REQUEST_SEND_SMS);
                                 }
                             });
@@ -427,11 +429,11 @@ public class AlarmButtonsFragment extends Fragment {
                             MY_PERMISSIONS_REQUEST_SEND_SMS);
                 }
             } else {
-                if(five) {
+                if (five) {
                     btnfive();
-                } else if(ten) {
+                } else if (ten) {
                     btnten();
-                } else if(tenplus) {
+                } else if (tenplus) {
                     btntenplus();
                 }
             }
@@ -449,12 +451,12 @@ public class AlarmButtonsFragment extends Fragment {
                     // lupa annettu
                     try {
                         Context ctx = getActivity();
-                        if(ctx != null) {
+                        if (ctx != null) {
                             ContextCompat.checkSelfPermission(ctx, Manifest.permission.CALL_PHONE);
                             Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + soittonumero));
                             startActivity(callIntent);
                         }
-                    }catch(Exception e) {
+                    } catch (Exception e) {
                         mCallback.showToast("Puhelu epäonnistui.", "Tarkista sovelluksen lupa soittaa ja asetettu numero.");
                         e.printStackTrace();
                     }
@@ -471,9 +473,9 @@ public class AlarmButtonsFragment extends Fragment {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(five) {
+                    if (five) {
                         btnfive();
-                    } else if(ten) {
+                    } else if (ten) {
                         btnten();
                     } else if (tenplus) {
                         btntenplus();
@@ -495,7 +497,7 @@ public class AlarmButtonsFragment extends Fragment {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
             notifSend("Lähetetty.", "Viesti: " + fivemintxt);
-        } catch(Exception e) {
+        } catch (Exception e) {
             smsSendFailed();
             e.printStackTrace();
         }
@@ -508,7 +510,7 @@ public class AlarmButtonsFragment extends Fragment {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
             notifSend("Lähetetty.", "Viesti: " + tenmintxt);
-        } catch(Exception e) {
+        } catch (Exception e) {
             smsSendFailed();
             e.printStackTrace();
         }
@@ -521,7 +523,7 @@ public class AlarmButtonsFragment extends Fragment {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
             notifSend("Lähetetty.", "Viesti: " + tenplusmintxt);
-        } catch(Exception e) {
+        } catch (Exception e) {
             smsSendFailed();
             e.printStackTrace();
         }
@@ -542,7 +544,7 @@ public class AlarmButtonsFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Context ctx = getActivity();
-        if(stopAlarm && ctx != null) {
+        if (stopAlarm && ctx != null) {
             Intent stopAlarm = new Intent(ctx, SMSBackgroundService.class);
             ctx.stopService(stopAlarm);
         }
