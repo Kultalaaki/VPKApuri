@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +110,6 @@ public class AlarmFragment extends Fragment {
         unit6 = view.findViewById(R.id.unit6);
         unit7 = view.findViewById(R.id.unit7);
         unit8 = view.findViewById(R.id.unit8);
-        //units = view.findViewById(R.id.units);
 
         chronometer = view.findViewById(R.id.alarm_chronometer);
         if (!chronoInUse) {
@@ -141,18 +139,17 @@ public class AlarmFragment extends Fragment {
                         FirebaseCrashlytics.getInstance().log("Alarm fragment: Could not set all texts for alarm card.");
                     }
 
-
                     urgencyClass.setText(currentAlarm.getLuokka());
-                    //units.setText(currentAlarm.getOptionalField3());
-                    Log.i("VPK Apuri", currentAlarm.getOptionalField3());
-                    String[] units = currentAlarm.getOptionalField3().split("([,])");
 
+                    // Get units of alarm and put them in views
+                    String[] units = currentAlarm.getOptionalField3().split("([,])");
                     for(int i = 0; i < units.length; i++) {
                         if(units[i] != null) {
                             setUnitToButton(i, units[i].trim());
                         }
                     }
 
+                    // Todo: Vapepa alarms text to speech enhancement
                     toSpeech = currentAlarm.getTunnus() + " "
                             + currentAlarm.getLuokka() + " "
                             + currentAlarm.getOsoite() + " "

@@ -18,6 +18,8 @@ import android.telephony.SmsMessage;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import java.util.Date;
 
 
@@ -59,8 +61,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 releaseWakeLock();
             }
         } catch (Exception e) {
-            // Todo: add this error to firebase analytics
-            Log.e("VPK Apuri", "Could not read sms message: " + e);
+            FirebaseCrashlytics.getInstance().log("Could not read sms message: " + e);
         }
     }
 

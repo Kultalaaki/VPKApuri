@@ -17,6 +17,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import java.util.Locale;
 
 import kultalaaki.vpkapuri.util.Constants;
+import kultalaaki.vpkapuri.util.MyNotifications;
 
 /**
  * TextToSpeech speaks given text
@@ -31,6 +32,7 @@ public class SpeakText {
     private String textToSpeak;
     private int volume;
     private int returnVolume;
+    private final MyNotifications myNotifications;
 
     /**
      * If you call it from fragment, make sure to give getActivity() as context.
@@ -42,6 +44,7 @@ public class SpeakText {
         this.context = context;
         this.preferences = preferences;
         this.alarmSoundSettingsManager = new AlarmSoundSettingsManager(context, preferences);
+        this.myNotifications = new MyNotifications(context);
     }
 
     /**
@@ -52,7 +55,7 @@ public class SpeakText {
             if (status == TextToSpeech.SUCCESS) {
                 int result = textToSpeech.setLanguage(Locale.getDefault());
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    // Todo: inform user. Language is not supported.
+                    myNotifications.showInformationNotification("Kieli ei ole tuettu. Vaihda teksti puheeksi kieli.");
                     FirebaseCrashlytics.getInstance().log("SpeakText.java: Language not supported.");
                 }
                 volume = preferences.getInt("tekstiPuheeksiVol", -1);
@@ -68,7 +71,7 @@ public class SpeakText {
                 textToSpeech.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, Constants.UTTERANCE_ID_ALARM);
                 Log.i("VPK Apuri", "init completed");
             } else {
-                // Todo: inform user. Error. Could not initialize text to speech.
+                myNotifications.showInformationNotification("Ei voitu initialisoida teksti puheeksi toimintoa. Tuntematon virhe.");
                 FirebaseCrashlytics.getInstance().log("SpeakText.java: Text to speech initialization error.");
             }
         });

@@ -11,12 +11,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -120,69 +118,66 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem -> {
 
-                        mDrawerLayout.closeDrawers();
-                        switch (menuItem.getItemId()) {
-                            case R.id.tallenna_arkistoon_haly:
-                                loadTallennaArkistoonFragment();
-                                //startTallennaArkistoon();
-                                return true;
-                            case R.id.testaa_haly:
+                    mDrawerLayout.closeDrawers();
+                    switch (menuItem.getItemId()) {
+                        case R.id.tallenna_arkistoon_haly:
+                            loadTallennaArkistoonFragment();
+                            //startTallennaArkistoon();
+                            return true;
+                        case R.id.testaa_haly:
+                            showDialog(
+                                    "Hälytyksen testaus! Hälytys tulee 5 sekunnin kuluttua.",
+                                    "Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.",
+                                    "Peruuta",
+                                    "Testaa",
+                                    "testAlarm");
+                            return true;
+                        case R.id.check_settings:
+                            loadTestSettingsFragment();
+                            return true;
+                        case R.id.hiljenna_halyt:
+                            if (preferences.getInt("aaneton_profiili", -1) == 1) {
                                 showDialog(
-                                        "Hälytyksen testaus! Hälytys tulee 5 sekunnin kuluttua.",
-                                        "Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.",
-                                        "Peruuta",
-                                        "Testaa",
-                                        "testAlarm");
-                                return true;
-                            case R.id.check_settings:
-                                loadTestSettingsFragment();
-                                return true;
-                            case R.id.hiljenna_halyt:
-                                if (preferences.getInt("aaneton_profiili", -1) == 1) {
-                                    showDialog(
-                                            "Hälytysten hiljennys!",
-                                            "Haluatko varmasti hiljentää hälytykset?",
-                                            "Peruuta",
-                                            "Kyllä",
-                                            "setSoundSilent");
-                                } else {
-                                    setSoundSilent();
-                                }
-                                return true;
-                            case R.id.timer:
-                                startTimerActivity();
-                                return true;
-                            case R.id.changelog:
-                                startChangelog();
-                                return true;
-                            case R.id.tallennatietokanta:
-                                showDialog(
-                                        "Haluatko tallentaa arkistossa olevat hälytykset?",
-                                        "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
+                                        "Hälytysten hiljennys!",
+                                        "Haluatko varmasti hiljentää hälytykset?",
                                         "Peruuta",
                                         "Kyllä",
-                                        "saveDatabase");
-                                return true;
-                            case R.id.tyhjennatietokanta:
-                                showDialog(
-                                        "Arkiston tyhjentäminen!",
-                                        "Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?",
-                                        "Peruuta",
-                                        "Kyllä",
-                                        "deleteDatabase"
-                                );
-                                return true;
-                            case R.id.palautetta:
-                                startLahetaPalaute();
-                                return true;
-                        }
-
-                        return true;
+                                        "setSoundSilent");
+                            } else {
+                                setSoundSilent();
+                            }
+                            return true;
+                        case R.id.timer:
+                            startTimerActivity();
+                            return true;
+                        case R.id.changelog:
+                            startChangelog();
+                            return true;
+                        case R.id.tallennatietokanta:
+                            showDialog(
+                                    "Haluatko tallentaa arkistossa olevat hälytykset?",
+                                    "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
+                                    "Peruuta",
+                                    "Kyllä",
+                                    "saveDatabase");
+                            return true;
+                        case R.id.tyhjennatietokanta:
+                            showDialog(
+                                    "Arkiston tyhjentäminen!",
+                                    "Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?",
+                                    "Peruuta",
+                                    "Kyllä",
+                                    "deleteDatabase"
+                            );
+                            return true;
+                        case R.id.palautetta:
+                            startLahetaPalaute();
+                            return true;
                     }
+
+                    return true;
                 });
 
         emailAddress = new String[1];
@@ -424,19 +419,17 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         preferences.edit().putString("halyvastaanotto11", "0401234567").apply();
         Handler handler1 = new Handler();
-        handler1.postDelayed(new Runnable() {
-            public void run() {
-                long aika = System.currentTimeMillis();
-                String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
-                String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
-                Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
-                String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
-                halyaaniService.putExtra("message", alarmMessage);
-                halyaaniService.putExtra("number", "0401234567");
-                halyaaniService.putExtra("halytysaani", "false");
-                halyaaniService.putExtra("timestamp", Aika);
-                getApplicationContext().startService(halyaaniService);
-            }
+        handler1.postDelayed(() -> {
+            long aika = System.currentTimeMillis();
+            String Aika = (String) DateFormat.format("EEE, dd.MMM yyyy, H:mm:ss", new Date(aika));
+            String timeToMessage = (String) DateFormat.format("H:mm:ss_dd.MM.yyyy", new Date(aika));
+            Intent halyaaniService = new Intent(getApplicationContext(), SMSBackgroundService.class);
+            String alarmMessage = getString(R.string.testihalytysEricaEtuosa) + " " + timeToMessage + getString(R.string.testihalytysEricaTakaosa);
+            halyaaniService.putExtra("message", alarmMessage);
+            halyaaniService.putExtra("number", "0401234567");
+            halyaaniService.putExtra("halytysaani", "false");
+            halyaaniService.putExtra("timestamp", Aika);
+            getApplicationContext().startService(halyaaniService);
         }, 5000);
 
     }
@@ -523,12 +516,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
         buttonPositive.setText(positiveButtonText);
 
-        buttonPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        buttonPositive.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
@@ -550,81 +538,41 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         switch (chooser) {
             case "testAlarm":
-                buttonPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        testAlarm();
-                        dialog.dismiss();
-                    }
+                buttonPositive.setOnClickListener(v -> {
+                    testAlarm();
+                    dialog.dismiss();
                 });
-                buttonNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                buttonNegative.setOnClickListener(v -> dialog.dismiss());
                 break;
             case "setSoundSilent":
-                buttonPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setSoundSilent();
-                        dialog.dismiss();
-                    }
+                buttonPositive.setOnClickListener(v -> {
+                    setSoundSilent();
+                    dialog.dismiss();
                 });
-                buttonNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                buttonNegative.setOnClickListener(v -> dialog.dismiss());
                 break;
             case "askPermission":
-                buttonPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(FrontpageActivity.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
-                        dialog.dismiss();
-                    }
+                buttonPositive.setOnClickListener(v -> {
+                    ActivityCompat.requestPermissions(FrontpageActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
+                    dialog.dismiss();
                 });
-                buttonNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                buttonNegative.setOnClickListener(v -> dialog.dismiss());
                 break;
             case "saveDatabase":
-                buttonPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        saveFile();
-                        dialog.dismiss();
-                    }
+                buttonPositive.setOnClickListener(v -> {
+                    saveFile();
+                    dialog.dismiss();
                 });
-                buttonNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                buttonNegative.setOnClickListener(v -> dialog.dismiss());
                 break;
             case "deleteDatabase":
-                buttonPositive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteDatabase();
-                        dialog.dismiss();
-                    }
+                buttonPositive.setOnClickListener(v -> {
+                    deleteDatabase();
+                    dialog.dismiss();
                 });
-                buttonNegative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                buttonNegative.setOnClickListener(v -> dialog.dismiss());
         }
 
 
@@ -716,16 +664,13 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                             .setTitle(title)
                             .setMessage(message)
                             .setCancelable(false)
-                            .setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
-
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // Mark this version as read
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putLong(LAST_VERSION_CODE_KEY, versionCode);
-                                    editor.apply();
-                                    //showTiewtosuojaAfterWhatsnew();
-                                    dialogInterface.dismiss();
-                                }
+                            .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                                // Mark this version as read
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putLong(LAST_VERSION_CODE_KEY, versionCode);
+                                editor.apply();
+                                //showTiewtosuojaAfterWhatsnew();
+                                dialogInterface.dismiss();
                             });
                     builder.create().show();
                 } else {

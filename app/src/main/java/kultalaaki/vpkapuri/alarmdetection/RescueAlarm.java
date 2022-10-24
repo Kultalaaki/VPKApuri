@@ -141,7 +141,8 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
             }
         }
 
-        return "Ei löytynyt yksiköitä";
+        // No units found in alarm, return blank string.
+        return "";
     }
 
     private String compareUnits(String unitPart, ArrayList<String> units) {

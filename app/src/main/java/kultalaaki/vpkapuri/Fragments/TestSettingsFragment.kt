@@ -11,7 +11,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
@@ -49,8 +48,10 @@ class TestSettingsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_test_settings, container, false)
     }
@@ -62,62 +63,77 @@ class TestSettingsFragment : Fragment() {
 
     private fun testSettings() {
         if (context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-                == PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            }
+            == PackageManager.PERMISSION_GRANTED) {
             storageOK.setTextColor(Color.parseColor(green))
         }
         if (context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-                == PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            }
+            == PackageManager.PERMISSION_GRANTED) {
             storageOK.setTextColor(Color.parseColor(green))
         }
 
+        if (context?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.CAMERA
+                )
+            }
+            == PackageManager.PERMISSION_GRANTED) {
+            cameraOK.setTextColor(Color.parseColor(green))
+        }
+
         if ((context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.READ_SMS)
-                }
-                        == PackageManager.PERMISSION_GRANTED)) {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.READ_SMS
+                )
+            }
+                    == PackageManager.PERMISSION_GRANTED)) {
             SMSOK.setTextColor(Color.parseColor(green))
         }
         if ((context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.SEND_SMS)
-                }
-                        == PackageManager.PERMISSION_GRANTED)) {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.SEND_SMS
+                )
+            }
+                    == PackageManager.PERMISSION_GRANTED)) {
             SMSOK.setTextColor(Color.parseColor(green))
         }
         if ((context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.RECEIVE_SMS)
-                }
-                        == PackageManager.PERMISSION_GRANTED)) {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.RECEIVE_SMS
+                )
+            }
+                    == PackageManager.PERMISSION_GRANTED)) {
             SMSOK.setTextColor(Color.parseColor(green))
         }
 
 
-        val notificationManager = activity?.applicationContext?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && notificationManager.isNotificationPolicyAccessGranted) {
+        val notificationManager =
+            activity?.applicationContext?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (notificationManager.isNotificationPolicyAccessGranted) {
             doNotDisturbOK.setTextColor(Color.parseColor(green))
         }
 
-        val powerManager = activity?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (powerManager.isIgnoringBatteryOptimizations(context?.packageName)) {
-                batteryOK.setTextColor(Color.parseColor(green))
-            }
-        } else {
+        val powerManager =
+            activity?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (powerManager.isIgnoringBatteryOptimizations(context?.packageName)) {
             batteryOK.setTextColor(Color.parseColor(green))
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.canDrawOverlays(activity)) {
-                showOnTopOK.setTextColor(Color.parseColor(green))
-            }
+        if (Settings.canDrawOverlays(activity)) {
+            showOnTopOK.setTextColor(Color.parseColor(green))
         }
 
         val sharedPreferences = context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
@@ -137,11 +153,11 @@ class TestSettingsFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                TestSettingsFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+            TestSettingsFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
     }
 }

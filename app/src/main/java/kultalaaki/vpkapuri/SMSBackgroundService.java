@@ -103,6 +103,7 @@ public class SMSBackgroundService extends Service {
                 break;
             case 2:
                 // Message from person attending alarm.
+                notificationAlarmMessage("Lähtijä", "Lähtijä ilmoittautunut.");
                 createPersonComingToAlarm();
                 break;
             case 3:
@@ -282,6 +283,7 @@ public class SMSBackgroundService extends Service {
 
         Toast.makeText(this, name + " lähetti ilmoituksen.", Toast.LENGTH_SHORT).show();
 
+        stopSelf();
     }
 
     /**
