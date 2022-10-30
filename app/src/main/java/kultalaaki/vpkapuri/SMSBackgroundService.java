@@ -88,6 +88,7 @@ public class SMSBackgroundService extends Service {
                 // Not important message to this app,
                 // let it go, let it go
                 // Can't hold it back anymore
+                stopForeground(true);
                 stopSelf();
                 break;
             case 1:
@@ -134,6 +135,7 @@ public class SMSBackgroundService extends Service {
      */
     private void checkIntent(Intent intent) {
         if (intent == null) {
+            stopForeground(true);
             stopSelf();
         }
     }
@@ -283,6 +285,7 @@ public class SMSBackgroundService extends Service {
 
         Toast.makeText(this, name + " lähetti ilmoituksen.", Toast.LENGTH_SHORT).show();
 
+        stopForeground(true);
         stopSelf();
     }
 
