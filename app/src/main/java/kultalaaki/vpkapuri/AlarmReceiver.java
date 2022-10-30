@@ -32,48 +32,48 @@ public class AlarmReceiver extends BroadcastReceiver {
         currentDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
 
         Cursor cursor = dbTimer.timerID(primaryKey);
-        monday = cursor.getString(cursor.getColumnIndex(DBTimer.MA));
-        tuesday = cursor.getString(cursor.getColumnIndex(DBTimer.TI));
-        wednesday = cursor.getString(cursor.getColumnIndex(DBTimer.KE));
-        thursday = cursor.getString(cursor.getColumnIndex(DBTimer.TO));
-        friday = cursor.getString(cursor.getColumnIndex(DBTimer.PE));
-        saturday = cursor.getString(cursor.getColumnIndex(DBTimer.LA));
-        sunday = cursor.getString(cursor.getColumnIndex(DBTimer.SU));
-        mode = cursor.getString(cursor.getColumnIndex(DBTimer.SELECTOR));
+        monday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.MA));
+        tuesday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.TI));
+        wednesday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.KE));
+        thursday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.TO));
+        friday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.PE));
+        saturday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.LA));
+        sunday = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.SU));
+        mode = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.SELECTOR));
 
-        if(monday.equals("Ma")) {
+        if (monday.equals("Ma")) {
             monday = "Monday";
         }
-        if(tuesday.equals("Ti")) {
+        if (tuesday.equals("Ti")) {
             tuesday = "Tuesday";
         }
-        if(wednesday.equals("Ke")) {
+        if (wednesday.equals("Ke")) {
             wednesday = "Wednesday";
         }
-        if(thursday.equals("To")) {
+        if (thursday.equals("To")) {
             thursday = "Thursday";
         }
-        if(friday.equals("Pe")) {
+        if (friday.equals("Pe")) {
             friday = "Friday";
         }
-        if(saturday.equals("La")) {
+        if (saturday.equals("La")) {
             saturday = "Saturday";
         }
-        if(sunday.equals("Su")) {
+        if (sunday.equals("Su")) {
             sunday = "Sunday";
         }
 
-        if(StartOrStop.equals("Starting alarmdetection")) {
+        if (StartOrStop.equals("Starting alarmdetection")) {
             // Alarm start time reached. Check currentDay of week.
-            if(currentDay.equals(monday) || currentDay.equals(tuesday) || currentDay.equals(wednesday) || currentDay.equals(thursday) || currentDay.equals(friday) || currentDay.equals(saturday) || currentDay.equals(sunday)) {
-               // Check mode to set
-               if(mode.equals("Yötila")) {
-                   soundControls.setNightMode(context);
-               } else if(mode.equals("Äänetön")) {
-                   soundControls.setSilent(context);
-               }
+            if (currentDay.equals(monday) || currentDay.equals(tuesday) || currentDay.equals(wednesday) || currentDay.equals(thursday) || currentDay.equals(friday) || currentDay.equals(saturday) || currentDay.equals(sunday)) {
+                // Check mode to set
+                if (mode.equals("Yötila")) {
+                    soundControls.setNightMode(context);
+                } else if (mode.equals("Äänetön")) {
+                    soundControls.setSilent(context);
+                }
             }
-        } else if(StartOrStop.equals("Stopping alarmdetection")) {
+        } else if (StartOrStop.equals("Stopping alarmdetection")) {
             // Alarm stop time reached, setting sound settings to normal.
             soundControls.setNormal(context);
         }
