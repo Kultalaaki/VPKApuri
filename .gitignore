@@ -65,6 +65,13 @@ captures/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+google-servicesbackup.json
+
+# Miscallenous that i dont know
+java_pid3914.hprof
+java_pid4569.hprof
+java_pid5006.hprof
+java_pid7161.hprof
 
 # Freeline
 freeline.py
@@ -94,3 +101,4 @@ lint/tmp/
 # App Specific cases
 app/release/output.json
 .idea/codeStyles/
+output-metadata.json
