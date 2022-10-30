@@ -115,5 +115,3 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
-
-apply plugin: 'com.google.gms.google-services'

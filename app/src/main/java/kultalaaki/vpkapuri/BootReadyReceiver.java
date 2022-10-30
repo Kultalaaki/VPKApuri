@@ -12,7 +12,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 
 import java.util.Calendar;
 
@@ -20,11 +19,11 @@ public class BootReadyReceiver extends BroadcastReceiver {
 
     DBTimer dbTimer;
 
-    /** Android system loses pending intents in reboot.
-     *
-     *  This BroadcastReceiver checks if there is user defined timers in database.
-     *  Setting pending intents to handle set timers.
-     *
+    /**
+     * Android system loses pending intents in reboot.
+     * <p>
+     * This BroadcastReceiver checks if there is user defined timers in database.
+     * Setting pending intents to handle set timers.
      */
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -35,11 +34,11 @@ public class BootReadyReceiver extends BroadcastReceiver {
             dbTimer = new DBTimer(context);
             Cursor cursor = dbTimer.getAllRows();
 
-            if(cursor != null) {
+            if (cursor != null) {
                 while (!cursor.isAfterLast()) {
-                    String key = cursor.getString(cursor.getColumnIndex(DBTimer.COL_1));
-                    String startTime = cursor.getString(cursor.getColumnIndex(DBTimer.STARTTIME));
-                    String stopTime = cursor.getString(cursor.getColumnIndex(DBTimer.STOPTIME));
+                    String key = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.COL_1));
+                    String startTime = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.STARTTIME));
+                    String stopTime = cursor.getString(cursor.getColumnIndexOrThrow(DBTimer.STOPTIME));
                     setAlarms(key, startTime, stopTime, context);
                     cursor.moveToNext();
                 }
@@ -50,7 +49,7 @@ public class BootReadyReceiver extends BroadcastReceiver {
     void setAlarms(String key, String startTime, String stopTime, Context ctx) {
 
         // requestCode is key + Hour + Minute for canceling reasons
-        if(ctx != null) {
+        if (ctx != null) {
             String startHour = startTime.substring(0, 2);
             String startMinute = startTime.substring(3, 5);
             if (startHour.charAt(0) == '0') {
@@ -67,7 +66,7 @@ public class BootReadyReceiver extends BroadcastReceiver {
             Intent intentStart = new Intent(ctx, AlarmReceiver.class);
             intentStart.putExtra("primaryKey", key);
             intentStart.putExtra("StartOrStop", "Starting alarmdetection");
-            PendingIntent alarmIntentStart = PendingIntent.getBroadcast(ctx, requestCode, intentStart, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent alarmIntentStart = PendingIntent.getBroadcast(ctx, requestCode, intentStart, PendingIntent.FLAG_IMMUTABLE);
 
 
             // Setting time based on user input
@@ -76,10 +75,8 @@ public class BootReadyReceiver extends BroadcastReceiver {
             calendar.set(Calendar.HOUR_OF_DAY, startHourPar);
             calendar.set(Calendar.MINUTE, startMinutePar);
 
-            if(alarmMgrStart != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmMgrStart.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntentStart);
-                }
+            if (alarmMgrStart != null) {
+                alarmMgrStart.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntentStart);
                 alarmMgrStart.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStart);
             }
 
@@ -99,7 +96,7 @@ public class BootReadyReceiver extends BroadcastReceiver {
             Intent intentStop = new Intent(ctx, AlarmReceiver.class);
             intentStop.putExtra("primaryKey", key);
             intentStop.putExtra("StartOrStop", "Stopping alarmdetection");
-            PendingIntent alarmIntentStop = PendingIntent.getBroadcast(ctx, requestCode, intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent alarmIntentStop = PendingIntent.getBroadcast(ctx, requestCode, intentStop, PendingIntent.FLAG_IMMUTABLE);
 
 
             // Setting time based on user input
@@ -108,10 +105,8 @@ public class BootReadyReceiver extends BroadcastReceiver {
             calendar1.set(Calendar.HOUR_OF_DAY, stopHourPar);
             calendar1.set(Calendar.MINUTE, stopMinutePar);
 
-            if(alarmMgrStop != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmMgrStop.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), alarmIntentStop);
-                }
+            if (alarmMgrStop != null) {
+                alarmMgrStop.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), alarmIntentStop);
                 alarmMgrStop.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentStop);
             }
         }
