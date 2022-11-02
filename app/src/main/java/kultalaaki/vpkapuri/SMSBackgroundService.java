@@ -298,22 +298,27 @@ public class SMSBackgroundService extends Service {
      * @param alarmSound string representation for alarm sound to use. This is user set in settings.
      */
     private void playAlarmSound(String alarmSound) {
+        MyNotifications notification = new MyNotifications(this);
         // Make alarm go boom
-        Uri uri = Uri.parse(alarmSound);
-        alarmMediaPlayer = new AlarmMediaPlayer(this, preferences, uri);
-        if (alarmMediaPlayer.mediaPlayer != null && alarmMediaPlayer.mediaPlayer.isPlaying()) {
-            alarmMediaPlayer.stopAlarmMedia();
+        try {
+            Uri uri = Uri.parse(alarmSound);
+            alarmMediaPlayer = new AlarmMediaPlayer(this, preferences, uri);
+            if (alarmMediaPlayer.mediaPlayer != null && alarmMediaPlayer.mediaPlayer.isPlaying()) {
+                alarmMediaPlayer.stopAlarmMedia();
+            }
+            if (alarmMediaPlayer.isDoNotDisturbAllowed()) {
+                alarmMediaPlayer.audioFocusRequest();
+            } else {
+                notification.showInformationNotification("Do Not Disturb ei ole sallittu. Anna lupa sovelluksen asetuksissa.");
+                // Use vibration notification
+                VibrateController vibrateController = new VibrateController(this, preferences);
+                vibrateController.vibrateNotification();
+            }
+        } catch (NullPointerException e) {
+            FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+            crashlytics.log("NullPointerException: " + e);
+            notification.showInformationNotification("Hälytysääntä ei ole valittu.");
         }
-        if (alarmMediaPlayer.isDoNotDisturbAllowed()) {
-            alarmMediaPlayer.audioFocusRequest();
-        } else {
-            MyNotifications notification = new MyNotifications(this);
-            notification.showInformationNotification("Do Not Disturb ei ole sallittu. Anna lupa sovelluksen asetuksissa.");
-            // Use vibration notification
-            VibrateController vibrateController = new VibrateController(this, preferences);
-            vibrateController.vibrateNotification();
-        }
-
     }
 
     /**
