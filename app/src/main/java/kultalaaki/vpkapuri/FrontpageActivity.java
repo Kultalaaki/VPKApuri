@@ -22,6 +22,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -30,7 +31,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -52,6 +52,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -64,7 +66,9 @@ import kultalaaki.vpkapuri.Fragments.GuidelineFragment;
 import kultalaaki.vpkapuri.Fragments.SaveToArchiveFragment;
 import kultalaaki.vpkapuri.Fragments.SetTimerFragment;
 import kultalaaki.vpkapuri.Fragments.TimerFragment;
+import kultalaaki.vpkapuri.json.FireAlarmJsonWriter;
 import kultalaaki.vpkapuri.util.Constants;
+import kultalaaki.vpkapuri.util.MyNotifications;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener,
@@ -73,7 +77,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         TimePickerDialog.OnTimeSetListener {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS = 3;
-    private static final int CREATE_FILE = 1;
     private FirebaseAnalytics mFirebaseAnalytics;
     private DrawerLayout mDrawerLayout;
     String[] emailAddress;
@@ -85,6 +88,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     FragmentManager fragmentManager;
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +133,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                             showDialog(
                                     "Hälytyksen testaus! Hälytys tulee 5 sekunnin kuluttua.",
                                     "Voit laittaa puhelimen näppäinlukkoon tai poistua sovelluksesta. Älä sammuta sovellusta kokonaan taustalta, silloin sammuu myös ajastin joka lähettää hälytyksen.",
-                                    "Peruuta",
                                     "Testaa",
                                     "testAlarm");
                             return true;
@@ -138,7 +141,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 showDialog(
                                         "Hälytysten hiljennys!",
                                         "Haluatko varmasti hiljentää hälytykset?",
-                                        "Peruuta",
                                         "Kyllä",
                                         "setSoundSilent");
                             } else {
@@ -155,7 +157,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                             showDialog(
                                     "Haluatko tallentaa arkistossa olevat hälytykset?",
                                     "Tiedosto on avattavissa MS Excel tai jollain muulla ohjelmalla joka tukee .db tiedostoja.",
-                                    "Peruuta",
                                     "Kyllä",
                                     "saveDatabase");
                             return true;
@@ -163,7 +164,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                             showDialog(
                                     "Arkiston tyhjentäminen!",
                                     "Arkistossa olevat hälytykset poistetaan.\nPoistamisen jälkeen arkistoa ei voida palauttaa.\nOletko varma että haluat poistaa hälytykset?",
-                                    "Peruuta",
                                     "Kyllä",
                                     "deleteDatabase"
                             );
@@ -194,6 +194,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         new WhatsNewScreen(this).show();
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume() {
         super.onResume();
@@ -458,7 +459,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 showDialog(
                         "VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.",
                         "Tämä lupa tarvitaan hälytysäänen asettamiseksi. Ilman tätä lupaa sovellus ei voi asettaa hälytysääntä. Pääsy asetuksiin on estetty kunnes lupa on myönnetty.",
-                        "Peruuta",
                         "Anna lupa",
                         "askPermission");
             } else {
@@ -510,7 +510,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         dialog.show();
     }
 
-    private void showDialog(String upperText, String lowerText, String negativeButtonText, String positiveButtonText, String chooser) {
+    @SuppressLint("SetTextI18n")
+    private void showDialog(String upperText, String lowerText, String positiveButtonText, String chooser) {
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
         dialog.setView(dialogLayout);
@@ -523,7 +524,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
         Button buttonNegative = dialogLayout.findViewById(R.id.buttonNegative);
         buttonPositive.setText(positiveButtonText);
-        buttonNegative.setText(negativeButtonText);
+        buttonNegative.setText("Peruuta");
 
         switch (chooser) {
             case "testAlarm":
@@ -551,7 +552,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 break;
             case "saveDatabase":
                 buttonPositive.setOnClickListener(v -> {
-                    saveFile();
+                    //saveDatabaseBackup();
+                    // Todo: testing file picker
+                    openFile();
                     dialog.dismiss();
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
@@ -572,11 +575,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     public void showToast(String headText, String toastText) {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast,
-                (ViewGroup) findViewById(R.id.custom_toast_container));
+                findViewById(R.id.custom_toast_container));
 
-        TextView head = (TextView) layout.findViewById(R.id.head_text);
+        TextView head = layout.findViewById(R.id.head_text);
         head.setText(headText);
-        TextView toastMessage = (TextView) layout.findViewById(R.id.toast_text);
+        TextView toastMessage = layout.findViewById(R.id.toast_text);
         toastMessage.setText(toastText);
 
         Toast toast = new Toast(getApplicationContext());
@@ -587,14 +590,72 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         toast.show();
     }
 
-    private void saveFile() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("VPKApuri/db");
-        intent.putExtra(Intent.EXTRA_TITLE, "HälytyksetVPKApuri.db");
-
-        startActivityForResult(intent, CREATE_FILE);
+    private void saveDatabaseBackup() {
+        if (isExternalStorageWritable()) {
+            try {
+                File file = getAlbumStorageDir("VPK Apuri", "Halytykset_tietokanta.json");
+                FileOutputStream fos = new FileOutputStream(file);
+                FireAlarmJsonWriter fireAlarmJsonWriter = new FireAlarmJsonWriter();
+                FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
+                fireAlarmJsonWriter.writeJsonStream(fos, fireAlarmRepository.getAllFireAlarmsToList());
+                fos.close();
+                Toast.makeText(this, "Tiedosto on tallennettu puhelimen muistiin. Dokumentit -> VPK Apuri", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+                crashlytics.log("IOException: " + e);
+                MyNotifications notifications = new MyNotifications(this);
+                notifications.showInformationNotification("Virhe tietokannan tallennuksessa.");
+            }
+        }
     }
+
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    public File getAlbumStorageDir(String albumName, String fileName) {
+        // Get the directory for the user's public directory.
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), albumName);
+        if (!file.mkdirs()) {
+            Log.e("VPK Apuri", "Tiedostopolkua ei ollut. Luodaan uusi tiedostopolku.");
+        }
+
+        return new File(file, fileName);
+    }
+
+    // Request code for selecting a json file.
+    private static final int PICK_JSON_FILE = 2;
+
+    private void openFile() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/json");
+
+        startActivityForResult(intent, PICK_JSON_FILE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+
+        if (requestCode == PICK_JSON_FILE
+                && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                // Perform operations on the document using its URI.
+                // Todo: Start reading json to java object
+                File file = new File(uri.getPath());
+            }
+        }
+    }
+
 
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
@@ -683,6 +744,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         boolean deleteDir(File dir) {
             if (dir != null && dir.isDirectory()) {
                 String[] children = dir.list();
+                assert children != null;
                 for (String aChildren : children) {
                     boolean success = deleteDir(new File(dir, aChildren));
                     if (!success) {

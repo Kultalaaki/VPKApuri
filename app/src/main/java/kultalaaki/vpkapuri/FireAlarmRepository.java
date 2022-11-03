@@ -17,11 +17,13 @@ public class FireAlarmRepository {
     private FireAlarmDao fireAlarmDao;
     private LiveData<List<FireAlarm>> allFireAlarms;
     private LiveData<List<FireAlarm>> fireAlarmLastEntry;
+    private List<FireAlarm> allFireAlarmsInList;
 
     public FireAlarmRepository(Application application) {
         FireAlarmDatabase database = FireAlarmDatabase.getInstance(application);
         fireAlarmDao = database.fireAlarmsDao();
         allFireAlarms = fireAlarmDao.getAllFireAlarms();
+        allFireAlarmsInList = fireAlarmDao.getAllFireAlarmsToList();
         fireAlarmLastEntry = fireAlarmDao.getLatest();
     }
 
@@ -48,6 +50,8 @@ public class FireAlarmRepository {
     LiveData<List<FireAlarm>> getLastEntry() {return fireAlarmLastEntry;}
 
     LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
+
+    List<FireAlarm> getAllFireAlarmsToList() {return allFireAlarmsInList;}
 
     private static class InsertFireAlarmAsyncTask extends AsyncTask<FireAlarm, Void, Void> {
         private FireAlarmDao fireAlarmDao;

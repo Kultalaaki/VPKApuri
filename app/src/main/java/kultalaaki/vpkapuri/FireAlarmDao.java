@@ -38,4 +38,7 @@ public interface FireAlarmDao {
 
     @Query("SELECT * FROM firealarm_table ORDER BY id DESC")
     LiveData<List<FireAlarm>> getAllFireAlarms();
+
+    @Query("SELECT * FROM firealarm_table ORDER BY id DESC")
+    List<FireAlarm> getAllFireAlarmsToList();
 }
