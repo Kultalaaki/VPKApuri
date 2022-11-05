@@ -51,8 +51,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
@@ -552,16 +554,15 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 break;
             case "saveDatabase":
                 buttonPositive.setOnClickListener(v -> {
-                    //saveDatabaseBackup();
-                    // Todo: testing file picker
-                    openFile();
+                    saveDatabaseBackup();
                     dialog.dismiss();
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
                 break;
             case "deleteDatabase":
                 buttonPositive.setOnClickListener(v -> {
-                    deleteDatabase();
+                    //deleteDatabase();
+                    openFile();
                     dialog.dismiss();
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
@@ -650,8 +651,21 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             if (resultData != null) {
                 uri = resultData.getData();
                 // Perform operations on the document using its URI.
-                // Todo: Start reading json to java object
-                File file = new File(uri.getPath());
+                // Todo: Open file and read content
+                try {
+                    assert uri != null;
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(uri.getPath()));
+                    String line;
+                    StringBuilder result = new StringBuilder();
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    bufferedReader.close();
+                    Log.i("Result of backup read: ", result.toString());
+                } catch (NullPointerException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
