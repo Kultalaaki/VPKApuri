@@ -45,6 +45,10 @@
             android:id="@+id/tallennatietokanta"
             android:icon="@drawable/ic_save_white_36dp"
             android:title="@string/tallenna_tietokanta" />
+        <item
+            android:id="@+id/palautatietokanta"
+            android:icon="@drawable/ic_whatshot_white_36dp"
+            android:title="@string/palauta_tietokanta" />
     </group>
     <group>
         <item

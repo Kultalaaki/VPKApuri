@@ -535,6 +535,7 @@
     <string name="alarm">HÄLYTYS</string>
     <string name="tokeva">TOKEVA</string>
     <string name="app_logo">App logo</string>
+    <string name="palauta_tietokanta">Palauta tietokanta</string>
 
     <!--Vibrate patterns-->
     <string-array name="vibrate">
