@@ -636,6 +636,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         result.append(line);
                     }
                     bufferedReader.close();
+                    // Todo: String result contains all lines from backup json
+                    // Todo: convert to json object and insert all back to database
                     Log.i("Result of backup read: ", result.toString());
                 } catch (NullPointerException | IOException e) {
                     e.printStackTrace();
