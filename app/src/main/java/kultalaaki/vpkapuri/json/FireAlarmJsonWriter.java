@@ -30,8 +30,8 @@ public class FireAlarmJsonWriter {
     public void writeAlarm(JsonWriter writer, FireAlarm fireAlarm) throws IOException {
         writer.beginObject();
         writer.name("viesti").value(fireAlarm.getViesti());
-        writer.name("tehtäväluokka").value(fireAlarm.getTunnus());
-        writer.name("kiireellisyystunnus").value(fireAlarm.getLuokka());
+        writer.name("tehtäväluokka").value(fireAlarm.getTehtavaluokka());
+        writer.name("kiireellisyystunnus").value(fireAlarm.getKiireellisyystunnus());
         writer.name("osoite").value(fireAlarm.getOsoite());
         writer.name("timestamp").value(fireAlarm.getTimeStamp());
         writer.name("kommentti").value(fireAlarm.getKommentti());

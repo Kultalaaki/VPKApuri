@@ -13,18 +13,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import kultalaaki.vpkapuri.FireAlarm;
 import kultalaaki.vpkapuri.FireAlarmViewModel;
@@ -73,8 +72,8 @@ public class ArchivedAlarmFragment extends Fragment {
         ArchivedAlarmFragment fragment = new ArchivedAlarmFragment();
         Bundle args = new Bundle();
         args.putInt("id", fireAlarm.getId());
-        args.putString("tunnus", fireAlarm.getTunnus());
-        args.putString("luokka", fireAlarm.getLuokka());
+        args.putString("tunnus", fireAlarm.getTehtavaluokka());
+        args.putString("luokka", fireAlarm.getKiireellisyystunnus());
         args.putString("viesti", fireAlarm.getViesti());
         args.putString("osoite", fireAlarm.getOsoite());
         args.putString("kommentti", fireAlarm.getKommentti());
@@ -227,9 +226,9 @@ public class ArchivedAlarmFragment extends Fragment {
                         String aikaLeima = aikaleima.getText().toString();
 
                         mFireAlarm.setViesti(viesti);
-                        mFireAlarm.setTunnus(tunnus);
+                        mFireAlarm.setTehtavaluokka(tunnus);
                         mFireAlarm.setOsoite(osoite);
-                        mFireAlarm.setLuokka(luokka);
+                        mFireAlarm.setKiireellisyystunnus(luokka);
                         mFireAlarm.setKommentti(kommentti);
                         mFireAlarm.setTimeStamp(aikaLeima);
 

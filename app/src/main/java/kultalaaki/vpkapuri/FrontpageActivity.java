@@ -52,12 +52,15 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -71,6 +74,7 @@ import kultalaaki.vpkapuri.Fragments.SaveToArchiveFragment;
 import kultalaaki.vpkapuri.Fragments.SetTimerFragment;
 import kultalaaki.vpkapuri.Fragments.TimerFragment;
 import kultalaaki.vpkapuri.json.FireAlarmJsonWriter;
+import kultalaaki.vpkapuri.json.ReadJsonObjectsFromJsonArray;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.MyNotifications;
 
@@ -610,7 +614,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
             if (resultData != null) {
                 uri = resultData.getData();
-                InputStream stream = null;
                 String tempID = "", id = "";
 
                 assert uri != null;
@@ -625,7 +628,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 }
 
                 // Perform operations on the document using its URI.
-                // Todo: Open file and read content
+                // Read content
                 try {
                     //File file = new File(actualfilepath);
                     BufferedReader bufferedReader = new BufferedReader(new FileReader(actualfilepath));
@@ -636,9 +639,10 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         result.append(line);
                     }
                     bufferedReader.close();
-                    // Todo: String result contains all lines from backup json
-                    // Todo: convert to json object and insert all back to database
-                    Log.i("Result of backup read: ", result.toString());
+
+                    // String result contains all lines from backup json
+                    // Read json to java
+                    readJsonToJava(result.toString());
                 } catch (NullPointerException | IOException e) {
                     e.printStackTrace();
                 }
@@ -646,6 +650,37 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    private void readJsonToJava(String json) {
+        ReadJsonObjectsFromJsonArray read = new ReadJsonObjectsFromJsonArray(json);
+        try {
+            read.createJsonArray();
+            read.addJsonObjectsToArrayList();
+            ArrayList<JSONObject> objects = read.getObjects();
+
+            insertBackupToDatabase(objects);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertBackupToDatabase(ArrayList<JSONObject> alarms) {
+        FireAlarmRepository repository = new FireAlarmRepository(getApplication());
+
+        try {
+            for (JSONObject object : alarms) {
+                FireAlarm fireAlarm = new FireAlarm(object.getString("tehtäväluokka"), object.getString("kiireellisyystunnus"),
+                        object.getString("viesti"), object.getString("osoite"), object.getString("kommentti"),
+                        object.getString("vastaus"), object.getString("timestamp"), object.getString("optional2"),
+                        object.getString("optional3"), object.getString("optional4"), object.getString("optional5"));
+
+                repository.insert(fireAlarm);
+            }
+            Toast.makeText(this, "Tietokanta palautettu.", Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());

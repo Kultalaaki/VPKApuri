@@ -15,7 +15,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = FireAlarm.class, version = 5, exportSchema = false)
+@Database(entities = FireAlarm.class, version = 6, exportSchema = false)
 public abstract class FireAlarmDatabase extends RoomDatabase {
 
     private static FireAlarmDatabase instance;
@@ -25,10 +25,10 @@ public abstract class FireAlarmDatabase extends RoomDatabase {
     abstract FireAlarmDao fireAlarmsDao();
 
     public static synchronized FireAlarmDatabase getInstance(Context context) {
-        if(instance == null) {
+        if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    FireAlarmDatabase.class, DATABASE_NAME)
-                    .addMigrations(MIGRATION_4_5, MIGRATION_3_5, MIGRATION_2_5, MIGRATION_1_5)
+                            FireAlarmDatabase.class, DATABASE_NAME)
+                    .addMigrations(MIGRATION_4_5, MIGRATION_3_5, MIGRATION_2_5, MIGRATION_1_5, MIGRATION_5_6)
                     .allowMainThreadQueries()
                     .setJournalMode(JournalMode.TRUNCATE)
                     .build();
@@ -61,6 +61,15 @@ public abstract class FireAlarmDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
+
+    private static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+            database.execSQL("ALTER TABLE firealarm_table RENAME COLUMN tunnus TO tehtavaluokka");
+            database.execSQL("ALTER TABLE firealarm_table RENAME COLUMN luokka TO kiireellisyystunnus");
         }
     };
 }

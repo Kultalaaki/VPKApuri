@@ -126,7 +126,7 @@ public class AlarmFragment extends Fragment {
             fireAlarmViewModel.getLastEntry().observe(getViewLifecycleOwner(), fireAlarms -> {
                 if (!fireAlarms.isEmpty()) {
                     FireAlarm currentAlarm = fireAlarms.get(0);
-                    String[] alarmSplitted = currentAlarm.getTunnus().split("([:/])+");
+                    String[] alarmSplitted = currentAlarm.getTehtavaluokka().split("([:/])+");
                     alarmMessage.setText(currentAlarm.getViesti());
 
                     try {
@@ -139,7 +139,7 @@ public class AlarmFragment extends Fragment {
                         FirebaseCrashlytics.getInstance().log("Alarm fragment: Could not set all texts for alarm card.");
                     }
 
-                    urgencyClass.setText(currentAlarm.getLuokka());
+                    urgencyClass.setText(currentAlarm.getKiireellisyystunnus());
 
                     // Get units of alarm and put them in views
                     String[] units = currentAlarm.getOptionalField3().split("([,])");
@@ -150,14 +150,14 @@ public class AlarmFragment extends Fragment {
                     }
 
                     // Todo: Vapepa alarms text to speech enhancement
-                    toSpeech = currentAlarm.getTunnus() + " "
-                            + currentAlarm.getLuokka() + " "
+                    toSpeech = currentAlarm.getTehtavaluokka() + " "
+                            + currentAlarm.getKiireellisyystunnus() + " "
                             + currentAlarm.getOsoite() + " "
                             + currentAlarm.getOptionalField3();
 
                     fireAlarmViewModel.setAddress(currentAlarm.getOsoite());
                     fireAlarmViewModel.setAlarmingNumber(currentAlarm.getOptionalField2());
-                    if (currentAlarm.getTunnus().equals("OHTO Hälytys")) {
+                    if (currentAlarm.getTehtavaluokka().equals("OHTO Hälytys")) {
                         mCallback.loadOHTOAnswer();
                         mCallback.changeLayout();
                         previousAlarmOHTO = true;

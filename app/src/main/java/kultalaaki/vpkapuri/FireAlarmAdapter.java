@@ -35,8 +35,8 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
         @Override
         public boolean areContentsTheSame(@NonNull FireAlarm oldItem, @NonNull FireAlarm newItem) {
             return oldItem.getViesti().equals(newItem.getViesti()) &&
-                    oldItem.getLuokka().equals(newItem.getLuokka()) &&
-                    oldItem.getTunnus().equals(newItem.getTunnus());
+                    oldItem.getKiireellisyystunnus().equals(newItem.getKiireellisyystunnus()) &&
+                    oldItem.getTehtavaluokka().equals(newItem.getTehtavaluokka());
         }
     };
 
@@ -55,7 +55,7 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
         // TODO: Sijanumero muuttaa niin että saadaan arkistossa näkyviin monesko hälytys uusin aina on
         //holder.textViewSija.setText(Integer.toString(currentAlarm.getId()));
         holder.textViewSija.setText(alarmNumber.toString());
-        holder.textViewTunnus.setText(currentAlarm.getTunnus());
+        holder.textViewTunnus.setText(currentAlarm.getTehtavaluokka());
         holder.textViewViesti.setText(currentAlarm.getViesti());
         alarmNumber++;
     }

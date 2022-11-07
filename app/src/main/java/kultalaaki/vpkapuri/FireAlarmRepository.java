@@ -14,10 +14,10 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class FireAlarmRepository {
-    private FireAlarmDao fireAlarmDao;
-    private LiveData<List<FireAlarm>> allFireAlarms;
-    private LiveData<List<FireAlarm>> fireAlarmLastEntry;
-    private List<FireAlarm> allFireAlarmsInList;
+    private final FireAlarmDao fireAlarmDao;
+    private final LiveData<List<FireAlarm>> allFireAlarms;
+    private final LiveData<List<FireAlarm>> fireAlarmLastEntry;
+    private final List<FireAlarm> allFireAlarmsInList;
 
     public FireAlarmRepository(Application application) {
         FireAlarmDatabase database = FireAlarmDatabase.getInstance(application);
@@ -54,7 +54,7 @@ public class FireAlarmRepository {
     List<FireAlarm> getAllFireAlarmsToList() {return allFireAlarmsInList;}
 
     private static class InsertFireAlarmAsyncTask extends AsyncTask<FireAlarm, Void, Void> {
-        private FireAlarmDao fireAlarmDao;
+        private final FireAlarmDao fireAlarmDao;
 
         private InsertFireAlarmAsyncTask(FireAlarmDao fireAlarmDao) {
             this.fireAlarmDao = fireAlarmDao;
@@ -68,7 +68,7 @@ public class FireAlarmRepository {
     }
 
     private static class UpdateFireAlarmAsyncTask extends AsyncTask<FireAlarm, Void, Void> {
-        private FireAlarmDao fireAlarmDao;
+        private final FireAlarmDao fireAlarmDao;
 
         private UpdateFireAlarmAsyncTask(FireAlarmDao fireAlarmDao) {
             this.fireAlarmDao = fireAlarmDao;
@@ -82,7 +82,7 @@ public class FireAlarmRepository {
     }
 
     private static class DeleteFireAlarmAsyncTask extends AsyncTask<FireAlarm, Void, Void> {
-        private FireAlarmDao fireAlarmDao;
+        private final FireAlarmDao fireAlarmDao;
 
         private DeleteFireAlarmAsyncTask(FireAlarmDao fireAlarmDao) {
             this.fireAlarmDao = fireAlarmDao;
@@ -96,7 +96,7 @@ public class FireAlarmRepository {
     }
 
     private static class DeleteAllFireAlarmAsyncTask extends AsyncTask<Void, Void, Void> {
-        private FireAlarmDao fireAlarmDao;
+        private final FireAlarmDao fireAlarmDao;
 
         private DeleteAllFireAlarmAsyncTask(FireAlarmDao fireAlarmDao) {
             this.fireAlarmDao = fireAlarmDao;

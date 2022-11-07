@@ -15,8 +15,8 @@ public class FireAlarm {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String tunnus; // 401, 402, 403 etc.
-    private String luokka; // A, B, C, D
+    private String tehtavaluokka; // 401, 402, 403 etc.
+    private String kiireellisyystunnus; // A, B, C, D
     private String viesti; // message
     private String osoite; // address
     private String kommentti; // Comment, added from archive if user writes something
@@ -29,8 +29,8 @@ public class FireAlarm {
 
     /**
      *
-     * @param tunnus
-     * @param luokka
+     * @param tehtavaluokka
+     * @param kiireellisyystunnus
      * @param viesti
      * @param osoite
      * @param kommentti
@@ -41,10 +41,10 @@ public class FireAlarm {
      * @param optionalField4
      * @param optionalField5
      */
-    public FireAlarm(String tunnus, String luokka, String viesti, String osoite, String kommentti, String vastaus,
+    public FireAlarm(String tehtavaluokka, String kiireellisyystunnus, String viesti, String osoite, String kommentti, String vastaus,
                      String timeStamp, String optionalField2, String optionalField3, String optionalField4, String optionalField5) {
-        this.tunnus = tunnus;
-        this.luokka = luokka;
+        this.tehtavaluokka = tehtavaluokka;
+        this.kiireellisyystunnus = kiireellisyystunnus;
         this.viesti = viesti;
         this.osoite = osoite;
         this.kommentti = kommentti;
@@ -56,12 +56,12 @@ public class FireAlarm {
         this.optionalField5 = optionalField5;
     }
 
-    public void setTunnus(String tunnus) {
-        this.tunnus = tunnus;
+    public void setTehtavaluokka(String tehtavaluokka) {
+        this.tehtavaluokka = tehtavaluokka;
     }
 
-    public void setLuokka(String luokka) {
-        this.luokka = luokka;
+    public void setKiireellisyystunnus(String kiireellisyystunnus) {
+        this.kiireellisyystunnus = kiireellisyystunnus;
     }
 
     public void setViesti(String viesti) {
@@ -108,12 +108,12 @@ public class FireAlarm {
         return id;
     }
 
-    public String getTunnus() {
-        return tunnus;
+    public String getTehtavaluokka() {
+        return tehtavaluokka;
     }
 
-    public String getLuokka() {
-        return luokka;
+    public String getKiireellisyystunnus() {
+        return kiireellisyystunnus;
     }
 
     public String getViesti() {

@@ -16,13 +16,13 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 public class FireAlarmViewModel extends AndroidViewModel {
-    private FireAlarmRepository repository;
-    private LiveData<List<FireAlarm>> allFireAlarms;
-    private LiveData<List<FireAlarm>> lastFireAlarm;
+    private final FireAlarmRepository repository;
+    private final LiveData<List<FireAlarm>> allFireAlarms;
+    private final LiveData<List<FireAlarm>> lastFireAlarm;
 
-    private MutableLiveData<CharSequence> address = new MutableLiveData<>();
-    private MutableLiveData<CharSequence> number = new MutableLiveData<>();
-    private MutableLiveData<CharSequence> tunnus = new MutableLiveData<>();
+    private final MutableLiveData<CharSequence> address = new MutableLiveData<>();
+    private final MutableLiveData<CharSequence> number = new MutableLiveData<>();
+    private final MutableLiveData<CharSequence> tunnus = new MutableLiveData<>();
 
     public FireAlarmViewModel(@NonNull Application application) {
         super(application);
