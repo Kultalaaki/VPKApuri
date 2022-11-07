@@ -28,7 +28,6 @@ public class FireAlarm {
     private String optionalField5;
 
     /**
-     *
      * @param tehtavaluokka
      * @param kiireellisyystunnus
      * @param viesti
@@ -36,13 +35,12 @@ public class FireAlarm {
      * @param kommentti
      * @param vastaus
      * @param timeStamp
-     * @param optionalField2 message sender number
+     * @param optionalField2      message sender number
      * @param optionalField3
      * @param optionalField4
      * @param optionalField5
      */
-    public FireAlarm(String tehtavaluokka, String kiireellisyystunnus, String viesti, String osoite, String kommentti, String vastaus,
-                     String timeStamp, String optionalField2, String optionalField3, String optionalField4, String optionalField5) {
+    public FireAlarm(String tehtavaluokka, String kiireellisyystunnus, String viesti, String osoite, String kommentti, String vastaus, String timeStamp, String optionalField2, String optionalField3, String optionalField4, String optionalField5) {
         this.tehtavaluokka = tehtavaluokka;
         this.kiireellisyystunnus = kiireellisyystunnus;
         this.viesti = viesti;
