@@ -80,11 +80,6 @@
             android:key="throughVibrateMode"
             android:summary="Laita tämä päälle jos haluat että hälytykset eivät tule värinätilan läpi."
             android:title="Värinätilan läpi" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="puhelu"
-            android:summary="Laita tämä päälle jos haluat käyttää sovelluksen ääniasetuksia myös puhelu hälytyksille. Muista myös Do Not Disturb asetus."
-            android:title="Puhelu hälytys" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -141,23 +136,6 @@
                 android:dependency="boolean_emergency_sound"
                 android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
                 android:key="ringtone_emergency"
-                android:summary="@string/ringtoneSummary"
-                android:title="@string/pref_title_ringtone"
-                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
-                auto:extraRingtones="@array/extraRingtones"
-                auto:ringtoneType="all"
-                auto:showDefault="false"
-                auto:showSilent="false" />
-            <SwitchPreference
-                android:defaultValue="false"
-                android:key="Puhelu"
-                android:summary="Puhelu hälytyksille oma hälytysääni."
-                android:title="Puhelu" />
-            <kultalaaki.vpkapuri.ExtraRingtonePreference
-                android:defaultValue="content://settings/system/notification_sound"
-                android:dependency="Puhelu"
-                android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
-                android:key="ringtonePuhelu"
                 android:summary="@string/ringtoneSummary"
                 android:title="@string/pref_title_ringtone"
                 auto:extraRingtoneTitles="@array/extraRingtoneTitles"

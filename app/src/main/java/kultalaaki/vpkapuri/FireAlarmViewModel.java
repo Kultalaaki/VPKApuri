@@ -47,23 +47,39 @@ public class FireAlarmViewModel extends AndroidViewModel {
         return number;
     }
 
-    void setTunnus(CharSequence input) {tunnus.setValue(input);}
+    void setTunnus(CharSequence input) {
+        tunnus.setValue(input);
+    }
 
-    LiveData<CharSequence> getTunnus() {return tunnus;}
+    LiveData<CharSequence> getTunnus() {
+        return tunnus;
+    }
 
-    public void insert(FireAlarm fireAlarm) {repository.insert(fireAlarm);}
+    public void insert(FireAlarm fireAlarm) {
+        repository.insert(fireAlarm);
+    }
 
-    public void update(FireAlarm fireAlarm) {repository.update(fireAlarm);}
+    public void update(FireAlarm fireAlarm) {
+        repository.update(fireAlarm);
+    }
 
-    public void delete(FireAlarm fireAlarm) {repository.delete(fireAlarm);}
+    public void delete(FireAlarm fireAlarm) {
+        repository.delete(fireAlarm);
+    }
 
-    public void deleteAll(FireAlarm fireAlarm) {repository.deleteAllFireAlarms();}
+    public void deleteAll(FireAlarm fireAlarm) {
+        repository.deleteAllFireAlarms();
+    }
 
     public FireAlarm lastEntry() {
         return repository.getLatest();
     }
 
-    public LiveData<List<FireAlarm>> getLastEntry() {return lastFireAlarm;}
+    public LiveData<List<FireAlarm>> getLastEntry() {
+        return lastFireAlarm;
+    }
 
-    public LiveData<List<FireAlarm>> getAllFireAlarms() {return allFireAlarms;}
+    public LiveData<List<FireAlarm>> getAllFireAlarms() {
+        return allFireAlarms;
+    }
 }
