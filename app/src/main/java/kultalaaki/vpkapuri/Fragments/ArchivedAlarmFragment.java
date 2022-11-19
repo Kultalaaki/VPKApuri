@@ -25,9 +25,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import kultalaaki.vpkapuri.FireAlarm;
-import kultalaaki.vpkapuri.FireAlarmViewModel;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
 
 
 /**

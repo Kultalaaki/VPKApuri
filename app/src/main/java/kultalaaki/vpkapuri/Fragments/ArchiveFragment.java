@@ -8,6 +8,10 @@ package kultalaaki.vpkapuri.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,16 +20,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
-import kultalaaki.vpkapuri.FireAlarm;
-import kultalaaki.vpkapuri.FireAlarmAdapter;
-import kultalaaki.vpkapuri.FireAlarmViewModel;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmAdapter;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
 
 
 /**

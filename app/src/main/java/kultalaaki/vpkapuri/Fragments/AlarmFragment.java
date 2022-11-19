@@ -34,9 +34,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import kultalaaki.vpkapuri.FireAlarm;
-import kultalaaki.vpkapuri.FireAlarmViewModel;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
 import kultalaaki.vpkapuri.soundcontrols.SpeakText;
 
 public class AlarmFragment extends Fragment {

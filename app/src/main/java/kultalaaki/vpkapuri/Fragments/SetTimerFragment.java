@@ -28,9 +28,9 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
 
-import kultalaaki.vpkapuri.AlarmReceiver;
-import kultalaaki.vpkapuri.DBTimer;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.misc.DBTimer;
+import kultalaaki.vpkapuri.receivers.AlarmReceiver;
 
 
 /**

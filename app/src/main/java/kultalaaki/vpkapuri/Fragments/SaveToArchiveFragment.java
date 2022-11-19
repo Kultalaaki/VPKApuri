@@ -8,22 +8,21 @@ package kultalaaki.vpkapuri.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import kultalaaki.vpkapuri.FireAlarm;
-import kultalaaki.vpkapuri.FireAlarmViewModel;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import kultalaaki.vpkapuri.FrontpageActivity;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
 
 public class SaveToArchiveFragment extends Fragment {
 

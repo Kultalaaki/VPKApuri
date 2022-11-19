@@ -38,9 +38,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
 
-import kultalaaki.vpkapuri.FireAlarmViewModel;
 import kultalaaki.vpkapuri.R;
-import kultalaaki.vpkapuri.SMSBackgroundService;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
+import kultalaaki.vpkapuri.services.SMSBackgroundService;
 
 
 public class AlarmButtonsFragment extends Fragment {

@@ -8,6 +8,11 @@ package kultalaaki.vpkapuri.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.telephony.SmsManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-
-import kultalaaki.vpkapuri.FireAlarmViewModel;
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
 
 
 public class AnswerOHTOFragment extends Fragment {

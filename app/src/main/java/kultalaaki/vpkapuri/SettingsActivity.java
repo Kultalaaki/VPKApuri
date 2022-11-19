@@ -41,6 +41,7 @@ import androidx.core.app.ActivityCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+import kultalaaki.vpkapuri.misc.SeekBarPreference;
 import kultalaaki.vpkapuri.util.Constants;
 
 /**

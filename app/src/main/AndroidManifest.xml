@@ -60,7 +60,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="s">
         <service
-            android:name=".SMSBackgroundService"
+            android:name=".services.SMSBackgroundService"
             android:enabled="true"
             android:exported="false" />
 
@@ -75,7 +75,7 @@
         </provider>
 
         <receiver
-            android:name=".BootReadyReceiver"
+            android:name=".receivers.BootReadyReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -83,7 +83,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedReceiver" />
@@ -108,7 +108,7 @@
         </activity>
 
         <receiver
-            android:name=".StopSMSBackgroundService"
+            android:name=".services.StopSMSBackgroundService"
             android:exported="false" />
 
         <activity
@@ -118,7 +118,7 @@
             android:parentActivityName=".FrontpageActivity" />
 
         <receiver
-            android:name=".SmsBroadcastReceiver"
+            android:name=".receivers.SmsBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS"
@@ -130,7 +130,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".MyWidgetProvider"
+            android:name=".misc.MyWidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
