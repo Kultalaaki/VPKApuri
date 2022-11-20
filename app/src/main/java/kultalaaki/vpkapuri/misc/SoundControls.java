@@ -33,7 +33,7 @@ public class SoundControls {
     @SuppressLint("ApplySharedPref")
     public void setSilent(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_SILENT).commit();
+        sharedPreferences.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_SILENT).apply();
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Äänetön");
 
@@ -54,7 +54,7 @@ public class SoundControls {
     @SuppressLint("ApplySharedPref")
     public void setNightMode(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_NIGHT_MODE).commit();
+        sharedPreferences.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_NIGHT_MODE).apply();
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         text.setTextViewText(R.id.teksti, "Yötila");
 
@@ -75,7 +75,7 @@ public class SoundControls {
     @SuppressLint("ApplySharedPref")
     public void setNormal(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_NORMAL).commit();
+        sharedPreferences.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_NORMAL).apply();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.cancel(Constants.NOTIFICATION_ID);
         RemoteViews text = new RemoteViews(context.getPackageName(), R.layout.widget_layout);

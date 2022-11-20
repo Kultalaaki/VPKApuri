@@ -17,7 +17,7 @@ public class ResponderRepository {
     private ResponderDao responderDao;
     private LiveData<List<Responder>> allResponders;
 
-    ResponderRepository(Application application) {
+    public ResponderRepository(Application application) {
         ResponderDatabase database = ResponderDatabase.getInstance(application);
         responderDao = database.responderDao();
         allResponders = responderDao.getAllResponders();

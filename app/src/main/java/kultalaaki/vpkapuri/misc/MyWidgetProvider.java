@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import kultalaaki.vpkapuri.R;
+import kultalaaki.vpkapuri.util.Constants;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
@@ -47,11 +48,14 @@ public class MyWidgetProvider extends AppWidgetProvider {
         if (intent.getAction() != null) {
             if (intent.getAction().equals(ACTION_WIDGET_REFRESH)) {
 
-                if (sharedPreferences.getInt("aaneton_profiili", -1) == 3) {
+                if (sharedPreferences.getInt("aaneton_profiili", -1) == Constants.SOUND_PROFILE_NIGHT_MODE) {
+                    // Sound profile was in night mode, set to normal
                     soundControls.setNormal(context);
-                } else if (sharedPreferences.getInt("aaneton_profiili", -1) == 1) {
+                } else if (sharedPreferences.getInt("aaneton_profiili", -1) == Constants.SOUND_PROFILE_NORMAL) {
+                    // Sound profile was normal, set to silent
                     soundControls.setSilent(context);
                 } else {
+                    // Sound profile was silent, set to night mode
                     soundControls.setNightMode(context);
                 }
             } else {
