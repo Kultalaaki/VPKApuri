@@ -19,7 +19,7 @@
             android:summary="Ilman Do Not Disturb lupaa sovellus ei voi säädellä äänikanavia hälytyksen tullessa.
             Tämän avulla vaimennetaan soittoääni/viestiääni jotta sovelluksesta asetettu hälytysääni pääsee soimaan. ILMAN TÄTÄ LUPAA SOVELLUS EI PYSTY HÄLYTTÄMÄÄN."
             android:title="Hälytysäänen muuttaminen: Do Not Disturb" />
-        <kultalaaki.vpkapuri.ExtraRingtonePreference
+        <kultalaaki.vpkapuri.misc.ExtraRingtonePreference
             android:defaultValue="content://settings/system/notification_sound"
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:key="ringtone_rescue"
@@ -30,7 +30,7 @@
             auto:ringtoneType="all"
             auto:showDefault="false"
             auto:showSilent="false" />
-        <kultalaaki.vpkapuri.SeekBarPreference
+        <kultalaaki.vpkapuri.misc.SeekBarPreference
             android:defaultValue="50"
             android:dialogMessage="@string/settings_dialog_message"
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
@@ -90,7 +90,7 @@
             android:key="koneluku"
             android:summary="Hälytysviesti puhutaan automaattisesti kun hälytys sivu aukaistaan ilmoituksen kautta tai kun hiljennetään jos automaattinen aukaisu käytössä."
             android:title="Teksti puheeksi" />
-        <kultalaaki.vpkapuri.SeekBarPreference
+        <kultalaaki.vpkapuri.misc.SeekBarPreference
             android:defaultValue="50"
             android:dialogMessage="Teksti puheeksi äänenvoimakkuus"
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
@@ -114,7 +114,7 @@
                 android:key="boolean_vapepa_sound"
                 android:summary="OHTO Hälytyksille oma hälytysääni."
                 android:title="OHTO" />
-            <kultalaaki.vpkapuri.ExtraRingtonePreference
+            <kultalaaki.vpkapuri.misc.ExtraRingtonePreference
                 android:defaultValue="content://settings/system/notification_sound"
                 android:dependency="boolean_vapepa_sound"
                 android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
@@ -131,7 +131,7 @@
                 android:key="boolean_emergency_sound"
                 android:summary="Ensivaste hälytyksille oma hälytysääni."
                 android:title="Ensivaste" />
-            <kultalaaki.vpkapuri.ExtraRingtonePreference
+            <kultalaaki.vpkapuri.misc.ExtraRingtonePreference
                 android:defaultValue="content://settings/system/notification_sound"
                 android:dependency="boolean_emergency_sound"
                 android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
