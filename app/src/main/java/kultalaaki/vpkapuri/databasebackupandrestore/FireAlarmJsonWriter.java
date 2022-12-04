@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
@@ -21,10 +22,22 @@ public class FireAlarmJsonWriter {
 
     public void writeAlarmsArray(JsonWriter writer, List<FireAlarm> alarms) throws IOException {
         writer.beginArray();
-        for (FireAlarm fireAlarm : alarms) {
+        // Reverse list before writing to a file
+        List<FireAlarm> inverted = invert(alarms);
+        for (FireAlarm fireAlarm : inverted) {
             writeAlarm(writer, fireAlarm);
         }
         writer.endArray();
+    }
+
+    private List invert(List<FireAlarm> list) {
+        List<FireAlarm> invertedList = new ArrayList<>();
+
+        for (int i = list.size() - 1; i >= 0; i--) {
+            invertedList.add(list.get(i));
+        }
+
+        return invertedList;
     }
 
     public void writeAlarm(JsonWriter writer, FireAlarm fireAlarm) throws IOException {
