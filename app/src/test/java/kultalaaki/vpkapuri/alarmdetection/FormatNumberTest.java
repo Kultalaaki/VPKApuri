@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import kultalaaki.vpkapuri.util.FormatNumber;
 
-public class NumberFormatterTest {
+public class FormatNumberTest {
 
     @Test
     public void NumberFormatterGivesCorrectFormWhenNumberIsInternationallyFormatted() {

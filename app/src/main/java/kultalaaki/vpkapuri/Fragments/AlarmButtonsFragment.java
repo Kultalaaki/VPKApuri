@@ -265,27 +265,13 @@ public class AlarmButtonsFragment extends Fragment {
             public void onClick(View v) {
                 if (smsnumero != null && smsnumero.equals("whatsapp")) {
                     sendTextToWhatsapp(fivemintxt);
-                } else if (smsnumero != null && smsnumero.contains("www") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                } else if (smsnumero != null && smsnumero.contains("www")) {
                     mCallback.avaaWebSivu(smsnumero);
                 } else if (smsnumero != null && smsnumero.equals("valitse")) {
                     sendTextWithOtherMessageApp(fivemintxt);
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        five = true;
-                        pyydaLuvatSms();
-                    } else {
-                        Context context = getActivity();
-                        if (context != null) {
-                            try {
-                                SmsManager sms = SmsManager.getDefault();
-                                sms.sendTextMessage(smsnumero, null, fivemintxt, null, null);
-                                notifSend("Lähetetty.", "Viesti: " + fivemintxt);
-                            } catch (Exception e) {
-                                smsSendFailed();
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    five = true;
+                    pyydaLuvatSms();
                 }
             }
         });
@@ -298,22 +284,8 @@ public class AlarmButtonsFragment extends Fragment {
                 } else if (smsnumero10 != null && smsnumero10.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenmintxt);
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        ten = true;
-                        pyydaLuvatSms();
-                    } else {
-                        Context context = getActivity();
-                        if (context != null) {
-                            try {
-                                SmsManager sms = SmsManager.getDefault();
-                                sms.sendTextMessage(smsnumero10, null, tenmintxt, null, null);
-                                notifSend("Lähetetty.", "Viesti: " + tenmintxt);
-                            } catch (Exception e) {
-                                smsSendFailed();
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    ten = true;
+                    pyydaLuvatSms();
                 }
             }
         });
@@ -326,22 +298,8 @@ public class AlarmButtonsFragment extends Fragment {
                 } else if (smsnumero11 != null && smsnumero11.equals("valitse")) {
                     sendTextWithOtherMessageApp(tenplusmintxt);
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        tenplus = true;
-                        pyydaLuvatSms();
-                    } else {
-                        Context context = getActivity();
-                        if (context != null) {
-                            try {
-                                SmsManager sms = SmsManager.getDefault();
-                                sms.sendTextMessage(smsnumero11, null, tenplusmintxt, null, null);
-                                notifSend("Lähetetty.", "Viesti: " + tenplusmintxt);
-                            } catch (Exception e) {
-                                smsSendFailed();
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    tenplus = true;
+                    pyydaLuvatSms();
                 }
 
             }

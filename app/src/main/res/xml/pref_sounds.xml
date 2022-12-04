@@ -35,7 +35,7 @@
             android:dialogMessage="@string/settings_dialog_message"
             android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
             android:key="SEEKBAR_VALUE"
-            android:max="100"
+            android:max="150"
             android:summary="@string/settings_summary"
             android:text="@string/settings_unit"
             android:title="@string/settings_title" />

@@ -10,16 +10,15 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
-import androidx.preference.PreferenceManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -40,7 +39,7 @@ public class FrontpageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             SharedPreferences pref_general = PreferenceManager.getDefaultSharedPreferences(getActivity());
             boolean analytics = pref_general.getBoolean("analyticsEnabled", false);
             FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
@@ -69,14 +68,11 @@ public class FrontpageFragment extends Fragment {
         halytys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                    Intent intent = new Intent(getActivity(), AlarmActivity.class);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    Intent intent = new Intent(getActivity(), AlarmActivity.class);
-                    startActivity(intent);
-                }
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+                Intent intent = new Intent(getActivity(), AlarmActivity.class);
+                startActivity(intent, options.toBundle());
+
             }
         });
 
@@ -97,7 +93,7 @@ public class FrontpageFragment extends Fragment {
         csettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.askPermissionReadExternalStorage();
+                mListener.loadSettingsFragment();
             }
         });
     }
@@ -134,6 +130,8 @@ public class FrontpageFragment extends Fragment {
 
         void loadOhjeetFragment();
 
-        void askPermissionReadExternalStorage();
+        void loadSettingsFragment();
+
+        //void askPermissionReadExternalStorage();
     }
 }
