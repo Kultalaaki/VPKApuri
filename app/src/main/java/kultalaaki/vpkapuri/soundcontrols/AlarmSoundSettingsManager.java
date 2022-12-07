@@ -63,7 +63,7 @@ public class AlarmSoundSettingsManager {
         final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int volume = 0;
         if (audioManager != null) {
-            volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+            volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             double aani = (double) volume / 100 * value;
             volume = (int) aani;
         }

@@ -63,7 +63,7 @@ public class SMSMessage {
 
     /**
      *
-     * @returnid Id is used for determining who is sender. Fire rescue sender, vapepa alarm sender or
+     * @return Id is used for determining who is sender. Fire rescue sender, vapepa alarm sender or
      * member coming to alarm
      */
     public int getSenderID() {
