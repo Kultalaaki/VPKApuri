@@ -319,7 +319,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
         return -1;
     }
-
+    
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Log.i("TAG", "OnTimeSet reached");
@@ -329,6 +329,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /**
+     * Create notification channels
+     */
     public void createChannels() {
 
         // NotificationChannel alarms
@@ -388,6 +391,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Send test alarm
+     */
     public void testAlarm() {
 
         preferences.edit().putString("halyvastaanotto11", "0401234567").apply();
@@ -407,6 +413,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     }
 
+    /**
+     * Send feedback through mail app
+     */
     public void startLahetaPalaute() {
         Intent intentemail = new Intent(Intent.ACTION_SENDTO);
         intentemail.setData(Uri.parse("mailto:"));
@@ -461,6 +470,13 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /**
+     * Dialog
+     *
+     * @param upperText          Upper text
+     * @param lowerText          Lower text
+     * @param positiveButtonText Positive button text
+     */
     public void showDialog(String upperText, String lowerText, String positiveButtonText) {
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
@@ -479,6 +495,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         dialog.show();
     }
 
+    /**
+     * Dialog factory
+     *
+     * @param upperText          Upper of dialog
+     * @param lowerText          Lower text of dialog
+     * @param positiveButtonText Positive button text
+     * @param chooser            Negative button text
+     */
     @SuppressLint("SetTextI18n")
     private void showDialog(String upperText, String lowerText, String positiveButtonText, String chooser) {
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -544,6 +568,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(null);
     }
 
+    /**
+     * Show toast message
+     *
+     * @param headText  Head of toast
+     * @param toastText text content
+     */
     public void showToast(String headText, String toastText) {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_container));
@@ -561,6 +591,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         toast.show();
     }
 
+    /**
+     * Save database backup as json file
+     */
     private void saveDatabaseBackup() {
         if (isExternalStorageWritable()) {
             try {
@@ -580,12 +613,22 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    /* Checks if external storage is available for read and write */
+    /**
+     * Checks if external storage is available for read and write
+     */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
+    /**
+     * Get album storage directory with given album name
+     * if album name doesn't exist, create it.
+     *
+     * @param albumName directory name
+     * @param fileName  file name
+     * @return new File with given name
+     */
     public File getAlbumStorageDir(String albumName, String fileName) {
         // Get the directory for the user's public directory.
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), albumName);
@@ -599,6 +642,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     // Request code for selecting a json file.
     private static final int PICK_JSON_FILE = 2;
 
+    /**
+     * Starts activity for user to select file from device
+     */
     private void openFile() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -607,6 +653,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         startActivityForResult(intent, PICK_JSON_FILE);
     }
 
+    /**
+     * Acrtivity result after picking file
+     * Pass json string forward after selection and successful read operation
+     *
+     * @param requestCode request code
+     * @param resultCode  result code
+     * @param resultData  result data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
@@ -655,6 +709,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /**
+     * Reads alarms from json and handles inserting alarms back to database
+     *
+     * @param json string read from file
+     */
     private void readJsonToJava(String json) {
         ReadJsonObjectsFromJsonArray read = new ReadJsonObjectsFromJsonArray(json);
         try {
@@ -668,6 +727,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /**
+     * Inserts alarms back to database
+     * handles json exception
+     *
+     * @param alarms list contains json objects of alarms
+     */
     private void insertBackupToDatabase(ArrayList<JSONObject> alarms) {
         FireAlarmRepository repository = new FireAlarmRepository(getApplication());
 
@@ -687,6 +752,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     }
 
+    /**
+     * Deletes all firealarms from database
+     */
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.deleteAllFireAlarms();
@@ -694,7 +762,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         showToast("Arkisto", "Arkisto tyhjennetty!");
     }
 
-
+    /**
+     * Shows "whats new" screen if new install or app updated
+     */
     private class WhatsNewScreen {
         private static final String LOG_TAG = "WhatsNewScreen";
 

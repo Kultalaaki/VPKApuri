@@ -11,8 +11,18 @@ import java.util.List;
 
 import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
 
+/**
+ * Writes alarms to json array
+ */
 public class FireAlarmJsonWriter {
 
+    /**
+     * Handles creating writer and its properties
+     *
+     * @param out    outputstream
+     * @param alarms list to write
+     * @throws IOException handled by caller
+     */
     public void writeJsonStream(OutputStream out, List<FireAlarm> alarms) throws IOException {
         JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
         writer.setIndent("  ");
@@ -20,6 +30,13 @@ public class FireAlarmJsonWriter {
         writer.close();
     }
 
+    /**
+     * Writes objects to json array
+     *
+     * @param writer handles writing to array
+     * @param alarms list to give writer
+     * @throws IOException caller has to handle
+     */
     public void writeAlarmsArray(JsonWriter writer, List<FireAlarm> alarms) throws IOException {
         writer.beginArray();
         // Reverse list before writing to a file
@@ -30,16 +47,13 @@ public class FireAlarmJsonWriter {
         writer.endArray();
     }
 
-    private List invert(List<FireAlarm> list) {
-        List<FireAlarm> invertedList = new ArrayList<>();
-
-        for (int i = list.size() - 1; i >= 0; i--) {
-            invertedList.add(list.get(i));
-        }
-
-        return invertedList;
-    }
-
+    /**
+     * Creates objects to store in array
+     *
+     * @param writer    writes to json
+     * @param fireAlarm single alarm in list
+     * @throws IOException handled by caller
+     */
     public void writeAlarm(JsonWriter writer, FireAlarm fireAlarm) throws IOException {
         writer.beginObject();
         writer.name("viesti").value(fireAlarm.getViesti());
@@ -54,5 +68,21 @@ public class FireAlarmJsonWriter {
         writer.name("optional4").value(fireAlarm.getOptionalField4());
         writer.name("optional5").value(fireAlarm.getOptionalField5());
         writer.endObject();
+    }
+
+    /**
+     * Inverts given list
+     *
+     * @param list to be inverted
+     * @return inverted list
+     */
+    private List<FireAlarm> invert(List<FireAlarm> list) {
+        List<FireAlarm> invertedList = new ArrayList<>();
+
+        for (int i = list.size() - 1; i >= 0; i--) {
+            invertedList.add(list.get(i));
+        }
+
+        return invertedList;
     }
 }
