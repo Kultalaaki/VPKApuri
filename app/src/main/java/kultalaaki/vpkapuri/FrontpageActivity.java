@@ -599,6 +599,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     // Request code for selecting a json file.
     private static final int PICK_JSON_FILE = 2;
 
+    /**
+     * Starts activity for user to select file from device
+     */
     private void openFile() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -607,6 +610,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         startActivityForResult(intent, PICK_JSON_FILE);
     }
 
+    /**
+     * Acrtivity result after picking file
+     * Pass json string forward after selection and successful read operation
+     *
+     * @param requestCode request code
+     * @param resultCode  result code
+     * @param resultData  result data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
@@ -655,6 +666,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /**
+     * Reads alarms from json and handles inserting alarms back to database
+     *
+     * @param json string read from file
+     */
     private void readJsonToJava(String json) {
         ReadJsonObjectsFromJsonArray read = new ReadJsonObjectsFromJsonArray(json);
         try {
@@ -668,6 +684,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
+    /**
+     * Inserts alarms back to database
+     * handles json exception
+     *
+     * @param alarms list contains json objects of alarms
+     */
     private void insertBackupToDatabase(ArrayList<JSONObject> alarms) {
         FireAlarmRepository repository = new FireAlarmRepository(getApplication());
 
@@ -687,6 +709,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     }
 
+    /**
+     * Deletes all firealarms from database
+     */
     public void deleteDatabase() {
         FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
         fireAlarmRepository.deleteAllFireAlarms();
@@ -694,7 +719,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         showToast("Arkisto", "Arkisto tyhjennetty!");
     }
 
-
+    /**
+     * Shows "whats new" screen if new install or app updated
+     */
     private class WhatsNewScreen {
         private static final String LOG_TAG = "WhatsNewScreen";
 
