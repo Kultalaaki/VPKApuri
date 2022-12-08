@@ -21,7 +21,9 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.IOException;
 
-
+/**
+ * Player for alarm sounds
+ */
 public class AlarmMediaPlayer {
 
     public MediaPlayer mediaPlayer;
@@ -40,13 +42,24 @@ public class AlarmMediaPlayer {
     private AlarmSoundSettingsManager alarmSoundSettingsManager;
     private VibrateController vibrateController;
 
-
+    /**
+     * Constructor
+     *
+     * @param context     Application
+     * @param preferences Shared preferences
+     * @param uri         Alarm tone uri
+     */
     public AlarmMediaPlayer(Context context, SharedPreferences preferences, Uri uri) {
         this.context = context;
         this.preferences = preferences;
         this.uri = uri;
     }
 
+    /**
+     * Check do not disturb permission
+     *
+     * @return have permission = true
+     */
     public boolean isDoNotDisturbAllowed() {
         NotificationManager notificationManager =
                 (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -59,6 +72,9 @@ public class AlarmMediaPlayer {
         return false;
     }
 
+    /**
+     * Request audio focus like Google want's us to do
+     */
     public void audioFocusRequest() {
         alarmSoundSettingsManager = new AlarmSoundSettingsManager(context, preferences);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -122,6 +138,13 @@ public class AlarmMediaPlayer {
         }
     }
 
+    /**
+     * Prepare media player to play sound
+     * Check vibration settings
+     * Set stop time
+     *
+     * @param uri Sound to play
+     */
     private void prepareMediaPlayer(Uri uri) {
         try {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -146,6 +169,10 @@ public class AlarmMediaPlayer {
         }
     }
 
+    /**
+     * Stop media player
+     * Abandon audio focus
+     */
     public void stopAlarmMedia() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
@@ -155,6 +182,9 @@ public class AlarmMediaPlayer {
         audioManager.abandonAudioFocusRequest(focusRequest);
     }
 
+    /**
+     * Timer for stopping service
+     */
     private void stoppingServiceTimer() {
         int stoppingTime = 60;
         String userSetStoppingTime = preferences.getString("stopTime", null);
@@ -169,6 +199,9 @@ public class AlarmMediaPlayer {
         handler.postDelayed(this::stopAlarmMedia, stoppingTime);
     }
 
+    /**
+     * Start vibration
+     */
     private void startVibration() {
         vibrateController = new VibrateController(context, preferences);
         if (alarmSoundSettingsManager.getAlarmSoundVolume() > 0) {
@@ -176,6 +209,9 @@ public class AlarmMediaPlayer {
         }
     }
 
+    /**
+     * Special vibration used when audio focus is not granted
+     */
     private void startVibrationNotification() {
         vibrateController = new VibrateController(context, preferences);
         if (alarmSoundSettingsManager.getAlarmSoundVolume() > 0) {
@@ -183,6 +219,9 @@ public class AlarmMediaPlayer {
         }
     }
 
+    /**
+     * Stop vibration
+     */
     private void stopVibration() {
         if (vibrateController != null) {
             vibrateController.stopVibration();

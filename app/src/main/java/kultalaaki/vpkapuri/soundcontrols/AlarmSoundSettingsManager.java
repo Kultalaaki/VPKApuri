@@ -19,11 +19,22 @@ public class AlarmSoundSettingsManager {
     private final Context context;
     private final SharedPreferences preferences;
 
+    /**
+     * Constructor
+     *
+     * @param context     Application context
+     * @param preferences Shared preferences
+     */
     public AlarmSoundSettingsManager(Context context, SharedPreferences preferences) {
         this.context = context;
         this.preferences = preferences;
     }
 
+    /**
+     * Check alarming settings and set alarm volume
+     *
+     * @return Volume
+     */
     public int getAlarmSoundVolume() {
         RingerModeManager ringerModeManager = new RingerModeManager(context);
         int ringerMode = ringerModeManager.getRingerMode();
@@ -35,7 +46,7 @@ public class AlarmSoundSettingsManager {
                 // Set alarmsound volume to 0
                 return 0;
             }
-            return soundMode();
+            return getVolume();
         } else if (ringerMode == 1) {
             // Phone is in vibrate
             // Are we allowed to alarm through vibrate mode
@@ -44,40 +55,60 @@ public class AlarmSoundSettingsManager {
                 // Set alarm sound volume to 0
                 return 0;
             }
-            return soundMode();
+            return getVolume();
         }
-        return soundMode();
+        return getVolume();
     }
 
-    private int soundMode() {
+    /**
+     * Set volume how user has settings
+     *
+     * @return Volume
+     */
+    private int getVolume() {
         if (getUserSetSoundmode() == 2) {
             return 0;
         } else if (getUserSetSoundmode() == 3) {
             // App is in night mode set volume to 10
-            return getVolume(10);
+            return adjustVolume(10);
         }
-        return getVolume(getSeekbarValue());
+        return adjustVolume(getSeekbarValue());
     }
 
-    public int getVolume(int value) {
+    /**
+     * Adjust volume
+     *
+     * @param seekbarValue seekbarValue from settings
+     * @return Channel volume
+     */
+    public int adjustVolume(int seekbarValue) {
         final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int volume = 0;
         if (audioManager != null) {
             volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            double aani = (double) volume / 100 * value;
+            double aani = (double) volume / 100 * seekbarValue;
             volume = (int) aani;
         }
 
         return volume;
     }
 
-    // Soundmodes
-    // 2 = Silent mode: silent
-    // 3 = Night mode: 10% volume in alarms
+    /**
+     * Get user set sound mode
+     * 2 = Silent mode: silent
+     * 3 = Night mode: 10% volume
+     *
+     * @return selected sound mode
+     */
     private int getUserSetSoundmode() {
         return preferences.getInt("aaneton_profiili", -1);
     }
 
+    /**
+     * Seekbar value from settings
+     *
+     * @return user set value
+     */
     private int getSeekbarValue() {
         return preferences.getInt("SEEKBAR_VALUE", -1);
     }

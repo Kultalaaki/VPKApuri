@@ -60,7 +60,7 @@ public class SpeakText {
                 }
                 volume = preferences.getInt("tekstiPuheeksiVol", -1);
                 alarmSoundSettingsManager = new AlarmSoundSettingsManager(context, preferences);
-                volume = alarmSoundSettingsManager.getVolume(volume);
+                volume = alarmSoundSettingsManager.adjustVolume(volume);
 
                 audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 

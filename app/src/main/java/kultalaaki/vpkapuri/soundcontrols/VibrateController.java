@@ -13,7 +13,9 @@ import android.os.Vibrator;
 
 import kultalaaki.vpkapuri.util.Constants;
 
-
+/**
+ * Vibration controller
+ */
 public class VibrateController {
 
     private Vibrator vibrator;
@@ -22,12 +24,20 @@ public class VibrateController {
     private long[] pattern;
     private int[] amplitude;
 
-
+    /**
+     * Constructor
+     *
+     * @param context     Application
+     * @param preferences Shared preferences
+     */
     public VibrateController(Context context, SharedPreferences preferences) {
         this.context = context;
         this.preferences = preferences;
     }
 
+    /**
+     * Check if device has vibrator and amplitude controller
+     */
     public void vibrate() {
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         // Check if user wants vibration
@@ -46,6 +56,9 @@ public class VibrateController {
         }
     }
 
+    /**
+     * Special vibration to use as notification
+     */
     public void vibrateNotification() {
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if (phoneHasVibrator()) {
@@ -59,16 +72,27 @@ public class VibrateController {
         }
     }
 
+    /**
+     * Cancel vibration
+     */
     public void stopVibration() {
         if (vibrator != null) {
             vibrator.cancel();
         }
     }
 
+    /**
+     * Check permission to use vibration
+     *
+     * @return boolean
+     */
     private boolean vibratePermission() {
         return preferences.getBoolean("vibrate", true);
     }
 
+    /**
+     * Select correct vibration pattern
+     */
     private void setVibratePattern() {
         String patternValue = preferences.getString("vibrate_pattern", null);
         int vibratePatternValue = 0;
@@ -99,6 +123,11 @@ public class VibrateController {
         }
     }
 
+    /**
+     * Check for vibrator
+     *
+     * @return boolean
+     */
     private boolean phoneHasVibrator() {
         if (vibrator != null) {
             return vibrator.hasVibrator();
@@ -106,6 +135,11 @@ public class VibrateController {
         return false;
     }
 
+    /**
+     * Check for amplitude controller
+     *
+     * @return boolean
+     */
     private boolean vibratorHasAmplitudeControl() {
         return vibrator.hasAmplitudeControl();
     }
