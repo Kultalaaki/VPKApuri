@@ -42,7 +42,7 @@ import kultalaaki.vpkapuri.util.FormatNumber;
 import kultalaaki.vpkapuri.util.MyNotifications;
 
 /**
- * Background service for handling incoming messages
+ * Background service handles incoming messages
  */
 public class SMSBackgroundService extends Service {
 
@@ -147,7 +147,7 @@ public class SMSBackgroundService extends Service {
     }
 
     /**
-     * Acquire wakelock so that service doesn't get stopped before foreground notification
+     * Acquire wakelock that service doesn't get stopped before foreground notification
      * is in place
      */
     private void acquireWakelock() {

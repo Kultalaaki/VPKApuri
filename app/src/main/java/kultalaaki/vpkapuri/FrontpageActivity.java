@@ -82,6 +82,7 @@ import kultalaaki.vpkapuri.misc.SoundControls;
 import kultalaaki.vpkapuri.services.SMSBackgroundService;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.MyNotifications;
+import kultalaaki.vpkapuri.versioncheck.ReadVersionData;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener, ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener, ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener, TimePickerDialog.OnTimeSetListener {
@@ -187,6 +188,23 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
+        // Todo remove after testing
+        testRead();
+    }
+
+    private void testRead() {
+        Thread thread = new Thread(() -> {
+            try {
+                ReadVersionData readVersionData = new ReadVersionData("https://api.github.com/repos/kultalaaki/VPKApuri/releases/latest");
+                String versionData = readVersionData.readFromConnection();
+                Log.i("Version data", versionData);
+            }catch (Exception e) {
+                Log.i("VPK Apuri", "Error");
+            }
+        });
+
+        thread.start();
+
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
