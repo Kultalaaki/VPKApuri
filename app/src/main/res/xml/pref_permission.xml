@@ -32,6 +32,11 @@
             android:title="Analytiikkatietojen kerääminen"
             android:defaultValue="false"
             android:summary="Ota pois päältä jos et halua osallistua tietojen keräämiseen sovelluksen parantamiseksi. Muutos tulee voimaan kun sovellus suljetaan kokonaan ja käynnistetään uudelleen."/>
+        <SwitchPreference
+            android:key="beta_program"
+            android:title="Beta testaaja"
+            android:defaultValue="false"
+            android:summary="Uusimmat ominaisuudet ja viat ensimmäisenä."/>
         <Preference
             android:key="facebook"
             android:title="VPK Apuri facebook sivu"

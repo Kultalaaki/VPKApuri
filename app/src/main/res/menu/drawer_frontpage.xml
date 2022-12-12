@@ -33,6 +33,10 @@
             android:id="@+id/palautetta"
             android:icon="@drawable/ic_contact_mail_white_36dp"
             android:title="@string/palaute" />
+        <item
+            android:id="@+id/check_update"
+            android:icon="@drawable/ic_settings_applications_white_36dp"
+            android:title="@string/check_updates" />
     </group>
     <group
         android:id="@+id/menuBottom"

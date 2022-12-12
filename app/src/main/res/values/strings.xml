@@ -536,6 +536,7 @@
     <string name="tokeva">TOKEVA</string>
     <string name="app_logo">App logo</string>
     <string name="palauta_tietokanta">Palauta tietokanta</string>
+    <string name="check_updates">Tarkista päivitykset</string>
 
     <!--Vibrate patterns-->
     <string-array name="vibrate">

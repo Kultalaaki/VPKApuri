@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
@@ -83,6 +84,7 @@ import kultalaaki.vpkapuri.services.SMSBackgroundService;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.MyNotifications;
 import kultalaaki.vpkapuri.versioncheck.ReadVersionData;
+import kultalaaki.vpkapuri.versioncheck.VersionData;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener, ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener, ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener, TimePickerDialog.OnTimeSetListener {
@@ -97,6 +99,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     boolean analytics, asemataulu;
     SoundControls soundControls;
     FragmentManager fragmentManager;
+
+    Handler mHandler = new Handler();
+
+    private VersionData finalHighestStable = null;
+    private VersionData finalHighestBeta = null;
+    private VersionData downloadThis = null;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -167,6 +175,10 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 case R.id.palautetta:
                     startLahetaPalaute();
                     return true;
+                case R.id.check_update:
+                    //readVersionData();
+                    showNewestVersion();
+                    return true;
             }
 
             return true;
@@ -188,23 +200,100 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
-        // Todo remove after testing
-        testRead();
+
+        /*if (preferences.getBoolean("initVersionData", true)) {
+            readVersionData();
+            preferences.edit().putBoolean("initVersionData", false).apply();
+        }*/
     }
 
-    private void testRead() {
+    /**
+     * Sets application version data to Sharedpreferences first time.
+     */
+    /*private void versionDataSetup(int stableID, int preReleaseID) {
+        preferences.edit().putInt("stableVersionID", stableID).apply();
+        preferences.edit().putInt("preReleaseID", preReleaseID).apply();
+    }*/
+    private void showNewestVersion() {
+        ArrayList<VersionData> versions = new ArrayList<>();
         Thread thread = new Thread(() -> {
             try {
-                ReadVersionData readVersionData = new ReadVersionData("https://api.github.com/repos/kultalaaki/VPKApuri/releases/latest");
-                String versionData = readVersionData.readFromConnection();
-                Log.i("Version data", versionData);
-            }catch (Exception e) {
-                Log.i("VPK Apuri", "Error");
+                ReadVersionData readVersionData = new ReadVersionData("https://api.github.com/repos/kultalaaki/VPKApuri/releases");
+                String versionInformation = readVersionData.readFromConnection();
+
+                ReadJsonObjectsFromJsonArray json = new ReadJsonObjectsFromJsonArray(versionInformation);
+                json.createJsonArray();
+                json.addJsonObjectsToArrayList();
+
+                ArrayList<JSONObject> jsonObjects = json.getObjects();
+                for (JSONObject object : jsonObjects) {
+                    String tagName = object.getString("tag_name");
+                    String description = object.getString("body");
+                    String downloadUri = "";
+
+                    ReadJsonObjectsFromJsonArray jsonInner = new ReadJsonObjectsFromJsonArray(object.getString("assets"));
+                    jsonInner.createJsonArray();
+                    jsonInner.addJsonObjectsToArrayList();
+
+                    ArrayList<JSONObject> jsonObjectsInner = jsonInner.getObjects();
+                    for (JSONObject objectInner : jsonObjectsInner) {
+                        downloadUri = objectInner.getString("browser_download_url");
+                    }
+                    boolean preRelease = object.getBoolean("prerelease");
+                    int versionId = object.getInt("id");
+                    versions.add(new VersionData(tagName, description, downloadUri, preRelease, versionId));
+                }
+
+                // Find highest stable and beta versions
+                // Give user dialog and show version names
+                // Give option to start browser and download
+                VersionData highestStable = null;
+                VersionData highestBeta = null;
+                int highestStableID = 0;
+                int highestPreReleaseID = 0;
+                for (VersionData version : versions) {
+                    if (version.getPreRelease()) {
+                        if (version.getVersionID() > highestPreReleaseID) {
+                            highestPreReleaseID = version.getVersionID();
+                            highestBeta = version;
+                        }
+                    } else if (version.getVersionID() > highestStableID) {
+                        highestStableID = version.getVersionID();
+                        highestStable = version;
+                    }
+                }
+                PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+                if (highestStable != null && highestBeta != null) {
+                    finalHighestStable = highestStable;
+                    finalHighestBeta = highestBeta;
+                    String preText = "";
+
+                    if (preferences.getBoolean("beta_program", false)) {
+                        downloadThis = finalHighestBeta;
+                        preText = "Uusin beta versio: ";
+                    } else {
+                        downloadThis = finalHighestStable;
+                        preText = "Uusin vakaa versio: ";
+                    }
+
+                    String finalPreText = preText;
+                    mHandler.post(() -> showDialog("Sinun versio: "
+                                    + packageInfo.versionName,
+                            finalPreText + downloadThis.getTagName()
+                                    + ".", "Lataa: " + downloadThis.getTagName(),
+                            "newVersion"));
+                }
+            } catch (Exception e) {
+                // Inform user if version data read operation fails
+                // Log error to firebase crashlytics
+                Log.e("TAG", "Error: " + e);
+                MyNotifications notification = new MyNotifications(this);
+                notification.showInformationNotification("Versionumeron tarkistaminen epäonnistui. Yritä myöhemmin uudelleen.");
+                FirebaseCrashlytics.getInstance().log("Versionumeron tarkistus: " + e);
             }
         });
 
         thread.start();
-
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -337,7 +426,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
         return -1;
     }
-    
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Log.i("TAG", "OnTimeSet reached");
@@ -573,6 +662,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
                 break;
+            case "newVersion":
+                buttonPositive.setOnClickListener(v -> {
+                    //openBrowser();
+                    startNewVersionDownload(downloadThis.getDownloadUri(), downloadThis.getTagName());
+                    dialog.dismiss();
+                });
+                buttonNegative.setOnClickListener(v -> dialog.dismiss());
+                break;
             case "deleteDatabase":
                 buttonPositive.setOnClickListener(v -> {
                     deleteDatabase();
@@ -584,6 +681,27 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
         dialog.show();
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(null);
+    }
+
+    private void startNewVersionDownload(String downloadUri, String filename) {
+        Uri uri = Uri.parse(downloadUri);
+        DownloadManager.Request r = new DownloadManager.Request(uri);
+
+        // This put the download in the same Download dir the browser uses
+        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+
+        // When downloading music and videos they will be listed in the player
+        // (Seems to be available since Honeycomb only)
+        r.allowScanningByMediaScanner();
+
+        // Notify user when download is completed
+        // (Seems to be available since Honeycomb only)
+        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        // Start download
+        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        dm.enqueue(r);
+
     }
 
     /**
@@ -810,7 +928,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 if (versionCode != lastVersionCode) {
 
                     if (prefs.getBoolean("firstrun", true)) {
-                        prefs.edit().putInt("aaneton_profiili", 1).commit();
+                        prefs.edit().putInt("aaneton_profiili", Constants.SOUND_PROFILE_NORMAL).commit();
                         prefs.edit().putBoolean("firstrun", false).commit();
                     }
                     // App updated, add alarmdetection to database

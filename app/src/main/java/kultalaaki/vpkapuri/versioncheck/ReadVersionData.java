@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class ReadVersionData {
 
     private String data = "";
-    private final String url; // json file address: https://api.github.com/repos/kultalaaki/VPKApuri/releases/latest
+    private final String url; // json file address: https://api.github.com/repos/kultalaaki/VPKApuri/releases
 
     /**
      * Constructor
