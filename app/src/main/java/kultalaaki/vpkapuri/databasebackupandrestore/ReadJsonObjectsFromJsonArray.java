@@ -11,8 +11,7 @@ import java.util.ArrayList;
  */
 public class ReadJsonObjectsFromJsonArray {
 
-    private JSONArray jsonArray;
-    private final String jsonString;
+    private final JSONArray jsonArray;
     private final ArrayList<JSONObject> objects;
 
     /**
@@ -20,18 +19,10 @@ public class ReadJsonObjectsFromJsonArray {
      *
      * @param jsonString json string
      */
-    public ReadJsonObjectsFromJsonArray(String jsonString) {
-        this.jsonString = jsonString;
+    public ReadJsonObjectsFromJsonArray(String jsonString) throws JSONException {
         this.objects = new ArrayList<>();
-    }
-
-    /**
-     * Creates json array from string
-     *
-     * @throws JSONException caller must handle exception
-     */
-    public void createJsonArray() throws JSONException {
-        jsonArray = new JSONArray(jsonString);
+        this.jsonArray = new JSONArray(jsonString);
+        jsonArrayToArrayList();
     }
 
     /**
@@ -39,7 +30,7 @@ public class ReadJsonObjectsFromJsonArray {
      *
      * @throws JSONException caller must handle exception
      */
-    public void addJsonObjectsToArrayList() throws JSONException {
+    private void jsonArrayToArrayList() throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject object = jsonArray.getJSONObject(i);
             objects.add(object);

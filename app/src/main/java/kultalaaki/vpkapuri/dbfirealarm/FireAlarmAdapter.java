@@ -22,7 +22,6 @@ import kultalaaki.vpkapuri.R;
 public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.FireAlarmHolder> {
 
     private OnItemClickListener listener;
-    private Integer alarmNumber = 1;
 
     public FireAlarmAdapter() {
         super(DIFF_CALLBACK);
@@ -54,12 +53,10 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
     @Override
     public void onBindViewHolder(@NonNull FireAlarmHolder holder, int position) {
         FireAlarm currentAlarm = getItem(position);
-        // TODO: Sijanumero muuttaa niin että saadaan arkistossa näkyviin monesko hälytys uusin aina on
-        //holder.textViewSija.setText(Integer.toString(currentAlarm.getId()));
-        holder.textViewSija.setText(alarmNumber.toString());
+        holder.textViewSija.setText(Integer.toString(currentAlarm.getId()));
+        //holder.textViewSija.setText(alarmNumber.toString());
         holder.textViewTunnus.setText(currentAlarm.getTehtavaluokka());
         holder.textViewViesti.setText(currentAlarm.getViesti());
-        alarmNumber++;
     }
 
     public FireAlarm getFireAlarmAt(int position) {
@@ -67,9 +64,9 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
     }
 
     class FireAlarmHolder extends RecyclerView.ViewHolder {
-        private TextView textViewSija;
-        private TextView textViewTunnus;
-        private TextView textViewViesti;
+        private final TextView textViewSija;
+        private final TextView textViewTunnus;
+        private final TextView textViewViesti;
 
         public FireAlarmHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,13 +74,10 @@ public class FireAlarmAdapter extends ListAdapter<FireAlarm, FireAlarmAdapter.Fi
             textViewTunnus = itemView.findViewById(R.id.tunnus);
             textViewViesti = itemView.findViewById(R.id.viesti);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(getItem(position));
-                    }
+            itemView.setOnClickListener(v -> {
+                int position = getAbsoluteAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(getItem(position));
                 }
             });
         }

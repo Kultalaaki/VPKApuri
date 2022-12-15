@@ -208,32 +208,29 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     }
 
     /**
-     * Sets application version data to Sharedpreferences first time.
+     * Look version info from github.
+     * <p>
+     * User has option in settings if they want to take part in beta testing.
      */
-    /*private void versionDataSetup(int stableID, int preReleaseID) {
-        preferences.edit().putInt("stableVersionID", stableID).apply();
-        preferences.edit().putInt("preReleaseID", preReleaseID).apply();
-    }*/
     private void showNewestVersion() {
         ArrayList<VersionData> versions = new ArrayList<>();
         Thread thread = new Thread(() -> {
             try {
+                // Read newest version info from github
+                // Info is in JSON format
                 ReadVersionData readVersionData = new ReadVersionData("https://api.github.com/repos/kultalaaki/VPKApuri/releases");
                 String versionInformation = readVersionData.readFromConnection();
 
+                // Add information from json formatted string to arraylist
                 ReadJsonObjectsFromJsonArray json = new ReadJsonObjectsFromJsonArray(versionInformation);
-                json.createJsonArray();
-                json.addJsonObjectsToArrayList();
-
                 ArrayList<JSONObject> jsonObjects = json.getObjects();
+
                 for (JSONObject object : jsonObjects) {
                     String tagName = object.getString("tag_name");
                     String description = object.getString("body");
                     String downloadUri = "";
 
                     ReadJsonObjectsFromJsonArray jsonInner = new ReadJsonObjectsFromJsonArray(object.getString("assets"));
-                    jsonInner.createJsonArray();
-                    jsonInner.addJsonObjectsToArrayList();
 
                     ArrayList<JSONObject> jsonObjectsInner = jsonInner.getObjects();
                     for (JSONObject objectInner : jsonObjectsInner) {
@@ -244,9 +241,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     versions.add(new VersionData(tagName, description, downloadUri, preRelease, versionId));
                 }
 
-                // Find highest stable and beta versions
-                // Give user dialog and show version names
-                // Give option to start browser and download
+                // Find highest stable and highest beta versions
+                // Show dialog to user and show version names
+                // Give option to start download for new version
                 VersionData highestStable = null;
                 VersionData highestBeta = null;
                 int highestStableID = 0;
@@ -262,6 +259,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         highestStable = version;
                     }
                 }
+
                 PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
                 if (highestStable != null && highestBeta != null) {
                     finalHighestStable = highestStable;
@@ -273,7 +271,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         preText = "Uusin beta versio: ";
                     } else {
                         downloadThis = finalHighestStable;
-                        preText = "Uusin vakaa versio: ";
+                        preText = "Uusin versio: ";
                     }
 
                     String finalPreText = preText;
@@ -851,10 +849,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
      * @param json string read from file
      */
     private void readJsonToJava(String json) {
-        ReadJsonObjectsFromJsonArray read = new ReadJsonObjectsFromJsonArray(json);
         try {
-            read.createJsonArray();
-            read.addJsonObjectsToArrayList();
+            ReadJsonObjectsFromJsonArray read = new ReadJsonObjectsFromJsonArray(json);
             ArrayList<JSONObject> objects = read.getObjects();
 
             insertBackupToDatabase(objects);
