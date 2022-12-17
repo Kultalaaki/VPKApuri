@@ -277,7 +277,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     if(packageInfo.versionCode < downloadThis.getVersionCode()) {
                         String finalPreText = preText;
                         mHandler.post(() -> showDialog("Sinun versio: "
-                                        + packageInfo.versionName,
+                                        + packageInfo.versionCode,
                                 finalPreText + downloadThis.getTagName()
                                         + ".", "Lataa: " + downloadThis.getTagName(),
                                 "newVersion"));
@@ -696,7 +696,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         DownloadManager.Request r = new DownloadManager.Request(uri);
 
         // This put the download in the same Download dir the browser uses
-        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+        String newFilename = "VPKApuri_Versiokoodi:" + filename;
+        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, newFilename);
 
         // When downloading music and videos they will be listed in the player
         // (Seems to be available since Honeycomb only)
