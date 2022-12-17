@@ -40,6 +40,7 @@ public class AlarmMediaPlayer {
     private AudioFocusRequest focusRequest;
 
     private AlarmSoundSettingsManager alarmSoundSettingsManager;
+    private AlarmSoundSettingsFixedPolicyManager fixedPolicyManager;
     private VibrateController vibrateController;
 
     /**
@@ -77,6 +78,7 @@ public class AlarmMediaPlayer {
      */
     public void audioFocusRequest() {
         alarmSoundSettingsManager = new AlarmSoundSettingsManager(context, preferences);
+        fixedPolicyManager = new AlarmSoundSettingsFixedPolicyManager(context, preferences);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mediaPlayer = new MediaPlayer();
 
@@ -104,7 +106,12 @@ public class AlarmMediaPlayer {
                         }
                     } else if (i == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
                         // Lower the volume, keep playing
-                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 1, 0);
+                        if (audioManager.isVolumeFixed()) {
+                            mediaPlayer.setVolume(0.1F, 0.1F);
+                        } else {
+                            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 1, 0);
+                        }
+
                         stopVibration();
                     } else if (i == AudioManager.AUDIOFOCUS_GAIN) {
                         // Your app has been granted audio focus again
@@ -113,7 +120,13 @@ public class AlarmMediaPlayer {
                         // Problem: sometimes Android system calls this after alarm is
                         // long gone and media starts playing again.
                         // Wait for user experience from this. If no complaints, then leave it be.
-                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmSoundSettingsManager.getAlarmSoundVolume(), 0);
+                        if (audioManager.isVolumeFixed()) {
+                            float vol = alarmVolumeFixedPolicyDevices();
+                            mediaPlayer.setVolume(vol, vol);
+                        } else {
+                            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmSoundSettingsManager.getAlarmSoundVolume(), 0);
+                        }
+
                         if (audioFocusDucked) {
                             mediaPlayer.start();
                         }
@@ -153,7 +166,13 @@ public class AlarmMediaPlayer {
                     .build();
             streamReturnValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(context, uri);
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmSoundSettingsManager.getAlarmSoundVolume(), 0);
+            if (audioManager.isVolumeFixed()) {
+                float vol = alarmVolumeFixedPolicyDevices();
+                mediaPlayer.setVolume(vol, vol);
+            } else {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, alarmSoundSettingsManager.getAlarmSoundVolume(), 0);
+            }
+
             mediaPlayer.setAudioAttributes(audioAttributes);
             mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
             mediaPlayer.setOnPreparedListener(mediaPlayer -> {
@@ -178,7 +197,12 @@ public class AlarmMediaPlayer {
             mediaPlayer.pause();
         }
         stopVibration();
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamReturnValue, 0);
+        if (audioManager.isVolumeFixed()) {
+            mediaPlayer.setVolume(0.0F, 0.0F);
+        } else {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamReturnValue, 0);
+        }
+
         audioManager.abandonAudioFocusRequest(focusRequest);
     }
 
@@ -204,8 +228,14 @@ public class AlarmMediaPlayer {
      */
     private void startVibration() {
         vibrateController = new VibrateController(context, preferences);
-        if (alarmSoundSettingsManager.getAlarmSoundVolume() > 0) {
-            vibrateController.vibrate();
+        if (audioManager.isVolumeFixed()) {
+            if (fixedPolicyManager.getAlarmSoundVolume() > 0.0F) {
+                vibrateController.vibrateNotification();
+            }
+        } else {
+            if (alarmSoundSettingsManager.getAlarmSoundVolume() > 0) {
+                vibrateController.vibrate();
+            }
         }
     }
 
@@ -214,8 +244,14 @@ public class AlarmMediaPlayer {
      */
     private void startVibrationNotification() {
         vibrateController = new VibrateController(context, preferences);
-        if (alarmSoundSettingsManager.getAlarmSoundVolume() > 0) {
-            vibrateController.vibrateNotification();
+        if (audioManager.isVolumeFixed()) {
+            if (fixedPolicyManager.getAlarmSoundVolume() > 0.0F) {
+                vibrateController.vibrateNotification();
+            }
+        } else {
+            if (alarmSoundSettingsManager.getAlarmSoundVolume() > 0) {
+                vibrateController.vibrateNotification();
+            }
         }
     }
 
@@ -226,6 +262,15 @@ public class AlarmMediaPlayer {
         if (vibrateController != null) {
             vibrateController.stopVibration();
         }
+    }
+
+    /**
+     * Get alarm volume as float value
+     *
+     * @return alarm volume
+     */
+    private float alarmVolumeFixedPolicyDevices() {
+        return fixedPolicyManager.getAlarmSoundVolume();
     }
 
 }
