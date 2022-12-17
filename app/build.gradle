@@ -18,8 +18,8 @@ android {
         minSdkVersion 26
         targetSdkVersion 33
         multiDexEnabled true
-        versionCode 112 // Update just before pushing update 109 is live. 111 is latest beta
-        versionName "3.9-beta.2" // Update just before pushing update 3.81 is live. 3.9-beta.1 latest beta release
+        versionCode 112 // Update just before pushing update 109 is live. 112 is latest beta
+        versionName "3.9-beta.2" // Update just before pushing update 3.81 is live. 3.9-beta.2 latest beta release
     }
     buildTypes {
         release {
