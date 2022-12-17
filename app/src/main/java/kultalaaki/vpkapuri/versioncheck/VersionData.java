@@ -9,7 +9,7 @@ public class VersionData {
 
     private final String tagName, description, downloadUri;
     private final boolean preRelease;
-    private final int versionID;
+    private final int versionID, versionCode;
 
     /**
      * Constructor
@@ -26,6 +26,7 @@ public class VersionData {
         this.downloadUri = downloadUri;
         this.preRelease = preRelease;
         this.versionID = versionID;
+        this.versionCode = Integer.parseInt(tagName);
     }
 
     /**
@@ -71,6 +72,15 @@ public class VersionData {
      */
     public int getVersionID() {
         return versionID;
+    }
+
+    /**
+     * Getter
+     *
+     * @return version code as integer
+     */
+    public int getVersionCode() {
+        return versionCode;
     }
 
     @NonNull

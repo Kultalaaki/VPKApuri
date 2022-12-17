@@ -274,12 +274,19 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         preText = "Uusin versio: ";
                     }
 
-                    String finalPreText = preText;
-                    mHandler.post(() -> showDialog("Sinun versio: "
-                                    + packageInfo.versionName,
-                            finalPreText + downloadThis.getTagName()
-                                    + ".", "Lataa: " + downloadThis.getTagName(),
-                            "newVersion"));
+                    if(packageInfo.versionCode < downloadThis.getVersionCode()) {
+                        String finalPreText = preText;
+                        mHandler.post(() -> showDialog("Sinun versio: "
+                                        + packageInfo.versionName,
+                                finalPreText + downloadThis.getTagName()
+                                        + ".", "Lataa: " + downloadThis.getTagName(),
+                                "newVersion"));
+                    } else {
+                        mHandler.post(() -> showDialog("Asennettu versio: " + packageInfo.versionName,
+                                "Tämä on uusin versio.",
+                                "OK", "newest"));
+                    }
+
                 }
             } catch (Exception e) {
                 // Inform user if version data read operation fails
@@ -667,6 +674,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     dialog.dismiss();
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
+                break;
+            case "newest":
+                buttonPositive.setOnClickListener(v -> dialog.dismiss());
                 break;
             case "deleteDatabase":
                 buttonPositive.setOnClickListener(v -> {
