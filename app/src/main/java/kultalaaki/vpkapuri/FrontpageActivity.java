@@ -310,14 +310,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
-    }
+    }*/
 
     public void loadLegalFragment() {
         AffirmationFragment affirmationFragment = new AffirmationFragment();
