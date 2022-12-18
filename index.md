@@ -1,6 +1,6 @@
 # VPK Apuri
 
-## [Lataa sovellus](https://github.com/Kultalaaki/VPKApuri/releases/download/v3.81/VPKApuriV381.apk) (Versio 3.81)
+## [Lataa sovellus](https://github.com/Kultalaaki/VPKApuri/releases/download/109/VPKApuriV381.apk) (Versio 3.81)
 
 Sovellus on työkalu suomalaisille vapaaehtoisille palokuntalaisille sekä vapaaehtoisen pelastuspalvelun henkilöille.
 
