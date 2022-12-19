@@ -14,7 +14,7 @@ import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
 /**
  * Writes alarms to json array
  */
-public class FireAlarmJsonWriter {
+public class FireAlarmJSONWriter {
 
     /**
      * Handles creating writer and its properties

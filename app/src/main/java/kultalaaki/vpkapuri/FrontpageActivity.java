@@ -37,6 +37,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -74,8 +76,8 @@ import kultalaaki.vpkapuri.Fragments.GuidelineFragment;
 import kultalaaki.vpkapuri.Fragments.SaveToArchiveFragment;
 import kultalaaki.vpkapuri.Fragments.SetTimerFragment;
 import kultalaaki.vpkapuri.Fragments.TimerFragment;
-import kultalaaki.vpkapuri.databasebackupandrestore.FireAlarmJsonWriter;
-import kultalaaki.vpkapuri.databasebackupandrestore.ReadJsonObjectsFromJsonArray;
+import kultalaaki.vpkapuri.databasebackupandrestore.FireAlarmJSONWriter;
+import kultalaaki.vpkapuri.databasebackupandrestore.JSONArrayReader;
 import kultalaaki.vpkapuri.dbfirealarm.FireAlarm;
 import kultalaaki.vpkapuri.dbfirealarm.FireAlarmRepository;
 import kultalaaki.vpkapuri.misc.DBTimer;
@@ -83,8 +85,8 @@ import kultalaaki.vpkapuri.misc.SoundControls;
 import kultalaaki.vpkapuri.services.SMSBackgroundService;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.MyNotifications;
-import kultalaaki.vpkapuri.versioncheck.ReadVersionData;
 import kultalaaki.vpkapuri.versioncheck.VersionData;
+import kultalaaki.vpkapuri.versioncheck.VersionDataProcessor;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener, ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener, ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener, TimePickerDialog.OnTimeSetListener {
@@ -102,8 +104,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     Handler mHandler = new Handler();
 
-    private VersionData finalHighestStable = null;
-    private VersionData finalHighestBeta = null;
     private VersionData downloadThis = null;
 
 
@@ -111,6 +111,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getOnBackInvokedDispatcher();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = preferences.getBoolean("asemataulu", false);
@@ -177,7 +179,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     return true;
                 case R.id.check_update:
                     //readVersionData();
-                    showNewestVersion();
+                    checkNewestVersion();
                     return true;
             }
 
@@ -200,96 +202,43 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         super.onStart();
         createChannels();
         new WhatsNewScreen(this).show();
-
-        /*if (preferences.getBoolean("initVersionData", true)) {
-            readVersionData();
-            preferences.edit().putBoolean("initVersionData", false).apply();
-        }*/
     }
 
     /**
-     * Look version info from github.
-     * <p>
-     * User has option in settings if they want to take part in beta testing.
+     * Show info to user if there is newer version available.
      */
-    private void showNewestVersion() {
-        ArrayList<VersionData> versions = new ArrayList<>();
+    private void checkNewestVersion() {
         Thread thread = new Thread(() -> {
             try {
-                // Read newest version info from github
-                // Info is in JSON format
-                ReadVersionData readVersionData = new ReadVersionData("https://api.github.com/repos/kultalaaki/VPKApuri/releases");
-                String versionInformation = readVersionData.readFromConnection();
-
-                // Add information from json formatted string to arraylist
-                ReadJsonObjectsFromJsonArray json = new ReadJsonObjectsFromJsonArray(versionInformation);
-                ArrayList<JSONObject> jsonObjects = json.getObjects();
-
-                for (JSONObject object : jsonObjects) {
-                    String tagName = object.getString("tag_name");
-                    String description = object.getString("body");
-                    String downloadUri = "";
-
-                    ReadJsonObjectsFromJsonArray jsonInner = new ReadJsonObjectsFromJsonArray(object.getString("assets"));
-
-                    ArrayList<JSONObject> jsonObjectsInner = jsonInner.getObjects();
-                    for (JSONObject objectInner : jsonObjectsInner) {
-                        downloadUri = objectInner.getString("browser_download_url");
-                    }
-                    boolean preRelease = object.getBoolean("prerelease");
-                    int versionId = object.getInt("id");
-                    versions.add(new VersionData(tagName, description, downloadUri, preRelease, versionId));
-                }
-
-                // Find highest stable and highest beta versions
-                // Show dialog to user and show version names
-                // Give option to start download for new version
-                VersionData highestStable = null;
-                VersionData highestBeta = null;
-                int highestStableID = 0;
-                int highestPreReleaseID = 0;
-                for (VersionData version : versions) {
-                    if (version.getPreRelease()) {
-                        if (version.getVersionID() > highestPreReleaseID) {
-                            highestPreReleaseID = version.getVersionID();
-                            highestBeta = version;
-                        }
-                    } else if (version.getVersionID() > highestStableID) {
-                        highestStableID = version.getVersionID();
-                        highestStable = version;
-                    }
-                }
-
                 PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
-                if (highestStable != null && highestBeta != null) {
-                    finalHighestStable = highestStable;
-                    finalHighestBeta = highestBeta;
-                    String preText = "";
+                VersionDataProcessor versionDataProcessor = new VersionDataProcessor(packageInfo.versionCode);
 
-                    if (preferences.getBoolean("beta_program", false)) {
-                        downloadThis = finalHighestBeta;
-                        preText = "Uusin beta versio: ";
-                    } else {
-                        downloadThis = finalHighestStable;
-                        preText = "Uusin versio: ";
-                    }
-
-                    if(packageInfo.versionCode < downloadThis.getVersionCode()) {
-                        String finalPreText = preText;
-                        mHandler.post(() -> showDialog("Sinun versio: "
-                                        + packageInfo.versionCode,
-                                finalPreText + downloadThis.getTagName()
-                                        + ".", "Lataa: " + downloadThis.getTagName(),
+                if (preferences.getBoolean("beta_program", false)) {
+                    if (versionDataProcessor.isNewBetaVersionAvailable()) {
+                        downloadThis = versionDataProcessor.getHighestBeta();
+                        mHandler.post(() -> showDialog(
+                                "Sinun versio: " + packageInfo.versionName,
+                                "Uusi versio: " + versionDataProcessor.getHighestBeta().getName() + ".",
+                                "Lataa: " + versionDataProcessor.getHighestBeta().getName(),
                                 "newVersion"));
                     } else {
-                        mHandler.post(() -> showDialog("Asennettu versio: " + packageInfo.versionName,
-                                "Tämä on uusin versio.",
-                                "OK", "newest"));
+                        Toast.makeText(this, "Uusin BETA versio asennettu.", Toast.LENGTH_LONG).show();
                     }
-
+                } else {
+                    if (versionDataProcessor.isNewStableVersionAvailable()) {
+                        downloadThis = versionDataProcessor.getHighestStable();
+                        mHandler.post(() -> showDialog(
+                                "Sinun versio: " + packageInfo.versionName,
+                                "Uusi versio: " + versionDataProcessor.getHighestStable().getName() + ".",
+                                "Lataa: " + versionDataProcessor.getHighestStable().getName(),
+                                "newVersion"));
+                    } else {
+                        Toast.makeText(this, "Uusin versio asennettu.", Toast.LENGTH_LONG).show();
+                    }
                 }
+
             } catch (Exception e) {
-                // Inform user if version data read operation fails
+                // Inform user if reading version data fails
                 // Log error to firebase crashlytics
                 Log.e("TAG", "Error: " + e);
                 MyNotifications notification = new MyNotifications(this);
@@ -310,14 +259,44 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    /*@Override
+    @Override
+    public void handleOnBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @NonNull
+    @Override
+    public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            return new OnBackInvokedDispatcher() {
+                @Override
+                public void registerOnBackInvokedCallback(int priority, @NonNull OnBackInvokedCallback callback) {
+                    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                }
+
+                @Override
+                public void unregisterOnBackInvokedCallback(@NonNull OnBackInvokedCallback callback) {
+
+                }
+            };
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
-    }*/
+    }
 
     public void loadLegalFragment() {
         AffirmationFragment affirmationFragment = new AffirmationFragment();
@@ -670,7 +649,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             case "newVersion":
                 buttonPositive.setOnClickListener(v -> {
                     //openBrowser();
-                    startNewVersionDownload(downloadThis.getDownloadUri(), downloadThis.getTagName());
+                    startNewVersionDownload(downloadThis.getDownloadUri(), downloadThis.getName());
                     dialog.dismiss();
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
@@ -744,7 +723,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             try {
                 File file = getAlbumStorageDir("VPK Apuri", "Halytykset_tietokanta.json");
                 FileOutputStream fos = new FileOutputStream(file);
-                FireAlarmJsonWriter fireAlarmJsonWriter = new FireAlarmJsonWriter();
+                FireAlarmJSONWriter fireAlarmJsonWriter = new FireAlarmJSONWriter();
                 FireAlarmRepository fireAlarmRepository = new FireAlarmRepository(getApplication());
                 fireAlarmJsonWriter.writeJsonStream(fos, fireAlarmRepository.getAllFireAlarmsToList());
                 fos.close();
@@ -861,7 +840,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
      */
     private void readJsonToJava(String json) {
         try {
-            ReadJsonObjectsFromJsonArray read = new ReadJsonObjectsFromJsonArray(json);
+            JSONArrayReader read = new JSONArrayReader(json);
             ArrayList<JSONObject> objects = read.getObjects();
 
             insertBackupToDatabase(objects);

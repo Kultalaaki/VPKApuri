@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Reads objects from json array
  */
-public class ReadJsonObjectsFromJsonArray {
+public class JSONArrayReader {
 
     private final JSONArray jsonArray;
     private final ArrayList<JSONObject> objects;
@@ -19,7 +19,7 @@ public class ReadJsonObjectsFromJsonArray {
      *
      * @param jsonString json string
      */
-    public ReadJsonObjectsFromJsonArray(String jsonString) throws JSONException {
+    public JSONArrayReader(String jsonString) throws JSONException {
         this.objects = new ArrayList<>();
         this.jsonArray = new JSONArray(jsonString);
         jsonArrayToArrayList();

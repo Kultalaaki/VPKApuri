@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
  */
 public class VersionData {
 
-    private final String tagName, description, downloadUri;
+    private final String name, tagName, description, downloadUri;
     private final boolean preRelease;
     private final int versionID, versionCode;
 
@@ -20,7 +20,8 @@ public class VersionData {
      * @param preRelease  boolean pre release or stable
      * @param versionID   version id number
      */
-    public VersionData(String tagName, String description, String downloadUri, boolean preRelease, int versionID) {
+    public VersionData(String name, String tagName, String description, String downloadUri, boolean preRelease, int versionID) {
+        this.name = name;
         this.tagName = tagName;
         this.description = description;
         this.downloadUri = downloadUri;
@@ -32,19 +33,10 @@ public class VersionData {
     /**
      * Getter
      *
-     * @return version tag name
+     * @return version name
      */
-    public String getTagName() {
-        return tagName;
-    }
-
-    /**
-     * Getter
-     *
-     * @return version description
-     */
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
     /**
