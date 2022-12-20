@@ -17,8 +17,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +24,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import kultalaaki.vpkapuri.R;
 
@@ -220,8 +221,8 @@ public class AffirmationFragment extends Fragment {
 
     /*public void showDialog(String upperText, String lowerText, String positiveButtonText) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        TextView whatPermission = dialogLayout.findViewById(R.id.dialogUpperText);
+        TextView whatReason = dialogLayout.findViewById(R.id.dialogLowerText);
         whatPermission.setText(upperText);
         whatReason.setText(lowerText);
         new AlertDialog.Builder(getActivity())
@@ -233,8 +234,8 @@ public class AffirmationFragment extends Fragment {
 
     /*private void showDialog(String upperText, String lowerText, String neutralButtonText, String positiveButtonText, DialogInterface.OnClickListener okListener) {
         final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.dialogUpperText);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.dialogLowerText);
         dialogUpperText.setText(upperText);
         dialogLowerText.setText(lowerText);
 
@@ -248,11 +249,11 @@ public class AffirmationFragment extends Fragment {
 
     public void showDialog(String upperText, String lowerText, String positiveButtonText) {
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog, null);
         dialog.setView(dialogLayout);
 
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
+        TextView whatPermission = dialogLayout.findViewById(R.id.dialogUpperText);
+        TextView whatReason = dialogLayout.findViewById(R.id.dialogLowerText);
         whatPermission.setText(upperText);
         whatReason.setText(lowerText);
 
@@ -271,11 +272,11 @@ public class AffirmationFragment extends Fragment {
 
     private void showDialog(String upperText, String lowerText, String negativeButtonText, String positiveButtonText) {
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog, null);
         dialog.setView(dialogLayout);
 
-        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.dialogUpperText);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.dialogLowerText);
         dialogUpperText.setText(upperText);
         dialogLowerText.setText(lowerText);
 

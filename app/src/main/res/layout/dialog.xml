@@ -6,7 +6,6 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/custom_dialog_background"
@@ -36,12 +35,12 @@
         android:textColor="@color/orange"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textViewWhatPermission"
-        app:layout_constraintStart_toStartOf="@+id/textViewWhatPermission"
+        app:layout_constraintEnd_toEndOf="@+id/dialogUpperText"
+        app:layout_constraintStart_toStartOf="@+id/dialogUpperText"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
 
     <TextView
-        android:id="@+id/textViewWhatPermission"
+        android:id="@+id/dialogUpperText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -57,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/textViewAppName" />
 
     <TextView
-        android:id="@+id/textViewReasoning"
+        android:id="@+id/dialogLowerText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -70,7 +69,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewWhatPermission" />
+        app:layout_constraintTop_toBottomOf="@id/dialogUpperText" />
 
     <Button
         android:id="@+id/buttonPositive"
@@ -84,9 +83,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewReasoning"
+        app:layout_constraintEnd_toEndOf="@+id/dialogLowerText"
         app:layout_constraintStart_toEndOf="@+id/buttonNegative"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReasoning" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogLowerText" />
 
     <Button
         android:id="@+id/buttonNegative"
@@ -98,7 +97,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/buttonPositive"
-        app:layout_constraintStart_toStartOf="@+id/textViewReasoning"
+        app:layout_constraintStart_toStartOf="@+id/dialogLowerText"
         app:layout_constraintTop_toTopOf="@+id/buttonPositive" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,15 +37,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.window.OnBackInvokedCallback;
-import android.window.OnBackInvokedDispatcher;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
@@ -111,8 +107,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getOnBackInvokedDispatcher();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         asemataulu = preferences.getBoolean("asemataulu", false);
@@ -212,7 +206,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             try {
                 PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
                 VersionDataProcessor versionDataProcessor = new VersionDataProcessor(packageInfo.versionCode);
-
                 if (preferences.getBoolean("beta_program", false)) {
                     if (versionDataProcessor.isNewBetaVersionAvailable()) {
                         downloadThis = versionDataProcessor.getHighestBeta();
@@ -222,7 +215,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 "Lataa: " + versionDataProcessor.getHighestBeta().getName(),
                                 "newVersion"));
                     } else {
-                        Toast.makeText(this, "Uusin BETA versio asennettu.", Toast.LENGTH_LONG).show();
+                        runOnUiThread(() -> Toast.makeText(
+                                FrontpageActivity.this,
+                                "Uusin BETA versio asennettu.", Toast.LENGTH_SHORT).show());
                     }
                 } else {
                     if (versionDataProcessor.isNewStableVersionAvailable()) {
@@ -233,7 +228,9 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                                 "Lataa: " + versionDataProcessor.getHighestStable().getName(),
                                 "newVersion"));
                     } else {
-                        Toast.makeText(this, "Uusin versio asennettu.", Toast.LENGTH_LONG).show();
+                        runOnUiThread(() -> Toast.makeText(
+                                FrontpageActivity.this,
+                                "Uusin versio asennettu", Toast.LENGTH_LONG).show());
                     }
                 }
 
@@ -256,36 +253,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         super.onResume();
         if (!asemataulu) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-    }
-
-    @Override
-    public void handleOnBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @NonNull
-    @Override
-    public OnBackInvokedDispatcher getOnBackInvokedDispatcher() {
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            return new OnBackInvokedDispatcher() {
-                @Override
-                public void registerOnBackInvokedCallback(int priority, @NonNull OnBackInvokedCallback callback) {
-                    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                    }
-                }
-
-                @Override
-                public void unregisterOnBackInvokedCallback(@NonNull OnBackInvokedCallback callback) {
-
-                }
-            };
         }
     }
 
@@ -527,65 +494,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         }
     }
 
-    public void askPermissionReadExternalStorage() {
-        if (ContextCompat.checkSelfPermission(FrontpageActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            // Second time asking. Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(FrontpageActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                showDialog("VPK Apuri pyytää lupaa käyttää laitteellasi olevia kuvia ja mediaa.", "Tämä lupa tarvitaan hälytysäänen asettamiseksi. Ilman tätä lupaa sovellus ei voi asettaa hälytysääntä. Pääsy asetuksiin on estetty kunnes lupa on myönnetty.", "Anna lupa", "askPermission");
-            } else {
-                // First time asking. No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(FrontpageActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS);
-            }
-        } else {
-            // We have permission
-            loadSettingsFragment();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_SETTINGS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Lupa annettu mene asetuksiin
-                loadSettingsFragment();
-            } else {
-                // ei lupaa. 1. kielto tulee tänne
-                showDialog("Et antanut lupaa käyttää laitteellasi olevia kuvia ja mediaa.", "Pääsy sovelluksen asetuksiin on estetty kunnes annat luvan käyttää laitteellasi olevia kuvia ja mediaa.", "OK");
-            }
-        }
-    }
-
-    /**
-     * Dialog
-     *
-     * @param upperText          Upper text
-     * @param lowerText          Lower text
-     * @param positiveButtonText Positive button text
-     */
-    public void showDialog(String upperText, String lowerText, String positiveButtonText) {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
-        dialog.setView(dialogLayout);
-
-        TextView whatPermission = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView whatReason = dialogLayout.findViewById(R.id.textViewReasoning);
-        whatPermission.setText(upperText);
-        whatReason.setText(lowerText);
-
-        Button buttonPositive = dialogLayout.findViewById(R.id.buttonPositive);
-        buttonPositive.setText(positiveButtonText);
-
-        buttonPositive.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
-    }
-
     /**
      * Dialog factory
      *
@@ -597,11 +505,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     @SuppressLint("SetTextI18n")
     private void showDialog(String upperText, String lowerText, String positiveButtonText, String chooser) {
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+        final View dialogLayout = getLayoutInflater().inflate(R.layout.dialog, null);
         dialog.setView(dialogLayout);
 
-        TextView dialogUpperText = dialogLayout.findViewById(R.id.textViewWhatPermission);
-        TextView dialogLowerText = dialogLayout.findViewById(R.id.textViewReasoning);
+        TextView dialogUpperText = dialogLayout.findViewById(R.id.dialogUpperText);
+        TextView dialogLowerText = dialogLayout.findViewById(R.id.dialogLowerText);
         dialogUpperText.setText(upperText);
         dialogLowerText.setText(lowerText);
 
@@ -792,12 +700,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         if (requestCode == PICK_JSON_FILE && resultCode == Activity.RESULT_OK) {
             // The result data contains a URI for the document or directory that
             // the user selected.
-            Uri uri = null;
+            Uri uri;
             String actualfilepath = "";
 
             if (resultData != null) {
                 uri = resultData.getData();
-                String tempID = "", id = "";
+                String tempID, id;
 
                 assert uri != null;
                 if (Objects.equals(uri.getAuthority(), "com.android.externalstorage.documents")) {

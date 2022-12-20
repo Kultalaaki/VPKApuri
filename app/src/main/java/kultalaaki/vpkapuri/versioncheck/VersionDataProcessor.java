@@ -12,7 +12,7 @@ import kultalaaki.vpkapuri.databasebackupandrestore.JSONArrayReader;
 
 public class VersionDataProcessor {
 
-    private final VersionDataReader versionDataReader;
+    private final GithubVersiondataReader versionDataReader;
     private final List<VersionData> versions;
     private final int currentVersionCode;
     private VersionData highestStable, highestBeta;

@@ -12,7 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Read (JSON) version data from Github
  */
-public class GithubVersiondataReader implements VersionDataReader {
+public class GithubVersiondataReader {
 
     private final URL url;
     protected HttpsURLConnection urlConnection;
@@ -37,7 +37,8 @@ public class GithubVersiondataReader implements VersionDataReader {
         }
         bfReader.close();
         disconnect();
-        return "";
+
+        return sBuilder.toString();
     }
 
     /**
