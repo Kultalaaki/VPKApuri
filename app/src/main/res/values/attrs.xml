@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by Kultala Aki on 10.7.2019 23:01
   ~ Copyright (c) 2019. All rights reserved.
   ~ Last modified 7.7.2019 12:26
@@ -17,9 +16,13 @@
             <!-- All available ringtone sounds. -->
             <flag name="all" value="7" />
         </attr>
-        <attr name="showSilent" format="boolean"/>
-        <attr name="showDefault" format="boolean"/>
-        <attr name="extraRingtones" format="reference"/>
-        <attr name="extraRingtoneTitles" format="reference"/>
+        <attr name="showSilent" format="boolean" />
+        <attr name="showDefault" format="boolean" />
+        <attr name="extraRingtones" format="reference" />
+        <attr name="extraRingtoneTitles" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
 </resources>

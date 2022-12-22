@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="SplashTheme.Fullscreen" parent="SplashTheme">
+        <item name="android:actionBarStyle">@style/Widget.SplashTheme.ActionBar.Fullscreen</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.VPKApuri.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+</resources>

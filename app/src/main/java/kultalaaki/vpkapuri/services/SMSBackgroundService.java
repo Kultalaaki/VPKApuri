@@ -24,6 +24,7 @@ import androidx.preference.PreferenceManager;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import kultalaaki.vpkapuri.AlarmActivity;
+import kultalaaki.vpkapuri.AlertActivity;
 import kultalaaki.vpkapuri.R;
 import kultalaaki.vpkapuri.alarmdetection.AlarmNumberDetector;
 import kultalaaki.vpkapuri.alarmdetection.NumberLists;
@@ -102,6 +103,8 @@ public class SMSBackgroundService extends Service {
                 RescueAlarm rescueAlarm = new RescueAlarm(this, message);
                 saveAlarm(rescueAlarm);
 
+                startAlertActivity(rescueAlarm.getAlarmID());
+
                 // Message from alarm provider. Create notification.
                 notificationAlarmMessage(rescueAlarm.getAlarmID(), rescueAlarm.getMessage());
 
@@ -117,6 +120,10 @@ public class SMSBackgroundService extends Service {
                 // It is alarm for Vapepa personnel
                 // No need to form alarm before saving
                 VapepaAlarm vapepaAlarm = new VapepaAlarm(this, message);
+
+                String blank = "";
+                startAlertActivity(blank);
+
                 // If user has set different alarm sound for vapepa alarms, then change that
                 if (preferences.getBoolean("boolean_vapepa_sound", false)) {
                     vapepaAlarm.setAlarmSound("ringtone_vapepa");
@@ -235,6 +242,14 @@ public class SMSBackgroundService extends Service {
             stopSelf(previousStartId);
         }
         previousStartId = startId;
+    }
+
+    private void startAlertActivity(String header) {
+        Intent intent = new Intent(this, AlertActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.putExtra("header", header);
+        startActivity(intent);
     }
 
     /**

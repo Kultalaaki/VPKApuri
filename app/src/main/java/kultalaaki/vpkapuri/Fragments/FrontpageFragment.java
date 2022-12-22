@@ -65,37 +65,19 @@ public class FrontpageFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        halytys.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        halytys.setOnClickListener(v -> {
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                Intent intent = new Intent(getActivity(), AlarmActivity.class);
-                startActivity(intent, options.toBundle());
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+            Intent intent = new Intent(getActivity(), AlarmActivity.class);
+            startActivity(intent, options.toBundle());
 
-            }
         });
 
-        carkisto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.loadArkistoFragment();
-            }
-        });
+        carkisto.setOnClickListener(v -> mListener.loadArkistoFragment());
 
-        ohjeet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.loadOhjeetFragment();
-            }
-        });
+        ohjeet.setOnClickListener(v -> mListener.loadOhjeetFragment());
 
-        csettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.loadSettingsFragment();
-            }
-        });
+        csettings.setOnClickListener(v -> mListener.loadSettingsFragment());
     }
 
     @Override

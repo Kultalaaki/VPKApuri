@@ -416,7 +416,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
 
-        private String[] permissionsSms = {Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_EXTERNAL_STORAGE,
+        private final String[] permissionsSms = {Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS,
                 Manifest.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND};
 

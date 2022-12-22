@@ -475,12 +475,12 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
      * Send feedback through mail app
      */
     public void startLahetaPalaute() {
-        Intent intentemail = new Intent(Intent.ACTION_SENDTO);
-        intentemail.setData(Uri.parse("mailto:"));
-        intentemail.putExtra(Intent.EXTRA_EMAIL, emailAddress);
-        intentemail.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
-        if (intentemail.resolveActivity(getPackageManager()) != null) {
-            startActivity(intentemail);
+        Intent intentEmail = new Intent(Intent.ACTION_SENDTO);
+        intentEmail.setData(Uri.parse("mailto:"));
+        intentEmail.putExtra(Intent.EXTRA_EMAIL, emailAddress);
+        intentEmail.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+        if (intentEmail.resolveActivity(getPackageManager()) != null) {
+            startActivity(intentEmail);
         }
     }
 

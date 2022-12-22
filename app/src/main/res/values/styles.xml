@@ -12,27 +12,42 @@
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
     </style>
 
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
-    <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
-    <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/transition</item>
-    <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/transition</item>
-    </style>
-
-    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
-    <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
-    <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/transition</item>
-    <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/transition</item>
-    </style>
-
-    <style name="myTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
-        <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/transition</item>
-        <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/transition</item>
+        <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/transition
+        </item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/transition
+        </item>
+    </style>
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/transition
+        </item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/transition
+        </item>
+    </style>
+
+    <style name="myTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/transition
+        </item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/transition
+        </item>
         <item name="colorAccent">#0b0bed</item>
         <item name="android:background">#1a1a1a</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textColorHint">#bf3600</item>
         <item name="android:actionMenuTextColor">#bf3600</item>
+    </style>
+
+    <style name="Widget.SplashTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.SplashTheme.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
 </resources>

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="internalOnly">
-
     <!-- Crashlytics testaamista varten -->
     <!-- <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" /> -->
     <!-- \/  DANGEROUS PERMISSIONS  \/ -->
@@ -15,8 +14,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- /\  DANGEROUS PERMISSIONS  /\ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- /\  DANGEROUS PERMISSIONS  /\ -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
@@ -61,6 +59,14 @@
         android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".AlertActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <service
             android:name=".services.SMSBackgroundService"
             android:enabled="true"
