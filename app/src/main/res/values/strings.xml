@@ -556,4 +556,6 @@
     <string name="title_activity_alert">AlertActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="open">Avaa</string>
+    <string name="silence">Hiljennä</string>
 </resources>

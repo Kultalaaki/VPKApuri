@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +31,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -47,7 +45,6 @@ public class AlarmFragment extends Fragment {
 
     private TextView alarmId;
     private TextView urgencyClass;
-    private CardView cardViewAlarm;
     private CardView cardViewUnits;
     private TextView textClarificationPart1, textClarificationPart2, textClarificationPart3, textClarificationPart4;
 
@@ -98,7 +95,6 @@ public class AlarmFragment extends Fragment {
         alarmId = view.findViewById(R.id.alarm_id);
         alarmMessage = view.findViewById(R.id.halytyksenViesti);
         urgencyClass = view.findViewById(R.id.urgency_class);
-        cardViewAlarm = view.findViewById(R.id.cardView_alarm);
         cardViewUnits = view.findViewById(R.id.cardView_units);
         textClarificationPart1 = view.findViewById(R.id.text_clarification_part_1);
         textClarificationPart2 = view.findViewById(R.id.text_clarification_part_2);
@@ -145,8 +141,7 @@ public class AlarmFragment extends Fragment {
 
                     // Get units of alarm and put them in views
                     String[] units = currentAlarm.getOptionalField3().split("([,])");
-                    Toast.makeText(ctx, "Units array length is: " + Arrays.toString(units), Toast.LENGTH_LONG).show();
-                    if (units.length > 1) {
+                    if (!units[0].equals("")) {
                         for (int i = 0; i < units.length; i++) {
                             if (units[i] != null) {
                                 setUnitToButton(i, units[i].trim());

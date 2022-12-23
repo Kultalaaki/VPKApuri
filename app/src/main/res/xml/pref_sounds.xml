@@ -143,11 +143,6 @@
                 auto:ringtoneType="all"
                 auto:showDefault="false"
                 auto:showSilent="false" />
-            <SwitchPreference
-                android:defaultValue="false"
-                android:key="stationboard_sounds"
-                android:summary="Asemataulu käytössä hälytysääni."
-                android:title="Asemataulu äänet" />
         </PreferenceScreen>
     </PreferenceCategory>
 
