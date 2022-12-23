@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -143,9 +145,12 @@ public class AlarmFragment extends Fragment {
 
                     // Get units of alarm and put them in views
                     String[] units = currentAlarm.getOptionalField3().split("([,])");
-                    for(int i = 0; i < units.length; i++) {
-                        if(units[i] != null) {
-                            setUnitToButton(i, units[i].trim());
+                    Toast.makeText(ctx, "Units array length is: " + Arrays.toString(units), Toast.LENGTH_LONG).show();
+                    if (units.length > 1) {
+                        for (int i = 0; i < units.length; i++) {
+                            if (units[i] != null) {
+                                setUnitToButton(i, units[i].trim());
+                            }
                         }
                     }
 
@@ -184,11 +189,11 @@ public class AlarmFragment extends Fragment {
         }
     }
 
-    private void setUnitToButton (int position, String unit) {
-        if(cardViewUnits.getVisibility() == View.GONE) {
+    private void setUnitToButton(int position, String unit) {
+        if (cardViewUnits.getVisibility() == View.GONE) {
             cardViewUnits.setVisibility(View.VISIBLE);
         }
-        switch(position) {
+        switch (position) {
             case 0:
                 unit1.setVisibility(View.VISIBLE);
                 unit1.setText(unit);
@@ -249,7 +254,6 @@ public class AlarmFragment extends Fragment {
             }
         }
     }
-
 
 
     private void startChronometer() {
