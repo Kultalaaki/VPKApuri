@@ -124,8 +124,7 @@ public class SMSBackgroundService extends Service {
                 // No need to form alarm before saving
                 VapepaAlarm vapepaAlarm = new VapepaAlarm(this, message);
 
-                String blank = "";
-                startAlertActivity(blank);
+                startAlertActivity("Vapepa hälytys.");
 
                 // If user has set different alarm sound for vapepa alarms, then change that
                 if (preferences.getBoolean("boolean_vapepa_sound", false)) {

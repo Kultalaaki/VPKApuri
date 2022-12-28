@@ -28,7 +28,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -237,7 +236,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             } catch (Exception e) {
                 // Inform user if reading version data fails
                 // Log error to firebase crashlytics
-                Log.e("TAG", "Error: " + e);
                 MyNotifications notification = new MyNotifications(this);
                 notification.showInformationNotification("Versionumeron tarkistaminen epäonnistui. Yritä myöhemmin uudelleen.");
                 FirebaseCrashlytics.getInstance().log("Versionumeron tarkistus: " + e);
@@ -380,7 +378,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Log.i("TAG", "OnTimeSet reached");
         SetTimerFragment setTimerFragment = (SetTimerFragment) getSupportFragmentManager().findFragmentByTag("setTimerFragment");
         if (setTimerFragment != null) {
             setTimerFragment.setTimerTimes(hourOfDay, minute);
@@ -665,8 +662,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         // Get the directory for the user's public directory.
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), albumName);
         if (!file.exists()) {
+            // Location not found, creating new directory
             file.mkdirs();
-            Log.e("VPK Apuri", "Tiedostopolkua ei ollut. Luodaan uusi tiedostopolku.");
         }
 
         return new File(file, fileName);
@@ -797,7 +794,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
      * Shows "whats new" screen if new install or app updated
      */
     private class WhatsNewScreen {
-        private static final String LOG_TAG = "WhatsNewScreen";
 
         private static final String LAST_VERSION_CODE_KEY = "last_version_code";
 
@@ -833,7 +829,6 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
                     // Delete app cache to prevent unnecessary mistakes.
                     deleteCache(getApplicationContext());
-                    Log.i(LOG_TAG, "versionCode " + versionCode + "is different from the last known version " + lastVersionCode);
 
                     final String title = mActivity.getString(R.string.app_name) + " v" + packageInfo.versionName;
 
@@ -849,10 +844,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                         dialogInterface.dismiss();
                     });
                     builder.create().show();
-                } else {
-                    Log.i(LOG_TAG, "versionCode " + versionCode + "is already known");
                 }
-
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -863,7 +855,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 File dir = context.getCacheDir();
                 deleteDir(dir);
             } catch (Exception e) {
-                Log.i("VPK Apuri", "Välimuistin tyhjennys epäonnistui.");
+                FirebaseCrashlytics.getInstance().log("FrontPageActivity.java. Delete cache failed." + e);
             }
         }
 

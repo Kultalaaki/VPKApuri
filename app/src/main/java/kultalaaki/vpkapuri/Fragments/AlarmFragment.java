@@ -148,8 +148,7 @@ public class AlarmFragment extends Fragment {
                             }
                         }
                     }
-
-                    // Todo: Vapepa alarms text to speech enhancement
+                    
                     toSpeech = currentAlarm.getTehtavaluokka() + " "
                             + currentAlarm.getKiireellisyystunnus() + " "
                             + currentAlarm.getOsoite() + " "
@@ -157,7 +156,8 @@ public class AlarmFragment extends Fragment {
 
                     fireAlarmViewModel.setAddress(currentAlarm.getOsoite());
                     fireAlarmViewModel.setAlarmingNumber(currentAlarm.getOptionalField2());
-                    if (currentAlarm.getTehtavaluokka().equals("OHTO Hälytys")) {
+                    if (currentAlarm.getTehtavaluokka().equals("Vapepa")) {
+                        toSpeech = currentAlarm.getViesti();
                         mCallback.loadOHTOAnswer();
                         mCallback.changeLayout();
                         previousAlarmOHTO = true;
