@@ -664,7 +664,8 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
     public File getAlbumStorageDir(String albumName, String fileName) {
         // Get the directory for the user's public directory.
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), albumName);
-        if (!file.mkdirs()) {
+        if (!file.exists()) {
+            file.mkdirs();
             Log.e("VPK Apuri", "Tiedostopolkua ei ollut. Luodaan uusi tiedostopolku.");
         }
 

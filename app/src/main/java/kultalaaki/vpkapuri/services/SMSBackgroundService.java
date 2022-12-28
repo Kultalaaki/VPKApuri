@@ -66,6 +66,8 @@ public class SMSBackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Set first notfication to make sure service doesn't throw exception
+        notificationAlarmMessage("VPK Apuri", "Taustapalvelu tarkistaa onko viesti hälytys.");
     }
 
     /**
@@ -77,6 +79,7 @@ public class SMSBackgroundService extends Service {
      */
     public int onStartCommand(Intent intent, int flags, final int startId) {
         Log.i("VPK Apuri", "Service started");
+
         // Kill process if intent is null
         checkIntent(intent);
 

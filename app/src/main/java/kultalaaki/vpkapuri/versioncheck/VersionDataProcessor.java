@@ -1,5 +1,7 @@
 package kultalaaki.vpkapuri.versioncheck;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +51,7 @@ public class VersionDataProcessor {
             ArrayList<JSONObject> jsonObjectsInner = jsonInner.getObjects();
             for (JSONObject objectInner : jsonObjectsInner) {
                 downloadUri = objectInner.getString("browser_download_url");
+                Log.i("VersionDataProcessor.java", "Download url: " + downloadUri);
             }
             boolean preRelease = object.getBoolean("prerelease");
             int versionId = object.getInt("id");
