@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -59,7 +58,6 @@ public class SMSBackgroundService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e("VPK Apuri käynnissä", "onBind()");
         return null;
     }
 
@@ -78,8 +76,6 @@ public class SMSBackgroundService extends Service {
      * @return Service.START_STICKY
      */
     public int onStartCommand(Intent intent, int flags, final int startId) {
-        Log.i("VPK Apuri", "Service started");
-
         // Kill process if intent is null
         checkIntent(intent);
 
