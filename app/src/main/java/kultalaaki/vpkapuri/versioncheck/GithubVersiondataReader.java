@@ -9,10 +9,12 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import kultalaaki.vpkapuri.util.Constants;
+
 /**
  * Read (JSON) version data from Github
  */
-public class GithubVersiondataReader {
+public class GithubVersiondataReader implements VersionData {
 
     private final URL url;
     protected HttpsURLConnection urlConnection;
@@ -21,10 +23,10 @@ public class GithubVersiondataReader {
      * Constructor
      */
     public GithubVersiondataReader() throws MalformedURLException {
-        String address = "https://api.github.com/repos/kultalaaki/VPKApuri/releases";
-        this.url = new URL(address);
+        this.url = new URL(Constants.ADDRESS_GITHUB_RELEASES_INFO);
     }
 
+    @Override
     public String getVersionData() throws IOException {
         openConnection();
         InputStream inStream = urlConnection.getInputStream();

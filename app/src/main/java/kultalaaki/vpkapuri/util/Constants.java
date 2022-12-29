@@ -49,4 +49,11 @@ public class Constants {
     public static int SOUND_PROFILE_NORMAL = 1;
     public static int SOUND_PROFILE_SILENT = 2;
     public static int SOUND_PROFILE_NIGHT_MODE = 3;
+
+    /**
+     * URL addresses
+     */
+    public static String ADDRESS_GITHUB_RELEASES_INFO = "https://api.github.com/repos/kultalaaki/VPKApuri/releases";
+    public static String ADDRESS_GITHUB_RELEASES_DOWNLOAD = "https://github.com/Kultalaaki/VPKApuri/releases";
+    public static String ADDRESS_TOKEVA = "https://tokeva.fi/#/tervetuloa";
 }

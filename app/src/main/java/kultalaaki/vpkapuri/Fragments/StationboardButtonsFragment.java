@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import kultalaaki.vpkapuri.R;
 import kultalaaki.vpkapuri.dbfirealarm.FireAlarmViewModel;
+import kultalaaki.vpkapuri.util.Constants;
 
 
 /**
@@ -51,7 +52,7 @@ public class StationboardButtonsFragment extends Fragment {
     private CardView osoiteKortti;
     private CardView responderKortti;
     private CardView kameraKortti;
-    private CardView manpowerCard;
+    private CardView tokevaCard;
 
     private TextView osoite;
     private String osoiteFromDB;
@@ -97,7 +98,7 @@ public class StationboardButtonsFragment extends Fragment {
         osoiteKortti = view.findViewById(R.id.addressCard);
         kameraKortti = view.findViewById(R.id.cameraCard);
         responderKortti = view.findViewById(R.id.responderCard);
-        manpowerCard = view.findViewById(R.id.manpowerCard);
+        tokevaCard = view.findViewById(R.id.manpowerCard);
         //manpowerCard.setVisibility(View.INVISIBLE);
         osoite = view.findViewById(R.id.osoiteteksti);
     }
@@ -171,13 +172,11 @@ public class StationboardButtonsFragment extends Fragment {
             }
         });
 
-        manpowerCard.setOnClickListener(new View.OnClickListener() {
+        tokevaCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mListener.loadManpowerFragment();
-                //Toast.makeText(getActivity(), "Näytä vahvuudet fragment", Toast.LENGTH_LONG).show();
                 Intent tokeva = new Intent(Intent.ACTION_VIEW);
-                tokeva.setData(Uri.parse("https://tokeva.fi/#/tervetuloa"));
+                tokeva.setData(Uri.parse(Constants.ADDRESS_TOKEVA));
                 startActivity(tokeva);
             }
         });

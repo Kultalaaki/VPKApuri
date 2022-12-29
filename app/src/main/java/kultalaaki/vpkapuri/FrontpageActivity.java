@@ -11,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
@@ -80,8 +79,8 @@ import kultalaaki.vpkapuri.misc.SoundControls;
 import kultalaaki.vpkapuri.services.SMSBackgroundService;
 import kultalaaki.vpkapuri.util.Constants;
 import kultalaaki.vpkapuri.util.MyNotifications;
-import kultalaaki.vpkapuri.versioncheck.VersionData;
 import kultalaaki.vpkapuri.versioncheck.VersionDataProcessor;
+import kultalaaki.vpkapuri.versioncheck.VersionInfo;
 
 
 public class FrontpageActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, AffirmationFragment.Listener, FrontpageFragment.OnFragmentInteractionListener, ArchiveFragment.OnFragmentInteractionListener, GuidelineFragment.OnFragmentInteractionListener, SaveToArchiveFragment.OnFragmentInteractionListener, ArchivedAlarmFragment.OnFragmentInteractionListener, TimerFragment.OnFragmentInteractionListener, SetTimerFragment.OnFragmentInteractionListener, TimePickerDialog.OnTimeSetListener {
@@ -99,7 +98,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
 
     Handler mHandler = new Handler();
 
-    private VersionData downloadThis = null;
+    private VersionInfo newestVersion = null;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -205,13 +204,15 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
             try {
                 PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
                 VersionDataProcessor versionDataProcessor = new VersionDataProcessor(packageInfo.versionCode);
+                versionDataProcessor.readObjectsToArray();
+                versionDataProcessor.setHighestVersions();
                 if (preferences.getBoolean("beta_program", false)) {
                     if (versionDataProcessor.isNewBetaVersionAvailable()) {
-                        downloadThis = versionDataProcessor.getHighestBeta();
+                        newestVersion = versionDataProcessor.getHighestBeta();
                         mHandler.post(() -> showDialog(
                                 "Sinun versio: " + packageInfo.versionName,
-                                "Uusi versio: " + versionDataProcessor.getHighestBeta().getName() + ".",
-                                "Lataa: " + versionDataProcessor.getHighestBeta().getName(),
+                                "Uusi versio: " + newestVersion.getName() + ".",
+                                "Lataa: " + newestVersion.getName(),
                                 "newVersion"));
                     } else {
                         runOnUiThread(() -> Toast.makeText(
@@ -220,11 +221,11 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                     }
                 } else {
                     if (versionDataProcessor.isNewStableVersionAvailable()) {
-                        downloadThis = versionDataProcessor.getHighestStable();
+                        newestVersion = versionDataProcessor.getHighestStable();
                         mHandler.post(() -> showDialog(
                                 "Sinun versio: " + packageInfo.versionName,
-                                "Uusi versio: " + versionDataProcessor.getHighestStable().getName() + ".",
-                                "Lataa: " + versionDataProcessor.getHighestStable().getName(),
+                                "Uusi versio: " + newestVersion.getName() + ".",
+                                "Lataa: " + newestVersion.getName(),
                                 "newVersion"));
                     } else {
                         runOnUiThread(() -> Toast.makeText(
@@ -553,8 +554,7 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
                 break;
             case "newVersion":
                 buttonPositive.setOnClickListener(v -> {
-                    //openBrowser();
-                    startNewVersionDownload(downloadThis.getDownloadUri(), downloadThis.getName());
+                    startNewVersionDownload();
                     dialog.dismiss();
                 });
                 buttonNegative.setOnClickListener(v -> dialog.dismiss());
@@ -575,26 +575,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(null);
     }
 
-    private void startNewVersionDownload(String downloadUri, String filename) {
-        Uri uri = Uri.parse(downloadUri);
-        DownloadManager.Request r = new DownloadManager.Request(uri);
-
-        // This put the download in the same Download dir the browser uses
-        String newFilename = "VPKApuri_Versiokoodi:" + filename;
-        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, newFilename);
-
-        // When downloading music and videos they will be listed in the player
-        // (Seems to be available since Honeycomb only)
-        r.allowScanningByMediaScanner();
-
-        // Notify user when download is completed
-        // (Seems to be available since Honeycomb only)
-        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-        // Start download
-        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        dm.enqueue(r);
-
+    /**
+     * Launch browser intent
+     * User can download new version from github releases page
+     */
+    private void startNewVersionDownload() {
+        Intent startBrowser = new Intent(Intent.ACTION_VIEW);
+        startBrowser.setData(Uri.parse(Constants.ADDRESS_GITHUB_RELEASES_DOWNLOAD));
+        startActivity(startBrowser);
     }
 
     /**

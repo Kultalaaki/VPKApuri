@@ -1,6 +1,5 @@
 package kultalaaki.vpkapuri.versioncheck;
 
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,10 +13,10 @@ import kultalaaki.vpkapuri.databasebackupandrestore.JSONArrayReader;
 
 public class VersionDataProcessor {
 
-    private final GithubVersiondataReader versionDataReader;
-    private final List<VersionData> versions;
+    private final VersionData versionDataReader;
+    private final List<VersionInfo> versions;
     private final int currentVersionCode;
-    private VersionData highestStable, highestBeta;
+    private VersionInfo highestStable, highestBeta;
 
     /**
      * VersionDataProcessor. Handles processing version information from VersionDataReader.
@@ -36,7 +35,7 @@ public class VersionDataProcessor {
      * @throws IOException   caller must handle
      * @throws JSONException caller must handle
      */
-    private void readObjectsToArray() throws IOException, JSONException {
+    public void readObjectsToArray() throws IOException, JSONException {
         JSONArrayReader json = new JSONArrayReader(versionDataReader.getVersionData());
         ArrayList<JSONObject> objects = json.getObjects();
 
@@ -44,18 +43,10 @@ public class VersionDataProcessor {
             String name = object.getString("name");
             String tagName = object.getString("tag_name");
             String description = object.getString("body");
-            String downloadUri = "";
 
-            JSONArrayReader jsonInner = new JSONArrayReader(object.getString("assets"));
-
-            ArrayList<JSONObject> jsonObjectsInner = jsonInner.getObjects();
-            for (JSONObject objectInner : jsonObjectsInner) {
-                downloadUri = objectInner.getString("browser_download_url");
-                Log.i("VersionDataProcessor.java", "Download url: " + downloadUri);
-            }
             boolean preRelease = object.getBoolean("prerelease");
-            int versionId = object.getInt("id");
-            versions.add(new VersionData(name, tagName, description, downloadUri, preRelease, versionId));
+
+            versions.add(new VersionInfo(name, tagName, description, preRelease));
         }
     }
 
@@ -63,17 +54,17 @@ public class VersionDataProcessor {
      * Iterate over array and check highest version ID's
      * Beta and stable are both evaluated
      */
-    private void setHighestVersions() {
-        int highestStableID = 0;
-        int highestPreReleaseID = 0;
-        for (VersionData version : versions) {
+    public void setHighestVersions() {
+        int highestStableCode = 0;
+        int highestPreReleaseCode = 0;
+        for (VersionInfo version : versions) {
             if (version.getPreRelease()) {
-                if (version.getVersionID() > highestPreReleaseID) {
-                    highestPreReleaseID = version.getVersionID();
+                if (version.getVersionCode() > highestPreReleaseCode) {
+                    highestPreReleaseCode = version.getVersionCode();
                     highestBeta = version;
                 }
-            } else if (version.getVersionID() > highestStableID) {
-                highestStableID = version.getVersionID();
+            } else if (version.getVersionCode() > highestStableCode) {
+                highestStableCode = version.getVersionCode();
                 highestStable = version;
             }
         }
@@ -83,12 +74,8 @@ public class VersionDataProcessor {
      * Compare current version to newest stable on github
      *
      * @return true if new version is available
-     * @throws JSONException caller must handle
-     * @throws IOException   caller must handle
      */
-    public boolean isNewStableVersionAvailable() throws JSONException, IOException {
-        readObjectsToArray();
-        setHighestVersions();
+    public boolean isNewStableVersionAvailable() {
         return currentVersionCode < highestStable.getVersionCode();
     }
 
@@ -96,12 +83,8 @@ public class VersionDataProcessor {
      * Compare current version to newest Beta on github
      *
      * @return true if new version is available
-     * @throws JSONException caller must handle
-     * @throws IOException   caller must handle
      */
-    public boolean isNewBetaVersionAvailable() throws JSONException, IOException {
-        readObjectsToArray();
-        setHighestVersions();
+    public boolean isNewBetaVersionAvailable() {
         return currentVersionCode < highestBeta.getVersionCode();
     }
 
@@ -110,7 +93,7 @@ public class VersionDataProcessor {
      *
      * @return newest stable version
      */
-    public VersionData getHighestStable() {
+    public VersionInfo getHighestStable() {
         return highestStable;
     }
 
@@ -119,7 +102,7 @@ public class VersionDataProcessor {
      *
      * @return newest beta version
      */
-    public VersionData getHighestBeta() {
+    public VersionInfo getHighestBeta() {
         return highestBeta;
     }
 
