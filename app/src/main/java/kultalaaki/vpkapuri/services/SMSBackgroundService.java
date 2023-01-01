@@ -26,7 +26,7 @@ import kultalaaki.vpkapuri.AlarmActivity;
 import kultalaaki.vpkapuri.AlertActivity;
 import kultalaaki.vpkapuri.R;
 import kultalaaki.vpkapuri.alarmdetection.AlarmNumberDetector;
-import kultalaaki.vpkapuri.alarmdetection.NumberLists;
+import kultalaaki.vpkapuri.alarmdetection.AlarmNumberLists;
 import kultalaaki.vpkapuri.alarms.AlarmMessage;
 import kultalaaki.vpkapuri.alarms.RescueAlarm;
 import kultalaaki.vpkapuri.alarms.SMSMessage;
@@ -48,7 +48,7 @@ public class SMSBackgroundService extends Service {
 
     private static int previousStartId = 1;
     private AlarmMediaPlayer alarmMediaPlayer;
-    private NumberLists numberLists = null;
+    private AlarmNumberLists numberLists = null;
     private SharedPreferences preferences;
     SMSMessage message;
     PowerManager.WakeLock wakelock;
@@ -177,7 +177,7 @@ public class SMSBackgroundService extends Service {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        numberLists = new NumberLists(preferences);
+        numberLists = new AlarmNumberLists(preferences);
 
         AlarmNumberDetector alarmDetector = new AlarmNumberDetector();
 

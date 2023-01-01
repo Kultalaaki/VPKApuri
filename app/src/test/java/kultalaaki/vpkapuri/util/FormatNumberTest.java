@@ -4,13 +4,11 @@
  * Last modified 6/24/22, 2:01 PM
  */
 
-package kultalaaki.vpkapuri.alarmdetection;
+package kultalaaki.vpkapuri.util;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import kultalaaki.vpkapuri.util.FormatNumber;
 
 public class FormatNumberTest {
 
