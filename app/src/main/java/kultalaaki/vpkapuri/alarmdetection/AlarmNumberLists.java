@@ -40,7 +40,7 @@ public class AlarmNumberLists implements NumberLists {
     /**
      * Alarming numbers for fire rescue missions.
      */
-    public void populateAlarmingNumbers() {
+    private void populateAlarmingNumbers() {
         for (int i = 1; i <= 11; i++) {
             this.alarmNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("halyvastaanotto" + i, null)));
         }
@@ -49,7 +49,7 @@ public class AlarmNumberLists implements NumberLists {
     /**
      * Member numbers for detecting station board incoming members.
      */
-    public void populateMemberNumbers() {
+    private void populateMemberNumbers() {
         for (int i = 1; i <= 50; i++) {
             this.memberNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("puhelinnumero" + i, null)));
         }
@@ -58,7 +58,7 @@ public class AlarmNumberLists implements NumberLists {
     /**
      * Vapepa numbers for detecting incoming OHTO alarms
      */
-    public void populateVapepaNumbers() {
+    private void populateVapepaNumbers() {
         for (int i = 1; i <= 5; i++) {
             this.vapepaNumbers.add(FormatNumber.formatFinnishNumber(this.preferences.getString("vapepanumber" + i, null)));
         }
