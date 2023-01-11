@@ -112,8 +112,8 @@
             <SwitchPreference
                 android:defaultValue="false"
                 android:key="boolean_vapepa_sound"
-                android:summary="OHTO Hälytyksille oma hälytysääni."
-                android:title="OHTO" />
+                android:summary="Vapepa Hälytyksille oma hälytysääni."
+                android:title="Vapepa" />
             <kultalaaki.vpkapuri.misc.ExtraRingtonePreference
                 android:defaultValue="content://settings/system/notification_sound"
                 android:dependency="boolean_vapepa_sound"

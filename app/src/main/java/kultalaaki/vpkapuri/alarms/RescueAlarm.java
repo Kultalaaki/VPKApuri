@@ -32,7 +32,7 @@ public class RescueAlarm extends Alarm implements AlarmMessage {
      */
     public RescueAlarm(Context context, SMSMessage message) {
         super(context, message);
-        messageParts = super.message.getMessage().split(";");
+        messageParts = super.message.getMessage().split("[;/]");
         this.cities = new ArrayList<>();
     }
 
