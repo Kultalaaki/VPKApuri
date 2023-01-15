@@ -52,7 +52,7 @@
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:enableOnBackInvokedCallback="true"
+        android:enableOnBackInvokedCallback="false"
         android:enabled="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"

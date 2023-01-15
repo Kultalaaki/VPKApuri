@@ -53,6 +53,7 @@ public class Constants {
     /**
      * URL addresses
      */
+    public static String ADDRESS_STABLE_RELEASE_DOWNLOAD = "https://www.vpkapuri.fi";
     public static String ADDRESS_GITHUB_RELEASES_INFO = "https://api.github.com/repos/kultalaaki/VPKApuri/releases";
     public static String ADDRESS_GITHUB_RELEASES_DOWNLOAD = "https://github.com/Kultalaaki/VPKApuri/releases";
     public static String ADDRESS_TOKEVA = "https://tokeva.fi/#/tervetuloa";

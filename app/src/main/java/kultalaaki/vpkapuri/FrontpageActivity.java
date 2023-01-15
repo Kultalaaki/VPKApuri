@@ -581,7 +581,14 @@ public class FrontpageActivity extends AppCompatActivity implements ActivityComp
      */
     private void startNewVersionDownload() {
         Intent startBrowser = new Intent(Intent.ACTION_VIEW);
-        startBrowser.setData(Uri.parse(Constants.ADDRESS_GITHUB_RELEASES_DOWNLOAD));
+        // If user is beta tester, send to github page where all versions are
+        // else send user to vpkapuri.fi
+        if(preferences.getBoolean("beta_program", false)) {
+            startBrowser.setData(Uri.parse(Constants.ADDRESS_GITHUB_RELEASES_DOWNLOAD));
+        } else {
+            startBrowser.setData(Uri.parse(Constants.ADDRESS_STABLE_RELEASE_DOWNLOAD));
+        }
+
         startActivity(startBrowser);
     }
 
