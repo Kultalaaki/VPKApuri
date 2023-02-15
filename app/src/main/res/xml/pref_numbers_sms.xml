@@ -42,7 +42,7 @@
                 android:title="Hälytysnumerot" />
             <Preference
                 android:selectable="false"
-                android:summary="Kaikki kohdat käyvät sms tai puheluilla tuleville hälytyksille." />
+                android:summary="Aseta hälyttävät numerot." />
             <EditTextPreference
                 android:defaultValue="@string/pref_default_display_number"
                 android:inputType="text"
