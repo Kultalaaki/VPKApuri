@@ -88,7 +88,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="koneluku"
-            android:summary="Hälytysviesti puhutaan automaattisesti kun hälytys sivu aukaistaan ilmoituksen kautta tai kun hiljennetään jos automaattinen aukaisu käytössä."
+            android:summary="Hälytysviesti puhutaan automaattisesti kun hälytys sivu aukaistaan."
             android:title="Teksti puheeksi" />
         <kultalaaki.vpkapuri.misc.SeekBarPreference
             android:defaultValue="50"
